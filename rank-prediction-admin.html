@@ -1,0 +1,1837 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0"
+>
+
+<title>RM Vidya Peeth - Rank Prediction Admin</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:20px;
+}
+
+.header{
+    background:#1e293b;
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:20px;
+}
+
+.header h1{
+    margin:0;
+    font-size:25px;
+}
+
+.header p{
+    margin:7px 0 0;
+    color:#cbd5e1;
+}
+
+.card{
+    background:#1e293b;
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:20px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.field.full{
+    grid-column:1/-1;
+}
+
+label{
+    font-weight:bold;
+    color:#e2e8f0;
+}
+
+input,
+select{
+    width:100%;
+    padding:12px;
+    border:1px solid #475569;
+    border-radius:8px;
+    background:#0f172a;
+    color:#fff;
+    outline:none;
+}
+
+input:focus,
+select:focus{
+    border-color:#38bdf8;
+}
+
+input[type="file"]{
+    cursor:pointer;
+}
+
+button{
+    border:0;
+    border-radius:8px;
+    padding:11px 17px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+.btn-primary{
+    background:#2563eb;
+    color:#fff;
+}
+
+.btn-secondary{
+    background:#475569;
+    color:#fff;
+}
+
+.btn-danger{
+    background:#dc2626;
+    color:#fff;
+}
+
+.btn-success{
+    background:#16a34a;
+    color:#fff;
+}
+
+.actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:20px;
+}
+
+.exam{
+    background:#0f172a;
+    border:1px solid #334155;
+    padding:17px;
+    border-radius:12px;
+    margin-bottom:12px;
+}
+
+.exam h3{
+    margin:0 0 8px;
+}
+
+.exam-info{
+    color:#cbd5e1;
+    line-height:1.7;
+}
+
+.badge{
+    display:inline-block;
+    padding:4px 9px;
+    border-radius:20px;
+    font-size:12px;
+    margin-left:6px;
+}
+
+.active{
+    background:#166534;
+}
+
+.inactive{
+    background:#991b1b;
+}
+
+.rank-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:12px;
+}
+
+.rank-table th,
+.rank-table td{
+    border:1px solid #334155;
+    padding:8px;
+}
+
+.rank-table th{
+    background:#0f172a;
+}
+
+.small{
+    color:#94a3b8;
+    font-size:13px;
+    line-height:1.5;
+}
+
+.status{
+    margin-top:12px;
+    padding:10px;
+    border-radius:8px;
+    display:none;
+}
+
+.success{
+    background:#14532d;
+}
+
+.error{
+    background:#7f1d1d;
+}
+
+.info{
+    background:#0c4a6e;
+}
+
+.upload-box{
+    background:#0f172a;
+    border:1px dashed #475569;
+    padding:15px;
+    border-radius:10px;
+}
+
+.divider{
+    text-align:center;
+    color:#94a3b8;
+    margin:8px 0;
+    font-size:13px;
+}
+
+footer{
+    text-align:center;
+    padding:25px;
+    color:#94a3b8;
+}
+
+@media(max-width:700px){
+
+    .container{
+        padding:12px;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .field.full{
+        grid-column:auto;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>
+            RM Vidya Peeth
+        </h1>
+
+        <p>
+            Rank Prediction Admin Panel
+        </p>
+
+        <p>
+            By Ranjan Mishra Sir
+        </p>
+
+    </div>
+
+
+    <!-- EXAM FORM -->
+
+    <div class="card">
+
+        <h2 id="formTitle">
+            Add Rank Prediction Exam
+        </h2>
+
+
+        <div class="grid">
+
+
+            <!-- EXAM NAME -->
+
+            <div class="field">
+
+                <label>
+                    Exam Name
+                </label>
+
+                <input
+                    id="examName"
+                    placeholder="जैसे SSC CGL 2026"
+                >
+
+            </div>
+
+
+            <!-- TOTAL QUESTIONS -->
+
+            <div class="field">
+
+                <label>
+                    Total Questions
+                </label>
+
+                <input
+                    id="totalQuestions"
+                    type="number"
+                    placeholder="100"
+                >
+
+            </div>
+
+
+            <!-- POSITIVE -->
+
+            <div class="field">
+
+                <label>
+                    Positive Marks
+                </label>
+
+                <input
+                    id="positiveMarks"
+                    type="number"
+                    step="0.01"
+                    value="2"
+                >
+
+            </div>
+
+
+            <!-- NEGATIVE -->
+
+            <div class="field">
+
+                <label>
+                    Negative Marks
+                </label>
+
+                <input
+                    id="negativeMarks"
+                    type="number"
+                    step="0.01"
+                    value="0.50"
+                >
+
+            </div>
+
+
+            <!-- TOTAL CANDIDATES -->
+
+            <div class="field">
+
+                <label>
+                    Total Candidates
+                </label>
+
+                <input
+                    id="totalCandidates"
+                    type="number"
+                    placeholder="500000"
+                >
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="field">
+
+                <label>
+                    Status
+                </label>
+
+                <select id="active">
+
+                    <option value="true">
+                        Active
+                    </option>
+
+                    <option value="false">
+                        Inactive
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- DIGIALM URL -->
+
+            <div class="field full">
+
+                <label>
+                    Digialm Answer Key / Response URL
+                </label>
+
+                <input
+                    id="answerKeyUrl"
+                    placeholder="https://ssc.digialm.com/...."
+                >
+
+                <div class="small">
+
+                    URL optional है। Rank Prediction page में
+                    HTML File Upload भी इस्तेमाल किया जा सकता है।
+
+                </div>
+
+            </div>
+
+
+            <!-- HTML FILE -->
+
+            <div class="field full">
+
+                <label>
+                    Digialm HTML File
+                </label>
+
+                <div class="upload-box">
+
+                    <input
+                        id="answerKeyHtmlFile"
+                        type="file"
+                        accept=".html,.htm,text/html"
+                    >
+
+                    <div class="small"
+                         style="margin-top:8px;">
+
+                        यह field optional है।
+                        Student page पर candidate अपनी Digialm HTML
+                        response file upload कर सकता है।
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="actions">
+
+            <button
+                class="btn-primary"
+                id="saveBtn">
+
+                Save Exam
+
+            </button>
+
+
+            <button
+                class="btn-secondary"
+                id="cancelBtn"
+                style="display:none;">
+
+                Cancel Edit
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="status"
+            class="status">
+        </div>
+
+    </div>
+
+
+    <!-- SCORE DISTRIBUTION -->
+
+    <div class="card">
+
+        <h2>
+            Score Distribution
+        </h2>
+
+        <p class="small">
+
+            Rank prediction के लिए score के ऊपर कितने candidates हैं,
+            यह data यहाँ add किया जा सकता है।
+
+        </p>
+
+
+        <div class="grid">
+
+
+            <div class="field">
+
+                <label>
+                    Exam
+                </label>
+
+                <select id="distributionExam">
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Score
+                </label>
+
+                <input
+                    id="distributionScore"
+                    type="number"
+                    step="0.01"
+                    placeholder="150"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Candidates Having This Score
+                </label>
+
+                <input
+                    id="distributionCandidates"
+                    type="number"
+                    placeholder="250"
+                >
+
+            </div>
+
+
+        </div>
+
+
+        <div class="actions">
+
+            <button
+                class="btn-success"
+                id="saveDistributionBtn">
+
+                Add Score Data
+
+            </button>
+
+        </div>
+
+
+        <div id="distributionList">
+
+        </div>
+
+    </div>
+
+
+    <!-- ALL EXAMS -->
+
+    <div class="card">
+
+        <h2>
+            All Exams
+        </h2>
+
+        <div id="examList">
+            Loading...
+        </div>
+
+    </div>
+
+</div>
+
+
+<footer>
+
+    <div style="font-weight:bold;">
+        RM Vidya Peeth
+    </div>
+
+    <div style="margin-top:5px;">
+        By Ranjan Mishra Sir
+    </div>
+
+    <div style="margin-top:5px;">
+        © 2026 RM Vidya Peeth. All Rights Reserved.
+    </div>
+
+</footer>
+
+
+<script type="module">
+
+
+/* =========================================================
+   FIREBASE
+========================================================= */
+
+import { db } from "./firebase-config.js";
+
+
+import {
+    collection,
+    addDoc,
+    getDocs,
+    doc,
+    updateDoc,
+    deleteDoc,
+    query,
+    orderBy
+}
+from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+/* =========================================================
+   ADMIN AUTH
+========================================================= */
+
+const oldLogin =
+    localStorage.getItem("adminLoggedIn") === "true";
+
+
+const newLogin =
+    localStorage.getItem("ssc_logged_in") === "true";
+
+
+if(!oldLogin && !newLogin){
+
+    location.href =
+        "admin-login.html";
+
+}
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const examName =
+    document.getElementById("examName");
+
+
+const answerKeyUrl =
+    document.getElementById("answerKeyUrl");
+
+
+const answerKeyHtmlFile =
+    document.getElementById(
+        "answerKeyHtmlFile"
+    );
+
+
+const positiveMarks =
+    document.getElementById("positiveMarks");
+
+
+const negativeMarks =
+    document.getElementById("negativeMarks");
+
+
+const totalQuestions =
+    document.getElementById("totalQuestions");
+
+
+const totalCandidates =
+    document.getElementById("totalCandidates");
+
+
+const active =
+    document.getElementById("active");
+
+
+const saveBtn =
+    document.getElementById("saveBtn");
+
+
+const cancelBtn =
+    document.getElementById("cancelBtn");
+
+
+const examList =
+    document.getElementById("examList");
+
+
+const statusBox =
+    document.getElementById("status");
+
+
+const distributionExam =
+    document.getElementById("distributionExam");
+
+
+const distributionScore =
+    document.getElementById("distributionScore");
+
+
+const distributionCandidates =
+    document.getElementById(
+        "distributionCandidates"
+    );
+
+
+const distributionList =
+    document.getElementById(
+        "distributionList"
+    );
+
+
+let exams=[];
+
+let editingId=null;
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+function showStatus(
+    message,
+    type="success"
+){
+
+    statusBox.textContent =
+        message;
+
+
+    statusBox.className =
+        "status " + type;
+
+
+    statusBox.style.display =
+        "block";
+
+
+    setTimeout(()=>{
+
+        statusBox.style.display =
+            "none";
+
+    },4000);
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+
+        .replaceAll("&","&amp;")
+
+        .replaceAll("<","&lt;")
+
+        .replaceAll(">","&gt;")
+
+        .replaceAll('"',"&quot;")
+
+        .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================================================
+   LOAD EXAMS
+========================================================= */
+
+async function loadExams(){
+
+    examList.innerHTML =
+        "Loading...";
+
+
+    try{
+
+        const snap =
+            await getDocs(
+
+                query(
+
+                    collection(
+                        db,
+                        "rankPredictionExams"
+                    ),
+
+                    orderBy(
+                        "createdAt",
+                        "desc"
+                    )
+
+                )
+
+            );
+
+
+        exams=[];
+
+
+        snap.forEach(item=>{
+
+            exams.push({
+
+                id:item.id,
+
+                ...item.data()
+
+            });
+
+        });
+
+
+    }catch(error){
+
+        console.error(error);
+
+
+        try{
+
+            const snap =
+                await getDocs(
+
+                    collection(
+                        db,
+                        "rankPredictionExams"
+                    )
+
+                );
+
+
+            exams=[];
+
+
+            snap.forEach(item=>{
+
+                exams.push({
+
+                    id:item.id,
+
+                    ...item.data()
+
+                });
+
+            });
+
+
+        }catch(error2){
+
+            console.error(error2);
+
+
+            examList.innerHTML =
+                "Exam load नहीं हो सका।";
+
+
+            return;
+
+        }
+
+    }
+
+
+    renderExams();
+
+    fillDistributionExams();
+
+}
+
+
+/* =========================================================
+   RENDER EXAMS
+========================================================= */
+
+function renderExams(){
+
+    if(!exams.length){
+
+        examList.innerHTML =
+            "<p>अभी कोई exam नहीं है।</p>";
+
+        return;
+
+    }
+
+
+    examList.innerHTML =
+
+        exams.map(exam=>{
+
+
+            const isActive =
+                exam.active !== false;
+
+
+            return `
+
+                <div class="exam">
+
+
+                    <h3>
+
+                        ${escapeHTML(
+                            exam.examName
+                        )}
+
+
+                        <span
+                            class="badge ${
+                                isActive
+                                ? "active"
+                                : "inactive"
+                            }">
+
+                            ${
+                                isActive
+                                ? "Active"
+                                : "Inactive"
+                            }
+
+                        </span>
+
+                    </h3>
+
+
+                    <div class="exam-info">
+
+
+                        Total Questions:
+
+                        <b>
+                            ${escapeHTML(
+                                exam.totalQuestions
+                            )}
+                        </b>
+
+                        <br>
+
+
+                        Positive:
+
+                        <b>
+                            ${escapeHTML(
+                                exam.positiveMarks
+                            )}
+                        </b>
+
+                        <br>
+
+
+                        Negative:
+
+                        <b>
+                            ${escapeHTML(
+                                exam.negativeMarks
+                            )}
+                        </b>
+
+                        <br>
+
+
+                        Total Candidates:
+
+                        <b>
+                            ${escapeHTML(
+                                exam.totalCandidates || 0
+                            )}
+                        </b>
+
+                        <br>
+
+
+                        URL:
+
+                        <span class="small">
+
+                            ${
+                                exam.answerKeyUrl
+                                ?
+                                escapeHTML(
+                                    exam.answerKeyUrl
+                                )
+                                :
+                                "HTML Upload Mode"
+                            }
+
+                        </span>
+
+
+                    </div>
+
+
+                    <div class="actions">
+
+
+                        <button
+                            class="btn-primary"
+                            onclick="
+                            editExam('${exam.id}')
+                            ">
+
+                            Edit
+
+                        </button>
+
+
+                        <button
+                            class="btn-danger"
+                            onclick="
+                            removeExam('${exam.id}')
+                            ">
+
+                            Delete
+
+                        </button>
+
+
+                    </div>
+
+
+                </div>
+
+            `;
+
+        }).join("");
+
+}
+
+
+/* =========================================================
+   SAVE EXAM
+========================================================= */
+
+saveBtn.addEventListener(
+    "click",
+    async()=>{
+
+
+        const name =
+            examName.value.trim();
+
+
+        const url =
+            answerKeyUrl.value.trim();
+
+
+        /*
+           URL अब optional है।
+           HTML file भी optional है क्योंकि
+           student page पर actual response file
+           upload की जा सकती है।
+        */
+
+
+        if(!name){
+
+            showStatus(
+                "Exam Name डालिए।",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        const data={
+
+            examName:name,
+
+
+            answerKeyUrl:
+                url || "",
+
+
+            positiveMarks:
+                Number(
+                    positiveMarks.value || 0
+                ),
+
+
+            negativeMarks:
+                Number(
+                    negativeMarks.value || 0
+                ),
+
+
+            totalQuestions:
+                Number(
+                    totalQuestions.value || 0
+                ),
+
+
+            totalCandidates:
+                Number(
+                    totalCandidates.value || 0
+                ),
+
+
+            active:
+                active.value === "true",
+
+
+            updatedAt:
+                Date.now()
+
+        };
+
+
+        try{
+
+
+            saveBtn.disabled=true;
+
+
+            saveBtn.textContent =
+                editingId
+                ?
+                "Updating..."
+                :
+                "Saving...";
+
+
+            if(editingId){
+
+
+                await updateDoc(
+
+                    doc(
+                        db,
+                        "rankPredictionExams",
+                        editingId
+                    ),
+
+                    data
+
+                );
+
+
+                showStatus(
+                    "Exam successfully updated."
+                );
+
+
+            }else{
+
+
+                data.createdAt =
+                    Date.now();
+
+
+                await addDoc(
+
+                    collection(
+                        db,
+                        "rankPredictionExams"
+                    ),
+
+                    data
+
+                );
+
+
+                showStatus(
+                    "Exam successfully added."
+                );
+
+            }
+
+
+            resetForm();
+
+
+            await loadExams();
+
+
+        }catch(error){
+
+            console.error(error);
+
+
+            showStatus(
+
+                error.message ||
+                "Save नहीं हो सका।",
+
+                "error"
+
+            );
+
+
+        }finally{
+
+
+            saveBtn.disabled=false;
+
+
+            saveBtn.textContent =
+                "Save Exam";
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   EDIT
+========================================================= */
+
+window.editExam =
+function(id){
+
+
+    const exam =
+        exams.find(
+            x=>x.id===id
+        );
+
+
+    if(!exam){
+
+        return;
+
+    }
+
+
+    editingId=id;
+
+
+    examName.value =
+        exam.examName || "";
+
+
+    answerKeyUrl.value =
+        exam.answerKeyUrl || "";
+
+
+    positiveMarks.value =
+        exam.positiveMarks ?? 0;
+
+
+    negativeMarks.value =
+        exam.negativeMarks ?? 0;
+
+
+    totalQuestions.value =
+        exam.totalQuestions ?? 0;
+
+
+    totalCandidates.value =
+        exam.totalCandidates ?? 0;
+
+
+    active.value =
+        exam.active === false
+        ?
+        "false"
+        :
+        "true";
+
+
+    answerKeyHtmlFile.value =
+        "";
+
+
+    saveBtn.textContent =
+        "Update Exam";
+
+
+    cancelBtn.style.display =
+        "inline-block";
+
+
+    document.getElementById(
+        "formTitle"
+    ).textContent =
+        "Edit Rank Prediction Exam";
+
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+};
+
+
+/* =========================================================
+   DELETE EXAM
+========================================================= */
+
+window.removeExam =
+async function(id){
+
+
+    if(!confirm(
+        "क्या आप यह exam delete करना चाहते हैं?"
+    )){
+
+        return;
+
+    }
+
+
+    try{
+
+
+        await deleteDoc(
+
+            doc(
+                db,
+                "rankPredictionExams",
+                id
+            )
+
+        );
+
+
+        showStatus(
+            "Exam deleted."
+        );
+
+
+        await loadExams();
+
+
+    }catch(error){
+
+        console.error(error);
+
+
+        showStatus(
+
+            error.message ||
+            "Exam delete नहीं हुआ।",
+
+            "error"
+
+        );
+
+    }
+
+};
+
+
+/* =========================================================
+   RESET FORM
+========================================================= */
+
+function resetForm(){
+
+
+    editingId=null;
+
+
+    examName.value="";
+
+
+    answerKeyUrl.value="";
+
+
+    answerKeyHtmlFile.value="";
+
+
+    positiveMarks.value="2";
+
+
+    negativeMarks.value="0.50";
+
+
+    totalQuestions.value="";
+
+
+    totalCandidates.value="";
+
+
+    active.value="true";
+
+
+    saveBtn.textContent =
+        "Save Exam";
+
+
+    cancelBtn.style.display =
+        "none";
+
+
+    document.getElementById(
+        "formTitle"
+    ).textContent =
+        "Add Rank Prediction Exam";
+
+}
+
+
+cancelBtn.addEventListener(
+    "click",
+    resetForm
+);
+
+
+/* =========================================================
+   DISTRIBUTION EXAMS
+========================================================= */
+
+function fillDistributionExams(){
+
+
+    distributionExam.innerHTML =
+
+        `<option value="">
+            Select Exam
+        </option>` +
+
+        exams.map(exam=>`
+
+            <option value="${escapeHTML(exam.id)}">
+
+                ${escapeHTML(
+                    exam.examName
+                )}
+
+            </option>
+
+        `).join("");
+
+}
+
+
+/* =========================================================
+   SAVE SCORE DISTRIBUTION
+========================================================= */
+
+document
+.getElementById(
+    "saveDistributionBtn"
+)
+.addEventListener(
+    "click",
+    async()=>{
+
+
+        const examId =
+            distributionExam.value;
+
+
+        const score =
+            Number(
+                distributionScore.value
+            );
+
+
+        const candidates =
+            Number(
+                distributionCandidates.value
+            );
+
+
+        if(!examId){
+
+            alert(
+                "Exam select करें।"
+            );
+
+            return;
+
+        }
+
+
+        if(
+            !Number.isFinite(score)
+        ){
+
+            alert(
+                "Score डालिए।"
+            );
+
+            return;
+
+        }
+
+
+        if(
+            !Number.isFinite(candidates)
+        ){
+
+            alert(
+                "Candidates count डालिए।"
+            );
+
+            return;
+
+        }
+
+
+        if(candidates < 0){
+
+            alert(
+                "Candidates count गलत है।"
+            );
+
+            return;
+
+        }
+
+
+        try{
+
+
+            await addDoc(
+
+                collection(
+
+                    db,
+
+                    "rankPredictionExams",
+
+                    examId,
+
+                    "scoreDistribution"
+
+                ),
+
+                {
+
+                    score:score,
+
+                    candidates:candidates,
+
+                    createdAt:
+                        Date.now()
+
+                }
+
+            );
+
+
+            distributionScore.value =
+                "";
+
+            distributionCandidates.value =
+                "";
+
+
+            alert(
+                "Score distribution save हो गया।"
+            );
+
+
+            loadDistribution(
+                examId
+            );
+
+
+        }catch(error){
+
+            console.error(error);
+
+
+            alert(
+
+                error.message ||
+                "Distribution save नहीं हुआ।"
+
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   DISTRIBUTION CHANGE
+========================================================= */
+
+distributionExam.addEventListener(
+    "change",
+    ()=>{
+
+
+        if(
+            distributionExam.value
+        ){
+
+            loadDistribution(
+                distributionExam.value
+            );
+
+        }else{
+
+            distributionList.innerHTML =
+                "";
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   LOAD DISTRIBUTION
+========================================================= */
+
+async function loadDistribution(
+    examId
+){
+
+    distributionList.innerHTML =
+        "Loading...";
+
+
+    try{
+
+
+        const snap =
+            await getDocs(
+
+                collection(
+
+                    db,
+
+                    "rankPredictionExams",
+
+                    examId,
+
+                    "scoreDistribution"
+
+                )
+
+            );
+
+
+        const rows=[];
+
+
+        snap.forEach(item=>{
+
+            rows.push({
+
+                id:item.id,
+
+                ...item.data()
+
+            });
+
+        });
+
+
+        rows.sort(
+
+            (a,b)=>
+
+                Number(
+                    b.score
+                )
+                -
+                Number(
+                    a.score
+                )
+
+        );
+
+
+        if(!rows.length){
+
+            distributionList.innerHTML =
+                "<p>अभी score data नहीं है।</p>";
+
+            return;
+
+        }
+
+
+        distributionList.innerHTML = `
+
+            <table class="rank-table">
+
+
+                <tr>
+
+                    <th>
+                        Score
+                    </th>
+
+                    <th>
+                        Candidates
+                    </th>
+
+                    <th>
+                        Action
+                    </th>
+
+                </tr>
+
+
+                ${
+                    rows.map(row=>`
+
+                        <tr>
+
+                            <td>
+                                ${escapeHTML(
+                                    row.score
+                                )}
+                            </td>
+
+                            <td>
+                                ${escapeHTML(
+                                    row.candidates
+                                )}
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="btn-danger"
+                                    onclick="
+                                    deleteDistribution(
+                                    '${examId}',
+                                    '${row.id}'
+                                    )">
+
+                                    Delete
+
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                    `).join("")
+                }
+
+
+            </table>
+
+        `;
+
+
+    }catch(error){
+
+        console.error(error);
+
+
+        distributionList.innerHTML =
+            "Distribution load नहीं हुआ।";
+
+    }
+
+}
+
+
+/* =========================================================
+   DELETE DISTRIBUTION
+========================================================= */
+
+window.deleteDistribution =
+async function(
+    examId,
+    id
+){
+
+
+    if(!confirm(
+        "Score data delete करें?"
+    )){
+
+        return;
+
+    }
+
+
+    try{
+
+
+        await deleteDoc(
+
+            doc(
+
+                db,
+
+                "rankPredictionExams",
+
+                examId,
+
+                "scoreDistribution",
+
+                id
+
+            )
+
+        );
+
+
+        loadDistribution(
+            examId
+        );
+
+
+    }catch(error){
+
+        alert(
+            error.message
+        );
+
+    }
+
+};
+
+
+/* =========================================================
+   START
+========================================================= */
+
+loadExams();
+
+</script>
+
+</body>
+</html>

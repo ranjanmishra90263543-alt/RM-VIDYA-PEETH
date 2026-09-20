@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0"
+>
+
+<title>RM Vidya Peeth - Chapters</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+.page{
+    max-width:900px;
+    margin:auto;
+    padding:20px 15px 70px;
+}
+
+
+/* =====================================================
+   BACK BUTTON
+===================================================== */
+
+.back-btn{
+    width:100%;
+    padding:14px;
+    border:0;
+    border-radius:10px;
+    background:#334155;
+    color:#fff;
+    font-weight:bold;
+    font-size:16px;
+    cursor:pointer;
+    margin-bottom:18px;
+}
+
+.back-btn:hover{
+    background:#475569;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header{
+    background:#1e293b;
+    border-radius:16px;
+    padding:22px;
+}
+
+.brand-title{
+    margin:0 0 4px;
+    color:#60a5fa;
+    font-size:25px;
+    font-weight:800;
+}
+
+.brand-tagline{
+    margin:0 0 16px;
+    color:#cbd5e1;
+    font-size:13px;
+}
+
+.header h1{
+    margin:0 0 8px;
+    font-size:27px;
+}
+
+.header p{
+    margin:0;
+    color:#94a3b8;
+    font-size:16px;
+}
+
+.course-name{
+    margin-top:14px;
+    color:#cbd5e1;
+    font-size:14px;
+    line-height:1.6;
+}
+
+
+/* =====================================================
+   CHAPTER LIST
+===================================================== */
+
+.chapter-list{
+    margin-top:18px;
+}
+
+
+/* =====================================================
+   CHAPTER
+===================================================== */
+
+.chapter{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+
+    background:#1e293b;
+
+    border:1px solid #334155;
+
+    border-radius:13px;
+
+    padding:16px;
+
+    margin-top:10px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.chapter:hover{
+    border-color:#2563eb;
+    transform:translateY(-1px);
+}
+
+.chapter-info{
+    min-width:0;
+    flex:1;
+}
+
+.chapter-number{
+    color:#60a5fa;
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:5px;
+}
+
+.chapter-name{
+    font-size:17px;
+    font-weight:bold;
+    word-break:break-word;
+}
+
+.chapter-time{
+    margin-top:6px;
+    color:#94a3b8;
+    font-size:13px;
+}
+
+.open-btn{
+    flex-shrink:0;
+
+    border:0;
+    border-radius:8px;
+
+    padding:10px 14px;
+
+    background:#2563eb;
+
+    color:#fff;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.open-btn:hover{
+    background:#1d4ed8;
+}
+
+
+/* =====================================================
+   EMPTY
+===================================================== */
+
+.empty{
+    background:#1e293b;
+    border-radius:14px;
+    padding:30px 15px;
+
+    margin-top:18px;
+
+    text-align:center;
+
+    color:#cbd5e1;
+    line-height:1.7;
+}
+
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+.loading{
+    background:#1e293b;
+    border-radius:14px;
+    padding:30px 15px;
+
+    margin-top:18px;
+
+    text-align:center;
+
+    color:#cbd5e1;
+}
+
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+.error{
+    background:#450a0a;
+    color:#fecaca;
+
+    padding:20px;
+
+    border-radius:12px;
+
+    margin-top:18px;
+
+    line-height:1.7;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer{
+    text-align:center;
+    color:#94a3b8;
+    font-size:13px;
+    padding:20px;
+}
+
+.footer-brand{
+    color:#60a5fa;
+    font-size:16px;
+    font-weight:bold;
+    margin-bottom:4px;
+}
+
+.footer-tagline{
+    color:#cbd5e1;
+    font-size:13px;
+    margin-bottom:7px;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:550px){
+
+    .page{
+        padding:15px 10px 60px;
+    }
+
+    .header{
+        padding:18px;
+    }
+
+    .brand-title{
+        font-size:21px;
+    }
+
+    .header h1{
+        font-size:23px;
+    }
+
+    .chapter{
+        padding:14px;
+    }
+
+    .chapter-name{
+        font-size:15px;
+    }
+
+    .open-btn{
+        padding:9px 11px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+<button
+    class="back-btn"
+    type="button"
+    onclick="goBack()"
+>
+    ← Back to Subjects
+</button>
+
+
+<div
+    id="header"
+    class="header"
+>
+
+    <div class="brand-title">
+        RM Vidya Peeth
+    </div>
+
+    <div class="brand-tagline">
+        By Ranjan Mishra Sir
+    </div>
+
+    <h1>
+        📖 Chapters
+    </h1>
+
+    <p>
+        Chapters loading...
+    </p>
+
+</div>
+
+
+<div
+    id="chapterList"
+    class="loading"
+>
+
+    📖 Chapters loading...
+
+</div>
+
+
+</div>
+
+
+<footer>
+
+    <div class="footer-brand">
+        RM Vidya Peeth
+    </div>
+
+    <div class="footer-tagline">
+        By Ranjan Mishra Sir
+    </div>
+
+    © 2026 RM Vidya Peeth. All Rights Reserved.
+
+</footer>
+
+
+
+<script type="module">
+
+
+/* =====================================================
+   FIREBASE
+===================================================== */
+
+import {
+    db
+}
+from "./firebase-config.js";
+
+
+import {
+    collection,
+    getDocs,
+    doc,
+    getDoc
+}
+from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+
+/* =====================================================
+   URL PARAMETERS
+===================================================== */
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+const courseId =
+    String(
+        params.get("courseId") ||
+        localStorage.getItem(
+            "selectedCourseId"
+        ) ||
+        ""
+    ).trim();
+
+
+const subject =
+    String(
+        params.get("subject") ||
+        localStorage.getItem(
+            "selectedSubject"
+        ) ||
+        ""
+    ).trim();
+
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+function checkLogin(){
+
+    const newLogged =
+        localStorage.getItem(
+            "studentLoggedIn"
+        );
+
+    const oldLogged =
+        localStorage.getItem(
+            "ssc_logged_in"
+        );
+
+    const oldType =
+        localStorage.getItem(
+            "ssc_login_type"
+        );
+
+    if(
+        newLogged === "true"
+        ||
+        (
+            oldLogged === "true"
+            &&
+            oldType === "student"
+        )
+    ){
+
+        return true;
+
+    }
+
+    window.location.href =
+        "login.html";
+
+    return false;
+
+}
+
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(
+        value ?? ""
+    )
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+
+/* =====================================================
+   NORMALIZE
+===================================================== */
+
+function normalize(value){
+
+    return String(
+        value ?? ""
+    )
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g," ");
+
+}
+
+
+
+/* =====================================================
+   COURSE ID MATCH
+===================================================== */
+
+function isSameCourse(
+    data,
+    firestoreId
+){
+
+    const wanted =
+        normalize(courseId);
+
+    const values = [
+
+        data?.id,
+
+        data?.courseId,
+
+        data?.courseID,
+
+        data?.course_id,
+
+        data?.parentCourseId,
+
+        firestoreId
+
+    ];
+
+    return values.some(
+        value =>
+            normalize(value) === wanted
+    );
+
+}
+
+
+
+/* =====================================================
+   FIND COURSE
+===================================================== */
+
+async function findCourse(){
+
+    /* -------------------------------------------------
+       Direct Firestore document
+    ------------------------------------------------- */
+
+    if(courseId){
+
+        try{
+
+            const ref =
+                doc(
+                    db,
+                    "courses",
+                    courseId
+                );
+
+            const snap =
+                await getDoc(ref);
+
+            if(
+                snap.exists()
+            ){
+
+                return {
+
+                    ...snap.data(),
+
+                    firestoreId:
+                        snap.id,
+
+                    id:
+                        snap.data().id ||
+                        snap.data().courseId ||
+                        snap.id
+
+                };
+
+            }
+
+        }
+        catch(error){
+
+            console.log(
+                "Direct course lookup:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* -------------------------------------------------
+       Full collection search
+    ------------------------------------------------- */
+
+    const snapshot =
+        await getDocs(
+            collection(
+                db,
+                "courses"
+            )
+        );
+
+
+    let result =
+        null;
+
+
+    snapshot.forEach(
+        function(courseDoc){
+
+            if(result){
+                return;
+            }
+
+            const data =
+                courseDoc.data();
+
+            if(
+                isSameCourse(
+                    data,
+                    courseDoc.id
+                )
+            ){
+
+                result = {
+
+                    ...data,
+
+                    firestoreId:
+                        courseDoc.id,
+
+                    id:
+                        data.id ||
+                        data.courseId ||
+                        courseDoc.id
+
+                };
+
+            }
+
+        }
+    );
+
+
+    return result;
+
+}
+
+
+
+/* =====================================================
+   SUBJECT NAME
+===================================================== */
+
+function getSubjectName(item){
+
+    if(
+        typeof item === "string"
+    ){
+
+        return item.trim();
+
+    }
+
+
+    if(
+        item &&
+        typeof item === "object"
+    ){
+
+        return String(
+
+            item.name ||
+
+            item.subjectName ||
+
+            item.title ||
+
+            item.subject ||
+
+            item.subject_title ||
+
+            ""
+
+        ).trim();
+
+    }
+
+
+    return "";
+
+}
+
+
+
+/* =====================================================
+   CHAPTER NAME
+===================================================== */
+
+function getChapterName(
+    item,
+    index
+){
+
+    if(
+        typeof item === "string"
+    ){
+
+        return item.trim();
+
+    }
+
+
+    if(
+        item &&
+        typeof item === "object"
+    ){
+
+        return String(
+
+            item.name ||
+
+            item.chapterName ||
+
+            item.title ||
+
+            item.chapter ||
+
+            item.chapterTitle ||
+
+            item.chapter_name ||
+
+            `Chapter ${index + 1}`
+
+        ).trim();
+
+    }
+
+
+    return `Chapter ${index + 1}`;
+
+}
+
+
+
+/* =====================================================
+   CHAPTERS INSIDE SUBJECT
+===================================================== */
+
+function getEmbeddedChapters(
+    subjectData
+){
+
+    if(!subjectData){
+
+        return [];
+
+    }
+
+
+    const possibleFields = [
+
+        "chapters",
+
+        "chapter",
+
+        "items",
+
+        "lessons",
+
+        "chapterList",
+
+        "chapter_list"
+
+    ];
+
+
+    for(
+        const field of possibleFields
+    ){
+
+        if(
+            Array.isArray(
+                subjectData[field]
+            )
+        ){
+
+            return subjectData[field];
+
+        }
+
+    }
+
+
+    return [];
+
+}
+
+
+
+/* =====================================================
+   FIND SUBJECT
+===================================================== */
+
+function findSubject(
+    course
+){
+
+    if(!course){
+
+        return null;
+
+    }
+
+
+    const subjects =
+        Array.isArray(
+            course.subjects
+        )
+        ?
+        course.subjects
+        :
+        [];
+
+
+    const requested =
+        normalize(subject);
+
+
+    let found =
+        null;
+
+
+    /* Exact match */
+
+    subjects.forEach(
+        function(item){
+
+            if(found){
+
+                return;
+
+            }
+
+
+            const name =
+                normalize(
+                    getSubjectName(item)
+                );
+
+
+            if(
+                name === requested
+            ){
+
+                found = item;
+
+            }
+
+        }
+    );
+
+
+    /* Flexible match */
+
+    if(
+        !found &&
+        requested
+    ){
+
+        subjects.forEach(
+            function(item){
+
+                if(found){
+
+                    return;
+
+                }
+
+
+                const name =
+                    normalize(
+                        getSubjectName(item)
+                    );
+
+
+                if(
+                    name.includes(requested)
+                    ||
+                    requested.includes(name)
+                ){
+
+                    found = item;
+
+                }
+
+            }
+        );
+
+    }
+
+
+    return found;
+
+}
+
+
+
+/* =====================================================
+   FIND CHAPTERS FROM FIRESTORE COLLECTION
+===================================================== */
+
+async function findCollectionChapters(){
+
+    const collectionsToCheck = [
+
+        "chapters",
+
+        "courseChapters"
+
+    ];
+
+
+    let allResults = [];
+
+
+    for(
+        const collectionName
+        of collectionsToCheck
+    ){
+
+        try{
+
+            const snapshot =
+                await getDocs(
+                    collection(
+                        db,
+                        collectionName
+                    )
+                );
+
+
+            snapshot.forEach(
+                function(chapterDoc){
+
+                    const data =
+                        chapterDoc.data();
+
+
+                    /*
+                       Course match
+                    */
+
+                    const courseMatch =
+                        isSameCourse(
+                            data,
+                            chapterDoc.id
+                        );
+
+
+                    if(!courseMatch){
+
+                        return;
+
+                    }
+
+
+                    /*
+                       Subject fields
+                    */
+
+                    const chapterSubject =
+
+                        data.subject ||
+
+                        data.subjectName ||
+
+                        data.subject_name ||
+
+                        data.subjectTitle ||
+
+                        data.subject_title ||
+
+                        "";
+
+
+                    const wantedSubject =
+                        normalize(
+                            subject
+                        );
+
+
+                    const storedSubject =
+                        normalize(
+                            chapterSubject
+                        );
+
+
+                    /*
+                       If chapter has subject
+                       then it must match.
+                    */
+
+                    if(
+                        storedSubject
+                        &&
+                        storedSubject !==
+                        wantedSubject
+                        &&
+                        !storedSubject.includes(
+                            wantedSubject
+                        )
+                        &&
+                        !wantedSubject.includes(
+                            storedSubject
+                        )
+                    ){
+
+                        return;
+
+                    }
+
+
+                    /*
+                       If subject is inside
+                       courseId as object
+                       support it too.
+                    */
+
+                    allResults.push({
+
+                        ...data,
+
+                        firestoreId:
+                            chapterDoc.id
+
+                    });
+
+                }
+            );
+
+        }
+        catch(error){
+
+            console.log(
+                collectionName +
+                " collection not available:",
+                error
+            );
+
+        }
+
+    }
+
+
+    return allResults;
+
+}
+
+
+
+/* =====================================================
+   RENDER HEADER
+===================================================== */
+
+function renderHeader(
+    course
+){
+
+    const header =
+        document.getElementById(
+            "header"
+        );
+
+
+    const courseName =
+        course?.name ||
+        course?.courseName ||
+        course?.title ||
+        "Course";
+
+
+    header.innerHTML = `
+
+        <div class="brand-title">
+            RM Vidya Peeth
+        </div>
+
+        <div class="brand-tagline">
+            By Ranjan Mishra Sir
+        </div>
+
+        <h1>
+            📖
+            ${escapeHTML(
+                subject
+            )}
+        </h1>
+
+        <p>
+            इस Subject के सभी Chapters
+        </p>
+
+        <div class="course-name">
+
+            📚 Course:
+
+            <b>
+                ${escapeHTML(
+                    courseName
+                )}
+            </b>
+
+        </div>
+
+    `;
+
+}
+
+
+
+/* =====================================================
+   RENDER CHAPTERS
+===================================================== */
+
+function renderChapters(
+    chapters
+){
+
+    const container =
+        document.getElementById(
+            "chapterList"
+        );
+
+
+    if(
+        !Array.isArray(chapters) ||
+        chapters.length === 0
+    ){
+
+        container.className =
+            "empty";
+
+
+        container.innerHTML = `
+
+            📖 इस Subject में अभी कोई Chapter उपलब्ध नहीं है।
+
+            <br><br>
+
+            <small>
+                Subject:
+                ${escapeHTML(subject)}
+            </small>
+
+        `;
+
+        return;
+
+    }
+
+
+    window.currentChapters =
+        chapters;
+
+
+    container.className =
+        "chapter-list";
+
+
+    container.innerHTML =
+        chapters.map(
+            function(
+                item,
+                index
+            ){
+
+                const chapterName =
+                    getChapterName(
+                        item,
+                        index
+                    );
+
+
+                const time =
+
+                    item &&
+                    typeof item === "object"
+                    ?
+
+                    (
+                        item.time ||
+                        item.testTime ||
+                        item.duration ||
+                        ""
+                    )
+
+                    :
+
+                    "";
+
+
+                return `
+
+                    <div
+                        class="chapter"
+                        onclick="
+                            openChapterByIndex(
+                                ${index}
+                            )
+                        "
+                    >
+
+                        <div class="chapter-info">
+
+                            <div class="chapter-number">
+
+                                CHAPTER
+                                ${index + 1}
+
+                            </div>
+
+
+                            <div class="chapter-name">
+
+                                📖
+                                ${escapeHTML(
+                                    chapterName
+                                )}
+
+                            </div>
+
+
+                            ${
+                                time
+                                ?
+                                `
+                                <div
+                                    class="chapter-time"
+                                >
+                                    ⏱️
+                                    ${escapeHTML(
+                                        time
+                                    )}
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                        </div>
+
+
+                        <button
+                            class="open-btn"
+                            type="button"
+                            onclick="
+                                event.stopPropagation();
+                                openChapterByIndex(
+                                    ${index}
+                                );
+                            "
+                        >
+                            Open →
+                        </button>
+
+                    </div>
+
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+
+/* =====================================================
+   OPEN CHAPTER
+===================================================== */
+
+function openChapterByIndex(
+    index
+){
+
+    const chapters =
+        window.currentChapters ||
+        [];
+
+
+    const chapter =
+        chapters[index];
+
+
+    if(!chapter){
+
+        alert(
+            "❌ Chapter नहीं मिला।"
+        );
+
+        return;
+
+    }
+
+
+    const chapterName =
+        getChapterName(
+            chapter,
+            index
+        );
+
+
+    localStorage.setItem(
+        "selectedCourseId",
+        courseId
+    );
+
+
+    localStorage.setItem(
+        "selectedSubject",
+        subject
+    );
+
+
+    localStorage.setItem(
+        "selectedChapter",
+        chapterName
+    );
+
+
+    const url =
+        "chapter-content.html" +
+
+        "?courseId=" +
+        encodeURIComponent(
+            courseId
+        ) +
+
+        "&subject=" +
+        encodeURIComponent(
+            subject
+        ) +
+
+        "&chapter=" +
+        encodeURIComponent(
+            chapterName
+        );
+
+
+    console.log(
+        "RM Vidya Peeth Chapter URL:",
+        url
+    );
+
+
+    window.location.href =
+        url;
+
+}
+
+
+
+/* =====================================================
+   BACK
+===================================================== */
+
+function goBack(){
+
+    if(!courseId){
+
+        window.location.href =
+            "my-courses.html";
+
+        return;
+
+    }
+
+
+    window.location.href =
+        "course-chapters.html?courseId=" +
+        encodeURIComponent(
+            courseId
+        );
+
+}
+
+
+window.openChapterByIndex =
+    openChapterByIndex;
+
+
+window.goBack =
+    goBack;
+
+
+
+/* =====================================================
+   START
+===================================================== */
+
+async function start(){
+
+    const container =
+        document.getElementById(
+            "chapterList"
+        );
+
+
+    /* -------------------------------------------------
+       Course ID check
+    ------------------------------------------------- */
+
+    if(!courseId){
+
+        container.className =
+            "error";
+
+
+        container.innerHTML = `
+
+            ❌ Course ID नहीं मिला।
+
+            <br><br>
+
+            कृपया My Course से Course
+            दोबारा खोलें।
+
+        `;
+
+        return;
+
+    }
+
+
+    /* -------------------------------------------------
+       Subject check
+    ------------------------------------------------- */
+
+    if(!subject){
+
+        container.className =
+            "error";
+
+
+        container.innerHTML = `
+
+            ❌ Subject नहीं मिला।
+
+            <br><br>
+
+            कृपया वापस जाकर Subject
+            दोबारा select करें।
+
+        `;
+
+        return;
+
+    }
+
+
+    try{
+
+        console.log(
+            "RM Vidya Peeth Course ID:",
+            courseId
+        );
+
+
+        console.log(
+            "RM Vidya Peeth Subject:",
+            subject
+        );
+
+
+        /* -------------------------------------------------
+           FIND COURSE
+        ------------------------------------------------- */
+
+        const course =
+            await findCourse();
+
+
+        if(!course){
+
+            throw new Error(
+                "Course नहीं मिला। Course ID: " +
+                courseId
+            );
+
+        }
+
+
+        renderHeader(
+            course
+        );
+
+
+        /* -------------------------------------------------
+           FIRST:
+           Subject के अंदर chapters
+        ------------------------------------------------- */
+
+        const subjectData =
+            findSubject(
+                course
+            );
+
+
+        let chapters = [];
+
+
+        if(subjectData){
+
+            chapters =
+                getEmbeddedChapters(
+                    subjectData
+                );
+
+        }
+
+
+        console.log(
+            "Embedded chapters:",
+            chapters
+        );
+
+
+        /* -------------------------------------------------
+           SECOND:
+           अगर embedded chapters नहीं हैं,
+           chapters collection check करो
+        ------------------------------------------------- */
+
+        if(
+            chapters.length === 0
+        ){
+
+            chapters =
+                await findCollectionChapters();
+
+            console.log(
+                "Firestore chapters:",
+                chapters
+            );
+
+        }
+
+
+        /* -------------------------------------------------
+           FINAL RENDER
+        ------------------------------------------------- */
+
+        renderChapters(
+            chapters
+        );
+
+
+        /* -------------------------------------------------
+           SAVE
+        ------------------------------------------------- */
+
+        localStorage.setItem(
+            "selectedCourseId",
+            courseId
+        );
+
+
+        localStorage.setItem(
+            "selectedSubject",
+            subject
+        );
+
+
+    }
+    catch(error){
+
+        console.error(
+            "RM Vidya Peeth Chapters Error:",
+            error
+        );
+
+
+        container.className =
+            "error";
+
+
+        container.innerHTML = `
+
+            ❌ Chapters load नहीं हो पाए।
+
+            <br><br>
+
+            ${escapeHTML(
+                error?.message ||
+                "Unknown error"
+            )}
+
+            <br><br>
+
+            <button
+                class="open-btn"
+                type="button"
+                onclick="
+                    location.href =
+                    'course-chapters.html?courseId=' +
+                    encodeURIComponent(
+                        '${escapeHTML(courseId)}'
+                    )
+                "
+            >
+                ← Back to Subjects
+            </button>
+
+        `;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   RUN
+===================================================== */
+
+if(checkLogin()){
+
+    start();
+
+}
+
+</script>
+
+</body>
+</html>

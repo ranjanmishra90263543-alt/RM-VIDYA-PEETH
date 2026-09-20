@@ -1,0 +1,1972 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>RM Vidya Peeth - Admin Management</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial,sans-serif;
+}
+
+.page{
+    max-width:1100px;
+    margin:auto;
+    padding:20px 15px 70px;
+}
+
+.header,
+.box{
+    background:#1e293b;
+    padding:20px;
+    border-radius:18px;
+    margin-bottom:20px;
+}
+
+.header{
+    text-align:center;
+}
+
+.header h1{
+    margin:0 0 8px;
+    font-size:30px;
+}
+
+.header p{
+    margin:0;
+    color:#cbd5e1;
+}
+
+.brand-name{
+    color:#60a5fa;
+    font-weight:bold;
+}
+
+.brand-by{
+    display:block;
+    margin-top:6px;
+    font-size:14px;
+    color:#94a3b8;
+}
+
+.back-btn,
+.main-btn,
+.action-btn{
+    width:100%;
+    padding:13px;
+    border:0;
+    border-radius:9px;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.back-btn{
+    background:#334155;
+    margin-bottom:20px;
+}
+
+input{
+    width:100%;
+    padding:13px;
+    margin-top:10px;
+    border:1px solid #64748b;
+    border-radius:9px;
+    font-size:15px;
+}
+
+.permission-grid{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(180px,1fr));
+    gap:10px;
+    margin-top:15px;
+}
+
+.permission{
+    background:#334155;
+    padding:12px;
+    border-radius:9px;
+}
+
+.permission label{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    cursor:pointer;
+}
+
+.permission input{
+    width:auto;
+    margin:0;
+}
+
+.main-btn{
+    background:#16a34a;
+    margin-top:15px;
+}
+
+.refresh-btn{
+    background:#2563eb;
+}
+
+.message{
+    display:none;
+    padding:13px;
+    border-radius:9px;
+    margin-bottom:20px;
+    background:#0f172a;
+    line-height:1.5;
+}
+
+.admin-card{
+    background:#fff;
+    color:#111827;
+    padding:18px;
+    border-radius:14px;
+    margin-top:12px;
+}
+
+.admin-card h3{
+    margin-top:0;
+}
+
+.admin-card button{
+    border:0;
+    padding:9px 12px;
+    border-radius:8px;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+    margin:5px 5px 0 0;
+}
+
+.permission-btn{
+    background:#7c3aed;
+}
+
+.block-btn{
+    background:#f59e0b;
+}
+
+.delete-btn{
+    background:#dc2626;
+}
+
+.status-active{
+    color:#15803d;
+    font-weight:bold;
+}
+
+.status-blocked{
+    color:#dc2626;
+    font-weight:bold;
+}
+
+.empty{
+    background:#0f172a;
+    padding:20px;
+    border-radius:10px;
+    color:#cbd5e1;
+    text-align:center;
+    line-height:1.5;
+}
+
+.the-hub-copyright{
+    text-align:center;
+    padding:20px;
+    color:#64748b;
+    font-size:13px;
+}
+
+@media(max-width:600px){
+
+    .page{
+        padding:15px 10px 50px;
+    }
+
+    .box{
+        padding:16px;
+    }
+
+    .header h1{
+        font-size:27px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="page">
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<div class="header">
+
+    <h1>
+        👑 Admin Management
+    </h1>
+
+    <p>
+
+        <span class="brand-name">
+            RM Vidya Peeth
+        </span>
+
+    </p>
+
+    <span class="brand-by">
+        By Ranjan Mishra Sir
+    </span>
+
+    <p style="margin-top:12px;">
+
+        केवल Master Admin इस section को manage कर सकता है।
+
+    </p>
+
+</div>
+
+
+
+<!-- =====================================================
+     BACK
+===================================================== -->
+
+<button
+    class="back-btn"
+    type="button"
+    onclick="goAdmin()"
+>
+
+    ← Back to Admin Dashboard
+
+</button>
+
+
+
+<!-- =====================================================
+     MESSAGE
+===================================================== -->
+
+<div
+    id="message"
+    class="message"
+></div>
+
+
+
+<!-- =====================================================
+     CREATE ADMIN
+===================================================== -->
+
+<div class="box">
+
+    <h2>
+        ➕ Create Normal Admin
+    </h2>
+
+    <p
+        style="
+        color:#cbd5e1;
+        line-height:1.6;
+        "
+    >
+
+        पहले Firebase Authentication में Normal Admin
+        का account बनाएं। उसके बाद यहां उसका Email
+        और Permissions register करें।
+
+    </p>
+
+
+    <!-- NAME -->
+
+    <input
+        id="newAdminName"
+        type="text"
+        placeholder="Admin Name"
+    >
+
+
+    <!-- EMAIL -->
+
+    <input
+        id="newAdminEmail"
+        type="email"
+        placeholder="Admin Email"
+    >
+
+
+    <h3>
+        🔐 Permissions
+    </h3>
+
+
+    <div class="permission-grid">
+
+
+        <!-- COURSES -->
+
+        <div class="permission">
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    value="courses"
+                >
+
+                📚 Courses
+
+            </label>
+
+        </div>
+
+
+
+        <!-- VIDEOS -->
+
+        <div class="permission">
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    value="videos"
+                >
+
+                🎥 Videos
+
+            </label>
+
+        </div>
+
+
+
+        <!-- PDF -->
+
+        <div class="permission">
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    value="pdfs"
+                >
+
+                📄 PDFs
+
+            </label>
+
+        </div>
+
+
+
+        <!-- STUDENTS -->
+
+        <div class="permission">
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    value="students"
+                >
+
+                👨‍🎓 Students
+
+            </label>
+
+        </div>
+
+
+
+        <!-- TEST MANAGEMENT -->
+
+        <div class="permission">
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    value="mockTests"
+                >
+
+                🧪 Test Management
+
+            </label>
+
+        </div>
+
+
+
+        <!-- QUESTIONS -->
+
+        <div class="permission">
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    value="questions"
+                >
+
+                ❓ Questions
+
+            </label>
+
+        </div>
+
+
+
+        <!-- LIVE CLASSES -->
+
+        <div class="permission">
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    value="liveClasses"
+                >
+
+                🔴 Live Classes
+
+            </label>
+
+        </div>
+
+
+
+        <!-- RANK PREDICTION -->
+
+        <div
+            class="permission"
+            style="background:#164e63;"
+        >
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    value="rankPrediction"
+                >
+
+                📊 Rank Prediction
+
+            </label>
+
+        </div>
+
+
+    </div>
+
+
+    <button
+        class="main-btn"
+        type="button"
+        onclick="createNormalAdmin()"
+    >
+
+        ➕ Register Normal Admin
+
+    </button>
+
+</div>
+
+
+
+<!-- =====================================================
+     ADMIN LIST
+===================================================== -->
+
+<div class="box">
+
+    <h2>
+        👨‍💼 Normal Admins
+    </h2>
+
+
+    <button
+        class="action-btn refresh-btn"
+        type="button"
+        onclick="renderAdmins()"
+    >
+
+        🔄 Refresh Admins
+
+    </button>
+
+
+    <div
+        id="adminList"
+        style="margin-top:15px;"
+    >
+
+        <div class="empty">
+
+            Admins loading...
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="the-hub-copyright">
+
+    RM Vidya Peeth
+
+    <br>
+
+    By Ranjan Mishra Sir
+
+    <br><br>
+
+    © 2026 RM Vidya Peeth. All Rights Reserved.
+
+</footer>
+
+
+
+<script type="module">
+
+/*
+=========================================================
+FIREBASE IMPORT
+=========================================================
+*/
+
+import {
+
+    auth,
+
+    db
+
+} from "./firebase-config.js";
+
+
+import {
+
+    onAuthStateChanged
+
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+
+import {
+
+    collection,
+    query,
+    where,
+    getDocs,
+    addDoc,
+    updateDoc,
+    deleteDoc,
+    doc,
+    serverTimestamp
+
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+
+/*
+=========================================================
+MASTER ADMIN
+=========================================================
+*/
+
+const MASTER_EMAIL =
+"ranjanmishra9026354@gmail.com";
+
+
+
+/*
+=========================================================
+PERMISSION NAMES
+=========================================================
+*/
+
+const permissionNames = [
+
+    "courses",
+
+    "videos",
+
+    "pdfs",
+
+    "students",
+
+    "mockTests",
+
+    "questions",
+
+    "liveClasses",
+
+    "rankPrediction"
+
+];
+
+
+
+/*
+=========================================================
+PERMISSION LABELS
+=========================================================
+*/
+
+const permissionLabels = {
+
+    courses:
+        "📚 Courses",
+
+    videos:
+        "🎥 Videos",
+
+    pdfs:
+        "📄 PDFs",
+
+    students:
+        "👨‍🎓 Students",
+
+    mockTests:
+        "🧪 Test Management",
+
+    questions:
+        "❓ Questions",
+
+    liveClasses:
+        "🔴 Live Classes",
+
+    rankPrediction:
+        "📊 Rank Prediction"
+
+};
+
+
+
+/*
+=========================================================
+ELEMENTS
+=========================================================
+*/
+
+const message =
+document.getElementById("message");
+
+
+const adminList =
+document.getElementById("adminList");
+
+
+
+/*
+=========================================================
+MESSAGE
+=========================================================
+*/
+
+function showMessage(
+    text,
+    type = "normal"
+){
+
+    if(!message){
+
+        return;
+
+    }
+
+
+    message.style.display =
+        "block";
+
+
+    message.textContent =
+        text;
+
+
+    if(type === "success"){
+
+        message.style.color =
+            "#86efac";
+
+    }
+
+    else if(type === "error"){
+
+        message.style.color =
+            "#fca5a5";
+
+    }
+
+    else{
+
+        message.style.color =
+            "#cbd5e1";
+
+    }
+
+}
+
+
+
+/*
+=========================================================
+AUTH CHECK
+=========================================================
+*/
+
+onAuthStateChanged(
+
+    auth,
+
+    async function(user){
+
+        /*
+        -------------------------------------------------
+        USER LOGIN CHECK
+        -------------------------------------------------
+        */
+
+        if(!user){
+
+            window.location.href =
+                "admin-login.html";
+
+            return;
+
+        }
+
+
+        /*
+        -------------------------------------------------
+        EMAIL
+        -------------------------------------------------
+        */
+
+        const email =
+            String(
+                user.email || ""
+            )
+            .toLowerCase();
+
+
+        /*
+        -------------------------------------------------
+        MASTER ADMIN CHECK
+        -------------------------------------------------
+        */
+
+        if(
+            email !==
+            MASTER_EMAIL.toLowerCase()
+        ){
+
+            alert(
+                "🚫 केवल Master Admin इस page को access कर सकता है।"
+            );
+
+
+            window.location.href =
+                "admin.html";
+
+            return;
+
+        }
+
+
+        /*
+        -------------------------------------------------
+        LOCAL SESSION
+        -------------------------------------------------
+        */
+
+        localStorage.setItem(
+            "adminLoggedIn",
+            "true"
+        );
+
+
+        localStorage.setItem(
+            "adminType",
+            "master"
+        );
+
+
+        localStorage.setItem(
+            "adminId",
+            String(user.uid || "")
+        );
+
+
+        localStorage.setItem(
+            "adminName",
+            "Master Admin"
+        );
+
+
+        /*
+        -------------------------------------------------
+        LOAD ADMINS
+        -------------------------------------------------
+        */
+
+        await renderAdmins();
+
+    }
+
+);
+
+
+
+/*
+=========================================================
+CREATE NORMAL ADMIN
+=========================================================
+*/
+
+async function createNormalAdmin(){
+
+    const nameInput =
+        document.getElementById(
+            "newAdminName"
+        );
+
+
+    const emailInput =
+        document.getElementById(
+            "newAdminEmail"
+        );
+
+
+    const name =
+        nameInput
+        ? nameInput.value.trim()
+        : "";
+
+
+    const email =
+        emailInput
+        ? emailInput.value
+            .trim()
+            .toLowerCase()
+        : "";
+
+
+    /*
+    -------------------------------------------------
+    VALIDATION
+    -------------------------------------------------
+    */
+
+    if(!name || !email){
+
+        showMessage(
+            "⚠️ Admin Name और Email दोनों भरें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    /*
+    -------------------------------------------------
+    MASTER EMAIL PROTECTION
+    -------------------------------------------------
+    */
+
+    if(
+        email ===
+        MASTER_EMAIL.toLowerCase()
+    ){
+
+        showMessage(
+            "🚫 Master Admin को Normal Admin नहीं बनाया जा सकता।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        /*
+        -------------------------------------------------
+        CHECK EXISTING EMAIL
+        -------------------------------------------------
+        */
+
+        const existingQuery =
+            query(
+
+                collection(
+                    db,
+                    "admins"
+                ),
+
+                where(
+                    "email",
+                    "==",
+                    email
+                )
+
+            );
+
+
+        const snapshot =
+            await getDocs(
+                existingQuery
+            );
+
+
+        if(!snapshot.empty){
+
+            showMessage(
+                "⚠️ यह Email पहले से registered है।",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        /*
+        -------------------------------------------------
+        PERMISSIONS
+        -------------------------------------------------
+        */
+
+        const permissions = {};
+
+
+        document
+        .querySelectorAll(
+            ".permission input[type='checkbox']"
+        )
+        .forEach(
+
+            function(checkbox){
+
+                permissions[
+                    checkbox.value
+                ] =
+                    checkbox.checked;
+
+            }
+
+        );
+
+
+        /*
+        -------------------------------------------------
+        ADD ADMIN TO FIRESTORE
+        -------------------------------------------------
+        */
+
+        await addDoc(
+
+            collection(
+                db,
+                "admins"
+            ),
+
+            {
+
+                name:name,
+
+                email:email,
+
+                role:"admin",
+
+                status:"active",
+
+                access:"limited",
+
+                permissions:permissions,
+
+                createdAt:
+                    serverTimestamp(),
+
+                updatedAt:
+                    serverTimestamp()
+
+            }
+
+        );
+
+
+        /*
+        -------------------------------------------------
+        SUCCESS
+        -------------------------------------------------
+        */
+
+        showMessage(
+            "✅ Normal Admin successfully registered!",
+            "success"
+        );
+
+
+        /*
+        -------------------------------------------------
+        CLEAR NAME
+        -------------------------------------------------
+        */
+
+        if(nameInput){
+
+            nameInput.value = "";
+
+        }
+
+
+        /*
+        -------------------------------------------------
+        CLEAR EMAIL
+        -------------------------------------------------
+        */
+
+        if(emailInput){
+
+            emailInput.value = "";
+
+        }
+
+
+        /*
+        -------------------------------------------------
+        CLEAR PERMISSIONS
+        -------------------------------------------------
+        */
+
+        document
+        .querySelectorAll(
+            ".permission input[type='checkbox']"
+        )
+        .forEach(
+
+            function(checkbox){
+
+                checkbox.checked =
+                    false;
+
+            }
+
+        );
+
+
+        /*
+        -------------------------------------------------
+        REFRESH
+        -------------------------------------------------
+        */
+
+        await renderAdmins();
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Create Admin Error:",
+            error
+        );
+
+
+        showMessage(
+
+            "❌ Admin register नहीं हुआ: " +
+            String(
+                error?.message ||
+                error ||
+                "Unknown error"
+            ),
+
+            "error"
+
+        );
+
+    }
+
+}
+
+
+
+/*
+=========================================================
+GET ADMINS
+=========================================================
+*/
+
+async function getAdmins(){
+
+    const snapshot =
+        await getDocs(
+
+            collection(
+                db,
+                "admins"
+            )
+
+        );
+
+
+    const admins = [];
+
+
+    snapshot.forEach(
+
+        function(item){
+
+            const data =
+                item.data();
+
+
+            if(
+                data &&
+                data.role ===
+                "admin"
+            ){
+
+                admins.push({
+
+                    id:
+                        String(item.id),
+
+                    ...data
+
+                });
+
+            }
+
+        }
+
+    );
+
+
+    return admins;
+
+}
+
+
+
+/*
+=========================================================
+RENDER ADMINS
+=========================================================
+*/
+
+async function renderAdmins(){
+
+    if(!adminList){
+
+        return;
+
+    }
+
+
+    adminList.innerHTML = `
+
+        <div class="empty">
+
+            ⏳ Admins loading...
+
+        </div>
+
+    `;
+
+
+    try{
+
+        const admins =
+            await getAdmins();
+
+
+        if(!admins.length){
+
+            adminList.innerHTML = `
+
+                <div class="empty">
+
+                    अभी कोई Normal Admin
+                    registered नहीं है।
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        adminList.innerHTML = "";
+
+
+        admins.forEach(
+
+            function(admin){
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "admin-card";
+
+
+                const blocked =
+                    admin.status ===
+                    "blocked";
+
+
+                card.innerHTML = `
+
+                    <h3>
+
+                        👨‍💼
+
+                        ${escapeHTML(
+                            admin.name ||
+                            "Normal Admin"
+                        )}
+
+                    </h3>
+
+
+                    <p>
+
+                        📧
+
+                        ${escapeHTML(
+                            admin.email ||
+                            "-"
+                        )}
+
+                    </p>
+
+
+                    <p>
+
+                        Status:
+
+                        <span
+                            class="${
+                                blocked
+                                ? "status-blocked"
+                                : "status-active"
+                            }"
+                        >
+
+                            ${
+                                blocked
+                                ? "🚫 Blocked"
+                                : "✅ Active"
+                            }
+
+                        </span>
+
+                    </p>
+
+
+                    <p>
+
+                        🔐 Permissions:
+
+                        <br>
+
+                        ${getPermissionText(
+                            admin.permissions
+                        )}
+
+                    </p>
+
+
+                    <button
+                        class="permission-btn"
+                        type="button"
+                    >
+
+                        🔐 Permissions
+
+                    </button>
+
+
+                    <button
+                        class="block-btn"
+                        type="button"
+                    >
+
+                        ${
+                            blocked
+                            ? "✅ Unblock"
+                            : "🚫 Block"
+                        }
+
+                    </button>
+
+
+                    <button
+                        class="delete-btn"
+                        type="button"
+                    >
+
+                        🗑️ Delete
+
+                    </button>
+
+                `;
+
+
+                const permissionButton =
+                    card.querySelector(
+                        ".permission-btn"
+                    );
+
+
+                if(permissionButton){
+
+                    permissionButton
+                    .addEventListener(
+
+                        "click",
+
+                        function(){
+
+                            editPermissions(
+                                String(admin.id)
+                            );
+
+                        }
+
+                    );
+
+                }
+
+
+                const blockButton =
+                    card.querySelector(
+                        ".block-btn"
+                    );
+
+
+                if(blockButton){
+
+                    blockButton
+                    .addEventListener(
+
+                        "click",
+
+                        function(){
+
+                            toggleAdminStatus(
+
+                                String(admin.id),
+
+                                String(
+                                    admin.status ||
+                                    "active"
+                                )
+
+                            );
+
+                        }
+
+                    );
+
+                }
+
+
+                const deleteButton =
+                    card.querySelector(
+                        ".delete-btn"
+                    );
+
+
+                if(deleteButton){
+
+                    deleteButton
+                    .addEventListener(
+
+                        "click",
+
+                        function(){
+
+                            deleteAdmin(
+
+                                String(admin.id),
+
+                                String(
+                                    admin.email ||
+                                    ""
+                                )
+
+                            );
+
+                        }
+
+                    );
+
+                }
+
+
+                adminList.appendChild(
+                    card
+                );
+
+            }
+
+        );
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Render Admin Error:",
+            error
+        );
+
+
+        adminList.innerHTML = `
+
+            <div
+                class="empty"
+                style="color:#fca5a5;"
+            >
+
+                ❌ Admin data load नहीं हुआ।
+
+                <br><br>
+
+                ${escapeHTML(
+                    error?.message ||
+                    error ||
+                    "Unknown error"
+                )}
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+
+/*
+=========================================================
+PERMISSION TEXT
+=========================================================
+*/
+
+function getPermissionText(
+    permissions
+){
+
+    if(!permissions){
+
+        return "❌ कोई permission नहीं";
+
+    }
+
+
+    const selected =
+        permissionNames.filter(
+
+            function(name){
+
+                return (
+                    permissions[name] ===
+                    true
+                );
+
+            }
+
+        );
+
+
+    if(!selected.length){
+
+        return "❌ कोई permission नहीं";
+
+    }
+
+
+    return selected
+
+        .map(
+
+            function(name){
+
+                return escapeHTML(
+                    permissionLabels[name]
+                );
+
+            }
+
+        )
+
+        .join(" • ");
+
+}
+
+
+
+/*
+=========================================================
+EDIT PERMISSIONS
+=========================================================
+*/
+
+async function editPermissions(
+    id
+){
+
+    const selected =
+        prompt(
+
+            "Permissions बदलें।\n\n" +
+
+            permissionNames
+
+            .map(
+
+                function(name){
+
+                    return (
+                        name +
+                        " = " +
+                        permissionLabels[name]
+                    );
+
+                }
+
+            )
+
+            .join("\n") +
+
+            "\n\nExample:\n" +
+
+            "courses,students,mockTests,rankPrediction"
+
+        );
+
+
+    if(selected === null){
+
+        return;
+
+    }
+
+
+    const selectedList =
+        selected
+
+        .split(",")
+
+        .map(
+
+            function(item){
+
+                return item
+                    .trim()
+                    .toLowerCase();
+
+            }
+
+        )
+
+        .filter(
+
+            function(item){
+
+                return permissionNames
+                    .includes(item);
+
+            }
+
+        );
+
+
+    const newPermissions = {};
+
+
+    permissionNames.forEach(
+
+        function(permission){
+
+            newPermissions[
+                permission
+            ] =
+                selectedList.includes(
+                    permission
+                );
+
+        }
+
+    );
+
+
+    try{
+
+        await updateDoc(
+
+            doc(
+                db,
+                "admins",
+                id
+            ),
+
+            {
+
+                permissions:
+                    newPermissions,
+
+                updatedAt:
+                    serverTimestamp()
+
+            }
+
+        );
+
+
+        showMessage(
+            "✅ Permissions successfully updated!",
+            "success"
+        );
+
+
+        await renderAdmins();
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Permission Error:",
+            error
+        );
+
+
+        showMessage(
+
+            "❌ Permissions update नहीं हुई: " +
+            String(
+                error?.message ||
+                error ||
+                "Unknown error"
+            ),
+
+            "error"
+
+        );
+
+    }
+
+}
+
+
+
+/*
+=========================================================
+BLOCK / UNBLOCK
+=========================================================
+*/
+
+async function toggleAdminStatus(
+    id,
+    currentStatus
+){
+
+    const newStatus =
+        currentStatus === "blocked"
+        ? "active"
+        : "blocked";
+
+
+    const text =
+        newStatus === "blocked"
+
+        ? "क्या इस Admin को Block करना चाहते हैं?"
+
+        : "क्या इस Admin को Unblock करना चाहते हैं?";
+
+
+    if(!confirm(text)){
+
+        return;
+
+    }
+
+
+    try{
+
+        await updateDoc(
+
+            doc(
+                db,
+                "admins",
+                id
+            ),
+
+            {
+
+                status:
+                    newStatus,
+
+                updatedAt:
+                    serverTimestamp()
+
+            }
+
+        );
+
+
+        showMessage(
+
+            newStatus === "blocked"
+
+            ? "🚫 Admin blocked."
+
+            : "✅ Admin unblocked.",
+
+            "success"
+
+        );
+
+
+        await renderAdmins();
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Status Error:",
+            error
+        );
+
+
+        showMessage(
+
+            "❌ Status update नहीं हुआ: " +
+            String(
+                error?.message ||
+                error ||
+                "Unknown error"
+            ),
+
+            "error"
+
+        );
+
+    }
+
+}
+
+
+
+/*
+=========================================================
+DELETE ADMIN
+=========================================================
+*/
+
+async function deleteAdmin(
+    id,
+    email
+){
+
+    const confirmDelete =
+        confirm(
+
+            "क्या आप इस Normal Admin को delete करना चाहते हैं?\n\n" +
+
+            email +
+
+            "\n\nFirestore से Admin record delete होगा।"
+
+        );
+
+
+    if(!confirmDelete){
+
+        return;
+
+    }
+
+
+    try{
+
+        await deleteDoc(
+
+            doc(
+                db,
+                "admins",
+                id
+            )
+
+        );
+
+
+        showMessage(
+            "🗑️ Admin record successfully deleted.",
+            "success"
+        );
+
+
+        await renderAdmins();
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Delete Admin Error:",
+            error
+        );
+
+
+        showMessage(
+
+            "❌ Admin delete नहीं हुआ: " +
+
+            String(
+                error?.message ||
+                error ||
+                "Unknown error"
+            ),
+
+            "error"
+
+        );
+
+    }
+
+}
+
+
+
+/*
+=========================================================
+BACK TO ADMIN
+=========================================================
+*/
+
+function goAdmin(){
+
+    window.location.href =
+        "admin.html";
+
+}
+
+
+
+/*
+=========================================================
+ESCAPE HTML
+=========================================================
+*/
+
+function escapeHTML(
+    value
+){
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+
+/*
+=========================================================
+GLOBAL FUNCTIONS
+=========================================================
+*/
+
+window.createNormalAdmin =
+    createNormalAdmin;
+
+
+window.renderAdmins =
+    renderAdmins;
+
+
+window.goAdmin =
+    goAdmin;
+
+</script>
+
+</body>
+
+</html>

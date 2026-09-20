@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>RM Vidya Peeth - Admin Dashboard</title>
+
+<link
+    rel="stylesheet"
+    href="style.css"
+>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial,sans-serif;
+}
+
+.top-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px;
+    background:#1e293b;
+}
+
+.app-name{
+    font-size:20px;
+    font-weight:bold;
+}
+
+.brand-subtitle{
+    display:block;
+    font-size:12px;
+    color:#94a3b8;
+    margin-top:3px;
+    font-weight:normal;
+}
+
+.logout-btn{
+    border:0;
+    border-radius:8px;
+    padding:10px 15px;
+    background:#dc2626;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.page{
+    max-width:1200px;
+    margin:auto;
+    padding:20px 15px 70px;
+}
+
+.dashboard-header{
+    background:#1e293b;
+    padding:20px;
+    border-radius:16px;
+    margin-bottom:20px;
+}
+
+.dashboard-header h1{
+    margin:0 0 8px;
+}
+
+.dashboard-header p{
+    color:#cbd5e1;
+    margin:0;
+}
+
+.admin-info{
+    margin-top:15px;
+    padding:14px;
+    border-radius:10px;
+    background:#0f172a;
+    line-height:1.7;
+}
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.stat-card{
+    background:#1e293b;
+    padding:18px;
+    border-radius:14px;
+    text-align:center;
+}
+
+.stat-card h3{
+    margin:0 0 8px;
+}
+
+.stat-number{
+    font-size:30px;
+    font-weight:bold;
+}
+
+.section-title{
+    margin:25px 0 12px;
+}
+
+.menu-grid{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(210px,1fr));
+    gap:15px;
+}
+
+.menu-card{
+    background:#1e293b;
+    padding:18px;
+    border-radius:14px;
+    box-shadow:0 3px 12px #0003;
+}
+
+.menu-card h3{
+    margin:0 0 8px;
+}
+
+.menu-card p{
+    color:#cbd5e1;
+    font-size:14px;
+    line-height:1.5;
+    min-height:42px;
+}
+
+.menu-card button{
+    width:100%;
+    margin-top:10px;
+    padding:12px;
+    border:0;
+    border-radius:9px;
+    background:#2563eb;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.menu-card button:hover{
+    opacity:.9;
+}
+
+.master-card{
+    background:#581c87;
+}
+
+.payment-card{
+    background:#14532d;
+}
+
+.test-card{
+    background:#172554;
+}
+
+.live-card{
+    background:#450a0a;
+}
+
+.rank-card{
+    background:#164e63;
+}
+
+/* COUPON CARD */
+
+.coupon-card{
+    background:#713f12;
+}
+
+.coupon-card button{
+    background:#d97706;
+}
+
+.permission-card.disabled{
+    opacity:.45;
+}
+
+.message{
+    display:none;
+    padding:13px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+.message.error{
+    display:block;
+    background:#450a0a;
+    color:#fecaca;
+}
+
+.bottom-logout{
+    width:100%;
+    margin-top:30px;
+    padding:13px;
+    border:0;
+    border-radius:9px;
+    background:#dc2626;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.copyright{
+    text-align:center;
+    padding:20px;
+    color:#64748b;
+    font-size:13px;
+}
+
+@media(max-width:600px){
+
+    .page{
+        padding:15px 10px 50px;
+    }
+
+    .menu-grid,
+    .stats-grid{
+        grid-template-columns:1fr;
+    }
+
+    .top-header{
+        gap:10px;
+    }
+
+    .app-name{
+        font-size:17px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     TOP HEADER
+===================================================== -->
+
+<header class="top-header">
+
+    <div class="app-name">
+
+        👨‍💼 RM Vidya Peeth ADMIN
+
+        <span class="brand-subtitle">
+            By Ranjan Mishra Sir
+        </span>
+
+    </div>
+
+
+    <button
+        class="logout-btn"
+        id="logoutButton"
+        type="button"
+    >
+
+        Logout
+
+    </button>
+
+</header>
+
+
+
+<main class="page">
+
+
+<!-- =====================================================
+     DASHBOARD HEADER
+===================================================== -->
+
+<section class="dashboard-header">
+
+    <h1>
+        🛠️ Admin Dashboard
+    </h1>
+
+    <p>
+        RM Vidya Peeth Website Management Panel
+    </p>
+
+
+    <div
+        id="adminInfo"
+        class="admin-info"
+    >
+
+        ⏳ Admin information loading...
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     MESSAGE
+===================================================== -->
+
+<div
+    id="message"
+    class="message"
+></div>
+
+
+
+<!-- =====================================================
+     STATISTICS
+===================================================== -->
+
+<section>
+
+    <h2 class="section-title">
+        📊 Dashboard Statistics
+    </h2>
+
+
+    <div class="stats-grid">
+
+
+        <div class="stat-card">
+
+            <h3>
+                👨‍🎓 Students
+            </h3>
+
+            <div
+                id="studentCount"
+                class="stat-number"
+            >
+                ⏳
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>
+                📚 Courses
+            </h3>
+
+            <div
+                id="courseCount"
+                class="stat-number"
+            >
+                ⏳
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>
+                📝 Questions
+            </h3>
+
+            <div
+                id="questionCount"
+                class="stat-number"
+            >
+                ⏳
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     MASTER ADMIN
+===================================================== -->
+
+<section id="masterSection">
+
+    <h2 class="section-title">
+        👑 Master Administration
+    </h2>
+
+
+    <div class="menu-grid">
+
+
+        <!-- MASTER ADMIN -->
+
+        <div class="menu-card master-card">
+
+            <h3>
+                👑 Master Admin
+            </h3>
+
+            <p>
+                Master Admin settings और
+                starting page manage करें।
+            </p>
+
+            <button
+                type="button"
+                onclick="openPage('master-admin.html')"
+            >
+
+                👑 Open Master Admin
+
+            </button>
+
+        </div>
+
+
+        <!-- ADMIN MANAGEMENT -->
+
+        <div class="menu-card master-card">
+
+            <h3>
+                👨‍💼 Admin Management
+            </h3>
+
+            <p>
+                Normal Admin create, block,
+                delete और permissions manage करें।
+            </p>
+
+            <button
+                type="button"
+                onclick="openPage('admin-management.html')"
+            >
+
+                👨‍💼 Manage Admins
+
+            </button>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     COURSE MANAGEMENT
+===================================================== -->
+
+<h2 class="section-title">
+    📚 Course Management
+</h2>
+
+
+<div class="menu-grid">
+
+
+    <!-- COURSES -->
+
+    <div
+        class="menu-card permission-card"
+        data-permission="courses"
+    >
+
+        <h3>
+            📚 Courses
+        </h3>
+
+        <p>
+            Courses create और manage करें।
+        </p>
+
+        <button
+            type="button"
+            onclick="openPage('course-management.html')"
+        >
+
+            📚 Open Courses
+
+        </button>
+
+    </div>
+
+
+    <!-- VIDEOS -->
+
+    <div
+        class="menu-card permission-card"
+        data-permission="videos"
+    >
+
+        <h3>
+            🎥 Videos
+        </h3>
+
+        <p>
+            Course videos manage करें।
+        </p>
+
+        <button
+            type="button"
+            onclick="openPage('videos.html')"
+        >
+
+            🎥 Open Videos
+
+        </button>
+
+    </div>
+
+
+    <!-- PDF -->
+
+    <div
+        class="menu-card permission-card"
+        data-permission="pdfs"
+    >
+
+        <h3>
+            📄 PDFs
+        </h3>
+
+        <p>
+            PDF study material manage करें।
+        </p>
+
+        <button
+            type="button"
+            onclick="openPage('pdfs.html')"
+        >
+
+            📄 Open PDFs
+
+        </button>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     STUDENT MANAGEMENT
+===================================================== -->
+
+<h2 class="section-title">
+    👨‍🎓 Student Management
+</h2>
+
+
+<div class="menu-grid">
+
+
+    <div
+        class="menu-card permission-card"
+        data-permission="students"
+    >
+
+        <h3>
+            👨‍🎓 Students
+        </h3>
+
+        <p>
+            Student records और student list manage करें।
+        </p>
+
+        <button
+            type="button"
+            onclick="openPage('Students.html')"
+        >
+
+            👨‍🎓 Open Students
+
+        </button>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     TEST MANAGEMENT
+===================================================== -->
+
+<h2 class="section-title">
+    📝 Test Management
+</h2>
+
+
+<div class="menu-grid">
+
+
+    <!-- ADMIN TEST -->
+
+    <div
+        class="menu-card permission-card test-card"
+        data-permission="mockTests"
+    >
+
+        <h3>
+            🧪 Admin Test
+        </h3>
+
+        <p>
+
+            Test Series, Category,
+            Section, Questions,
+            Question Upload, Test Settings
+            और Publish सभी test management
+            यहीं से करें।
+
+        </p>
+
+        <button
+            type="button"
+            onclick="openPage('admin-test.html')"
+        >
+
+            🧪 Open Admin Test
+
+        </button>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     RANK PREDICTION
+===================================================== -->
+
+<h2 class="section-title">
+    📊 Rank Prediction
+</h2>
+
+
+<div class="menu-grid">
+
+
+    <div
+        class="menu-card permission-card rank-card"
+        data-permission="rankPrediction"
+    >
+
+        <h3>
+            📊 Rank Prediction
+        </h3>
+
+        <p>
+
+            Exam, Answer Key, Marks,
+            Score Analysis, Rank और
+            Percentile का management करें।
+
+        </p>
+
+        <button
+            type="button"
+            onclick="openPage('rank-prediction-admin.html')"
+        >
+
+            📊 Open Rank Prediction
+
+        </button>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     LIVE CLASSES
+===================================================== -->
+
+<h2 class="section-title">
+    🔴 Live Classes
+</h2>
+
+
+<div class="menu-grid">
+
+
+    <!-- LIVE CLASS MANAGEMENT -->
+
+    <div
+        class="menu-card permission-card live-card"
+        data-permission="liveClasses"
+    >
+
+        <h3>
+            🔴 Live Classes
+        </h3>
+
+        <p>
+            Live classes manage करें।
+        </p>
+
+        <button
+            type="button"
+            onclick="openPage('live-classes-management.html')"
+        >
+
+            🔴 Manage Live Classes
+
+        </button>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     PAYMENT MANAGEMENT
+===================================================== -->
+
+<h2 class="section-title">
+    💰 Payment Management
+</h2>
+
+
+<div class="menu-grid">
+
+
+    <!-- ADMIN PAYMENTS -->
+
+    <div
+        class="menu-card permission-card payment-card"
+        data-permission="payments"
+    >
+
+        <h3>
+            💰 Admin Payments
+        </h3>
+
+        <p>
+            Payment management page खोलें।
+        </p>
+
+        <button
+            type="button"
+            onclick="openPage('admin-payments.html')"
+        >
+
+            💰 Admin Payments
+
+        </button>
+
+    </div>
+
+
+    <!-- COUPON MANAGEMENT -->
+
+    <div
+        class="menu-card permission-card coupon-card"
+        data-permission="coupons"
+    >
+
+        <h3>
+            🎟️ Coupon Management
+        </h3>
+
+        <p>
+            Course और Test Pass के coupon
+            create, edit, activate, deactivate
+            और delete करें।
+        </p>
+
+        <button
+            type="button"
+            onclick="openPage('admin-coupons.html')"
+        >
+
+            🎟️ Manage Coupons
+
+        </button>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     TEST WORKFLOW INFO
+===================================================== -->
+
+<section style="margin-top:25px;">
+
+    <div class="admin-info">
+
+        🧪 <b>Test Management Workflow</b>
+
+        <br><br>
+
+        1️⃣ Test Series Create करें
+
+        <br>
+
+        2️⃣ Category / Test Type सेट करें
+
+        <br>
+
+        3️⃣ Section Create करें
+
+        <br>
+
+        4️⃣ Questions Add / Upload करें
+
+        <br>
+
+        5️⃣ Test Settings सेट करें
+
+        <br>
+
+        6️⃣ Free / Paid Access सेट करें
+
+        <br>
+
+        7️⃣ Test Publish करें
+
+        <br><br>
+
+        📱 Student Dashboard में
+        published tests दिखाई देंगे।
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     COUPON WORKFLOW INFO
+===================================================== -->
+
+<section style="margin-top:25px;">
+
+    <div class="admin-info">
+
+        🎟️ <b>Coupon Management Workflow</b>
+
+        <br><br>
+
+        1️⃣ Coupon Code Create करें
+
+        <br>
+
+        2️⃣ Percentage या Fixed Discount चुनें
+
+        <br>
+
+        3️⃣ Course / Test Pass / Both चुनें
+
+        <br>
+
+        4️⃣ Minimum Amount और Maximum Discount सेट करें
+
+        <br>
+
+        5️⃣ Start Date और Expiry Date सेट करें
+
+        <br>
+
+        6️⃣ Usage Limit सेट करें
+
+        <br>
+
+        7️⃣ Coupon Active करें
+
+        <br><br>
+
+        📱 Student Payment Page पर
+        Coupon Code Redeem कर सकता है।
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     PERMISSION INFO
+===================================================== -->
+
+<section style="margin-top:25px;">
+
+    <div class="admin-info">
+
+        🔐 <b>Permission System</b>
+
+        <br><br>
+
+        👑 Master Admin को सभी modules का access मिलेगा।
+
+        <br>
+
+        👨‍💼 Normal Admin को केवल वही modules दिखाई देंगे
+        जिनकी permission Master Admin ने दी है।
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     BRAND INFO
+===================================================== -->
+
+<section style="margin-top:25px;">
+
+    <div class="admin-info">
+
+        🎓 <b>RM Vidya Peeth</b>
+
+        <br><br>
+
+        By Ranjan Mishra Sir
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     BOTTOM LOGOUT
+===================================================== -->
+
+<button
+    id="logoutBottom"
+    class="bottom-logout"
+    type="button"
+>
+
+    🚪 Logout
+
+</button>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     COPYRIGHT
+===================================================== -->
+
+<footer class="copyright">
+
+    © 2026 RM Vidya Peeth. All Rights Reserved.
+
+</footer>
+
+
+
+<!-- =====================================================
+     ADMIN JS
+===================================================== -->
+
+<script
+    type="module"
+    src="admin.js"
+></script>
+
+
+
+<script>
+
+/*
+=========================================================
+OPEN PAGE
+=========================================================
+*/
+
+function openPage(page){
+
+    window.location.href =
+        page;
+
+}
+
+
+/*
+=========================================================
+LOGOUT BUTTON
+=========================================================
+*/
+
+const logoutBottom =
+    document.getElementById(
+        "logoutBottom"
+    );
+
+
+if(logoutBottom){
+
+    logoutBottom.addEventListener(
+        "click",
+        function(){
+
+            if(
+                typeof window.adminLogout ===
+                "function"
+            ){
+
+                window.adminLogout();
+
+            }
+
+        }
+    );
+
+}
+
+
+/*
+=========================================================
+TOP LOGOUT
+=========================================================
+*/
+
+const logoutButton =
+    document.getElementById(
+        "logoutButton"
+    );
+
+
+if(logoutButton){
+
+    logoutButton.addEventListener(
+        "click",
+        function(){
+
+            if(
+                typeof window.adminLogout ===
+                "function"
+            ){
+
+                window.adminLogout();
+
+            }
+
+        }
+    );
+
+}
+
+</script>
+
+
+</body>
+
+</html>

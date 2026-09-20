@@ -1,0 +1,2322 @@
+<!DOCTYPE html><html lang="hi"><head><meta charset="UTF-8"><meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<meta name="theme-color"
+content="#0f172a">
+
+<title>RM Vidya Peeth - Attempted Tests</title><style>
+
+*{
+    box-sizing:border-box;
+}
+
+html,body{
+    margin:0;
+    padding:0;
+    width:100%;
+    min-height:100%;
+}
+
+body{
+    background:#f8fafc;
+    color:#1e293b;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+.hidden{
+    display:none!important;
+}
+
+.page{
+    width:100%;
+    max-width:1000px;
+    margin:auto;
+    padding:10px 10px 70px;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header{
+    background:#0f172a;
+    color:#fff;
+    border-radius:14px;
+    padding:16px;
+    margin-bottom:14px;
+}
+
+.header-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.header-left{
+    min-width:0;
+}
+
+.header-title{
+    margin:0;
+    font-size:22px;
+}
+
+.header-sub{
+    margin:6px 0 0;
+    color:#cbd5e1;
+    font-size:13px;
+}
+
+.brand-by{
+    margin-top:6px;
+    color:#93c5fd;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.student-name{
+    color:#60a5fa;
+    font-weight:bold;
+    font-size:14px;
+}
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.status{
+    display:none;
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:12px;
+    font-weight:bold;
+}
+
+.status.show{
+    display:block;
+}
+
+.status.error{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.status.success{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.status.info{
+    background:#e0f2fe;
+    color:#075985;
+}
+
+/* =====================================================
+   TEST CARD
+===================================================== */
+
+.test-card{
+    background:#fff;
+    border:1px solid #cbd5e1;
+    border-radius:14px;
+    margin-bottom:14px;
+    overflow:hidden;
+}
+
+.test-card-header{
+    padding:15px;
+    border-bottom:1px solid #e2e8f0;
+}
+
+.test-title{
+    font-size:19px;
+    font-weight:bold;
+    color:#1e293b;
+    line-height:1.45;
+}
+
+.test-meta{
+    margin-top:7px;
+    color:#64748b;
+    font-size:13px;
+    line-height:1.7;
+}
+
+/* =====================================================
+   LATEST RESULT
+===================================================== */
+
+.latest-box{
+    padding:15px;
+    background:#eff6ff;
+    border-bottom:1px solid #bfdbfe;
+}
+
+.latest-title{
+    color:#1d4ed8;
+    font-weight:bold;
+    font-size:14px;
+    margin-bottom:10px;
+}
+
+.latest-score{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.score-main{
+    font-size:30px;
+    font-weight:bold;
+    color:#16a34a;
+}
+
+.score-percent{
+    color:#2563eb;
+    font-weight:bold;
+}
+
+/* =====================================================
+   ATTEMPT BUTTONS
+===================================================== */
+
+.attempt-area{
+    padding:14px;
+}
+
+.attempt-title{
+    font-size:14px;
+    color:#64748b;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.attempt-buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+}
+
+.attempt-btn{
+    border:1px solid #cbd5e1;
+    background:#fff;
+    color:#334155;
+    border-radius:8px;
+    min-width:92px;
+    padding:9px 10px;
+    cursor:pointer;
+    font-weight:bold;
+    font-size:13px;
+}
+
+.attempt-btn:hover{
+    border-color:#2563eb;
+}
+
+.attempt-btn.active{
+    background:#2563eb;
+    border-color:#2563eb;
+    color:#fff;
+}
+
+.attempt-btn.latest{
+    box-shadow:0 0 0 2px #bfdbfe;
+}
+
+/* =====================================================
+   RESULT PANEL
+===================================================== */
+
+.result-panel{
+    margin:0 14px 15px;
+    border:1px solid #e2e8f0;
+    border-radius:12px;
+    overflow:hidden;
+    background:#fff;
+}
+
+.result-panel-header{
+    padding:14px;
+    background:#f8fafc;
+    border-bottom:1px solid #e2e8f0;
+}
+
+.result-panel-title{
+    font-size:17px;
+    font-weight:bold;
+}
+
+.result-date{
+    color:#64748b;
+    font-size:12px;
+    margin-top:5px;
+}
+
+.result-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    padding:14px;
+}
+
+.result-box{
+    border:1px solid #e2e8f0;
+    border-radius:9px;
+    padding:12px;
+    background:#fff;
+}
+
+.result-label{
+    color:#64748b;
+    font-size:12px;
+}
+
+.result-value{
+    margin-top:5px;
+    font-size:20px;
+    font-weight:bold;
+}
+
+/* =====================================================
+   ACTION BUTTONS
+===================================================== */
+
+.action-area{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+    padding:0 14px 14px;
+}
+
+.action-btn{
+    height:45px;
+    border:0;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.analysis-btn{
+    background:#2563eb;
+    color:#fff;
+}
+
+.answer-btn{
+    background:#16a34a;
+    color:#fff;
+}
+
+/* =====================================================
+   ANALYSIS
+===================================================== */
+
+.analysis-box{
+    margin:0 14px 15px;
+    border:1px solid #cbd5e1;
+    border-radius:10px;
+    background:#f8fafc;
+    padding:14px;
+}
+
+.analysis-title{
+    color:#2563eb;
+    font-weight:bold;
+    font-size:16px;
+    margin-bottom:12px;
+}
+
+.analysis-row{
+    display:flex;
+    justify-content:space-between;
+    padding:9px 0;
+    border-bottom:1px solid #e2e8f0;
+    font-size:14px;
+}
+
+.analysis-row:last-child{
+    border-bottom:0;
+}
+
+.analysis-label{
+    color:#64748b;
+}
+
+.analysis-value{
+    font-weight:bold;
+}
+
+/* =====================================================
+   ANSWERS
+===================================================== */
+
+.answers-box{
+    margin:0 14px 15px;
+}
+
+.answer-card{
+    border:1px solid #cbd5e1;
+    border-radius:10px;
+    padding:13px;
+    margin-bottom:10px;
+    background:#fff;
+}
+
+.answer-question{
+    line-height:1.6;
+    font-size:15px;
+    font-weight:bold;
+}
+
+.answer-option{
+    padding:8px 9px;
+    margin-top:6px;
+    border-radius:7px;
+    background:#f1f5f9;
+    font-size:14px;
+    line-height:1.5;
+}
+
+.answer-correct{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.answer-wrong{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.answer-skipped{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+.solution{
+    margin-top:9px;
+    padding:10px;
+    border-radius:8px;
+    background:#eff6ff;
+    color:#1e40af;
+    line-height:1.6;
+    font-size:13px;
+}
+
+/* =====================================================
+   EMPTY
+===================================================== */
+
+.empty{
+    background:#fff;
+    border:1px solid #e2e8f0;
+    border-radius:14px;
+    padding:35px 15px;
+    text-align:center;
+    color:#64748b;
+}
+
+.loading{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+}
+
+/* =====================================================
+   BACK
+===================================================== */
+
+.back-btn{
+    width:100%;
+    height:46px;
+    border:0;
+    border-radius:9px;
+    background:#64748b;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:5px;
+}
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.footer{
+    text-align:center;
+    color:#64748b;
+    padding:20px 5px;
+    font-size:13px;
+    line-height:1.6;
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:600px){
+
+    .page{
+        padding-left:8px;
+        padding-right:8px;
+    }
+
+    .header-title{
+        font-size:20px;
+    }
+
+    .student-name{
+        font-size:12px;
+    }
+
+    .result-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .score-main{
+        font-size:26px;
+    }
+
+}
+
+</style></head><body><div class="page"><!-- =====================================================
+     HEADER
+===================================================== --><div class="header"><div class="header-row">
+
+    <div class="header-left">
+
+        <h1 class="header-title">
+            📊 RM Vidya Peeth - Attempted Tests
+        </h1>
+
+        <div class="brand-by">
+            By Ranjan Mishra Sir
+        </div>
+
+        <div class="header-sub">
+            आपके Attempt किए गए सभी Mock Tests
+        </div>
+
+    </div>
+
+    <div>
+        👤
+        <span id="studentName"
+              class="student-name">
+            Student
+        </span>
+    </div>
+
+</div>
+
+</div><!-- =====================================================
+     STATUS
+===================================================== --><div id="status"
+     class="status">
+</div><!-- =====================================================
+     CONTENT
+===================================================== --><div id="content"><div class="loading">
+    ⏳ Attempted Tests load हो रहे हैं...
+</div>
+
+</div><button class="back-btn"
+onclick="goBack()">
+
+⬅️ वापस
+
+</button><footer class="footer"><div style="font-weight:bold;">
+    RM Vidya Peeth
+</div>
+
+<div>
+    By Ranjan Mishra Sir
+</div>
+
+<div>
+    © 2026 RM Vidya Peeth. All Rights Reserved.
+</div>
+
+</footer></div><script type="module">
+
+
+/* =====================================================
+   FIREBASE
+===================================================== */
+
+import {
+    initializeApp
+}
+from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+
+
+import {
+    getAuth,
+    onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+
+import {
+    getFirestore,
+    collection,
+    getDocs,
+    query,
+    where
+}
+from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyAqsesw3BWaHK7G1Y1jw0K9kr9suZ1pPV4",
+
+    authDomain:
+        "ssc-courses.firebaseapp.com",
+
+    projectId:
+        "ssc-courses",
+
+    storageBucket:
+        "ssc-courses.firebasestorage.app",
+
+    messagingSenderId:
+        "886294132394",
+
+    appId:
+        "1:886294132394:web:58b82a2a49f9cd1e0f02d3",
+
+    measurementId:
+        "G-9QSCEVYSE5"
+
+};
+
+
+const app =
+    initializeApp(firebaseConfig);
+
+
+const auth =
+    getAuth(app);
+
+
+const db =
+    getFirestore(app);
+
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+let firebaseUser = null;
+
+let allResults = [];
+
+let groupedTests = {};
+
+let selectedAttempts = {};
+
+let expandedAnalysis = {};
+
+let expandedAnswers = {};
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+function getStudentName(){
+
+    return localStorage.getItem(
+        "ssc_student_name"
+    )
+    ||
+    localStorage.getItem(
+        "studentName"
+    )
+    ||
+    "Student";
+
+}
+
+
+function getStudentUsername(){
+
+    return localStorage.getItem(
+        "ssc_student_username"
+    )
+    ||
+    localStorage.getItem(
+        "studentUsername"
+    )
+    ||
+    "";
+
+}
+
+
+function showStatus(
+    message,
+    type="info"
+){
+
+    const box =
+        document.getElementById("status");
+
+    box.className =
+        "status show " + type;
+
+    box.textContent =
+        message;
+
+}
+
+
+/* =====================================================
+   DATE
+===================================================== */
+
+function getResultTime(result){
+
+    if(
+        result.submittedAt &&
+        typeof result.submittedAt.toDate === "function"
+    ){
+
+        return result.submittedAt.toDate();
+
+    }
+
+
+    if(
+        result.createdAt &&
+        typeof result.createdAt.toDate === "function"
+    ){
+
+        return result.createdAt.toDate();
+
+    }
+
+
+    return new Date(0);
+
+}
+
+
+function formatDate(result){
+
+    const date =
+        getResultTime(result);
+
+
+    if(date.getTime() <= 0){
+
+        return "Date unavailable";
+
+    }
+
+
+    return date.toLocaleString(
+        "en-IN",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric",
+            hour:"2-digit",
+            minute:"2-digit"
+        }
+    );
+
+}
+
+
+/* =====================================================
+   TIME FORMAT
+===================================================== */
+
+function formatMinutes(value){
+
+    const minutes =
+        Number(value || 0);
+
+
+    if(minutes <= 0){
+
+        return "";
+
+    }
+
+
+    return minutes + " Min";
+
+}
+
+
+/* =====================================================
+   RESULT UNIQUE KEY
+===================================================== */
+
+function getTestKey(result){
+
+    /*
+       IMPORTANT:
+       testId is the main identity.
+
+       इसलिए:
+       Polity Sectional Test 1
+       और
+       Polity Sectional Test 2
+
+       अलग-अलग test रहेंगे।
+    */
+
+    if(result.testId){
+
+        return String(
+            result.testId
+        );
+
+    }
+
+
+    return (
+        String(
+            result.testName ||
+            "unknown"
+        )
+        .trim()
+        .toLowerCase()
+    );
+
+}
+
+
+/* =====================================================
+   LOAD RESULTS
+===================================================== */
+
+async function loadResults(){
+
+    if(!firebaseUser){
+
+        document.getElementById(
+            "content"
+        ).innerHTML = `
+
+            <div class="empty">
+
+                🔐 Student login required.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    try{
+
+        const resultCollection =
+            collection(
+                db,
+                "testResults"
+            );
+
+
+        /*
+           पहले studentUid से खोजेंगे।
+        */
+
+        let snap;
+
+
+        try{
+
+            const q =
+                query(
+                    resultCollection,
+                    where(
+                        "studentUid",
+                        "==",
+                        firebaseUser.uid
+                    )
+                );
+
+
+            snap =
+                await getDocs(q);
+
+        }
+        catch(error){
+
+            console.warn(
+                "UID query failed:",
+                error
+            );
+
+            /*
+               Fallback:
+               पूरी collection पढ़कर
+               studentUid / username से filter
+               करेंगे।
+            */
+
+            snap =
+                await getDocs(
+                    resultCollection
+                );
+
+        }
+
+
+        allResults = [];
+
+
+        snap.forEach(item=>{
+
+            const result =
+                {
+                    id:item.id,
+                    ...item.data()
+                };
+
+
+            /*
+               Security-side filtering के साथ
+               UI-side filtering भी रख रहे हैं।
+            */
+
+            const sameUid =
+                result.studentUid &&
+                firebaseUser.uid &&
+                String(
+                    result.studentUid
+                ) ===
+                String(
+                    firebaseUser.uid
+                );
+
+
+            const username =
+                getStudentUsername();
+
+
+            const sameUsername =
+                username &&
+                result.studentUsername &&
+                String(
+                    result.studentUsername
+                ) ===
+                String(username);
+
+
+            /*
+               अगर UID मौजूद है तो UID को priority।
+               पुराने result में UID नहीं है तो
+               username से match।
+            */
+
+            if(
+                result.studentUid
+                &&
+                !sameUid
+            ){
+
+                return;
+
+            }
+
+
+            if(
+                !result.studentUid &&
+                username &&
+                !sameUsername
+            ){
+
+                return;
+
+            }
+
+
+            allResults.push(result);
+
+        });
+
+
+        /*
+           Latest result पहले।
+        */
+
+        allResults.sort(
+            (a,b)=>
+                getResultTime(b).getTime()
+                -
+                getResultTime(a).getTime()
+        );
+
+
+        groupResults();
+
+
+        renderTests();
+
+
+    }
+    catch(error){
+
+        console.error(
+            "LOAD ATTEMPTS ERROR:",
+            error
+        );
+
+
+        document.getElementById(
+            "content"
+        ).innerHTML = `
+
+            <div class="empty">
+
+                ❌ Attempted Tests load नहीं हुए।
+
+                <br><br>
+
+                ${escapeHTML(
+                    error.message
+                )}
+
+            </div>
+
+        `;
+
+
+        showStatus(
+            "Firestore से results load नहीं हुए।",
+            "error"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   GROUP RESULTS
+===================================================== */
+
+function groupResults(){
+
+    groupedTests = {};
+
+
+    allResults.forEach(result=>{
+
+        const key =
+            getTestKey(result);
+
+
+        if(!groupedTests[key]){
+
+            groupedTests[key] = [];
+
+        }
+
+
+        groupedTests[key].push(
+            result
+        );
+
+    });
+
+
+    /*
+       हर test के अंदर:
+       latest -> first
+
+       फिर Attempt 1,2,3...
+       chronological order में देंगे।
+    */
+
+    Object.keys(
+        groupedTests
+    )
+    .forEach(key=>{
+
+        groupedTests[key].sort(
+            (a,b)=>
+                getResultTime(a).getTime()
+                -
+                getResultTime(b).getTime()
+        );
+
+    });
+
+}
+
+
+/* =====================================================
+   TEST TITLE
+===================================================== */
+
+function getTestTitle(result){
+
+    return (
+        result.testName
+        ||
+        "Untitled Test"
+    );
+
+}
+
+
+/* =====================================================
+   TEST META
+===================================================== */
+
+function getTestMeta(result){
+
+    const parts = [];
+
+
+    if(result.subject){
+
+        parts.push(
+            "📘 " +
+            result.subject
+        );
+
+    }
+
+
+    if(result.chapter){
+
+        parts.push(
+            "📖 " +
+            result.chapter
+        );
+
+    }
+
+
+    if(result.testType){
+
+        parts.push(
+            "📝 " +
+            result.testType
+        );
+
+    }
+
+
+    /*
+       T15 को कहीं भी show नहीं करना।
+       सिर्फ actual time field हो तो
+       "15 Min" format में show होगा.
+    */
+
+    const testTime =
+        result.testTime ??
+        result.duration ??
+        result.timeLimit;
+
+
+    if(testTime){
+
+        parts.push(
+            "⏱️ " +
+            formatMinutes(testTime)
+        );
+
+    }
+
+
+    if(!parts.length){
+
+        return "Mock Test";
+
+    }
+
+
+    return parts.join("  |  ");
+
+}
+
+
+/* =====================================================
+   RENDER TESTS
+===================================================== */
+
+function renderTests(){
+
+    const content =
+        document.getElementById(
+            "content"
+        );
+
+
+    const keys =
+        Object.keys(
+            groupedTests
+        );
+
+
+    if(!keys.length){
+
+        content.innerHTML = `
+
+            <div class="empty">
+
+                📭 अभी कोई Attempted Test नहीं है।
+
+                <br><br>
+
+                पहले कोई Mock Test attempt करें।
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    content.innerHTML =
+        keys.map(
+            (key,testIndex)=>{
+
+                const attempts =
+                    groupedTests[key];
+
+
+                /*
+                   Latest = last chronological result.
+                */
+
+                const latestIndex =
+                    attempts.length - 1;
+
+
+                /*
+                   Default latest attempt.
+                */
+
+                if(
+                    selectedAttempts[key]
+                    === undefined
+                ){
+
+                    selectedAttempts[key] =
+                        latestIndex;
+
+                }
+
+
+                const selectedIndex =
+                    selectedAttempts[key];
+
+
+                const selected =
+                    attempts[
+                        selectedIndex
+                    ] ||
+                    attempts[
+                        latestIndex
+                    ];
+
+
+                const latest =
+                    attempts[
+                        latestIndex
+                    ];
+
+
+                return renderTestCard(
+                    key,
+                    attempts,
+                    selected,
+                    selectedIndex,
+                    latest,
+                    testIndex
+                );
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* =====================================================
+   RENDER ONE TEST
+===================================================== */
+
+function renderTestCard(
+    key,
+    attempts,
+    selected,
+    selectedIndex,
+    latest,
+    testIndex
+){
+
+    const latestScore =
+        Number(
+            latest.score || 0
+        );
+
+
+    const latestPercentage =
+        Number(
+            latest.percentage || 0
+        );
+
+
+    return `
+
+        <div class="test-card">
+
+
+            <!-- TEST HEADER -->
+
+            <div class="test-card-header">
+
+                <div class="test-title">
+
+                    ${escapeHTML(
+                        getTestTitle(latest)
+                    )}
+
+                </div>
+
+
+                <div class="test-meta">
+
+                    ${escapeHTML(
+                        getTestMeta(latest)
+                    )}
+
+                </div>
+
+            </div>
+
+
+            <!-- LATEST -->
+
+            <div class="latest-box">
+
+                <div class="latest-title">
+
+                    ⭐ Latest Attempt -
+                    Attempt ${latestIndex + 1}
+
+                </div>
+
+
+                <div class="latest-score">
+
+                    <div>
+
+                        <div class="score-main">
+
+                            ${latestScore.toFixed(2)}
+
+                        </div>
+
+                        <div style="
+                            color:#64748b;
+                            font-size:12px;
+                            margin-top:3px;
+                        ">
+
+                            Score
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="score-percent">
+
+                        ${latestPercentage.toFixed(2)}%
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ATTEMPTS -->
+
+            <div class="attempt-area">
+
+                <div class="attempt-title">
+
+                    📌 Attempts
+
+                </div>
+
+
+                <div class="attempt-buttons">
+
+                    ${
+                        attempts.map(
+                            (attempt,index)=>`
+
+                            <button
+                                class="
+                                    attempt-btn
+                                    ${
+                                        index === selectedIndex
+                                        ?
+                                        "active"
+                                        :
+                                        ""
+                                    }
+                                    ${
+                                        index === latestIndex
+                                        ?
+                                        "latest"
+                                        :
+                                        ""
+                                    }
+                                "
+                                onclick="
+                                    selectAttempt(
+                                        '${escapeHTML(key)}',
+                                        ${index}
+                                    )
+                                "
+                            >
+
+                                Attempt ${index + 1}
+
+                                ${
+                                    index === latestIndex
+                                    ?
+                                    " ⭐"
+                                    :
+                                    ""
+                                }
+
+                            </button>
+
+                        `
+                        ).join("")
+                    }
+
+                </div>
+
+            </div>
+
+
+            <!-- SELECTED RESULT -->
+
+            ${renderSelectedResult(
+                key,
+                selected,
+                selectedIndex
+            )}
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   SELECT ATTEMPT
+===================================================== */
+
+window.selectAttempt =
+function(
+    key,
+    index
+){
+
+    selectedAttempts[key] =
+        index;
+
+
+    renderTests();
+
+
+    setTimeout(()=>{
+
+        const cards =
+            document.querySelectorAll(
+                ".test-card"
+            );
+
+
+        if(cards[index]){
+
+            cards[index]
+            .scrollIntoView({
+                behavior:"smooth",
+                block:"start"
+            });
+
+        }
+
+    },50);
+
+};
+
+
+/* =====================================================
+   SELECTED RESULT
+===================================================== */
+
+function renderSelectedResult(
+    key,
+    result,
+    attemptIndex
+){
+
+    const analysisOpen =
+        expandedAnalysis[key]
+        === true;
+
+
+    const answersOpen =
+        expandedAnswers[key]
+        === true;
+
+
+    return `
+
+        <div class="result-panel">
+
+            <div class="result-panel-header">
+
+                <div class="result-panel-title">
+
+                    🏆 Attempt ${attemptIndex + 1}
+                    Result
+
+                </div>
+
+
+                <div class="result-date">
+
+                    Submitted:
+                    ${escapeHTML(
+                        formatDate(result)
+                    )}
+
+                </div>
+
+            </div>
+
+
+            <div class="result-grid">
+
+
+                <div class="result-box">
+
+                    <div class="result-label">
+                        Score
+                    </div>
+
+                    <div class="result-value">
+
+                        ${Number(
+                            result.score || 0
+                        ).toFixed(2)}
+
+                    </div>
+
+                </div>
+
+
+                <div class="result-box">
+
+                    <div class="result-label">
+                        Percentage
+                    </div>
+
+                    <div class="result-value">
+
+                        ${Number(
+                            result.percentage || 0
+                        ).toFixed(2)}%
+
+                    </div>
+
+                </div>
+
+
+                <div class="result-box">
+
+                    <div class="result-label">
+                        Correct
+                    </div>
+
+                    <div class="result-value"
+                         style="color:#16a34a;">
+
+                        ${Number(
+                            result.correct || 0
+                        )}
+
+                    </div>
+
+                </div>
+
+
+                <div class="result-box">
+
+                    <div class="result-label">
+                        Wrong
+                    </div>
+
+                    <div class="result-value"
+                         style="color:#dc2626;">
+
+                        ${Number(
+                            result.wrong || 0
+                        )}
+
+                    </div>
+
+                </div>
+
+
+                <div class="result-box">
+
+                    <div class="result-label">
+                        Skipped
+                    </div>
+
+                    <div class="result-value"
+                         style="color:#d97706;">
+
+                        ${Number(
+                            result.skipped || 0
+                        )}
+
+                    </div>
+
+                </div>
+
+
+                <div class="result-box">
+
+                    <div class="result-label">
+                        Attempted
+                    </div>
+
+                    <div class="result-value">
+
+                        ${Number(
+                            result.attempted || 0
+                        )}
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="action-area">
+
+                <button
+                    class="action-btn analysis-btn"
+                    onclick="
+                        toggleAnalysis(
+                            '${escapeHTML(key)}'
+                        )
+                    "
+                >
+
+                    📊
+                    ${
+                        analysisOpen
+                        ?
+                        "Hide Analysis"
+                        :
+                        "Analysis"
+                    }
+
+                </button>
+
+
+                <button
+                    class="action-btn answer-btn"
+                    onclick="
+                        toggleAnswers(
+                            '${escapeHTML(key)}'
+                        )
+                    "
+                >
+
+                    📖
+                    ${
+                        answersOpen
+                        ?
+                        "Hide Answers"
+                        :
+                        "Answer"
+                    }
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        ${
+            analysisOpen
+            ?
+            renderAnalysis(result)
+            :
+            ""
+        }
+
+
+        ${
+            answersOpen
+            ?
+            renderAnswers(result)
+            :
+            ""
+        }
+
+    `;
+
+}
+
+
+/* =====================================================
+   ANALYSIS
+===================================================== */
+
+window.toggleAnalysis =
+function(key){
+
+    expandedAnalysis[key] =
+        !(
+            expandedAnalysis[key]
+            === true
+        );
+
+
+    renderTests();
+
+};
+
+
+/* =====================================================
+   ANSWERS
+===================================================== */
+
+window.toggleAnswers =
+function(key){
+
+    expandedAnswers[key] =
+        !(
+            expandedAnswers[key]
+            === true
+        );
+
+
+    renderTests();
+
+};
+
+
+/* =====================================================
+   RENDER ANALYSIS
+===================================================== */
+
+function renderAnalysis(result){
+
+    const questionTimes =
+        Array.isArray(
+            result.questionTimes
+        )
+        ?
+        result.questionTimes
+        :
+        [];
+
+
+    let totalTime = 0;
+
+
+    questionTimes.forEach(item=>{
+
+        totalTime +=
+            Number(
+                item.timeSpentSeconds
+                || 0
+            );
+
+    });
+
+
+    return `
+
+        <div class="analysis-box">
+
+            <div class="analysis-title">
+
+                📊 Test Analysis
+
+            </div>
+
+
+            <div class="analysis-row">
+
+                <span class="analysis-label">
+                    Total Questions
+                </span>
+
+                <span class="analysis-value">
+
+                    ${
+                        Number(
+                            result.correct || 0
+                        )
+                        +
+                        Number(
+                            result.wrong || 0
+                        )
+                        +
+                        Number(
+                            result.skipped || 0
+                        )
+                    }
+
+                </span>
+
+            </div>
+
+
+            <div class="analysis-row">
+
+                <span class="analysis-label">
+                    Attempted
+                </span>
+
+                <span class="analysis-value">
+
+                    ${Number(
+                        result.attempted || 0
+                    )}
+
+                </span>
+
+            </div>
+
+
+            <div class="analysis-row">
+
+                <span class="analysis-label">
+                    Correct
+                </span>
+
+                <span class="analysis-value"
+                      style="color:#16a34a;">
+
+                    ${Number(
+                        result.correct || 0
+                    )}
+
+                </span>
+
+            </div>
+
+
+            <div class="analysis-row">
+
+                <span class="analysis-label">
+                    Wrong
+                </span>
+
+                <span class="analysis-value"
+                      style="color:#dc2626;">
+
+                    ${Number(
+                        result.wrong || 0
+                    )}
+
+                </span>
+
+            </div>
+
+
+            <div class="analysis-row">
+
+                <span class="analysis-label">
+                    Skipped
+                </span>
+
+                <span class="analysis-value"
+                      style="color:#d97706;">
+
+                    ${Number(
+                        result.skipped || 0
+                    )}
+
+                </span>
+
+            </div>
+
+
+            <div class="analysis-row">
+
+                <span class="analysis-label">
+                    Score
+                </span>
+
+                <span class="analysis-value">
+
+                    ${Number(
+                        result.score || 0
+                    ).toFixed(2)}
+
+                </span>
+
+            </div>
+
+
+            <div class="analysis-row">
+
+                <span class="analysis-label">
+                    Percentage
+                </span>
+
+                <span class="analysis-value">
+
+                    ${Number(
+                        result.percentage || 0
+                    ).toFixed(2)}%
+
+                </span>
+
+            </div>
+
+
+            ${
+                questionTimes.length
+                ?
+                `
+                <div class="analysis-row">
+
+                    <span class="analysis-label">
+                        Total Time Spent
+                    </span>
+
+                    <span class="analysis-value">
+
+                        ${formatTotalTime(
+                            totalTime
+                        )}
+
+                    </span>
+
+                </div>
+                `
+                :
+                ""
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   TOTAL TIME
+===================================================== */
+
+function formatTotalTime(seconds){
+
+    seconds =
+        Number(seconds || 0);
+
+
+    const minutes =
+        Math.floor(
+            seconds / 60
+        );
+
+
+    const sec =
+        seconds % 60;
+
+
+    if(minutes <= 0){
+
+        return sec + " Sec";
+
+    }
+
+
+    return (
+        minutes +
+        " Min " +
+        sec +
+        " Sec"
+    );
+
+}
+
+
+/* =====================================================
+   ANSWER REVIEW
+===================================================== */
+
+function renderAnswers(result){
+
+    const answers =
+        Array.isArray(
+            result.answers
+        )
+        ?
+        result.answers
+        :
+        [];
+
+
+    if(!answers.length){
+
+        return `
+
+            <div class="answers-box">
+
+                <div class="empty">
+
+                    📖 इस attempt में answer
+                    data उपलब्ध नहीं है।
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    return `
+
+        <div class="answers-box">
+
+            ${
+                answers.map(
+                    (item,index)=>{
+
+                        const selected =
+                            item.selectedAnswer;
+
+
+                        const correct =
+                            item.correctAnswer;
+
+
+                        const isCorrect =
+                            selected !== undefined &&
+                            Number(selected)
+                            ===
+                            Number(correct);
+
+
+                        const skipped =
+                            selected === undefined ||
+                            selected === null;
+
+
+                        let statusClass =
+                            "";
+
+
+                        if(skipped){
+
+                            statusClass =
+                                "answer-skipped";
+
+                        }
+                        else if(isCorrect){
+
+                            statusClass =
+                                "answer-correct";
+
+                        }
+                        else{
+
+                            statusClass =
+                                "answer-wrong";
+
+                        }
+
+
+                        return `
+
+                            <div class="answer-card">
+
+                                <div class="answer-question">
+
+                                    Q${
+                                        item.questionNumber
+                                        ||
+                                        index + 1
+                                    }
+
+                                </div>
+
+
+                                <div class="
+                                    answer-option
+                                    ${statusClass}
+                                ">
+
+                                    ${
+                                        skipped
+                                        ?
+                                        "⚪ Not Attempted"
+                                        :
+                                        isCorrect
+                                        ?
+                                        "✅ Correct Answer"
+                                        :
+                                        "❌ Wrong Answer"
+                                    }
+
+                                </div>
+
+
+                                <div class="
+                                    answer-option
+                                ">
+
+                                    Your Answer:
+
+                                    ${
+                                        skipped
+                                        ?
+                                        "Not Attempted"
+                                        :
+                                        optionLetter(
+                                            selected
+                                        )
+                                    }
+
+                                </div>
+
+
+                                <div class="
+                                    answer-option
+                                    answer-correct
+                                ">
+
+                                    Correct Answer:
+
+                                    ${
+                                        optionLetter(
+                                            correct
+                                        )
+                                    }
+
+                                </div>
+
+
+                            </div>
+
+                        `;
+
+                    }
+                ).join("")
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   OPTION LETTER
+===================================================== */
+
+function optionLetter(value){
+
+    if(
+        value === undefined ||
+        value === null ||
+        value === ""
+    ){
+
+        return "—";
+
+    }
+
+
+    const num =
+        Number(value);
+
+
+    if(
+        num >= 0 &&
+        num <= 3
+    ){
+
+        return [
+            "A",
+            "B",
+            "C",
+            "D"
+        ][num];
+
+    }
+
+
+    if(
+        num >= 1 &&
+        num <= 4
+    ){
+
+        return [
+            "A",
+            "B",
+            "C",
+            "D"
+        ][num - 1];
+
+    }
+
+
+    const text =
+        String(value)
+        .trim()
+        .toUpperCase();
+
+
+    if(
+        ["A","B","C","D"]
+        .includes(text)
+    ){
+
+        return text;
+
+    }
+
+
+    return escapeHTML(value);
+
+}
+
+
+/* =====================================================
+   BACK
+===================================================== */
+
+window.goBack =
+function(){
+
+    if(
+        history.length > 1
+    ){
+
+        history.back();
+
+    }
+    else{
+
+        location.href =
+            "mock-test.html";
+
+    }
+
+};
+
+
+/* =====================================================
+   AUTH
+===================================================== */
+
+onAuthStateChanged(
+    auth,
+    user=>{
+
+        firebaseUser =
+            user;
+
+
+        document
+        .getElementById(
+            "studentName"
+        )
+        .textContent =
+            getStudentName();
+
+
+        if(user){
+
+            loadResults();
+
+        }
+        else{
+
+            /*
+               अगर Firebase auth user नहीं है,
+               फिर भी पुराने localStorage username
+               के साथ fallback नहीं करेंगे,
+               क्योंकि result ownership Firestore से
+               UID पर आधारित है।
+            */
+
+            document.getElementById(
+                "content"
+            ).innerHTML = `
+
+                <div class="empty">
+
+                    🔐 Student login required.
+
+                </div>
+
+            `;
+
+        }
+
+    });
+
+
+/* =====================================================
+   INITIAL NAME
+===================================================== */
+
+document
+.getElementById(
+    "studentName"
+)
+.textContent =
+    getStudentName();
+
+
+</script></body></html>

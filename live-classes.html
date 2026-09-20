@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>RM Vidya Peeth - Live Classes</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #0f172a;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.page {
+    max-width: 1050px;
+    margin: auto;
+    padding: 20px 15px 70px;
+}
+
+.header {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 18px;
+}
+
+.header h1 {
+    margin: 0 0 8px;
+}
+
+.header p {
+    margin: 0;
+    color: #cbd5e1;
+}
+
+.brand-tagline {
+    color: #94a3b8;
+    font-size: 14px;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.back-btn {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 18px;
+    border: 0;
+    border-radius: 9px;
+    background: #475569;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.list {
+    display: grid;
+    gap: 14px;
+}
+
+.class-card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 14px;
+    padding: 18px;
+}
+
+.class-card h2 {
+    margin: 0 0 10px;
+    font-size: 20px;
+}
+
+.meta {
+    color: #cbd5e1;
+    line-height: 1.8;
+}
+
+.status {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.live {
+    background: #166534;
+    color: #bbf7d0;
+}
+
+.upcoming {
+    background: #854d0e;
+    color: #fef08a;
+}
+
+.ended {
+    background: #334155;
+    color: #cbd5e1;
+}
+
+.description {
+    margin-top: 10px;
+    color: #e2e8f0;
+    line-height: 1.6;
+}
+
+.join-btn {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 12px 18px;
+    border-radius: 9px;
+    background: #dc2626;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.join-btn:hover {
+    background: #b91c1c;
+}
+
+.disabled-btn {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 12px 18px;
+    border-radius: 9px;
+    background: #475569;
+    color: #cbd5e1;
+    font-weight: bold;
+}
+
+.empty {
+    text-align: center;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 14px;
+    padding: 30px 15px;
+    color: #cbd5e1;
+}
+
+.loading {
+    text-align: center;
+    color: #cbd5e1;
+    padding: 25px;
+}
+
+.error {
+    background: #450a0a;
+    border: 1px solid #dc2626;
+    color: #fecaca;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.rm-vidya-copyright {
+    text-align: center;
+    color: #64748b;
+    padding: 20px 10px;
+    font-size: 13px;
+}
+
+.footer-brand {
+    color: #cbd5e1;
+    font-weight: bold;
+}
+
+.footer-teacher {
+    color: #94a3b8;
+    margin-top: 4px;
+}
+
+.footer-copy {
+    margin-top: 4px;
+}
+
+@media (max-width: 600px) {
+
+    .page {
+        padding: 15px 10px 60px;
+    }
+
+    .class-card {
+        padding: 15px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+    <div class="header">
+
+        <h1>
+            🔴 RM Vidya Peeth - Live Classes
+        </h1>
+
+        <div class="brand-tagline">
+            By Ranjan Mishra Sir
+        </div>
+
+        <p>
+            Admin द्वारा scheduled की गई live classes यहां दिखाई देंगी।
+        </p>
+
+    </div>
+
+
+    <button
+        class="back-btn"
+        type="button"
+        onclick="goBack()"
+    >
+        ← Back
+    </button>
+
+
+    <div
+        id="classList"
+        class="list"
+    >
+
+        <div class="loading">
+            ⏳ Live Classes loading...
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<script type="module">
+
+import {
+    db
+} from "./firebase-config.js";
+
+import {
+    collection,
+    getDocs
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+// =====================================================
+// ELEMENTS
+// =====================================================
+
+const classList =
+    document.getElementById(
+        "classList"
+    );
+
+
+// =====================================================
+// ESCAPE HTML
+// =====================================================
+
+function escapeHTML(value) {
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+// =====================================================
+// DATE FORMAT
+// =====================================================
+
+function formatDate(value) {
+
+    if (!value) {
+        return "";
+    }
+
+    const date =
+        new Date(value);
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return escapeHTML(
+            value
+        );
+
+    }
+
+    return date.toLocaleString(
+        "en-IN",
+        {
+            dateStyle: "medium",
+            timeStyle: "short"
+        }
+    );
+
+}
+
+
+// =====================================================
+// CLASS STATUS
+// =====================================================
+
+function getStatus(classData) {
+
+    const now =
+        Date.now();
+
+    const start =
+        new Date(
+            classData.startTime
+        ).getTime();
+
+    let end;
+
+    if (
+        classData.endTime
+    ) {
+
+        end =
+            new Date(
+                classData.endTime
+            ).getTime();
+
+    } else {
+
+        /*
+         * अगर End Time नहीं दिया गया है
+         * तो default 1 hour
+         */
+
+        end =
+            start +
+            60 * 60 * 1000;
+
+    }
+
+
+    if (
+        now >= start &&
+        now <= end
+    ) {
+
+        return {
+            text: "🔴 LIVE",
+            className: "live",
+            canJoin: true
+        };
+
+    }
+
+
+    if (
+        now < start
+    ) {
+
+        return {
+            text: "🟡 UPCOMING",
+            className: "upcoming",
+            canJoin: false
+        };
+
+    }
+
+
+    return {
+        text: "⚫ ENDED",
+        className: "ended",
+        canJoin: false
+    };
+
+}
+
+
+// =====================================================
+// LOAD LIVE CLASSES
+// =====================================================
+
+async function loadLiveClasses() {
+
+    classList.innerHTML =
+        `
+        <div class="loading">
+            ⏳ Live Classes loading...
+        </div>
+        `;
+
+
+    try {
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "liveClasses"
+                )
+            );
+
+
+        const classes =
+            snapshot.docs
+                .map(
+                    function(item) {
+
+                        return {
+
+                            id:
+                                item.id,
+
+                            ...item.data()
+
+                        };
+
+                    }
+                )
+                .sort(
+                    function(a, b) {
+
+                        return (
+                            new Date(
+                                a.startTime
+                            ).getTime()
+                            -
+                            new Date(
+                                b.startTime
+                            ).getTime()
+                        );
+
+                    }
+                );
+
+
+        if (
+            !classes.length
+        ) {
+
+            classList.innerHTML =
+                `
+                <div class="empty">
+
+                    📺 अभी कोई Live Class scheduled नहीं है।
+
+                </div>
+                `;
+
+            return;
+
+        }
+
+
+        classList.innerHTML =
+            classes
+                .map(
+                    function(classData) {
+
+                        const status =
+                            getStatus(
+                                classData
+                            );
+
+
+                        const safeUrl =
+                            escapeHTML(
+                                classData.liveUrl ||
+                                ""
+                            );
+
+
+                        let joinButton;
+
+
+                        if (
+                            status.canJoin &&
+                            classData.liveUrl
+                        ) {
+
+                            joinButton =
+                                `
+                                <a
+                                    class="join-btn"
+                                    href="${safeUrl}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    🔴 Join Live Class
+                                </a>
+                                `;
+
+                        } else if (
+                            status.className ===
+                            "upcoming"
+                        ) {
+
+                            joinButton =
+                                `
+                                <span class="disabled-btn">
+                                    ⏳ Class अभी शुरू नहीं हुई
+                                </span>
+                                `;
+
+                        } else {
+
+                            joinButton =
+                                `
+                                <span class="disabled-btn">
+                                    ⛔ Class समाप्त हो गई
+                                </span>
+                                `;
+
+                        }
+
+
+                        return `
+
+                            <div class="class-card">
+
+                                <span
+                                    class="status ${status.className}"
+                                >
+                                    ${status.text}
+                                </span>
+
+                                <h2>
+                                    🔴
+                                    ${escapeHTML(
+                                        classData.title ||
+                                        "Live Class"
+                                    )}
+                                </h2>
+
+                                <div class="meta">
+
+                                    ${
+                                        classData.teacher
+                                            ? "👨‍🏫 Teacher: " +
+                                              escapeHTML(
+                                                  classData.teacher
+                                              ) +
+                                              "<br>"
+                                            : ""
+                                    }
+
+                                    ${
+                                        classData.course
+                                            ? "📚 Course: " +
+                                              escapeHTML(
+                                                  classData.course
+                                              ) +
+                                              "<br>"
+                                            : ""
+                                    }
+
+                                    🕐 Start:
+                                    ${formatDate(
+                                        classData.startTime
+                                    )}
+
+                                    ${
+                                        classData.endTime
+                                            ? "<br>🕐 End: " +
+                                              formatDate(
+                                                  classData.endTime
+                                              )
+                                            : ""
+                                    }
+
+                                </div>
+
+                                ${
+                                    classData.description
+                                        ? `
+                                        <div class="description">
+
+                                            ${escapeHTML(
+                                                classData.description
+                                            )}
+
+                                        </div>
+                                        `
+                                        : ""
+                                }
+
+                                ${joinButton}
+
+                            </div>
+
+                        `;
+
+                    }
+                )
+                .join("");
+
+
+    } catch (error) {
+
+        console.error(
+            "RM Vidya Peeth Live Classes Error:",
+            error
+        );
+
+
+        classList.innerHTML =
+            `
+            <div class="error">
+
+                ❌ Live Classes load नहीं हो सकीं।
+
+                <br><br>
+
+                ${escapeHTML(
+                    error.message
+                )}
+
+            </div>
+            `;
+
+    }
+
+}
+
+
+// =====================================================
+// BACK
+// =====================================================
+
+function goBack() {
+
+    if (
+        document.referrer
+    ) {
+
+        history.back();
+
+    } else {
+
+        window.location.href =
+            "index.html";
+
+    }
+
+}
+
+
+window.goBack =
+    goBack;
+
+
+// =====================================================
+// START
+// =====================================================
+
+loadLiveClasses();
+
+</script>
+
+
+<footer
+    class="rm-vidya-copyright"
+    aria-label="Copyright"
+>
+
+    <div class="footer-brand">
+        RM Vidya Peeth
+    </div>
+
+    <div class="footer-teacher">
+        By Ranjan Mishra Sir
+    </div>
+
+    <div class="footer-copy">
+        © 2026 RM Vidya Peeth. All Rights Reserved.
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

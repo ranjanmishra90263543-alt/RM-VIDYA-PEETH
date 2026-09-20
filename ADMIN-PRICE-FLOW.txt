@@ -1,0 +1,13 @@
+v10:
+- Course price is controlled by Admin/Master Admin.
+- Admin selects Free/Paid and enters Course Price (₹).
+- Free course automatically stores price 0.
+- Paid checkout reads the saved course.price and sends that amount to payment.html.
+- Test Pass uses the same course pricing fields when it is created as a course.
+- UPI QR/UPI ID remain fixed: 9958522950@upi.
+
+IMPORTANT:
+The existing project's actual Firestore save handler must merge:
+  ...window.getCoursePricing()
+into the course object before add/update. If the handler already saves price fields,
+no additional change is required.

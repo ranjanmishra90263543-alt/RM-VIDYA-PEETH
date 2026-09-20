@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RM Vidya Peeth - Student Profile</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f6f8;
+    color:#222;
+    padding-bottom:80px;
+}
+
+.top-header{
+    height:60px;
+    background:#08a6c7;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 15px;
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.menu{
+    font-size:25px;
+    cursor:pointer;
+}
+
+.app-name{
+    font-size:20px;
+    font-weight:bold;
+}
+
+.header-space{
+    width:25px;
+}
+
+.profile-page{
+    max-width:600px;
+    margin:auto;
+    padding:15px;
+}
+
+.profile-card{
+    background:#fff;
+    border-radius:18px;
+    padding:25px 20px;
+    text-align:center;
+    margin-top:15px;
+    box-shadow:0 3px 12px #0002;
+}
+
+.profile-avatar{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#08a6c7,#2563eb);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:auto;
+    font-size:38px;
+    font-weight:bold;
+}
+
+.profile-name{
+    margin-top:15px;
+    font-size:23px;
+    font-weight:bold;
+}
+
+.profile-type{
+    display:inline-block;
+    margin-top:8px;
+    padding:6px 14px;
+    border-radius:20px;
+    background:#e0f7fa;
+    color:#0086a3;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.info-card{
+    background:#fff;
+    border-radius:15px;
+    padding:18px;
+    margin-top:15px;
+    box-shadow:0 2px 8px #0001;
+}
+
+.info-title{
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+.info-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 0;
+    border-bottom:1px solid #eee;
+}
+
+.info-row:last-child{
+    border-bottom:none;
+}
+
+.info-icon{
+    width:35px;
+    font-size:21px;
+    text-align:center;
+}
+
+.info-content{
+    flex:1;
+}
+
+.info-label{
+    font-size:12px;
+    color:#777;
+    margin-bottom:3px;
+}
+
+.info-value{
+    font-size:15px;
+    font-weight:bold;
+    word-break:break-word;
+}
+
+.action-card{
+    background:#fff;
+    border-radius:15px;
+    padding:15px;
+    margin-top:15px;
+    box-shadow:0 2px 8px #0001;
+}
+
+.profile-btn{
+    width:100%;
+    border:none;
+    padding:13px;
+    border-radius:9px;
+    margin-bottom:10px;
+    background:#08a6c7;
+    color:#fff;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.profile-btn:last-child{
+    margin-bottom:0;
+}
+
+.profile-btn.logout{
+    background:#dc2626;
+}
+
+.profile-btn.back{
+    background:#334155;
+}
+
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    height:68px;
+    background:#fff;
+    border-top:1px solid #ddd;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    z-index:100;
+}
+
+.bottom-nav button{
+    border:none;
+    background:transparent;
+    color:#777;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.bottom-nav button span{
+    font-size:11px;
+}
+
+.bottom-nav .selected{
+    color:#08a6c7;
+    font-weight:bold;
+}
+
+.the-hub-copyright{
+    text-align:center;
+    color:#64748b;
+    padding:18px 10px;
+    font-size:13px;
+    background:#fff;
+}
+
+@media(max-width:600px){
+
+    .profile-page{
+        padding:10px;
+    }
+
+    .profile-card{
+        padding:22px 15px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<header class="top-header">
+
+    <div
+        class="menu"
+        onclick="goDashboard()"
+    >
+        ←
+    </div>
+
+    <div class="app-name">
+        RM Vidya Peeth
+    </div>
+
+    <div class="header-space"></div>
+
+</header>
+
+
+
+<!-- ================= PROFILE ================= -->
+
+<main class="profile-page">
+
+    <section class="profile-card">
+
+        <div
+            id="profileInitial"
+            class="profile-avatar"
+        >
+            S
+        </div>
+
+        <div
+            id="profileName"
+            class="profile-name"
+        >
+            Student
+        </div>
+
+        <div
+            id="userType"
+            class="profile-type"
+        >
+            Student
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= PERSONAL INFO ================= -->
+
+    <section class="info-card">
+
+        <div class="info-title">
+            👤 Personal Information
+        </div>
+
+
+        <div class="info-row">
+
+            <div class="info-icon">
+                📧
+            </div>
+
+            <div class="info-content">
+
+                <div class="info-label">
+                    Email
+                </div>
+
+                <div
+                    id="profileEmail"
+                    class="info-value"
+                >
+                    -
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="info-row">
+
+            <div class="info-icon">
+                📱
+            </div>
+
+            <div class="info-content">
+
+                <div class="info-label">
+                    Phone
+                </div>
+
+                <div
+                    id="profilePhone"
+                    class="info-value"
+                >
+                    -
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="info-row">
+
+            <div class="info-icon">
+                📅
+            </div>
+
+            <div class="info-content">
+
+                <div class="info-label">
+                    Joined
+                </div>
+
+                <div
+                    id="joinDate"
+                    class="info-value"
+                >
+                    -
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= ACTIONS ================= -->
+
+    <section class="action-card">
+
+        <button
+            class="profile-btn"
+            onclick="editProfileName()"
+        >
+            ✏️ Edit Profile Name
+        </button>
+
+
+        <button
+            class="profile-btn back"
+            onclick="goDashboard()"
+        >
+            🏠 Back to Dashboard
+        </button>
+
+
+        <button
+            class="profile-btn logout"
+            onclick="logoutProfile()"
+        >
+            🚪 Logout
+        </button>
+
+    </section>
+
+</main>
+
+
+
+<!-- ================= BOTTOM NAV ================= -->
+
+<nav class="bottom-nav">
+
+    <button onclick="goHome()">
+
+        🏠
+
+        <span>
+            Home
+        </span>
+
+    </button>
+
+
+    <button onclick="goCourses()">
+
+        📚
+
+        <span>
+            Courses
+        </span>
+
+    </button>
+
+
+    <button onclick="goMockTests()">
+
+        📝
+
+        <span>
+            Tests
+        </span>
+
+    </button>
+
+
+    <button class="selected">
+
+        👤
+
+        <span>
+            Profile
+        </span>
+
+    </button>
+
+</nav>
+
+
+
+<!-- ================= PROFILE JS ================= -->
+
+<script
+    type="module"
+    src="profile.js"
+></script>
+
+
+
+<footer
+    class="the-hub-copyright"
+    aria-label="Copyright"
+>
+    <div style="font-weight:bold;color:#64748b;">
+        RM Vidya Peeth
+    </div>
+
+    <div style="margin-top:5px;">
+        By Ranjan Mishra Sir
+    </div>
+
+    <div style="margin-top:5px;">
+        © 2026 RM Vidya Peeth. All Rights Reserved.
+    </div>
+</footer>
+
+
+</body>
+
+</html>

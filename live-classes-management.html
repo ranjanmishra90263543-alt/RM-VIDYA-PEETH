@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RM Vidya Peeth - Live Class Management</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial,sans-serif;
+}
+
+.wrap{
+    max-width:1100px;
+    margin:auto;
+    padding:20px 15px 60px;
+}
+
+.head,.panel{
+    background:#1e293b;
+    border:1px solid #334155;
+    border-radius:16px;
+    padding:20px;
+    margin-bottom:18px;
+}
+
+.head h1{
+    margin:0 0 8px;
+}
+
+.brand-tagline{
+    color:#94a3b8;
+    font-size:14px;
+    margin:0 0 8px;
+    font-weight:500;
+}
+
+.muted{
+    color:#cbd5e1;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+.field.full{
+    grid-column:1/-1;
+}
+
+label{
+    font-weight:bold;
+    font-size:14px;
+}
+
+input,textarea{
+    padding:12px;
+    border-radius:9px;
+    border:1px solid #475569;
+    background:#0f172a;
+    color:#fff;
+    width:100%;
+}
+
+textarea{
+    min-height:90px;
+    resize:vertical;
+}
+
+.btn{
+    padding:11px 15px;
+    border:0;
+    border-radius:9px;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+    margin:6px 5px 0 0;
+}
+
+.save{
+    background:#16a34a;
+}
+
+.back{
+    background:#475569;
+}
+
+.edit{
+    background:#2563eb;
+}
+
+.del{
+    background:#dc2626;
+}
+
+.list{
+    display:grid;
+    gap:12px;
+}
+
+.item{
+    background:#0f172a;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:15px;
+}
+
+.item h3{
+    margin:0 0 7px;
+}
+
+.meta{
+    color:#cbd5e1;
+    font-size:13px;
+    line-height:1.8;
+}
+
+.live{
+    color:#4ade80;
+    font-weight:bold;
+}
+
+.scheduled{
+    color:#facc15;
+    font-weight:bold;
+}
+
+.ended{
+    color:#94a3b8;
+    font-weight:bold;
+}
+
+.empty{
+    text-align:center;
+    color:#cbd5e1;
+    padding:25px;
+}
+
+.notice{
+    padding:10px;
+    border-radius:9px;
+    background:#0f172a;
+    color:#cbd5e1;
+    margin-top:10px;
+}
+
+.rm-vidya-copyright{
+    text-align:center;
+    color:#64748b;
+    padding:20px 10px;
+    font-size:13px;
+}
+
+.footer-brand{
+    color:#cbd5e1;
+    font-weight:bold;
+}
+
+.footer-teacher{
+    color:#94a3b8;
+    margin-top:4px;
+}
+
+.footer-copy{
+    margin-top:4px;
+}
+
+@media(max-width:650px){
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .field.full{
+        grid-column:auto;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+    <div class="head">
+
+        <h1>🔴 RM Vidya Peeth - Live Class Management</h1>
+
+        <div class="brand-tagline">
+            By Ranjan Mishra Sir
+        </div>
+
+        <p class="muted">
+            Live classes create, edit, delete और students के लिए join link manage करें।
+        </p>
+
+        <button
+            class="btn back"
+            type="button"
+            onclick="goAdmin()"
+        >
+            ← Admin Dashboard
+        </button>
+
+    </div>
+
+
+    <!-- =================================================
+         ADD / EDIT FORM
+    ================================================= -->
+
+    <div class="panel">
+
+        <h2 id="formTitle">
+            ➕ Add Live Class
+        </h2>
+
+        <form id="liveForm">
+
+            <div class="form-grid">
+
+                <div class="field">
+
+                    <label>
+                        Class Title *
+                    </label>
+
+                    <input
+                        id="title"
+                        type="text"
+                        required
+                        placeholder="Reasoning Live Class"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Teacher / Faculty
+                    </label>
+
+                    <input
+                        id="teacher"
+                        type="text"
+                        placeholder="Teacher Name"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Course / Exam
+                    </label>
+
+                    <input
+                        id="course"
+                        type="text"
+                        placeholder="SSC CGL"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Start Time *
+                    </label>
+
+                    <input
+                        id="startTime"
+                        type="datetime-local"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        End Time
+                    </label>
+
+                    <input
+                        id="endTime"
+                        type="datetime-local"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Live Link *
+                    </label>
+
+                    <input
+                        id="liveUrl"
+                        type="url"
+                        required
+                        placeholder="https://youtube.com/..."
+                    >
+
+                </div>
+
+
+                <div class="field full">
+
+                    <label>
+                        Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        placeholder="Class में क्या पढ़ाया जाएगा..."
+                    ></textarea>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="btn save"
+                id="saveBtn"
+                type="submit"
+            >
+                💾 Save Live Class
+            </button>
+
+
+            <button
+                class="btn back"
+                id="cancelBtn"
+                type="button"
+                style="display:none"
+            >
+                ✖ Cancel Edit
+            </button>
+
+
+            <div
+                id="msg"
+                class="notice"
+                style="display:none"
+            ></div>
+
+        </form>
+
+    </div>
+
+
+    <!-- =================================================
+         LIVE CLASS LIST
+    ================================================= -->
+
+    <div class="panel">
+
+        <h2>
+            📺 Live Classes
+        </h2>
+
+        <div
+            id="classList"
+            class="list"
+        >
+            <div class="empty">
+                Loading...
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script type="module">
+
+import {
+    auth,
+    db
+} from "./firebase-config.js";
+
+import {
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+import {
+    collection,
+    addDoc,
+    getDocs,
+    updateDoc,
+    deleteDoc,
+    doc,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+/* =====================================================
+   MASTER ADMIN
+===================================================== */
+
+const MASTER_EMAIL =
+    "ranjanmishra9026354@gmail.com";
+
+
+/* =====================================================
+   ELEMENT HELPER
+===================================================== */
+
+const $ = id =>
+    document.getElementById(id);
+
+
+let editingId = null;
+
+
+/* =====================================================
+   ADMIN CHECK
+===================================================== */
+
+function adminAllowed(){
+
+    const localAdmin =
+        localStorage.getItem("adminLoggedIn") === "true";
+
+    const adminType =
+        localStorage.getItem("adminType");
+
+    const sscLoggedIn =
+        localStorage.getItem("ssc_logged_in") === "true";
+
+    const loginType =
+        localStorage.getItem("ssc_login_type");
+
+
+    const isLocalAdmin =
+        localAdmin &&
+        (
+            adminType === "master" ||
+            adminType === "normal"
+        );
+
+
+    const isSSCADmin =
+        sscLoggedIn &&
+        (
+            loginType === "master_admin" ||
+            loginType === "admin"
+        );
+
+
+    if(!isLocalAdmin && !isSSCADmin){
+
+        location.href =
+            "admin-login.html";
+
+        return false;
+
+    }
+
+
+    /* =================================================
+       MASTER ADMIN
+    ================================================= */
+
+    if(
+        adminType === "master" ||
+        loginType === "master_admin"
+    ){
+
+        return true;
+
+    }
+
+
+    /* =================================================
+       NORMAL ADMIN PERMISSION
+    ================================================= */
+
+    let permissions = {};
+
+    try{
+
+        permissions =
+            JSON.parse(
+                localStorage.getItem(
+                    "ssc_admin_permissions"
+                ) || "{}"
+            );
+
+    }catch(error){
+
+        permissions = {};
+
+    }
+
+
+    /*
+       अलग-अलग पुराने permission formats
+       को भी support किया गया है।
+    */
+
+    if(
+        permissions.liveClasses === true
+    ){
+
+        return true;
+
+    }
+
+
+    if(
+        Array.isArray(permissions) &&
+        permissions.includes("liveClasses")
+    ){
+
+        return true;
+
+    }
+
+
+    alert(
+        "🚫 Live Class Management की permission नहीं है।"
+    );
+
+
+    location.href =
+        "admin.html";
+
+
+    return false;
+
+}
+
+
+/* =====================================================
+   FIREBASE AUTH CHECK
+===================================================== */
+
+onAuthStateChanged(
+    auth,
+    function(user){
+
+        /*
+           Firebase user मौजूद है तो local
+           admin session के साथ page चल सकता है।
+        */
+
+        if(
+            user ||
+            adminAllowed()
+        ){
+
+            load();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+function statusOf(classData){
+
+    const now =
+        Date.now();
+
+    const start =
+        new Date(
+            classData.startTime
+        ).getTime();
+
+    const end =
+        classData.endTime
+            ? new Date(
+                classData.endTime
+              ).getTime()
+            : start + 3600000;
+
+
+    if(
+        now >= start &&
+        now <= end
+    ){
+
+        return [
+            "LIVE",
+            "live"
+        ];
+
+    }
+
+
+    if(
+        now < start
+    ){
+
+        return [
+            "UPCOMING",
+            "scheduled"
+        ];
+
+    }
+
+
+    return [
+        "ENDED",
+        "ended"
+    ];
+
+}
+
+
+/* =====================================================
+   LOAD CLASSES
+===================================================== */
+
+async function load(){
+
+    $("classList").innerHTML =
+        '<div class="empty">⏳ Loading...</div>';
+
+
+    try{
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "liveClasses"
+                )
+            );
+
+
+        const rows =
+            snapshot.docs
+                .map(function(item){
+
+                    return {
+                        id:item.id,
+                        ...item.data()
+                    };
+
+                })
+                .sort(function(a,b){
+
+                    return new Date(
+                        a.startTime
+                    ) -
+                    new Date(
+                        b.startTime
+                    );
+
+                });
+
+
+        if(!rows.length){
+
+            $("classList").innerHTML =
+                '<div class="empty">अभी कोई live class नहीं है।</div>';
+
+            return;
+
+        }
+
+
+        $("classList").innerHTML =
+            rows.map(function(c){
+
+                const [
+                    status,
+                    statusClass
+                ] =
+                    statusOf(c);
+
+
+                return `
+
+                    <div class="item">
+
+                        <h3>
+                            🔴
+                            ${esc(
+                                c.title ||
+                                "Live Class"
+                            )}
+                        </h3>
+
+
+                        <div class="meta">
+
+                            <span class="${statusClass}">
+                                ${status}
+                            </span>
+
+                            ·
+
+                            ${esc(
+                                c.course || ""
+                            )}
+
+                            ·
+
+                            ${esc(
+                                c.teacher || ""
+                            )}
+
+                            <br>
+
+                            🕐
+                            ${format(
+                                c.startTime
+                            )}
+
+                            ${
+                                c.endTime
+                                    ? " → " +
+                                      format(
+                                          c.endTime
+                                      )
+                                    : ""
+                            }
+
+                            <br>
+
+                            🔗
+                            <a
+                                href="${escAttribute(
+                                    c.liveUrl || "#"
+                                )}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style="color:#60a5fa"
+                            >
+                                Join Live Class
+                            </a>
+
+                            <br>
+
+                            ${esc(
+                                c.description || ""
+                            )}
+
+                        </div>
+
+
+                        <button
+                            class="btn edit"
+                            data-edit="${escAttribute(c.id)}"
+                        >
+                            ✏️ Edit
+                        </button>
+
+
+                        <button
+                            class="btn del"
+                            data-del="${escAttribute(c.id)}"
+                        >
+                            🗑️ Delete
+                        </button>
+
+                    </div>
+
+                `;
+
+            }).join("");
+
+
+        document
+            .querySelectorAll("[data-edit]")
+            .forEach(function(button){
+
+                button.onclick =
+                    function(){
+
+                        edit(
+                            button.dataset.edit,
+                            rows
+                        );
+
+                    };
+
+            });
+
+
+        document
+            .querySelectorAll("[data-del]")
+            .forEach(function(button){
+
+                button.onclick =
+                    function(){
+
+                        remove(
+                            button.dataset.del
+                        );
+
+                    };
+
+            });
+
+
+    }catch(error){
+
+        console.error(
+            "RM Vidya Peeth Live Classes Load Error:",
+            error
+        );
+
+
+        $("classList").innerHTML = `
+
+            <div
+                class="empty"
+                style="color:#fca5a5"
+            >
+                ❌ Firestore से Live Classes load नहीं हुईं।
+                <br><br>
+                ${esc(error.message)}
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   FORMAT DATE
+===================================================== */
+
+function format(value){
+
+    if(!value){
+
+        return "";
+
+    }
+
+
+    const date =
+        new Date(value);
+
+
+    if(
+        isNaN(
+            date.getTime()
+        )
+    ){
+
+        return value;
+
+    }
+
+
+    return date.toLocaleString(
+        "en-IN",
+        {
+            dateStyle:"medium",
+            timeStyle:"short"
+        }
+    );
+
+}
+
+
+/* =====================================================
+   ESCAPE
+===================================================== */
+
+function esc(value){
+
+    return String(
+        value ?? ""
+    ).replace(
+        /[&<>"']/g,
+        function(match){
+
+            return {
+
+                "&":"&amp;",
+                "<":"&lt;",
+                ">":"&gt;",
+                '"':"&quot;",
+                "'":"&#039;"
+
+            }[match];
+
+        }
+    );
+
+}
+
+
+function escAttribute(value){
+
+    return esc(value);
+
+}
+
+
+/* =====================================================
+   FILL FORM
+===================================================== */
+
+function fill(classData){
+
+    $("title").value =
+        classData.title || "";
+
+    $("teacher").value =
+        classData.teacher || "";
+
+    $("course").value =
+        classData.course || "";
+
+    $("startTime").value =
+        classData.startTime || "";
+
+    $("endTime").value =
+        classData.endTime || "";
+
+    $("liveUrl").value =
+        classData.liveUrl || "";
+
+    $("description").value =
+        classData.description || "";
+
+}
+
+
+/* =====================================================
+   EDIT
+===================================================== */
+
+function edit(
+    id,
+    rows
+){
+
+    const classData =
+        rows.find(
+            function(item){
+
+                return item.id === id;
+
+            }
+        );
+
+
+    if(!classData){
+
+        return;
+
+    }
+
+
+    editingId =
+        id;
+
+
+    fill(
+        classData
+    );
+
+
+    $("formTitle").textContent =
+        "✏️ Edit Live Class";
+
+
+    $("saveBtn").textContent =
+        "💾 Update Live Class";
+
+
+    $("cancelBtn").style.display =
+        "inline-block";
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+function reset(){
+
+    editingId =
+        null;
+
+
+    $("liveForm").reset();
+
+
+    $("formTitle").textContent =
+        "➕ Add Live Class";
+
+
+    $("saveBtn").textContent =
+        "💾 Save Live Class";
+
+
+    $("cancelBtn").style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   DELETE
+===================================================== */
+
+async function remove(id){
+
+    if(
+        !confirm(
+            "इस live class को delete करें?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    try{
+
+        await deleteDoc(
+            doc(
+                db,
+                "liveClasses",
+                id
+            )
+        );
+
+
+        show(
+            "🗑️ Live class deleted successfully."
+        );
+
+
+        await load();
+
+
+    }catch(error){
+
+        console.error(
+            "Delete Live Class Error:",
+            error
+        );
+
+
+        show(
+            "❌ Delete failed: " +
+            error.message,
+            true
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   SAVE / UPDATE
+===================================================== */
+
+$("liveForm")
+.addEventListener(
+    "submit",
+    async function(event){
+
+        event.preventDefault();
+
+
+        const startTime =
+            $("startTime").value;
+
+
+        const endTime =
+            $("endTime").value;
+
+
+        if(
+            endTime &&
+            new Date(endTime) <=
+            new Date(startTime)
+        ){
+
+            show(
+                "⚠️ End Time, Start Time से बाद होना चाहिए।",
+                true
+            );
+
+            return;
+
+        }
+
+
+        const liveUrl =
+            $("liveUrl").value.trim();
+
+
+        if(
+            !/^https?:\/\//i.test(
+                liveUrl
+            )
+        ){
+
+            show(
+                "⚠️ Live Link http:// या https:// से शुरू होना चाहिए।",
+                true
+            );
+
+            return;
+
+        }
+
+
+        const data = {
+
+            title:
+                $("title")
+                    .value
+                    .trim(),
+
+            teacher:
+                $("teacher")
+                    .value
+                    .trim(),
+
+            course:
+                $("course")
+                    .value
+                    .trim(),
+
+            startTime:
+                startTime,
+
+            endTime:
+                endTime,
+
+            liveUrl:
+                liveUrl,
+
+            description:
+                $("description")
+                    .value
+                    .trim(),
+
+            updatedAt:
+                serverTimestamp()
+
+        };
+
+
+        try{
+
+            if(
+                editingId
+            ){
+
+                await updateDoc(
+                    doc(
+                        db,
+                        "liveClasses",
+                        editingId
+                    ),
+                    data
+                );
+
+
+                show(
+                    "✅ Live class updated successfully."
+                );
+
+            }else{
+
+                await addDoc(
+                    collection(
+                        db,
+                        "liveClasses"
+                    ),
+                    {
+
+                        ...data,
+
+                        createdAt:
+                            serverTimestamp()
+
+                    }
+                );
+
+
+                show(
+                    "✅ Live class created successfully."
+                );
+
+            }
+
+
+            reset();
+
+
+            await load();
+
+
+        }catch(error){
+
+            console.error(
+                "Save Live Class Error:",
+                error
+            );
+
+
+            show(
+                "❌ Save failed: " +
+                error.message,
+                true
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   CANCEL
+===================================================== */
+
+$("cancelBtn").onclick =
+    reset;
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+function show(
+    text,
+    bad=false
+){
+
+    $("msg").style.display =
+        "block";
+
+
+    $("msg").textContent =
+        text;
+
+
+    $("msg").style.border =
+        bad
+            ? "1px solid #ef4444"
+            : "1px solid #22c55e";
+
+
+    setTimeout(
+        function(){
+
+            $("msg").style.display =
+                "none";
+
+        },
+        3000
+    );
+
+}
+
+
+/* =====================================================
+   ADMIN DASHBOARD
+===================================================== */
+
+function goAdmin(){
+
+    window.location.href =
+        "admin.html";
+
+}
+
+
+window.goAdmin =
+    goAdmin;
+
+</script>
+
+
+<footer
+    class="rm-vidya-copyright"
+    aria-label="Copyright"
+>
+
+    <div class="footer-brand">
+        RM Vidya Peeth
+    </div>
+
+    <div class="footer-teacher">
+        By Ranjan Mishra Sir
+    </div>
+
+    <div class="footer-copy">
+        © 2026 RM Vidya Peeth. All Rights Reserved.
+    </div>
+
+</footer>
+
+</body>
+</html>

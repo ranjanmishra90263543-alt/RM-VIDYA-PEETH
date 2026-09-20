@@ -1,0 +1,3238 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>RM Vidya Peeth - Test Management</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+button,
+input,
+select,
+textarea{
+    font-family:inherit;
+}
+
+.page{
+    width:100%;
+    max-width:1150px;
+    margin:auto;
+    padding:20px 15px 80px;
+}
+
+.header{
+    background:#1e293b;
+    border:1px solid #334155;
+    border-radius:18px;
+    padding:20px;
+    margin-bottom:18px;
+}
+
+.header h1{
+    margin:0;
+    font-size:30px;
+}
+
+.header p{
+    margin:8px 0 0;
+    color:#cbd5e1;
+}
+
+.brand-by{
+    margin-top:6px;
+    color:#93c5fd;
+    font-weight:bold;
+}
+
+.card{
+    background:#1e293b;
+    border:1px solid #334155;
+    border-radius:18px;
+    padding:20px;
+    margin-bottom:18px;
+}
+
+.card-title{
+    margin:0 0 18px;
+    font-size:24px;
+    color:#93c5fd;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.full{
+    grid-column:1/-1;
+}
+
+.field{
+    margin-bottom:15px;
+}
+
+.field label{
+    display:block;
+    margin-bottom:7px;
+    font-size:16px;
+    font-weight:bold;
+    color:#e2e8f0;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    border:2px solid #64748b;
+    border-radius:11px;
+    background:#fff;
+    color:#0f172a;
+    padding:13px 14px;
+    font-size:16px;
+    outline:none;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#60a5fa;
+}
+
+textarea{
+    min-height:120px;
+    resize:vertical;
+}
+
+.info-box{
+    background:#0f172a;
+    border:1px solid #475569;
+    border-radius:15px;
+    padding:15px;
+    margin-bottom:18px;
+}
+
+.test-type-box{
+    background:#0f172a;
+    border:1px solid #475569;
+    border-radius:15px;
+    padding:15px;
+    margin-bottom:18px;
+}
+
+.test-type-box label{
+    display:block;
+    color:#93c5fd;
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.test-type-help{
+    margin-top:8px;
+    color:#94a3b8;
+    font-size:14px;
+}
+
+.payment-box{
+    display:none;
+    background:#422006;
+    border:1px solid #f59e0b;
+    border-radius:14px;
+    padding:15px;
+    margin-top:5px;
+}
+
+.payment-box.active{
+    display:block;
+}
+
+.payment-title{
+    color:#fbbf24;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.series-price-info{
+    color:#fde68a;
+    font-size:14px;
+    line-height:1.5;
+}
+
+.btn{
+    border:none;
+    border-radius:11px;
+    padding:13px 18px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    color:#fff;
+}
+
+.btn:hover{
+    opacity:.9;
+}
+
+.btn-blue{
+    background:#2563eb;
+}
+
+.btn-green{
+    background:#16a34a;
+}
+
+.btn-purple{
+    background:#9333ea;
+}
+
+.btn-orange{
+    background:#ea580c;
+}
+
+.btn-red{
+    background:#dc2626;
+}
+
+.btn-gray{
+    background:#475569;
+}
+
+.btn-cyan{
+    background:#0891b2;
+}
+
+.button-row{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.question-tabs{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:18px;
+}
+
+.tab{
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    background:#334155;
+    color:#cbd5e1;
+}
+
+.tab.active{
+    background:#2563eb;
+    color:#fff;
+}
+
+.question-panel{
+    display:none;
+}
+
+.question-panel.active{
+    display:block;
+}
+
+.options-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.format-box{
+    background:#020617;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:15px;
+    color:#cbd5e1;
+    margin-bottom:15px;
+    line-height:1.7;
+}
+
+.format-box strong{
+    color:#60a5fa;
+}
+
+.format-example{
+    white-space:pre-wrap;
+    background:#0f172a;
+    padding:12px;
+    border-radius:9px;
+    margin-top:10px;
+    color:#e2e8f0;
+}
+
+.question-summary{
+    background:#0f172a;
+    border-radius:13px;
+    padding:15px;
+    margin-bottom:15px;
+    border:1px solid #334155;
+}
+
+.summary-number{
+    font-size:20px;
+    color:#60a5fa;
+    font-weight:bold;
+}
+
+.summary-count{
+    font-size:18px;
+    color:#22c55e;
+    font-weight:bold;
+}
+
+.question-list{
+    margin-top:15px;
+}
+
+.question-item{
+    background:#0f172a;
+    border:1px solid #334155;
+    border-radius:14px;
+    padding:16px;
+    margin-bottom:12px;
+}
+
+.question-number{
+    color:#60a5fa;
+    font-weight:bold;
+    font-size:18px;
+}
+
+.question-file{
+    display:inline-block;
+    margin-top:7px;
+    background:#334155;
+    color:#93c5fd;
+    padding:5px 9px;
+    border-radius:7px;
+    font-size:13px;
+}
+
+.question-text{
+    margin-top:10px;
+    line-height:1.6;
+    color:#f8fafc;
+}
+
+.option-line{
+    margin-top:7px;
+    color:#cbd5e1;
+}
+
+.correct-option{
+    color:#22c55e;
+    font-weight:bold;
+}
+
+.question-actions{
+    display:flex;
+    gap:7px;
+    flex-wrap:wrap;
+    margin-top:13px;
+}
+
+.small-btn{
+    border:none;
+    border-radius:8px;
+    padding:8px 12px;
+    color:#fff;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.status{
+    display:none;
+    padding:13px;
+    border-radius:10px;
+    margin-bottom:15px;
+    font-weight:bold;
+}
+
+.status.success{
+    display:block;
+    background:#14532d;
+    color:#bbf7d0;
+}
+
+.status.error{
+    display:block;
+    background:#7f1d1d;
+    color:#fecaca;
+}
+
+.test-item{
+    background:#0f172a;
+    border:1px solid #334155;
+    border-radius:14px;
+    padding:15px;
+    margin-bottom:12px;
+}
+
+.test-title{
+    color:#93c5fd;
+    font-size:19px;
+    font-weight:bold;
+}
+
+.test-meta{
+    color:#cbd5e1;
+    margin-top:7px;
+    line-height:1.7;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:7px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.badge-free{
+    background:#14532d;
+    color:#bbf7d0;
+}
+
+.badge-paid{
+    background:#78350f;
+    color:#fde68a;
+}
+
+.paid-series-card{
+    margin-top:12px;
+    padding:12px;
+    background:#422006;
+    border:1px solid #f59e0b;
+    border-radius:10px;
+    color:#fde68a;
+}
+
+footer{
+    text-align:center;
+    color:#64748b;
+    padding:25px 10px;
+}
+
+.footer-brand{
+    font-weight:bold;
+    color:#94a3b8;
+}
+
+.footer-by{
+    margin-top:5px;
+}
+
+.footer-copy{
+    margin-top:5px;
+}
+
+@media(max-width:700px){
+
+    .page{
+        padding:12px 10px 70px;
+    }
+
+    .grid,
+    .options-grid{
+        grid-template-columns:1fr;
+    }
+
+    .full{
+        grid-column:auto;
+    }
+
+    .header h1{
+        font-size:25px;
+    }
+
+    .card-title{
+        font-size:21px;
+    }
+
+    .question-tabs{
+        grid-template-columns:1fr;
+    }
+
+    .button-row{
+        flex-direction:column;
+    }
+
+    .button-row .btn{
+        width:100%;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+<div class="header">
+
+<h1>
+📝 RM Vidya Peeth - Test Management
+</h1>
+
+<div class="brand-by">
+By Ranjan Mishra Sir
+</div>
+
+<p>
+Chapter, Sectional, Full PYQ, Practice Mock और Paid Mock Test manage करें।
+</p>
+
+</div>
+
+<div
+id="status"
+class="status"
+></div>
+
+<div class="card">
+
+<h2 class="card-title">
+➕ Create New Test
+</h2>
+
+<div class="test-type-box">
+
+<label>
+📝 Test / Mock Type
+</label>
+
+<select id="testType">
+
+<option value="chapter">
+📖 Chapter Test
+</option>
+
+<option value="sectional">
+📚 Sectional Test
+</option>
+
+<option value="full-pyq">
+📜 Full PYQ
+</option>
+
+<option value="practice-mock">
+📝 Practice Mock
+</option>
+
+<option value="paid-mock">
+💳 Paid Mock
+</option>
+
+</select>
+
+<div
+id="testTypeHelp"
+class="test-type-help"
+>
+Chapter के आधार पर test बनाया जाएगा।
+</div>
+
+</div>
+
+<div class="grid">
+
+<div class="field">
+
+<label>
+📚 Course
+</label>
+
+<input
+id="course"
+type="text"
+placeholder="जैसे SSC CGL"
+>
+
+</div>
+
+<div class="field">
+
+<label>
+🏛️ Exam Name
+</label>
+
+<input
+id="examName"
+type="text"
+placeholder="जैसे SSC CGL 2026"
+>
+
+</div>
+
+<div class="field">
+
+<label>
+📁 Category
+</label>
+
+<input
+id="category"
+type="text"
+placeholder="जैसे SSC"
+>
+
+</div>
+
+<div class="field">
+
+<label>
+📘 Subject
+</label>
+
+<input
+id="subject"
+type="text"
+placeholder="जैसे General Knowledge"
+>
+
+</div>
+
+<div
+id="chapterField"
+class="field"
+>
+
+<label>
+📖 Chapter
+</label>
+
+<input
+id="chapter"
+type="text"
+placeholder="जैसे History"
+>
+
+</div>
+
+<div
+id="sectionField"
+class="field"
+>
+
+<label>
+📚 Section / Topic
+</label>
+
+<input
+id="section"
+type="text"
+placeholder="जैसे Indian History"
+>
+
+</div>
+
+<div class="field">
+
+<label>
+📄 Question File Name
+</label>
+
+<input
+id="questionFileName"
+type="text"
+placeholder="जैसे History-PYQ-2024.txt"
+>
+
+</div>
+
+<div class="field">
+
+<label>
+📚 Test Series Name
+</label>
+
+<input
+id="seriesName"
+type="text"
+placeholder="जैसे SSC CGL Complete Test Series"
+>
+
+</div>
+
+<div class="field">
+
+<label>
+🔢 Series / Test Number
+</label>
+
+<input
+id="testNumber"
+type="number"
+min="1"
+value="1"
+>
+
+</div>
+
+<div class="field full">
+
+<label>
+📋 Test Name
+</label>
+
+<input
+id="testName"
+type="text"
+placeholder="जैसे History Chapter Test - 1"
+>
+
+</div>
+
+<div class="field">
+
+<label>
+⏱️ Test Time (Minutes)
+</label>
+
+<input
+id="duration"
+type="number"
+min="1"
+value="30"
+>
+
+</div>
+
+<div class="field">
+
+<label>
+🔐 Test Access
+</label>
+
+<select id="access">
+
+<option value="free">
+🆓 Free Test
+</option>
+
+<option value="paid">
+💳 Paid / Series Test
+</option>
+
+</select>
+
+</div>
+
+<div
+id="seriesPriceField"
+class="field"
+>
+
+<label>
+💰 Series Price
+</label>
+
+<input
+id="seriesPrice"
+type="number"
+min="0"
+step="0.01"
+value="0"
+placeholder="जैसे 199"
+>
+
+</div>
+
+<div class="field">
+
+<label>
+🎯 Marks Per Question
+</label>
+
+<input
+id="marksPerQuestion"
+type="number"
+min="0"
+step="0.01"
+value="1"
+>
+
+</div>
+
+<div class="field">
+
+<label>
+➖ Negative Marks
+</label>
+
+<input
+id="negativeMarks"
+type="number"
+min="0"
+step="0.01"
+value="0"
+>
+
+</div>
+
+</div>
+
+<div
+id="paymentBox"
+class="payment-box"
+>
+
+<div class="payment-title">
+💳 Series Payment Information
+</div>
+
+<div class="series-price-info">
+
+Individual test का कोई अलग price नहीं होगा।<br>
+
+पूरी Test Series का एक ही price रहेगा।<br>
+
+उदाहरण: Series Price ₹199 → Series के सभी paid tests उसी series purchase के अंतर्गत रहेंगे।
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2 class="card-title">
+❓ Add Questions
+</h2>
+
+<div class="question-summary">
+
+<div>
+
+<span class="summary-number">
+Questions Added:
+</span>
+
+<span
+id="questionCount"
+class="summary-count"
+>
+0
+</span>
+
+</div>
+
+</div>
+
+<div class="question-tabs">
+
+<button
+id="singleTab"
+class="tab active"
+onclick="showQuestionTab('single')"
+>
+➕ Single Question
+</button>
+
+<button
+id="bulkTab"
+class="tab"
+onclick="showQuestionTab('bulk')"
+>
+📥 Bulk Questions
+</button>
+
+</div>
+
+<div
+id="singlePanel"
+class="question-panel active"
+>
+
+<div class="field">
+
+<label>
+📄 Question File Name
+</label>
+
+<input
+id="singleFileName"
+type="text"
+placeholder="जैसे History-PYQ-2024.txt"
+>
+
+</div>
+
+<div class="field">
+
+<label>
+❓ Question
+</label>
+
+<textarea
+id="singleQuestion"
+placeholder="यहाँ पूरा question लिखें..."
+></textarea>
+
+</div>
+
+<div class="options-grid">
+
+<div class="field">
+
+<label>
+A. Option
+</label>
+
+<input
+id="optionA"
+type="text"
+placeholder="Option A"
+>
+
+</div>
+
+<div class="field">
+
+<label>
+B. Option
+</label>
+
+<input
+id="optionB"
+type="text"
+placeholder="Option B"
+>
+
+</div>
+
+<div class="field">
+
+<label>
+C. Option
+</label>
+
+<input
+id="optionC"
+type="text"
+placeholder="Option C"
+>
+
+</div>
+
+<div class="field">
+
+<label>
+D. Option
+</label>
+
+<input
+id="optionD"
+type="text"
+placeholder="Option D"
+>
+
+</div>
+
+</div>
+
+<div class="grid">
+
+<div class="field">
+
+<label>
+✅ Correct Answer
+</label>
+
+<select id="correctAnswer">
+
+<option value="">
+-- Select Correct Answer --
+</option>
+
+<option value="A">A</option>
+<option value="B">B</option>
+<option value="C">C</option>
+<option value="D">D</option>
+
+</select>
+
+</div>
+
+<div class="field">
+
+<label>
+🎯 Question Marks
+</label>
+
+<input
+id="questionMarks"
+type="number"
+min="0"
+step="0.01"
+value="1"
+>
+
+</div>
+
+<div class="field full">
+
+<label>
+💡 Explanation
+</label>
+
+<textarea
+id="singleExplanation"
+placeholder="Question का explanation..."
+></textarea>
+
+</div>
+
+</div>
+
+<div class="button-row">
+
+<button
+class="btn btn-green"
+onclick="addSingleQuestion()"
+>
+➕ Add Question
+</button>
+
+<button
+class="btn btn-gray"
+onclick="clearSingleQuestion()"
+>
+🧹 Clear
+</button>
+
+</div>
+
+</div>
+
+<div
+id="bulkPanel"
+class="question-panel"
+>
+
+<div class="format-box">
+
+<strong>
+📌 Bulk Question Format
+</strong>
+
+<div>
+हर question के साथ File Name भी दिया जा सकता है।
+</div>
+
+<div class="format-example">
+
+File: History-PYQ-2024.txt
+Question: भारत की राजधानी क्या है?
+A: मुंबई
+B: दिल्ली
+C: कोलकाता
+D: चेन्नई
+Answer: B
+Explanation: भारत की राजधानी नई दिल्ली है।
+
+---
+
+File: History-PYQ-2024.txt
+Question: भारत का संविधान कब लागू हुआ?
+A: 1947
+B: 1948
+C: 1950
+D: 1952
+Answer: C
+Explanation: भारत का संविधान 26 जनवरी 1950 को लागू हुआ।
+
+</div>
+
+</div>
+
+<div class="field">
+
+<label>
+📥 Bulk Questions
+</label>
+
+<textarea
+id="bulkQuestions"
+style="min-height:350px;"
+placeholder="ऊपर दिए format में questions paste करें..."
+></textarea>
+
+</div>
+
+<div class="button-row">
+
+<button
+class="btn btn-purple"
+onclick="addBulkQuestions()"
+>
+📥 Add All Questions
+</button>
+
+<button
+class="btn btn-gray"
+onclick="clearBulkQuestions()"
+>
+🧹 Clear
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2 class="card-title">
+📋 Added Questions
+</h2>
+
+<div
+id="questionList"
+class="question-list"
+>
+
+<div
+style="
+color:#94a3b8;
+text-align:center;
+padding:20px;
+"
+>
+अभी कोई question add नहीं किया गया।
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2 class="card-title">
+💾 Save Test
+</h2>
+
+<div class="button-row">
+
+<button
+class="btn btn-green"
+onclick="saveTest()"
+>
+💾 Save Complete Test
+</button>
+
+<button
+class="btn btn-blue"
+onclick="newTest()"
+>
+➕ New Test
+</button>
+
+<button
+class="btn btn-gray"
+onclick="goBack()"
+>
+⬅️ Back to Admin
+</button>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2 class="card-title">
+📚 Saved Tests
+</h2>
+
+<div id="savedTests"></div>
+
+</div>
+
+</div>
+
+<footer>
+
+<div class="footer-brand">
+RM Vidya Peeth
+</div>
+
+<div class="footer-by">
+By Ranjan Mishra Sir
+</div>
+
+<div class="footer-copy">
+© 2026 RM Vidya Peeth. All Rights Reserved.
+</div>
+
+</footer>
+
+<script>
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+let currentQuestions = [];
+
+let editingQuestionIndex = -1;
+
+let editingTestId = null;
+
+
+/* =====================================================
+   STORAGE
+===================================================== */
+
+const TEST_STORAGE_KEY =
+"thehub_mock_tests";
+
+const QUESTION_STORAGE_KEY =
+"thehub_test_questions";
+
+
+function readJSON(key,fallback){
+
+    try{
+
+        const value =
+            localStorage.getItem(key);
+
+        if(!value){
+            return fallback;
+        }
+
+        return JSON.parse(value);
+
+    }catch(error){
+
+        console.error(error);
+
+        return fallback;
+
+    }
+
+}
+
+
+function writeJSON(key,value){
+
+    localStorage.setItem(
+        key,
+        JSON.stringify(value)
+    );
+
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+function showStatus(message,type="success"){
+
+    const box =
+        document.getElementById("status");
+
+    box.className =
+        "status "+type;
+
+    box.textContent =
+        message;
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+    setTimeout(()=>{
+
+        box.className="status";
+
+    },4000);
+
+}
+
+
+/* =====================================================
+   TEST TYPE
+===================================================== */
+
+document
+.getElementById("testType")
+.addEventListener(
+    "change",
+    updateTestType
+);
+
+
+document
+.getElementById("access")
+.addEventListener(
+    "change",
+    updatePaymentBox
+);
+
+
+function updateTestType(){
+
+    const type =
+        document.getElementById("testType").value;
+
+    const help =
+        document.getElementById("testTypeHelp");
+
+    const chapterField =
+        document.getElementById("chapterField");
+
+    const sectionField =
+        document.getElementById("sectionField");
+
+    if(type==="chapter"){
+
+        help.textContent =
+            "Chapter के आधार पर test बनाया जाएगा।";
+
+        chapterField.style.display="block";
+        sectionField.style.display="none";
+
+    }
+
+    else if(type==="sectional"){
+
+        help.textContent =
+            "एक subject के selected section/topic का test बनाया जाएगा।";
+
+        chapterField.style.display="none";
+        sectionField.style.display="block";
+
+    }
+
+    else if(type==="full-pyq"){
+
+        help.textContent =
+            "पूरा Previous Year Question Paper / PYQ test बनाया जाएगा।";
+
+        chapterField.style.display="none";
+        sectionField.style.display="none";
+
+    }
+
+    else if(type==="practice-mock"){
+
+        help.textContent =
+            "Practice Mock free practice के लिए बनाया जाएगा।";
+
+        chapterField.style.display="none";
+        sectionField.style.display="none";
+
+    }
+
+    else if(type==="paid-mock"){
+
+        help.textContent =
+            "Paid Mock Test series payment के अंतर्गत रहेगा।";
+
+        chapterField.style.display="none";
+        sectionField.style.display="none";
+
+        /* FINAL FIX */
+        document.getElementById("access").value="paid";
+
+    }
+
+    updatePaymentBox();
+
+}
+
+
+/* =====================================================
+   PAYMENT
+===================================================== */
+
+function updatePaymentBox(){
+
+    const access =
+        document.getElementById("access").value;
+
+    const type =
+        document.getElementById("testType").value;
+
+    const paymentBox =
+        document.getElementById("paymentBox");
+
+    const priceField =
+        document.getElementById("seriesPriceField");
+
+    const isPaid =
+        access==="paid" ||
+        type==="paid-mock";
+
+    if(isPaid){
+
+        paymentBox.classList.add("active");
+
+        priceField.style.display="block";
+
+    }else{
+
+        paymentBox.classList.remove("active");
+
+        priceField.style.display="block";
+
+    }
+
+}
+
+
+/* =====================================================
+   QUESTION TAB
+===================================================== */
+
+function showQuestionTab(type){
+
+    const singlePanel =
+        document.getElementById("singlePanel");
+
+    const bulkPanel =
+        document.getElementById("bulkPanel");
+
+    const singleTab =
+        document.getElementById("singleTab");
+
+    const bulkTab =
+        document.getElementById("bulkTab");
+
+
+    if(type==="single"){
+
+        singlePanel.classList.add("active");
+        bulkPanel.classList.remove("active");
+
+        singleTab.classList.add("active");
+        bulkTab.classList.remove("active");
+
+    }else{
+
+        bulkPanel.classList.add("active");
+        singlePanel.classList.remove("active");
+
+        bulkTab.classList.add("active");
+        singleTab.classList.remove("active");
+
+    }
+
+}
+
+
+/* =====================================================
+   SINGLE QUESTION
+===================================================== */
+
+function addSingleQuestion(){
+
+    const fileName =
+        document.getElementById(
+            "singleFileName"
+        ).value.trim();
+
+    const question =
+        document.getElementById(
+            "singleQuestion"
+        ).value.trim();
+
+    const A =
+        document.getElementById(
+            "optionA"
+        ).value.trim();
+
+    const B =
+        document.getElementById(
+            "optionB"
+        ).value.trim();
+
+    const C =
+        document.getElementById(
+            "optionC"
+        ).value.trim();
+
+    const D =
+        document.getElementById(
+            "optionD"
+        ).value.trim();
+
+    const answer =
+        document.getElementById(
+            "correctAnswer"
+        ).value;
+
+    const explanation =
+        document.getElementById(
+            "singleExplanation"
+        ).value.trim();
+
+    const marks =
+        Number(
+            document.getElementById(
+                "questionMarks"
+            ).value
+        ) || 1;
+
+
+    if(!fileName){
+
+        showStatus(
+            "Question File Name भरें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!question){
+
+        showStatus(
+            "Question लिखना जरूरी है।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!A||!B||!C||!D){
+
+        showStatus(
+            "चारों options भरना जरूरी है।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!answer){
+
+        showStatus(
+            "Correct Answer select करें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const newQuestion = {
+
+        id:
+        "q_"+
+        Date.now()+
+        "_"+
+        Math.random()
+        .toString(36)
+        .substring(2,8),
+
+        fileName,
+
+        question,
+
+        options:{
+            A,
+            B,
+            C,
+            D
+        },
+
+        correctAnswer:answer,
+
+        explanation,
+
+        marks,
+
+        createdAt:
+        new Date().toISOString()
+
+    };
+
+
+    if(editingQuestionIndex>=0){
+
+        currentQuestions[
+            editingQuestionIndex
+        ]=newQuestion;
+
+        editingQuestionIndex=-1;
+
+        showStatus(
+            "Question update हो गया।"
+        );
+
+    }else{
+
+        currentQuestions.push(
+            newQuestion
+        );
+
+        showStatus(
+            "Question successfully add हो गया।"
+        );
+
+    }
+
+
+    renderQuestions();
+
+    clearSingleQuestion();
+
+}
+
+
+/* =====================================================
+   CLEAR SINGLE
+===================================================== */
+
+function clearSingleQuestion(){
+
+    document.getElementById(
+        "singleFileName"
+    ).value="";
+
+    document.getElementById(
+        "singleQuestion"
+    ).value="";
+
+    document.getElementById(
+        "optionA"
+    ).value="";
+
+    document.getElementById(
+        "optionB"
+    ).value="";
+
+    document.getElementById(
+        "optionC"
+    ).value="";
+
+    document.getElementById(
+        "optionD"
+    ).value="";
+
+    document.getElementById(
+        "correctAnswer"
+    ).value="";
+
+    document.getElementById(
+        "singleExplanation"
+    ).value="";
+
+    document.getElementById(
+        "questionMarks"
+    ).value="1";
+
+    editingQuestionIndex=-1;
+
+}
+
+
+/* =====================================================
+   BULK QUESTIONS
+===================================================== */
+
+function addBulkQuestions(){
+
+    const text =
+        document.getElementById(
+            "bulkQuestions"
+        ).value.trim();
+
+
+    if(!text){
+
+        showStatus(
+            "Bulk questions paste करें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const blocks =
+        text
+        .split(/\n\s*---+\s*\n/g)
+        .map(x=>x.trim())
+        .filter(Boolean);
+
+
+    if(!blocks.length){
+
+        showStatus(
+            "Bulk question format सही नहीं है।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    let added=0;
+
+
+    blocks.forEach(block=>{
+
+        const lines =
+            block
+            .split("\n")
+            .map(x=>x.trim())
+            .filter(Boolean);
+
+
+        let fileName="";
+        let question="";
+        let A="";
+        let B="";
+        let C="";
+        let D="";
+        let answer="";
+        let explanation="";
+
+
+        lines.forEach(line=>{
+
+            const lower =
+                line.toLowerCase();
+
+
+            if(lower.startsWith("file:")){
+
+                fileName =
+                    line
+                    .substring(
+                        line.indexOf(":")+1
+                    )
+                    .trim();
+
+            }
+
+            else if(lower.startsWith("question:")){
+
+                question =
+                    line
+                    .substring(
+                        line.indexOf(":")+1
+                    )
+                    .trim();
+
+            }
+
+            else if(lower.startsWith("a:")){
+
+                A =
+                    line
+                    .substring(
+                        line.indexOf(":")+1
+                    )
+                    .trim();
+
+            }
+
+            else if(lower.startsWith("b:")){
+
+                B =
+                    line
+                    .substring(
+                        line.indexOf(":")+1
+                    )
+                    .trim();
+
+            }
+
+            else if(lower.startsWith("c:")){
+
+                C =
+                    line
+                    .substring(
+                        line.indexOf(":")+1
+                    )
+                    .trim();
+
+            }
+
+            else if(lower.startsWith("d:")){
+
+                D =
+                    line
+                    .substring(
+                        line.indexOf(":")+1
+                    )
+                    .trim();
+
+            }
+
+            else if(lower.startsWith("answer:")){
+
+                answer =
+                    line
+                    .substring(
+                        line.indexOf(":")+1
+                    )
+                    .trim()
+                    .toUpperCase();
+
+            }
+
+            else if(lower.startsWith("explanation:")){
+
+                explanation =
+                    line
+                    .substring(
+                        line.indexOf(":")+1
+                    )
+                    .trim();
+
+            }
+
+        });
+
+
+        if(
+            fileName &&
+            question &&
+            A &&
+            B &&
+            C &&
+            D &&
+            ["A","B","C","D"].includes(answer)
+        ){
+
+            currentQuestions.push({
+
+                id:
+                "q_"+
+                Date.now()+
+                "_"+
+                Math.random()
+                .toString(36)
+                .substring(2,10),
+
+                fileName,
+
+                question,
+
+                options:{
+                    A,
+                    B,
+                    C,
+                    D
+                },
+
+                correctAnswer:
+                answer,
+
+                explanation,
+
+                marks:
+                Number(
+                    document.getElementById(
+                        "marksPerQuestion"
+                    ).value
+                )||1,
+
+                createdAt:
+                new Date().toISOString()
+
+            });
+
+            added++;
+
+        }
+
+    });
+
+
+    if(!added){
+
+        showStatus(
+            "एक भी valid question नहीं मिला। File/Question format check करें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    renderQuestions();
+
+    document.getElementById(
+        "bulkQuestions"
+    ).value="";
+
+
+    showStatus(
+        added+
+        " questions successfully add हुए।"
+    );
+
+}
+
+
+/* =====================================================
+   RENDER QUESTIONS
+===================================================== */
+
+function renderQuestions(){
+
+    const list =
+        document.getElementById(
+            "questionList"
+        );
+
+    const count =
+        document.getElementById(
+            "questionCount"
+        );
+
+
+    count.textContent =
+        currentQuestions.length;
+
+
+    if(!currentQuestions.length){
+
+        list.innerHTML=`
+
+        <div
+        style="
+        color:#94a3b8;
+        text-align:center;
+        padding:20px;
+        "
+        >
+        अभी कोई question add नहीं किया गया।
+        </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        currentQuestions
+        .map((q,index)=>{
+
+            return`
+
+            <div class="question-item">
+
+                <div>
+
+                    <div class="question-number">
+                        Question ${index+1}
+                    </div>
+
+                    <div class="question-file">
+                        📄 ${escapeHTML(
+                            q.fileName ||
+                            "No File Name"
+                        )}
+                    </div>
+
+                    <div class="question-text">
+                        ${escapeHTML(q.question)}
+                    </div>
+
+                </div>
+
+                <div class="option-line">
+                    A. ${escapeHTML(q.options.A)}
+                </div>
+
+                <div class="option-line">
+                    B. ${escapeHTML(q.options.B)}
+                </div>
+
+                <div class="option-line">
+                    C. ${escapeHTML(q.options.C)}
+                </div>
+
+                <div class="option-line">
+                    D. ${escapeHTML(q.options.D)}
+                </div>
+
+                <div class="option-line correct-option">
+                    ✅ Correct: ${escapeHTML(q.correctAnswer)}
+                </div>
+
+                <div class="question-actions">
+
+                    <button
+                    class="small-btn btn-blue"
+                    onclick="editQuestion(${index})"
+                    >
+                    ✏️ Edit
+                    </button>
+
+                    <button
+                    class="small-btn btn-red"
+                    onclick="deleteQuestion(${index})"
+                    >
+                    🗑️ Delete
+                    </button>
+
+                </div>
+
+            </div>
+
+            `;
+
+        })
+        .join("");
+
+}
+
+
+/* =====================================================
+   EDIT QUESTION
+===================================================== */
+
+function editQuestion(index){
+
+    const q =
+        currentQuestions[index];
+
+
+    document.getElementById(
+        "singleFileName"
+    ).value =
+        q.fileName||"";
+
+
+    document.getElementById(
+        "singleQuestion"
+    ).value =
+        q.question;
+
+
+    document.getElementById(
+        "optionA"
+    ).value =
+        q.options.A;
+
+
+    document.getElementById(
+        "optionB"
+    ).value =
+        q.options.B;
+
+
+    document.getElementById(
+        "optionC"
+    ).value =
+        q.options.C;
+
+
+    document.getElementById(
+        "optionD"
+    ).value =
+        q.options.D;
+
+
+    document.getElementById(
+        "correctAnswer"
+    ).value =
+        q.correctAnswer;
+
+
+    document.getElementById(
+        "singleExplanation"
+    ).value =
+        q.explanation||"";
+
+
+    document.getElementById(
+        "questionMarks"
+    ).value =
+        q.marks||1;
+
+
+    editingQuestionIndex=index;
+
+
+    showQuestionTab("single");
+
+
+    window.scrollTo({
+
+        top:
+        document.getElementById(
+            "singlePanel"
+        ).getBoundingClientRect().top+
+        window.scrollY-
+        30,
+
+        behavior:"smooth"
+
+    });
+
+}
+
+
+/* =====================================================
+   DELETE QUESTION
+===================================================== */
+
+function deleteQuestion(index){
+
+    if(!confirm(
+        "क्या आप यह question delete करना चाहते हैं?"
+    )){
+
+        return;
+
+    }
+
+
+    currentQuestions.splice(
+        index,
+        1
+    );
+
+
+    renderQuestions();
+
+
+    showStatus(
+        "Question delete हो गया।"
+    );
+
+}
+
+
+/* =====================================================
+   SAVE TEST - FINAL PAID FIX
+===================================================== */
+
+function saveTest(){
+
+    const testType =
+        document.getElementById(
+            "testType"
+        ).value;
+
+
+    const course =
+        document.getElementById(
+            "course"
+        ).value.trim();
+
+
+    const examName =
+        document.getElementById(
+            "examName"
+        ).value.trim();
+
+
+    const category =
+        document.getElementById(
+            "category"
+        ).value.trim();
+
+
+    const subject =
+        document.getElementById(
+            "subject"
+        ).value.trim();
+
+
+    const chapter =
+        document.getElementById(
+            "chapter"
+        ).value.trim();
+
+
+    const section =
+        document.getElementById(
+            "section"
+        ).value.trim();
+
+
+    const questionFileName =
+        document.getElementById(
+            "questionFileName"
+        ).value.trim();
+
+
+    const seriesName =
+        document.getElementById(
+            "seriesName"
+        ).value.trim();
+
+
+    const testNumber =
+        document.getElementById(
+            "testNumber"
+        ).value;
+
+
+    const testName =
+        document.getElementById(
+            "testName"
+        ).value.trim();
+
+
+    const duration =
+        Number(
+            document.getElementById(
+                "duration"
+            ).value
+        );
+
+
+    /*
+       FINAL PAID FIX
+
+       Paid Mock automatically paid होगा।
+    */
+
+    let access =
+        document.getElementById(
+            "access"
+        ).value;
+
+
+    if(testType==="paid-mock"){
+
+        access="paid";
+
+        document.getElementById(
+            "access"
+        ).value="paid";
+
+    }
+
+
+    const seriesPrice =
+        Number(
+            document.getElementById(
+                "seriesPrice"
+            ).value
+        )||0;
+
+
+    const marksPerQuestion =
+        Number(
+            document.getElementById(
+                "marksPerQuestion"
+            ).value
+        )||1;
+
+
+    const negativeMarks =
+        Number(
+            document.getElementById(
+                "negativeMarks"
+            ).value
+        )||0;
+
+
+    if(!course){
+
+        showStatus(
+            "Course भरें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!examName){
+
+        showStatus(
+            "Exam Name भरें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!subject){
+
+        showStatus(
+            "Subject भरें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!seriesName){
+
+        showStatus(
+            "Test Series Name भरें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!testName){
+
+        showStatus(
+            "Test Name भरें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        testType==="chapter" &&
+        !chapter
+    ){
+
+        showStatus(
+            "Chapter भरें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        testType==="sectional" &&
+        !section
+    ){
+
+        showStatus(
+            "Section / Topic भरें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    /*
+       FINAL PAID PRICE VALIDATION
+    */
+
+    if(
+        (
+            access==="paid" ||
+            testType==="paid-mock"
+        ) &&
+        seriesPrice<=0
+    ){
+
+        showStatus(
+            "Paid Series के लिए Series Price भरें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!currentQuestions.length){
+
+        showStatus(
+            "कम से कम एक question add करें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const tests =
+        readJSON(
+            TEST_STORAGE_KEY,
+            []
+        );
+
+
+    const test = {
+
+        id:
+        editingTestId||
+        "test_"+Date.now(),
+
+        testType,
+
+        course,
+
+        examName,
+
+        category,
+
+        subject,
+
+        chapter,
+
+        section,
+
+        questionFileName,
+
+        seriesName,
+
+        testNumber,
+
+        testName,
+
+        duration,
+
+        /*
+           IMPORTANT
+           Paid Mock = paid
+        */
+
+        access:
+
+        testType==="paid-mock"
+        ? "paid"
+        : access,
+
+        seriesPrice,
+
+        marksPerQuestion,
+
+        negativeMarks,
+
+        questions:
+        [...currentQuestions],
+
+        totalQuestions:
+        currentQuestions.length,
+
+        totalMarks:
+        currentQuestions.reduce(
+            (total,q)=>
+                total+
+                (
+                    Number(q.marks)||
+                    marksPerQuestion
+                ),
+            0
+        ),
+
+        updatedAt:
+        new Date().toISOString()
+
+    };
+
+
+    const existingIndex =
+        tests.findIndex(
+            t=>t.id===test.id
+        );
+
+
+    if(existingIndex>=0){
+
+        tests[
+            existingIndex
+        ]=test;
+
+    }else{
+
+        tests.push(test);
+
+    }
+
+
+    writeJSON(
+        TEST_STORAGE_KEY,
+        tests
+    );
+
+
+    /*
+       QUESTION DATABASE
+    */
+
+    const allQuestions =
+        readJSON(
+            QUESTION_STORAGE_KEY,
+            []
+        );
+
+
+    currentQuestions.forEach(q=>{
+
+        const index =
+            allQuestions.findIndex(
+                x=>x.id===q.id
+            );
+
+
+        if(index>=0){
+
+            allQuestions[index]={
+
+                ...q,
+
+                testId:test.id,
+
+                seriesName,
+
+                testName
+
+            };
+
+        }else{
+
+            allQuestions.push({
+
+                ...q,
+
+                testId:test.id,
+
+                seriesName,
+
+                testName
+
+            });
+
+        }
+
+    });
+
+
+    writeJSON(
+        QUESTION_STORAGE_KEY,
+        allQuestions
+    );
+
+
+    editingTestId =
+        test.id;
+
+
+    renderSavedTests();
+
+
+    showStatus(
+        test.access==="paid"
+        ? "✅ Paid Series Test successfully save हो गया।"
+        : "✅ Test successfully save हो गया।"
+    );
+
+}
+
+
+/* =====================================================
+   SAVED TESTS - FINAL PAID DISPLAY FIX
+===================================================== */
+
+function renderSavedTests(){
+
+    const box =
+        document.getElementById(
+            "savedTests"
+        );
+
+
+    const tests =
+        readJSON(
+            TEST_STORAGE_KEY,
+            []
+        );
+
+
+    if(!tests.length){
+
+        box.innerHTML=`
+
+        <div
+        style="
+        color:#94a3b8;
+        text-align:center;
+        padding:20px;
+        "
+        >
+        अभी कोई test save नहीं है।
+        </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    box.innerHTML =
+        tests
+        .slice()
+        .reverse()
+        .map(test=>{
+
+            /*
+               FINAL PAID DETECTION
+
+               दोनों condition काम करेंगी:
+               1. access = paid
+               2. testType = paid-mock
+            */
+
+            const paid =
+                test.access==="paid" ||
+                test.testType==="paid-mock";
+
+
+            const typeName =
+                getTestTypeName(
+                    test.testType
+                );
+
+
+            const seriesPrice =
+                Number(
+                    test.seriesPrice||0
+                );
+
+
+            return`
+
+            <div class="test-item">
+
+                <div class="test-title">
+
+                    ${escapeHTML(
+                        test.testName||
+                        "Untitled Test"
+                    )}
+
+                </div>
+
+
+                <div class="test-meta">
+
+                    📝 Type:
+                    <b>
+                    ${escapeHTML(typeName)}
+                    </b>
+
+                    <br>
+
+                    📚 Series:
+                    ${escapeHTML(
+                        test.seriesName||"-"
+                    )}
+
+                    <br>
+
+                    🔢 Test No:
+                    ${escapeHTML(
+                        test.testNumber||"-"
+                    )}
+
+                    <br>
+
+                    📄 Question File:
+                    ${escapeHTML(
+                        test.questionFileName||"-"
+                    )}
+
+                    <br>
+
+                    📚 Course:
+                    ${escapeHTML(
+                        test.course||"-"
+                    )}
+
+                    <br>
+
+                    🏛️ Exam:
+                    ${escapeHTML(
+                        test.examName||"-"
+                    )}
+
+                    <br>
+
+                    📘 Subject:
+                    ${escapeHTML(
+                        test.subject||"-"
+                    )}
+
+                    <br>
+
+                    ❓ Questions:
+                    ${Number(
+                        test.totalQuestions||0
+                    )}
+
+                    <br>
+
+                    🎯 Total Marks:
+                    ${Number(
+                        test.totalMarks||0
+                    )}
+
+                    <br>
+
+                    ⏱️ Time:
+                    ${Number(
+                        test.duration||0
+                    )} Minutes
+
+                    <br>
+
+                    🔐 Access:
+
+                    <span
+                    class="badge ${
+                        paid
+                        ? "badge-paid"
+                        : "badge-free"
+                    }"
+                    >
+
+                    ${
+                        paid
+                        ? "💳 Paid Series"
+                        : "🆓 Free Test"
+                    }
+
+                    </span>
+
+                    ${
+                        paid
+                        ? `
+
+                        <div class="paid-series-card">
+
+                            💳 <b>Paid Test Series</b>
+
+                            <br>
+
+                            💰 Series Price:
+                            <strong>
+                            ₹${seriesPrice}
+                            </strong>
+
+                        </div>
+
+                        `
+                        : ""
+                    }
+
+                </div>
+
+
+                <div class="question-actions">
+
+                    <button
+                    class="small-btn btn-blue"
+                    onclick="loadTest('${test.id}')"
+                    >
+                    ✏️ Edit Test
+                    </button>
+
+
+                    <button
+                    class="small-btn btn-red"
+                    onclick="deleteTest('${test.id}')"
+                    >
+                    🗑️ Delete Test
+                    </button>
+
+                </div>
+
+            </div>
+
+            `;
+
+        })
+        .join("");
+
+}
+
+
+/* =====================================================
+   LOAD TEST
+===================================================== */
+
+function loadTest(id){
+
+    const tests =
+        readJSON(
+            TEST_STORAGE_KEY,
+            []
+        );
+
+
+    const test =
+        tests.find(
+            t=>t.id===id
+        );
+
+
+    if(!test){
+
+        showStatus(
+            "Test नहीं मिला।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    editingTestId =
+        test.id;
+
+
+    document.getElementById(
+        "testType"
+    ).value =
+        test.testType||"chapter";
+
+
+    document.getElementById(
+        "course"
+    ).value =
+        test.course||"";
+
+
+    document.getElementById(
+        "examName"
+    ).value =
+        test.examName||"";
+
+
+    document.getElementById(
+        "category"
+    ).value =
+        test.category||"";
+
+
+    document.getElementById(
+        "subject"
+    ).value =
+        test.subject||"";
+
+
+    document.getElementById(
+        "chapter"
+    ).value =
+        test.chapter||"";
+
+
+    document.getElementById(
+        "section"
+    ).value =
+        test.section||"";
+
+
+    document.getElementById(
+        "questionFileName"
+    ).value =
+        test.questionFileName||"";
+
+
+    document.getElementById(
+        "seriesName"
+    ).value =
+        test.seriesName||"";
+
+
+    document.getElementById(
+        "testNumber"
+    ).value =
+        test.testNumber||1;
+
+
+    document.getElementById(
+        "testName"
+    ).value =
+        test.testName||"";
+
+
+    document.getElementById(
+        "duration"
+    ).value =
+        test.duration||30;
+
+
+    /*
+       OLD DATA + NEW PAID DATA
+       दोनों handle होंगे।
+    */
+
+    const isPaid =
+        test.access==="paid" ||
+        test.testType==="paid-mock";
+
+
+    document.getElementById(
+        "access"
+    ).value =
+        isPaid
+        ? "paid"
+        : "free";
+
+
+    document.getElementById(
+        "seriesPrice"
+    ).value =
+        test.seriesPrice||0;
+
+
+    document.getElementById(
+        "marksPerQuestion"
+    ).value =
+        test.marksPerQuestion||1;
+
+
+    document.getElementById(
+        "negativeMarks"
+    ).value =
+        test.negativeMarks||0;
+
+
+    currentQuestions =
+        Array.isArray(test.questions)
+        ? [...test.questions]
+        : [];
+
+
+    updateTestType();
+
+    updatePaymentBox();
+
+    renderQuestions();
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+
+    showStatus(
+        "Test edit mode में load हो गया।"
+    );
+
+}
+
+
+/* =====================================================
+   DELETE TEST
+===================================================== */
+
+function deleteTest(id){
+
+    if(!confirm(
+        "क्या आप यह पूरा test delete करना चाहते हैं?"
+    )){
+
+        return;
+
+    }
+
+
+    let tests =
+        readJSON(
+            TEST_STORAGE_KEY,
+            []
+        );
+
+
+    tests =
+        tests.filter(
+            t=>t.id!==id
+        );
+
+
+    writeJSON(
+        TEST_STORAGE_KEY,
+        tests
+    );
+
+
+    let allQuestions =
+        readJSON(
+            QUESTION_STORAGE_KEY,
+            []
+        );
+
+
+    allQuestions =
+        allQuestions.filter(
+            q=>q.testId!==id
+        );
+
+
+    writeJSON(
+        QUESTION_STORAGE_KEY,
+        allQuestions
+    );
+
+
+    renderSavedTests();
+
+
+    if(editingTestId===id){
+
+        newTest();
+
+    }
+
+
+    showStatus(
+        "Test delete हो गया।"
+    );
+
+}
+
+
+/* =====================================================
+   NEW TEST
+===================================================== */
+
+function newTest(){
+
+    editingTestId=null;
+
+    currentQuestions=[];
+
+    editingQuestionIndex=-1;
+
+
+    document
+    .querySelectorAll(
+        "input, textarea"
+    )
+    .forEach(element=>{
+
+        if(
+            element.id==="testNumber"
+        ){
+
+            element.value="1";
+
+        }
+
+        else if(
+            element.id==="duration"
+        ){
+
+            element.value="30";
+
+        }
+
+        else if(
+            element.id==="marksPerQuestion"
+        ){
+
+            element.value="1";
+
+        }
+
+        else if(
+            element.id==="negativeMarks"
+        ){
+
+            element.value="0";
+
+        }
+
+        else if(
+            element.id==="seriesPrice"
+        ){
+
+            element.value="0";
+
+        }
+
+        else{
+
+            element.value="";
+
+        }
+
+    });
+
+
+    document.getElementById(
+        "testType"
+    ).value="chapter";
+
+
+    document.getElementById(
+        "access"
+    ).value="free";
+
+
+    clearSingleQuestion();
+
+    clearBulkQuestions();
+
+    updateTestType();
+
+    renderQuestions();
+
+
+    showStatus(
+        "नया test बनाने के लिए form तैयार है।"
+    );
+
+}
+
+
+/* =====================================================
+   CLEAR BULK
+===================================================== */
+
+function clearBulkQuestions(){
+
+    document.getElementById(
+        "bulkQuestions"
+    ).value="";
+
+}
+
+
+/* =====================================================
+   TYPE NAME
+===================================================== */
+
+function getTestTypeName(type){
+
+    const names={
+
+        chapter:
+        "📖 Chapter Test",
+
+        sectional:
+        "📚 Sectional Test",
+
+        "full-pyq":
+        "📜 Full PYQ",
+
+        "practice-mock":
+        "📝 Practice Mock",
+
+        "paid-mock":
+        "💳 Paid Mock"
+
+    };
+
+
+    return names[type]||type;
+
+}
+
+
+/* =====================================================
+   ESCAPE
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(
+        value??""
+    )
+
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   BACK
+===================================================== */
+
+function goBack(){
+
+    window.location.href =
+        "admin-dashboard.html";
+
+}
+
+
+/* =====================================================
+   INITIAL LOAD
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    ()=>{
+
+        updateTestType();
+
+        updatePaymentBox();
+
+        renderQuestions();
+
+        renderSavedTests();
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>

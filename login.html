@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>RM Vidya Peeth - Login</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <style>
+
+        .login-page {
+            max-width: 450px;
+            margin: 35px auto;
+            padding: 0 15px 50px;
+        }
+
+        .login-box {
+            background: white;
+            color: #111827;
+            padding: 25px 20px;
+            border-radius: 16px;
+            box-shadow: 0 3px 12px #0002;
+        }
+
+        .login-box h2,
+        .login-box h3 {
+            text-align: center;
+        }
+
+        .login-box label {
+            display: block;
+            margin-top: 12px;
+            font-weight: bold;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 7px;
+            box-sizing: border-box;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .main-login-btn {
+            width: 100%;
+            margin-top: 18px;
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            background: #1565c0;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .main-login-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .signup-btn {
+            width: 100%;
+            margin-top: 12px;
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            background: #2e7d32;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .admin-btn {
+            width: 100%;
+            margin-top: 12px;
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            background: #6a1b9a;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .secondary-btn {
+            width: 100%;
+            margin-top: 10px;
+            padding: 11px;
+            border: none;
+            border-radius: 8px;
+            background: #e2e8f0;
+            color: #111827;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .forgot-btn {
+            width: 100%;
+            margin-top: 12px;
+            border: none;
+            background: none;
+            color: #1565c0;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .auth-error {
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            background: #fee2e2;
+            color: #991b1b;
+            font-size: 13px;
+            display: none;
+        }
+
+        .brand-tagline {
+            text-align: center;
+            margin-top: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+
+        .rm-vidya-footer {
+            text-align: center;
+            margin: 25px 15px 20px;
+            line-height: 1.6;
+        }
+
+        .footer-brand {
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .footer-teacher {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .footer-copy {
+            font-size: 13px;
+            margin-top: 4px;
+            opacity: 0.85;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="top-header">
+
+    <div class="app-name">
+        RM Vidya Peeth
+    </div>
+
+    <div class="brand-tagline">
+        By Ranjan Mishra Sir
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     LOGIN PAGE
+===================================================== -->
+
+<main class="login-page">
+
+    <div class="login-box">
+
+        <h2>
+            🔐 Welcome to RM Vidya Peeth
+        </h2>
+
+        <p style="text-align:center;">
+            अपना Login Type चुनें
+        </p>
+
+
+        <!-- =================================================
+             STUDENT LOGIN
+        ================================================= -->
+
+        <button
+            type="button"
+            class="main-login-btn"
+            onclick="showStudentLogin()"
+        >
+            👨‍🎓 Student Login
+        </button>
+
+
+        <!-- =================================================
+             DIRECT STUDENT SIGNUP
+        ================================================= -->
+
+        <button
+            type="button"
+            class="signup-btn"
+            onclick="window.location.href='signup.html'"
+        >
+            📝 Student Signup
+        </button>
+
+
+        <!-- =================================================
+             ADMIN LOGIN
+        ================================================= -->
+
+        <button
+            type="button"
+            class="admin-btn"
+            onclick="openAdminLogin()"
+        >
+            👨‍💼 Admin Login
+        </button>
+
+
+        <!-- =================================================
+             FORM AREA
+        ================================================= -->
+
+        <div
+            id="loginForm"
+            style="margin-top:20px;"
+        ></div>
+
+
+        <div
+            id="authError"
+            class="auth-error"
+        ></div>
+
+    </div>
+
+</main>
+
+
+
+<!-- =====================================================
+     STUDENT LOGIN FORM
+===================================================== -->
+
+<script>
+
+window.showStudentLogin = function () {
+
+    const form =
+        document.getElementById("loginForm");
+
+    const errorBox =
+        document.getElementById("authError");
+
+
+    if (errorBox) {
+
+        errorBox.style.display =
+            "none";
+
+        errorBox.textContent =
+            "";
+
+    }
+
+
+    form.innerHTML = `
+
+        <div>
+
+            <h3>
+                👨‍🎓 Student Login
+            </h3>
+
+
+            <label>
+                📧 Email / 📱 Mobile Number
+            </label>
+
+
+            <input
+                type="text"
+                id="studentLoginEmail"
+                class="login-input"
+                placeholder="Email या 10 Digit Mobile Number"
+                autocomplete="username"
+            >
+
+
+            <label>
+                🔐 Password
+            </label>
+
+
+            <input
+                type="password"
+                id="studentLoginPassword"
+                class="login-input"
+                placeholder="Password"
+                autocomplete="current-password"
+            >
+
+
+            <button
+                type="button"
+                id="studentLoginBtn"
+                class="main-login-btn"
+                onclick="studentLoginNew()"
+            >
+                🔐 Login
+            </button>
+
+
+            <button
+                type="button"
+                class="forgot-btn"
+                onclick="showForgotPassword()"
+            >
+                🔑 Forgot Password?
+            </button>
+
+
+            <!-- DIRECT SIGNUP -->
+
+            <button
+                type="button"
+                class="secondary-btn"
+                onclick="window.location.href='signup.html'"
+            >
+                📝 Create New Account
+            </button>
+
+        </div>
+
+    `;
+
+};
+
+</script>
+
+
+
+<!-- =====================================================
+     FORGOT PASSWORD
+===================================================== -->
+
+<script>
+
+window.showForgotPassword = function () {
+
+    const form =
+        document.getElementById("loginForm");
+
+    const errorBox =
+        document.getElementById("authError");
+
+
+    if (errorBox) {
+
+        errorBox.style.display =
+            "none";
+
+        errorBox.textContent =
+            "";
+
+    }
+
+
+    form.innerHTML = `
+
+        <div>
+
+            <h3>
+                🔑 Forgot Password
+            </h3>
+
+
+            <p style="text-align:center;">
+                Registered Email डालें।
+            </p>
+
+
+            <label>
+                📧 Email
+            </label>
+
+
+            <input
+                type="email"
+                id="forgotEmail"
+                class="login-input"
+                placeholder="Registered Email"
+                autocomplete="email"
+            >
+
+
+            <button
+                type="button"
+                id="resetPasswordBtn"
+                class="main-login-btn"
+                onclick="resetStudentPassword()"
+            >
+                📩 Send Reset Link
+            </button>
+
+
+            <div
+                id="resetInfo"
+                style="
+                    margin-top:12px;
+                    text-align:center;
+                    font-size:13px;
+                    color:#475569;
+                    line-height:1.6;
+                "
+            ></div>
+
+
+            <button
+                type="button"
+                class="secondary-btn"
+                onclick="showStudentLogin()"
+            >
+                ← Back to Login
+            </button>
+
+        </div>
+
+    `;
+
+};
+
+</script>
+
+
+
+<!-- =====================================================
+     ADMIN LOGIN
+===================================================== -->
+
+<script>
+
+window.openAdminLogin = function () {
+
+    window.location.href =
+        "admin-login.html";
+
+};
+
+</script>
+
+
+
+<!-- =====================================================
+     FIREBASE AUTH
+===================================================== -->
+
+<script
+    type="module"
+    src="./auth.js"
+></script>
+
+
+
+<!-- =====================================================
+     OPEN LOGIN FORM
+===================================================== -->
+
+<script>
+
+window.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        showStudentLogin();
+
+    }
+);
+
+</script>
+
+
+
+<!-- =====================================================
+     COPYRIGHT
+===================================================== -->
+
+<footer
+    class="rm-vidya-footer"
+    aria-label="Copyright"
+>
+
+    <div class="footer-brand">
+        RM Vidya Peeth
+    </div>
+
+    <div class="footer-teacher">
+        By Ranjan Mishra Sir
+    </div>
+
+    <div class="footer-copy">
+        © 2026 RM Vidya Peeth. All Rights Reserved.
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

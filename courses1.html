@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0"
+>
+
+<title>Career Tips - Courses</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial,sans-serif;
+}
+
+.courses-page{
+    max-width:1100px;
+    margin:auto;
+    padding:20px 15px 80px;
+}
+
+.header{
+    background:linear-gradient(
+        135deg,
+        #2563eb,
+        #0891b2
+    );
+    padding:24px;
+    border-radius:18px;
+    margin-bottom:18px;
+}
+
+.header h1{
+    margin:0 0 8px;
+    font-size:28px;
+}
+
+.header p{
+    margin:0;
+    color:#e0f2fe;
+}
+
+.student-box{
+    background:#172554;
+    border:1px solid #1d4ed8;
+    padding:14px 16px;
+    border-radius:12px;
+    margin-bottom:18px;
+}
+
+.back-btn{
+    padding:10px 18px;
+    margin-bottom:18px;
+    border:0;
+    border-radius:9px;
+    background:#334155;
+    color:#fff;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.back-btn:hover{
+    background:#475569;
+}
+
+.filter-box{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.filter-btn{
+    border:1px solid #475569;
+    background:#1e293b;
+    color:#cbd5e1;
+    padding:10px 15px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:bold;
+    font-size:14px;
+}
+
+.filter-btn:hover{
+    background:#334155;
+}
+
+.filter-btn.active{
+    background:#2563eb;
+    border-color:#3b82f6;
+    color:#fff;
+}
+
+.course-count{
+    color:#94a3b8;
+    font-size:14px;
+    margin-bottom:14px;
+}
+
+.course-grid{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(250px,1fr));
+    gap:16px;
+}
+
+.course-card{
+    background:#1e293b;
+    border:1px solid #334155;
+    border-radius:16px;
+    padding:20px;
+    transition:.2s;
+}
+
+.course-card:hover{
+    transform:translateY(-3px);
+    background:#263449;
+}
+
+.course-icon{
+    font-size:42px;
+    margin-bottom:8px;
+}
+
+.course-card h3{
+    margin:0 0 8px;
+    line-height:1.4;
+}
+
+.course-card p{
+    color:#cbd5e1;
+    min-height:42px;
+    line-height:1.5;
+}
+
+.badge-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+    margin:10px 0;
+}
+
+.badge{
+    display:inline-block;
+    padding:6px 9px;
+    border-radius:7px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.badge-free{
+    background:#14532d;
+    color:#86efac;
+}
+
+.badge-paid{
+    background:#78350f;
+    color:#fde68a;
+}
+
+.badge-test{
+    background:#164e63;
+    color:#67e8f9;
+}
+
+.price-paid{
+    color:#fbbf24;
+    font-size:20px;
+    font-weight:bold;
+    margin:12px 0;
+}
+
+.price-free{
+    color:#4ade80;
+    font-size:18px;
+    font-weight:bold;
+    margin:12px 0;
+}
+
+.course-btn{
+    width:100%;
+    padding:12px;
+    border:0;
+    border-radius:9px;
+    background:#2563eb;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:15px;
+}
+
+.course-btn:hover{
+    background:#1d4ed8;
+}
+
+.course-btn.paid-btn{
+    background:#d97706;
+}
+
+.course-btn.paid-btn:hover{
+    background:#b45309;
+}
+
+.course-btn.test-btn{
+    background:#0891b2;
+}
+
+.course-btn.test-btn:hover{
+    background:#0e7490;
+}
+
+.course-id{
+    color:#64748b;
+    font-size:11px;
+    margin-top:10px;
+    word-break:break-all;
+}
+
+.loading,
+.empty,
+.error{
+    background:#1e293b;
+    border:1px solid #334155;
+    padding:30px;
+    border-radius:12px;
+    text-align:center;
+    color:#cbd5e1;
+}
+
+.error{
+    background:#450a0a;
+    color:#fecaca;
+}
+
+footer{
+    text-align:center;
+    padding:20px;
+    color:#94a3b8;
+    font-size:13px;
+}
+
+@media(max-width:600px){
+
+    .courses-page{
+        padding:15px 10px 70px;
+    }
+
+    .header{
+        padding:20px;
+    }
+
+    .filter-btn{
+        flex:1;
+        min-width:100px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="courses-page">
+
+    <div class="header">
+
+        <h1 id="pageTitle">
+            📚 Career Tips Courses
+        </h1>
+
+        <p id="pageSubtitle">
+            अपने सभी courses यहाँ देखें।
+        </p>
+
+    </div>
+
+
+    <div
+        id="studentInfo"
+        class="student-box"
+    >
+        👤 Student account loading...
+    </div>
+
+
+    <button
+        class="back-btn"
+        onclick="goDashboard()"
+    >
+        ← Student Dashboard
+    </button>
+
+
+    <div class="filter-box">
+
+        <button
+            id="filterAll"
+            class="filter-btn active"
+            onclick="setFilter('all')"
+        >
+            📚 All
+        </button>
+
+        <button
+            id="filterFree"
+            class="filter-btn"
+            onclick="setFilter('free')"
+        >
+            🆓 Free
+        </button>
+
+        <button
+            id="filterPaid"
+            class="filter-btn"
+            onclick="setFilter('paid')"
+        >
+            💳 Paid
+        </button>
+
+        <button
+            id="filterTest"
+            class="filter-btn"
+            onclick="setFilter('test-pass')"
+        >
+            🎟️ Test Pass
+        </button>
+
+    </div>
+
+
+    <div id="coursesContainer">
+
+        <div class="loading">
+            📚 Courses loading...
+        </div>
+
+    </div>
+
+</div>
+
+
+<footer>
+    © 2026 Career Tips. All Rights Reserved.
+</footer>
+
+
+<script type="module">
+
+import { db } from "./firebase-config.js";
+
+import {
+    collection,
+    getDocs
+}
+from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+let allCourses = [];
+
+let currentFilter = "all";
+
+
+// =====================================================
+// STUDENT
+// =====================================================
+
+function getCurrentStudent(){
+
+    const logged =
+        localStorage.getItem(
+            "studentLoggedIn"
+        );
+
+    const raw =
+        localStorage.getItem(
+            "studentUser"
+        );
+
+
+    if(
+        logged === "true" &&
+        raw
+    ){
+
+        try{
+
+            return JSON.parse(raw);
+
+        }catch(error){
+
+            console.error(error);
+
+        }
+
+    }
+
+
+    return null;
+
+}
+
+
+// =====================================================
+// LOGIN CHECK
+// =====================================================
+
+function checkLogin(){
+
+    const student =
+        getCurrentStudent();
+
+
+    if(!student){
+
+        window.location.replace(
+            "login.html"
+        );
+
+        return false;
+
+    }
+
+
+    const name =
+        student.name ||
+        student.fullName ||
+        student.displayName ||
+        student.email ||
+        student.username ||
+        "Student";
+
+
+    document.getElementById(
+        "studentInfo"
+    ).innerHTML =
+        "👤 Welcome, <b>" +
+        escapeHTML(name) +
+        "</b>";
+
+
+    return true;
+
+}
+
+
+// =====================================================
+// FIREBASE COURSES
+// =====================================================
+
+async function getFirebaseCourses(){
+
+    const snapshot =
+        await getDocs(
+            collection(
+                db,
+                "courses"
+            )
+        );
+
+
+    const courses = [];
+
+
+    snapshot.forEach(function(item){
+
+        const data =
+            item.data() || {};
+
+
+        courses.push({
+
+            ...data,
+
+            id:
+                data.id ||
+                data.courseId ||
+                data.courseID ||
+                item.id
+
+        });
+
+    });
+
+
+    return courses;
+
+}
+
+
+// =====================================================
+// LOCAL BACKUP
+// =====================================================
+
+function getLocalCourses(){
+
+    try{
+
+        const data =
+            JSON.parse(
+                localStorage.getItem(
+                    "ssc_courses"
+                ) || "[]"
+            );
+
+
+        return Array.isArray(data)
+            ? data
+            : [];
+
+    }catch(error){
+
+        return [];
+
+    }
+
+}
+
+
+// =====================================================
+// NORMALIZE
+// =====================================================
+
+function normalizeCourses(courses){
+
+    return courses.map(function(course){
+
+        const access =
+            String(
+                course.accessType || ""
+            )
+            .trim()
+            .toLowerCase();
+
+
+        const type =
+            String(
+                course.type || ""
+            )
+            .trim()
+            .toLowerCase();
+
+
+        const courseType =
+            String(
+                course.courseType || ""
+            )
+            .trim()
+            .toLowerCase();
+
+
+        const paid =
+            course.isPaid === true ||
+            course.paid === true ||
+            access === "paid" ||
+            type === "paid" ||
+            courseType === "paid";
+
+
+        const price =
+            Number(
+                course.price || 0
+            );
+
+
+        return {
+
+            ...course,
+
+            id:
+                String(
+                    course.id ||
+                    course.courseId ||
+                    course.courseID ||
+                    ""
+                ).trim(),
+
+            name:
+                course.name ||
+                course.courseName ||
+                course.title ||
+                "Course",
+
+            exam:
+                course.exam ||
+                course.courseExam ||
+                course.examName ||
+                "Career Tips",
+
+            isPaid:
+                paid,
+
+            paid:
+                paid,
+
+            accessType:
+                paid
+                ? "paid"
+                : "free",
+
+            price:
+                Number.isFinite(price)
+                ? price
+                : 0
+
+        };
+
+    });
+
+}
+
+
+// =====================================================
+// LOAD
+// =====================================================
+
+async function loadCourses(){
+
+    const container =
+        document.getElementById(
+            "coursesContainer"
+        );
+
+
+    try{
+
+        container.innerHTML = `
+            <div class="loading">
+                📚 Firebase से Courses loading...
+            </div>
+        `;
+
+
+        let courses = [];
+
+
+        try{
+
+            courses =
+                await getFirebaseCourses();
+
+        }catch(error){
+
+            console.warn(
+                "Firebase course load failed:",
+                error
+            );
+
+        }
+
+
+        if(!courses.length){
+
+            courses =
+                getLocalCourses();
+
+        }
+
+
+        allCourses =
+            normalizeCourses(
+                courses
+            );
+
+
+        if(allCourses.length){
+
+            localStorage.setItem(
+                "ssc_courses",
+                JSON.stringify(
+                    allCourses
+                )
+            );
+
+        }
+
+
+        currentFilter =
+            getURLFilter();
+
+
+        renderCourses();
+
+    }catch(error){
+
+        console.error(error);
+
+        container.innerHTML = `
+            <div class="error">
+                ❌ Courses load नहीं हो सके।
+                <br><br>
+                ${escapeHTML(
+                    error.message
+                )}
+            </div>
+        `;
+
+    }
+
+}
+
+
+// =====================================================
+// URL FILTER
+// =====================================================
+
+function getURLFilter(){
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const type =
+        String(
+            params.get("type") || ""
+        )
+        .toLowerCase();
+
+
+    if(
+        type === "free" ||
+        type === "paid" ||
+        type === "test-pass"
+    ){
+
+        return type;
+
+    }
+
+
+    return "all";
+
+}
+
+
+// =====================================================
+// SET FILTER
+// =====================================================
+
+window.setFilter =
+function(filter){
+
+    currentFilter =
+        filter || "all";
+
+
+    renderCourses();
+
+};
+
+
+// =====================================================
+// FILTER
+// =====================================================
+
+function getFilteredCourses(){
+
+    if(
+        currentFilter ===
+        "paid"
+    ){
+
+        return allCourses.filter(
+            course =>
+                isPaidCourse(course)
+        );
+
+    }
+
+
+    if(
+        currentFilter ===
+        "free"
+    ){
+
+        return allCourses.filter(
+            course =>
+                !isPaidCourse(course)
+        );
+
+    }
+
+
+    if(
+        currentFilter ===
+        "test-pass"
+    ){
+
+        return allCourses.filter(
+            course =>
+                isTestPass(course)
+        );
+
+    }
+
+
+    return allCourses;
+
+}
+
+
+// =====================================================
+// PAID
+// =====================================================
+
+function isPaidCourse(course){
+
+    return (
+
+        course.isPaid === true ||
+
+        course.paid === true ||
+
+        String(
+            course.accessType || ""
+        ).toLowerCase() === "paid" ||
+
+        String(
+            course.type || ""
+        ).toLowerCase() === "paid" ||
+
+        String(
+            course.courseType || ""
+        ).toLowerCase() === "paid"
+
+    );
+
+}
+
+
+// =====================================================
+// TEST PASS
+// =====================================================
+
+function isTestPass(course){
+
+    const name =
+        String(
+            course.name ||
+            course.courseName ||
+            course.title ||
+            ""
+        )
+        .toLowerCase();
+
+
+    const type =
+        String(
+            course.type || ""
+        )
+        .toLowerCase();
+
+
+    const courseType =
+        String(
+            course.courseType || ""
+        )
+        .toLowerCase();
+
+
+    return (
+
+        course.testPass === true ||
+
+        course.isTestPass === true ||
+
+        type === "test-pass" ||
+
+        courseType === "test-pass" ||
+
+        name.includes("test pass") ||
+
+        name.includes("test-pass")
+
+    );
+
+}
+
+
+// =====================================================
+// PRICE
+// =====================================================
+
+function getPrice(course){
+
+    const price =
+        Number(
+            course.price || 0
+        );
+
+
+    return (
+        Number.isFinite(price) &&
+        price > 0
+    )
+    ? price
+    : 0;
+
+}
+
+
+// =====================================================
+// TITLE
+// =====================================================
+
+function updateTitle(){
+
+    const title =
+        document.getElementById(
+            "pageTitle"
+        );
+
+    const subtitle =
+        document.getElementById(
+            "pageSubtitle"
+        );
+
+
+    if(
+        currentFilter === "free"
+    ){
+
+        title.textContent =
+            "🆓 Free Courses";
+
+        subtitle.textContent =
+            "सभी Free Courses यहाँ उपलब्ध हैं।";
+
+    }
+
+    else if(
+        currentFilter === "paid"
+    ){
+
+        title.textContent =
+            "💳 Paid Courses";
+
+        subtitle.textContent =
+            "सभी Paid Courses यहाँ देखें।";
+
+    }
+
+    else if(
+        currentFilter === "test-pass"
+    ){
+
+        title.textContent =
+            "🎟️ Test Pass";
+
+        subtitle.textContent =
+            "सभी Test Pass यहाँ देखें।";
+
+    }
+
+    else{
+
+        title.textContent =
+            "📚 Career Tips Courses";
+
+        subtitle.textContent =
+            "अपने सभी courses यहाँ देखें।";
+
+    }
+
+}
+
+
+// =====================================================
+// FILTER BUTTON UI
+// =====================================================
+
+function updateFilterButtons(){
+
+    document
+        .querySelectorAll(
+            ".filter-btn"
+        )
+        .forEach(function(button){
+
+            button.classList.remove(
+                "active"
+            );
+
+        });
+
+
+    const id =
+        currentFilter === "free"
+        ? "filterFree"
+        : currentFilter === "paid"
+        ? "filterPaid"
+        : currentFilter === "test-pass"
+        ? "filterTest"
+        : "filterAll";
+
+
+    document
+        .getElementById(id)
+        ?.classList.add(
+            "active"
+        );
+
+}
+
+
+// =====================================================
+// RENDER
+// =====================================================
+
+function renderCourses(){
+
+    updateTitle();
+
+    updateFilterButtons();
+
+
+    const container =
+        document.getElementById(
+            "coursesContainer"
+        );
+
+
+    const courses =
+        getFilteredCourses();
+
+
+    if(!courses.length){
+
+        container.innerHTML = `
+            <div class="empty">
+                📚 इस category में कोई Course उपलब्ध नहीं है।
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML = `
+
+        <div class="course-count">
+
+            📚 ${courses.length}
+            ${
+                courses.length === 1
+                ? "Course"
+                : "Courses"
+            }
+
+        </div>
+
+        <div class="course-grid">
+
+            ${
+                courses
+                .map(function(course,index){
+
+                    return renderCourse(
+                        course,
+                        index
+                    );
+
+                })
+                .join("")
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+// =====================================================
+// CARD
+// =====================================================
+
+function renderCourse(
+    course,
+    index
+){
+
+    const name =
+        course.name ||
+        "Course";
+
+
+    const exam =
+        course.exam ||
+        "Career Tips";
+
+
+    const paid =
+        isPaidCourse(course);
+
+
+    const testPass =
+        isTestPass(course);
+
+
+    const price =
+        getPrice(course);
+
+
+    const icon =
+        testPass
+        ? "🎟️"
+        : "📚";
+
+
+    const badges = `
+
+        <span class="badge ${
+            paid
+            ? "badge-paid"
+            : "badge-free"
+        }">
+
+            ${
+                paid
+                ? "💳 PAID"
+                : "🆓 FREE"
+            }
+
+        </span>
+
+        ${
+            testPass
+            ?
+            `
+            <span class="badge badge-test">
+                🎟️ TEST PASS
+            </span>
+            `
+            :
+            ""
+        }
+
+    `;
+
+
+    const priceHTML =
+        paid
+        ?
+        `
+        <div class="price-paid">
+            💳 ₹${price}
+        </div>
+        `
+        :
+        `
+        <div class="price-free">
+            🆓 Free
+        </div>
+        `;
+
+
+    let buttonText =
+        "🚀 Open Course";
+
+    let buttonClass = "";
+
+
+    if(paid){
+
+        buttonText =
+            testPass
+            ? "💳 Buy Test Pass"
+            : "💳 Buy / Pay Now";
+
+        buttonClass =
+            "paid-btn";
+
+    }
+
+
+    const id =
+        getCourseId(course);
+
+
+    return `
+
+        <div class="course-card">
+
+            <div class="course-icon">
+                ${icon}
+            </div>
+
+            <div class="badge-row">
+                ${badges}
+            </div>
+
+            <h3>
+                ${escapeHTML(name)}
+            </h3>
+
+            <p>
+                ${escapeHTML(exam)}
+            </p>
+
+            ${priceHTML}
+
+            <button
+                class="course-btn ${buttonClass}"
+                onclick="openCourse(${index})"
+            >
+                ${buttonText}
+            </button>
+
+            ${
+                id
+                ?
+                `
+                <div class="course-id">
+                    ID: ${escapeHTML(id)}
+                </div>
+                `
+                :
+                ""
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+// =====================================================
+// COURSE ID
+// =====================================================
+
+function getCourseId(course){
+
+    return String(
+
+        course.id ||
+        course.courseId ||
+        course.courseID ||
+        ""
+
+    ).trim();
+
+}
+
+
+// =====================================================
+// OPEN COURSE
+// =====================================================
+
+window.openCourse =
+function(index){
+
+    const courses =
+        getFilteredCourses();
+
+
+    const course =
+        courses[
+            Number(index)
+        ];
+
+
+    if(!course){
+
+        alert(
+            "❌ Course नहीं मिला।"
+        );
+
+        return;
+
+    }
+
+
+    const courseId =
+        getCourseId(course);
+
+
+    if(!courseId){
+
+        alert(
+            "❌ इस Course का ID नहीं मिला।"
+        );
+
+        return;
+
+    }
+
+
+    localStorage.setItem(
+        "selectedCourseId",
+        courseId
+    );
+
+
+    localStorage.setItem(
+        "selectedCourse",
+        JSON.stringify(
+            course
+        )
+    );
+
+
+    if(
+        isPaidCourse(course)
+    ){
+
+        const price =
+            getPrice(course);
+
+
+        if(price <= 0){
+
+            alert(
+                "❌ Course price सही नहीं है।"
+            );
+
+            return;
+
+        }
+
+
+        const title =
+            course.name ||
+            course.courseName ||
+            course.title ||
+            "Course";
+
+
+        window.location.href =
+            "payment.html?" +
+            "courseId=" +
+            encodeURIComponent(
+                courseId
+            ) +
+            "&title=" +
+            encodeURIComponent(
+                title
+            ) +
+            "&price=" +
+            encodeURIComponent(
+                price
+            );
+
+        return;
+
+    }
+
+
+    // Free course
+
+    window.location.href =
+        "course-detail.html?courseId=" +
+        encodeURIComponent(
+            courseId
+        );
+
+};
+
+
+// =====================================================
+// DASHBOARD
+// =====================================================
+
+window.goDashboard =
+function(){
+
+    window.location.href =
+        "dashboard.html";
+
+};
+
+
+// =====================================================
+// ESCAPE
+// =====================================================
+
+function escapeHTML(value){
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+// =====================================================
+// START
+// =====================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function(){
+
+        if(!checkLogin()){
+
+            return;
+
+        }
+
+
+        await loadCourses();
+
+    }
+);
+
+</script>
+
+</body>
+</html>

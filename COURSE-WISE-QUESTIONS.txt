@@ -1,0 +1,33 @@
+v13 COURSE-WISE QUESTION SECTIONS
+
+Questions must be stored with:
+  courseId
+  sectionId
+  courseSection
+
+Manual Add Question:
+  Select the Course/Section first, then save the question.
+
+Bulk Upload:
+  Select the Course/Section first, then upload the list.
+  Every imported question gets that course/section attached.
+
+Student Mock Test:
+  The selected course section should query only its own questions.
+  Do not mix SSC CGL questions with SSC CHSL/MTS/Test Pass questions.
+
+Recommended Firestore structure:
+mockQuestions/{questionId}
+  courseId: "ssc-cgl"
+  sectionId: "ssc-cgl"
+  courseSection: "ssc-cgl"
+  question: "..."
+  optionA: "..."
+  optionB: "..."
+  optionC: "..."
+  optionD: "..."
+  correctAnswer: "A"
+  solution: "..."
+
+For a production implementation, use the authenticated student's enrolled
+courseId to query only questions belonging to that course.

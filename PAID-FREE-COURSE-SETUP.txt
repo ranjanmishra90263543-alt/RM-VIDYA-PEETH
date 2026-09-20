@@ -1,0 +1,25 @@
+COURSE PAID/FREE FEATURE - v5
+
+Admin Course Management:
+- Access: Free / Paid
+- Price (₹) appears when Paid is selected
+- Helper: window.getCoursePricing()
+  returns { accessType, isPaid, price }
+
+Recommended Firestore fields in ssc_courses:
+  accessType: "free" or "paid"
+  isPaid: true/false
+  price: number
+
+Student course cards:
+  window.renderCoursePrice(course)
+  renders FREE or ₹price.
+
+IMPORTANT:
+The existing course-save function should merge getCoursePricing() into
+the object passed to Firestore, e.g.
+  const pricing = window.getCoursePricing();
+  const courseData = { ...existingData, ...pricing };
+
+If payment gateway/payment verification is needed, this feature only marks
+the course as paid/free; it does not by itself process payments.

@@ -1,0 +1,5 @@
+THE HUB v20 update
+
+- App footer: © 2026 THE HUB. All Rights Reserved.
+- Based on v19 (password-reset Gmail fix).
+- Existing screenshot protection, session-until-logout, splash/master-admin and PDF/video behavior retained.

@@ -1,0 +1,2366 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0"
+>
+
+<title>RM Vidya Peeth - Rank Prediction</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:20px;
+}
+
+.header{
+    text-align:center;
+    background:#1e293b;
+    padding:25px;
+    border-radius:16px;
+    margin-bottom:20px;
+}
+
+.header h1{
+    margin:0;
+    font-size:32px;
+}
+
+.header p{
+    color:#cbd5e1;
+    margin:7px 0;
+}
+
+.card{
+    background:#1e293b;
+    padding:20px;
+    border-radius:16px;
+    margin-bottom:20px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+}
+
+.field.full{
+    grid-column:1/-1;
+}
+
+label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:7px;
+    color:#e2e8f0;
+}
+
+select,
+input[type="url"],
+input[type="number"],
+input[type="text"],
+input[type="file"]{
+    width:100%;
+    padding:13px;
+    border-radius:9px;
+    border:1px solid #475569;
+    background:#0f172a;
+    color:#fff;
+    outline:none;
+}
+
+input[type="file"]{
+    cursor:pointer;
+}
+
+select:focus,
+input:focus{
+    border-color:#38bdf8;
+}
+
+button{
+    padding:13px 18px;
+    border:0;
+    border-radius:9px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+.primary{
+    background:#2563eb;
+    color:#fff;
+}
+
+.secondary{
+    background:#475569;
+    color:#fff;
+}
+
+.button-row{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:5px;
+}
+
+.loading{
+    text-align:center;
+    padding:20px;
+}
+
+.error{
+    background:#7f1d1d;
+    padding:13px;
+    border-radius:8px;
+    margin-top:15px;
+    line-height:1.5;
+}
+
+.success{
+    background:#14532d;
+    padding:13px;
+    border-radius:8px;
+    margin-top:15px;
+}
+
+.info{
+    background:#0c4a6e;
+    padding:13px;
+    border-radius:8px;
+    margin-top:15px;
+    color:#e0f2fe;
+    line-height:1.5;
+}
+
+.result{
+    display:none;
+}
+
+.score{
+    font-size:42px;
+    font-weight:bold;
+    text-align:center;
+    margin:10px 0 25px;
+}
+
+.score-label{
+    text-align:center;
+    color:#cbd5e1;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+}
+
+.stat{
+    background:#0f172a;
+    padding:16px;
+    border-radius:10px;
+    text-align:center;
+}
+
+.stat b{
+    display:block;
+    font-size:25px;
+    margin-bottom:5px;
+}
+
+.rank-box{
+    text-align:center;
+    background:#0f172a;
+    padding:25px;
+    border-radius:12px;
+    margin-top:20px;
+}
+
+.rank-title{
+    color:#cbd5e1;
+}
+
+.rank-number{
+    font-size:36px;
+    font-weight:bold;
+    margin-top:7px;
+}
+
+.percentile{
+    margin-top:8px;
+    color:#cbd5e1;
+}
+
+.exam-info{
+    background:#0f172a;
+    padding:15px;
+    border-radius:10px;
+    margin-top:15px;
+    color:#cbd5e1;
+    line-height:1.8;
+}
+
+.questions{
+    margin-top:20px;
+}
+
+.question{
+    background:#0f172a;
+    border:1px solid #334155;
+    border-radius:10px;
+    padding:14px;
+    margin-bottom:10px;
+}
+
+.correct{
+    border-left:5px solid #22c55e;
+}
+
+.wrong{
+    border-left:5px solid #ef4444;
+}
+
+.not-attempted{
+    border-left:5px solid #94a3b8;
+}
+
+.question-top{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.green{
+    color:#22c55e;
+}
+
+.red{
+    color:#ef4444;
+}
+
+.gray{
+    color:#94a3b8;
+}
+
+.yellow{
+    color:#facc15;
+}
+
+.small{
+    color:#94a3b8;
+    font-size:13px;
+}
+
+.note{
+    color:#94a3b8;
+    font-size:13px;
+    line-height:1.5;
+    margin-top:10px;
+}
+
+.upload-box{
+    background:#0f172a;
+    border:1px dashed #475569;
+    padding:15px;
+    border-radius:10px;
+}
+
+.divider{
+    text-align:center;
+    color:#94a3b8;
+    margin:8px 0;
+    font-size:13px;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#94a3b8;
+}
+
+@media(max-width:700px){
+
+    .container{
+        padding:12px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .field.full{
+        grid-column:auto;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .score{
+        font-size:35px;
+    }
+
+    .header h1{
+        font-size:28px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>RM Vidya Peeth</h1>
+
+        <p>
+            SSC Rank Prediction & Score Calculator
+        </p>
+
+        <p>
+            By Ranjan Mishra Sir
+        </p>
+
+    </div>
+
+
+    <!-- INPUT CARD -->
+
+    <div class="card">
+
+        <h2>
+            Rank Prediction
+        </h2>
+
+
+        <div class="form-grid">
+
+
+            <!-- EXAM -->
+
+            <div class="field full">
+
+                <label>
+                    Select Exam
+                </label>
+
+                <select id="examSelect">
+
+                    <option value="">
+                        Loading Exams...
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- AGE -->
+
+            <div class="field">
+
+                <label>
+                    Age
+                </label>
+
+                <input
+                    type="number"
+                    id="age"
+                    min="16"
+                    max="60"
+                    placeholder="Enter Age"
+                >
+
+            </div>
+
+
+            <!-- CATEGORY -->
+
+            <div class="field">
+
+                <label>
+                    Category
+                </label>
+
+                <select id="category">
+
+                    <option value="">
+                        Select Category
+                    </option>
+
+                    <option value="UR">
+                        UR
+                    </option>
+
+                    <option value="OBC">
+                        OBC
+                    </option>
+
+                    <option value="SC">
+                        SC
+                    </option>
+
+                    <option value="ST">
+                        ST
+                    </option>
+
+                    <option value="EWS">
+                        EWS
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- HORIZONTAL CATEGORY -->
+
+            <div class="field">
+
+                <label>
+                    Horizontal Category
+                </label>
+
+                <select id="horizontalCategory">
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="None">
+                        None
+                    </option>
+
+                    <option value="Ex-Serviceman">
+                        Ex-Serviceman
+                    </option>
+
+                    <option value="PwBD">
+                        PwBD
+                    </option>
+
+                    <option value="ESM">
+                        ESM
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- GENDER -->
+
+            <div class="field">
+
+                <label>
+                    Gender
+                </label>
+
+                <select id="gender">
+
+                    <option value="">
+                        Select Gender
+                    </option>
+
+                    <option value="Male">
+                        Male
+                    </option>
+
+                    <option value="Female">
+                        Female
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- STATE -->
+
+            <div class="field">
+
+                <label>
+                    State
+                </label>
+
+                <input
+                    type="text"
+                    id="state"
+                    placeholder="Enter State"
+                >
+
+            </div>
+
+
+            <!-- PAPER LANGUAGE -->
+
+            <div class="field">
+
+                <label>
+                    Paper Language
+                </label>
+
+                <select id="paperLanguage">
+
+                    <option value="">
+                        Select Language
+                    </option>
+
+                    <option value="Hindi">
+                        Hindi
+                    </option>
+
+                    <option value="English">
+                        English
+                    </option>
+
+                    <option value="Hindi + English">
+                        Hindi + English
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- DIGIALM URL -->
+
+            <div class="field full">
+
+                <label>
+                    Digialm Answer Key / Response URL
+                </label>
+
+                <input
+                    type="url"
+                    id="answerUrl"
+                    placeholder="https://ssc.digialm.com/..."
+                >
+
+                <div class="note">
+                    यदि URL से server response नहीं मिलता है,
+                    तो नीचे HTML file upload करें।
+                </div>
+
+            </div>
+
+
+            <!-- HTML FILE -->
+
+            <div class="field full">
+
+                <label>
+                    Digialm HTML File Upload
+                </label>
+
+                <div class="upload-box">
+
+                    <input
+                        type="file"
+                        id="htmlFile"
+                        accept=".html,.htm,text/html"
+                    >
+
+                    <div class="note">
+                        Digialm Response page को HTML file के रूप में save करके
+                        यहाँ select करें।
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="button-row">
+
+            <button
+                class="primary"
+                id="checkBtn">
+
+                Check Answer Key
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="errorBox"
+            class="error"
+            style="display:none;">
+        </div>
+
+
+        <div
+            id="infoBox"
+            class="info"
+            style="display:none;">
+        </div>
+
+
+        <div
+            id="successBox"
+            class="success"
+            style="display:none;">
+        </div>
+
+    </div>
+
+
+    <!-- RESULT -->
+
+    <div
+        id="resultBox"
+        class="card result">
+
+
+        <h2>
+            Result
+        </h2>
+
+
+        <div class="score-label">
+            Your Calculated Score
+        </div>
+
+
+        <div
+            class="score"
+            id="score">
+
+            0
+
+        </div>
+
+
+        <div class="stats">
+
+
+            <div class="stat">
+
+                <b id="total">
+                    0
+                </b>
+
+                Total
+
+            </div>
+
+
+            <div class="stat">
+
+                <b
+                    id="correct"
+                    class="green">
+
+                    0
+
+                </b>
+
+                Correct
+
+            </div>
+
+
+            <div class="stat">
+
+                <b
+                    id="wrong"
+                    class="red">
+
+                    0
+
+                </b>
+
+                Wrong
+
+            </div>
+
+
+            <div class="stat">
+
+                <b
+                    id="notAttempted"
+                    class="gray">
+
+                    0
+
+                </b>
+
+                Not Attempted
+
+            </div>
+
+
+        </div>
+
+
+        <!-- EXAM INFO -->
+
+        <div
+            class="exam-info"
+            id="examInfo">
+
+        </div>
+
+
+        <!-- RANK -->
+
+        <div class="rank-box">
+
+            <div class="rank-title">
+
+                Estimated Rank
+
+            </div>
+
+
+            <div
+                class="rank-number"
+                id="rank">
+
+                --
+
+            </div>
+
+
+            <div
+                class="percentile"
+                id="percentile">
+
+                --
+
+            </div>
+
+        </div>
+
+
+        <!-- QUESTIONS -->
+
+        <div
+            class="questions"
+            id="questions">
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <div style="font-weight:bold;">
+        RM Vidya Peeth
+    </div>
+
+    <div style="margin-top:5px;">
+        By Ranjan Mishra Sir
+    </div>
+
+    <div style="margin-top:5px;">
+        © 2026 RM Vidya Peeth. All Rights Reserved.
+    </div>
+
+</footer>
+
+
+<script type="module">
+
+
+/* =========================================================
+   FIREBASE
+========================================================= */
+
+import { db } from "./firebase-config.js";
+
+import {
+    collection,
+    getDocs
+}
+from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+/* =========================================================
+   NETLIFY PARSER URL
+========================================================= */
+
+const PARSER_FUNCTION_URL =
+    "https://rm-vidyapeeth.netlify.app/.netlify/functions/parseDigialm";
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const examSelect =
+    document.getElementById("examSelect");
+
+const age =
+    document.getElementById("age");
+
+const category =
+    document.getElementById("category");
+
+const horizontalCategory =
+    document.getElementById("horizontalCategory");
+
+const gender =
+    document.getElementById("gender");
+
+const state =
+    document.getElementById("state");
+
+const paperLanguage =
+    document.getElementById("paperLanguage");
+
+const answerUrl =
+    document.getElementById("answerUrl");
+
+const htmlFile =
+    document.getElementById("htmlFile");
+
+const checkBtn =
+    document.getElementById("checkBtn");
+
+const errorBox =
+    document.getElementById("errorBox");
+
+const infoBox =
+    document.getElementById("infoBox");
+
+const successBox =
+    document.getElementById("successBox");
+
+const resultBox =
+    document.getElementById("resultBox");
+
+const scoreEl =
+    document.getElementById("score");
+
+const totalEl =
+    document.getElementById("total");
+
+const correctEl =
+    document.getElementById("correct");
+
+const wrongEl =
+    document.getElementById("wrong");
+
+const notAttemptedEl =
+    document.getElementById("notAttempted");
+
+const rankEl =
+    document.getElementById("rank");
+
+const percentileEl =
+    document.getElementById("percentile");
+
+const questionsEl =
+    document.getElementById("questions");
+
+const examInfoEl =
+    document.getElementById("examInfo");
+
+
+let exams=[];
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================================================
+   ACTIVE VALUE CHECK
+========================================================= */
+
+function isExamActive(exam){
+
+    const value =
+        exam?.active;
+
+    if(
+        value === true ||
+        value === 1
+    ){
+
+        return true;
+
+    }
+
+    if(
+        typeof value === "string"
+    ){
+
+        return (
+            value.trim().toLowerCase()
+            === "true"
+        );
+
+    }
+
+    if(
+        value === undefined ||
+        value === null
+    ){
+
+        return true;
+
+    }
+
+    return false;
+
+}
+
+
+/* =========================================================
+   LOAD EXAMS
+========================================================= */
+
+async function loadExams(){
+
+    examSelect.innerHTML = `
+        <option value="">
+            Exams load हो रहे हैं...
+        </option>
+    `;
+
+    clearMessages();
+
+    try{
+
+        const snap =
+            await getDocs(
+                collection(
+                    db,
+                    "rankPredictionExams"
+                )
+            );
+
+
+        exams=[];
+
+
+        snap.forEach(item=>{
+
+            const data =
+                item.data();
+
+            const exam = {
+
+                id:item.id,
+
+                ...data
+
+            };
+
+
+            if(
+                isExamActive(exam)
+            ){
+
+                exams.push(exam);
+
+            }
+
+        });
+
+
+        exams.sort(
+            (a,b)=>
+                Number(
+                    b.createdAt || 0
+                )
+                -
+                Number(
+                    a.createdAt || 0
+                )
+        );
+
+
+        if(!exams.length){
+
+            examSelect.innerHTML=`
+                <option value="">
+                    कोई active exam नहीं है
+                </option>
+            `;
+
+            showInfo(
+                "Admin Panel में कम से कम एक Active Exam save करें।"
+            );
+
+            return;
+
+        }
+
+
+        examSelect.innerHTML =
+
+            `<option value="">
+                Exam Select करें
+            </option>` +
+
+            exams.map(exam=>`
+
+                <option value="${escapeHTML(exam.id)}">
+
+                    ${escapeHTML(
+                        exam.examName ||
+                        "Unnamed Exam"
+                    )}
+
+                </option>
+
+            `).join("");
+
+
+    }catch(error){
+
+        console.error(
+            "Exam loading error:",
+            error
+        );
+
+
+        examSelect.innerHTML=`
+            <option value="">
+                Exam load नहीं हो सका
+            </option>
+        `;
+
+
+        showError(
+            "Exam load नहीं हो सका। " +
+            (
+                error?.message ||
+                "Firestore connection या permission check करें।"
+            )
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   MESSAGES
+========================================================= */
+
+function clearMessages(){
+
+    errorBox.style.display="none";
+
+    infoBox.style.display="none";
+
+    successBox.style.display="none";
+
+}
+
+
+function showError(message){
+
+    errorBox.textContent =
+        message;
+
+    errorBox.style.display =
+        "block";
+
+}
+
+
+function showInfo(message){
+
+    infoBox.textContent =
+        message;
+
+    infoBox.style.display =
+        "block";
+
+}
+
+
+function showSuccess(message){
+
+    successBox.textContent =
+        message;
+
+    successBox.style.display =
+        "block";
+
+}
+
+
+/* =========================================================
+   EXAM CHANGE
+========================================================= */
+
+examSelect.addEventListener(
+    "change",
+    ()=>{
+
+        clearMessages();
+
+        resultBox.style.display="none";
+
+
+        const exam =
+            exams.find(
+                x =>
+                    x.id ===
+                    examSelect.value
+            );
+
+
+        if(!exam){
+
+            return;
+
+        }
+
+
+        examInfoEl.innerHTML = `
+
+            <b>
+                ${escapeHTML(
+                    exam.examName ||
+                    "Exam"
+                )}
+            </b>
+
+            <br>
+
+            Total Questions:
+            ${escapeHTML(
+                exam.totalQuestions || 0
+            )}
+
+            <br>
+
+            Positive Marks:
+            ${escapeHTML(
+                exam.positiveMarks || 0
+            )}
+
+            <br>
+
+            Negative Marks:
+            ${escapeHTML(
+                exam.negativeMarks || 0
+            )}
+
+        `;
+
+    }
+);
+
+
+/* =========================================================
+   URL VALIDATION
+========================================================= */
+
+function isValidDigialmUrl(value){
+
+    try{
+
+        const parsed =
+            new URL(value);
+
+        const hostname =
+            parsed.hostname
+            .toLowerCase();
+
+        return (
+            hostname === "digialm.com" ||
+            hostname.endsWith(".digialm.com")
+        );
+
+    }catch{
+
+        return false;
+
+    }
+
+}
+
+
+/* =========================================================
+   CHECK BUTTON
+========================================================= */
+
+checkBtn.addEventListener(
+    "click",
+    async()=>{
+
+        clearMessages();
+
+        resultBox.style.display =
+            "none";
+
+
+        const examId =
+            examSelect.value;
+
+        const url =
+            answerUrl.value.trim();
+
+
+        /* =========================
+           VALIDATION
+        ========================= */
+
+        if(!examId){
+
+            showError(
+                "पहले Exam select करें।"
+            );
+
+            return;
+
+        }
+
+
+        /*
+           URL या HTML file में से कम से कम
+           एक जरूरी है।
+        */
+
+        if(
+            !url &&
+            htmlFile.files.length === 0
+        ){
+
+            showError(
+                "Digialm URL डालें या HTML File Upload करें।"
+            );
+
+            return;
+
+        }
+
+
+        /*
+           URL दिया गया है तो validate करें।
+           HTML file होने पर URL जरूरी नहीं।
+        */
+
+        if(
+            url &&
+            !isValidDigialmUrl(url)
+        ){
+
+            showError(
+                "कृपया Digialm का valid URL डालें।"
+            );
+
+            return;
+
+        }
+
+
+        /* =========================
+           AGE
+        ========================= */
+
+        if(age.value){
+
+            const ageValue =
+                Number(age.value);
+
+            if(
+                !Number.isInteger(ageValue) ||
+                ageValue < 16 ||
+                ageValue > 60
+            ){
+
+                showError(
+                    "Age 16 से 60 वर्ष के बीच डालें।"
+                );
+
+                return;
+
+            }
+
+        }
+
+
+        const exam =
+            exams.find(
+                x =>
+                    x.id === examId
+            );
+
+
+        if(!exam){
+
+            showError(
+                "Selected exam नहीं मिला।"
+            );
+
+            return;
+
+        }
+
+
+        /* =========================
+           START
+        ========================= */
+
+        checkBtn.disabled=true;
+
+        checkBtn.textContent =
+            "Answer Key Checking...";
+
+
+        showInfo(
+            "Digialm response check किया जा रहा है। कृपया थोड़ी देर प्रतीक्षा करें।"
+        );
+
+
+        try{
+
+
+            /* =========================
+               CANDIDATE PROFILE
+            ========================= */
+
+            const candidateProfile = {
+
+                age:
+                    age.value
+                    ?
+                    Number(age.value)
+                    :
+                    null,
+
+                category:
+                    category.value || null,
+
+                horizontalCategory:
+                    horizontalCategory.value || null,
+
+                gender:
+                    gender.value || null,
+
+                state:
+                    state.value.trim() || null,
+
+                paperLanguage:
+                    paperLanguage.value || null
+
+            };
+
+
+            let requestBody = {
+
+                candidateProfile
+
+            };
+
+
+            /* =========================
+               HTML FILE MODE
+            ========================= */
+
+            if(
+                htmlFile.files.length > 0
+            ){
+
+                const file =
+                    htmlFile.files[0];
+
+
+                showInfo(
+                    "HTML file पढ़ी जा रही है..."
+                );
+
+
+                const html =
+                    await file.text();
+
+
+                if(
+                    !html.trim()
+                ){
+
+                    throw new Error(
+                        "HTML file खाली है।"
+                    );
+
+                }
+
+
+                requestBody.html =
+                    html;
+
+            }
+
+
+            /* =========================
+               URL MODE
+            ========================= */
+
+            else{
+
+                requestBody.url =
+                    url;
+
+            }
+
+
+            /* =========================
+               NETLIFY PARSER
+            ========================= */
+
+            const response =
+                await fetch(
+                    PARSER_FUNCTION_URL,
+                    {
+
+                        method:"POST",
+
+                        headers:{
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify(
+                                requestBody
+                            )
+
+                    }
+                );
+
+
+            let data=null;
+
+
+            try{
+
+                data =
+                    await response.json();
+
+            }catch{
+
+                throw new Error(
+                    "Netlify Parser से valid response नहीं मिला।"
+                );
+
+            }
+
+
+            if(!response.ok){
+
+                throw new Error(
+                    data?.error ||
+                    `Server error (${response.status})`
+                );
+
+            }
+
+
+            if(
+                !Array.isArray(
+                    data?.questions
+                )
+                ||
+                !data.questions.length
+            ){
+
+                throw new Error(
+                    "इस Digialm data से questions नहीं मिले।"
+                );
+
+            }
+
+
+            /* =========================
+               CORRECT ANSWER CHECK
+            ========================= */
+
+            const correctDetected =
+                data.questions.filter(
+                    q =>
+                        normalizeOption(
+                            q?.correctOption
+                        ) !== null
+                ).length;
+
+
+            const attempted =
+                data.questions.filter(
+                    q => {
+
+                        const chosen =
+                            normalizeOption(
+                                q?.chosenOption
+                            );
+
+                        return (
+                            q?.status !==
+                            "not_attempted"
+                            &&
+                            chosen !== null
+                        );
+
+                    }
+                ).length;
+
+
+            if(
+                attempted > 0 &&
+                correctDetected === 0
+            ){
+
+                throw new Error(
+                    "Questions मिले हैं लेकिन correct answers detect नहीं हुए। Calculation रोक दी गई है।"
+                );
+
+            }
+
+
+            showInfo(
+                `${data.questions.length} questions मिले। ${correctDetected} correct answers detect हुए।`
+            );
+
+
+            calculateResult(
+                exam,
+                data.questions
+            );
+
+
+        }catch(error){
+
+            console.error(
+                "Answer check error:",
+                error
+            );
+
+
+            showError(
+                error?.message ||
+                "Answer Key check नहीं हो सकी।"
+            );
+
+
+        }finally{
+
+            checkBtn.disabled=false;
+
+            checkBtn.textContent =
+                "Check Answer Key";
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   NORMALIZE OPTION
+========================================================= */
+
+function normalizeOption(value){
+
+    if(
+        value === null ||
+        value === undefined ||
+        value === ""
+    ){
+
+        return null;
+
+    }
+
+
+    if(
+        typeof value === "number"
+    ){
+
+        /*
+           Parser का correctOption/chosenOption
+           सामान्यतः 0-3 index में है।
+        */
+
+        if(
+            Number.isInteger(value) &&
+            value >= 0 &&
+            value <= 3
+        ){
+
+            return value;
+
+        }
+
+        /*
+           यदि 1-4 format आए।
+        */
+
+        if(
+            Number.isInteger(value) &&
+            value >= 1 &&
+            value <= 4
+        ){
+
+            return value - 1;
+
+        }
+
+    }
+
+
+    const text =
+        String(value)
+        .trim()
+        .toUpperCase();
+
+
+    if(
+        /^[ABCD]$/.test(text)
+    ){
+
+        return {
+            A:0,
+            B:1,
+            C:2,
+            D:3
+        }[text];
+
+    }
+
+
+    if(
+        /^[1-4]$/.test(text)
+    ){
+
+        return Number(text)-1;
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =========================================================
+   CHECK CORRECT ANSWER
+========================================================= */
+
+function hasCorrectOption(q){
+
+    const value =
+        normalizeOption(
+            q?.correctOption
+        );
+
+    return (
+        value !== null
+    );
+
+}
+
+
+/* =========================================================
+   CALCULATE RESULT
+========================================================= */
+
+async function calculateResult(
+    exam,
+    questions
+){
+
+    let correct=0;
+
+    let wrong=0;
+
+    let notAttempted=0;
+
+
+    /* =========================
+       CHECK CORRECT ANSWERS
+    ========================= */
+
+    const attemptedWithoutCorrect =
+        questions.filter(q=>{
+
+            const chosen =
+                normalizeOption(
+                    q?.chosenOption
+                );
+
+
+            const notAttempted =
+                q?.status ===
+                "not_attempted"
+                ||
+                chosen === null;
+
+
+            return (
+                !notAttempted &&
+                !hasCorrectOption(q)
+            );
+
+        });
+
+
+    if(
+        attemptedWithoutCorrect.length
+    ){
+
+        showError(
+            "कुछ attempted questions के correct answers detect नहीं हुए। गलत score दिखाने के बजाय calculation रोक दी गई है।"
+        );
+
+        return;
+
+    }
+
+
+    /* =========================
+       COUNT
+    ========================= */
+
+    questions.forEach(q=>{
+
+        const chosen =
+            normalizeOption(
+                q?.chosenOption
+            );
+
+
+        const correctAnswer =
+            normalizeOption(
+                q?.correctOption
+            );
+
+
+        if(
+            q?.status ===
+            "not_attempted"
+            ||
+            chosen === null
+        ){
+
+            notAttempted++;
+
+            return;
+
+        }
+
+
+        if(
+            chosen ===
+            correctAnswer
+        ){
+
+            correct++;
+
+        }else{
+
+            wrong++;
+
+        }
+
+    });
+
+
+    /* =========================
+       MARKING
+    ========================= */
+
+    const positive =
+        Number(
+            exam.positiveMarks || 0
+        );
+
+
+    const negative =
+        Number(
+            exam.negativeMarks || 0
+        );
+
+
+    const score =
+        (
+            correct *
+            positive
+        )
+        -
+        (
+            wrong *
+            negative
+        );
+
+
+    const roundedScore =
+        Math.round(
+            score * 100
+        ) / 100;
+
+
+    /* =========================
+       DISPLAY
+    ========================= */
+
+    totalEl.textContent =
+        questions.length;
+
+    correctEl.textContent =
+        correct;
+
+    wrongEl.textContent =
+        wrong;
+
+    notAttemptedEl.textContent =
+        notAttempted;
+
+    scoreEl.textContent =
+        roundedScore;
+
+
+    examInfoEl.innerHTML = `
+
+        <b>
+            ${escapeHTML(
+                exam.examName ||
+                "Exam"
+            )}
+        </b>
+
+        <br>
+
+        Total Questions:
+        ${escapeHTML(
+            exam.totalQuestions ||
+            questions.length
+        )}
+
+        <br>
+
+        Positive Marks:
+        ${escapeHTML(
+            exam.positiveMarks || 0
+        )}
+
+        <br>
+
+        Negative Marks:
+        ${escapeHTML(
+            exam.negativeMarks || 0
+        )}
+
+        <br>
+
+        Total Candidates:
+        ${escapeHTML(
+            exam.totalCandidates || 0
+        )}
+
+    `;
+
+
+    /* =========================
+       RANK
+    ========================= */
+
+    const rankData =
+        await calculateEstimatedRank(
+            exam.id,
+            roundedScore,
+            Number(
+                exam.totalCandidates || 0
+            )
+        );
+
+
+    if(
+        rankData.rank !== null
+    ){
+
+        rankEl.textContent =
+            rankData.rank;
+
+    }else{
+
+        rankEl.textContent =
+            "--";
+
+    }
+
+
+    if(
+        rankData.percentile !== null
+    ){
+
+        percentileEl.textContent =
+            `Estimated Percentile: ${rankData.percentile}%`;
+
+    }else{
+
+        percentileEl.textContent =
+            "Rank data available नहीं है।";
+
+    }
+
+
+    /* =========================
+       QUESTION LIST
+    ========================= */
+
+    renderQuestions(
+        questions
+    );
+
+
+    showSuccess(
+        `Answer Key successfully check हो गई। Correct: ${correct}, Wrong: ${wrong}, Not Attempted: ${notAttempted}`
+    );
+
+
+    resultBox.style.display =
+        "block";
+
+
+    resultBox.scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =========================================================
+   ESTIMATED RANK
+========================================================= */
+
+async function calculateEstimatedRank(
+    examId,
+    candidateScore,
+    totalCandidates
+){
+
+    try{
+
+        const snap =
+            await getDocs(
+                collection(
+                    db,
+                    "rankPredictionExams",
+                    examId,
+                    "scoreDistribution"
+                )
+            );
+
+
+        if(snap.empty){
+
+            return {
+                rank:null,
+                percentile:null
+            };
+
+        }
+
+
+        let higherCandidates=0;
+
+        let equalCandidates=0;
+
+
+        snap.forEach(item=>{
+
+            const data =
+                item.data();
+
+
+            const score =
+                Number(
+                    data.score || 0
+                );
+
+
+            const candidates =
+                Number(
+                    data.candidates || 0
+                );
+
+
+            if(
+                score >
+                candidateScore
+            ){
+
+                higherCandidates +=
+                    candidates;
+
+            }
+            else if(
+                score ===
+                candidateScore
+            ){
+
+                equalCandidates +=
+                    candidates;
+
+            }
+
+        });
+
+
+        const rank =
+            Math.max(
+                1,
+                Math.floor(
+                    higherCandidates
+                    +
+                    (
+                        equalCandidates / 2
+                    )
+                    +
+                    1
+                )
+            );
+
+
+        let percentile=null;
+
+
+        if(
+            totalCandidates > 0
+        ){
+
+            percentile =
+                (
+                    (
+                        totalCandidates -
+                        rank
+                    )
+                    /
+                    totalCandidates
+                )
+                *
+                100;
+
+
+            percentile =
+                Math.max(
+                    0,
+                    Math.min(
+                        99.9999,
+                        percentile
+                    )
+                );
+
+
+            percentile =
+                Math.round(
+                    percentile * 100
+                ) / 100;
+
+        }
+
+
+        return {
+            rank,
+            percentile
+        };
+
+
+    }catch(error){
+
+        console.error(
+            "Rank calculation error:",
+            error
+        );
+
+
+        return {
+            rank:null,
+            percentile:null
+        };
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDER QUESTIONS
+========================================================= */
+
+function renderQuestions(
+    questions
+){
+
+    questionsEl.innerHTML =
+        `<h3>Question-wise Analysis</h3>`;
+
+
+    questions.forEach(
+        (q,index)=>{
+
+
+            const chosen =
+                normalizeOption(
+                    q?.chosenOption
+                );
+
+
+            const correctAnswer =
+                normalizeOption(
+                    q?.correctOption
+                );
+
+
+            let cls="";
+
+            let resultText="";
+
+            let resultClass="";
+
+
+            if(
+                q?.status ===
+                "not_attempted"
+                ||
+                chosen === null
+            ){
+
+                cls =
+                    "not-attempted";
+
+                resultText =
+                    "Not Attempted";
+
+                resultClass =
+                    "gray";
+
+            }
+            else if(
+                correctAnswer !== null
+                &&
+                chosen ===
+                correctAnswer
+            ){
+
+                cls =
+                    "correct";
+
+                resultText =
+                    "Correct";
+
+                resultClass =
+                    "green";
+
+            }
+            else if(
+                correctAnswer === null
+            ){
+
+                cls =
+                    "not-attempted";
+
+                resultText =
+                    "Correct Answer Unknown";
+
+                resultClass =
+                    "yellow";
+
+            }
+            else{
+
+                cls =
+                    "wrong";
+
+                resultText =
+                    "Wrong";
+
+                resultClass =
+                    "red";
+
+            }
+
+
+            const chosenDisplay =
+                chosen === null
+                ?
+                "--"
+                :
+                chosen + 1;
+
+
+            const correctDisplay =
+                correctAnswer === null
+                ?
+                "--"
+                :
+                correctAnswer + 1;
+
+
+            questionsEl.innerHTML += `
+
+                <div
+                    class="question ${cls}">
+
+                    <div
+                        class="question-top">
+
+                        <b>
+                            Q.${index + 1}
+                        </b>
+
+                        <b
+                            class="${resultClass}">
+
+                            ${resultText}
+
+                        </b>
+
+                    </div>
+
+
+                    <div
+                        class="small"
+                        style="margin-top:8px;">
+
+                        Question ID:
+                        ${escapeHTML(
+                            q?.questionId ||
+                            "--"
+                        )}
+
+                    </div>
+
+
+                    <div
+                        style="margin-top:7px;">
+
+                        Chosen Option:
+
+                        <b>
+                            ${chosenDisplay}
+                        </b>
+
+                    </div>
+
+
+                    <div>
+
+                        Correct Option:
+
+                        <b>
+                            ${correctDisplay}
+                        </b>
+
+                    </div>
+
+
+                    ${
+                        q?.status
+                        ?
+                        `
+                        <div
+                            class="small"
+                            style="margin-top:5px;">
+
+                            Status:
+                            ${escapeHTML(
+                                q.status
+                            )}
+
+                        </div>
+                        `
+                        :
+                        ""
+                    }
+
+                </div>
+
+            `;
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+loadExams();
+
+</script>
+
+</body>
+
+</html>

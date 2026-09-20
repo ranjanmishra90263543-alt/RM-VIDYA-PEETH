@@ -1,0 +1,5389 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,initial-scale=1.0">
+
+<meta name="theme-color"
+      content="#0f172a">
+
+<title>THE HUB - Free Mock Test</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+html,body{
+    margin:0;
+    padding:0;
+    width:100%;
+    min-height:100%;
+}
+
+body{
+    background:#f8fafc;
+    color:#1e293b;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+.page{
+    width:100%;
+    max-width:1000px;
+    margin:auto;
+    padding:10px 10px 70px;
+}
+
+.hidden{
+    display:none!important;
+}
+
+button{
+    font-family:inherit;
+}
+
+.btn{
+    border:0;
+    border-radius:9px;
+    padding:12px 17px;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.blue{
+    background:#2563eb;
+    color:#fff;
+}
+
+.green{
+    background:#16a34a;
+    color:#fff;
+}
+
+.gray{
+    background:#64748b;
+    color:#fff;
+}
+
+.orange{
+    background:#ea580c;
+    color:#fff;
+}
+
+.red{
+    background:#dc2626;
+    color:#fff;
+}
+
+/* HEADER */
+
+.header{
+    background:#1e293b;
+    color:#fff;
+    border-radius:14px;
+    padding:16px;
+    margin-bottom:12px;
+}
+
+.header-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+}
+
+.header h1{
+    margin:0;
+    font-size:23px;
+}
+
+.header p{
+    margin:6px 0 0;
+    color:#cbd5e1;
+    font-size:14px;
+}
+
+.student-name{
+    color:#60a5fa;
+    font-weight:bold;
+}
+
+/* STATUS */
+
+.status{
+    display:none;
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:12px;
+    font-weight:bold;
+}
+
+.status.show{
+    display:block;
+}
+
+.status.success{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.status.error{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.status.info{
+    background:#e0f2fe;
+    color:#075985;
+}
+
+/* SECTION */
+
+.section{
+    background:#fff;
+    border:1px solid #e2e8f0;
+    border-radius:15px;
+    padding:17px;
+    margin-bottom:14px;
+}
+
+.section-title{
+    color:#2563eb;
+    font-size:21px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+/* ATTEMPTED TESTS */
+
+.attempted-section{
+    border:2px solid #2563eb;
+}
+
+.attempted-title{
+    color:#16a34a;
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:13px;
+}
+
+.attempted-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.attempted-item{
+    border:1px solid #cbd5e1;
+    border-radius:12px;
+    padding:13px;
+    background:#f8fafc;
+}
+
+.attempted-name{
+    font-size:17px;
+    font-weight:bold;
+}
+
+.attempted-meta{
+    color:#64748b;
+    font-size:13px;
+    margin-top:5px;
+    line-height:1.6;
+}
+
+/* CATEGORY */
+
+.category-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.category-card{
+    background:#fff;
+    border:1px solid #cbd5e1;
+    border-radius:13px;
+    padding:18px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.category-card:hover{
+    border-color:#2563eb;
+    transform:translateY(-2px);
+}
+
+.category-icon{
+    font-size:30px;
+    margin-bottom:7px;
+}
+
+.category-name{
+    font-size:18px;
+    font-weight:bold;
+}
+
+.category-count{
+    margin-top:5px;
+    color:#64748b;
+    font-size:13px;
+}
+
+/* TEST LIST */
+
+.test-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.test-item{
+    background:#fff;
+    border:1px solid #cbd5e1;
+    border-radius:13px;
+    padding:15px;
+}
+
+.test-number{
+    color:#2563eb;
+    font-weight:bold;
+    margin-bottom:4px;
+}
+
+.test-name{
+    font-size:18px;
+    font-weight:bold;
+}
+
+.test-meta{
+    color:#64748b;
+    line-height:1.7;
+    font-size:13px;
+    margin-top:6px;
+}
+
+/* TEST HEADER */
+
+.test-header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:#0f172a;
+    color:#fff;
+    padding:10px 12px;
+    margin:0 -10px 0;
+    box-shadow:0 2px 8px rgba(0,0,0,.18);
+}
+
+.test-header-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.test-header-left{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    min-width:0;
+}
+
+.pause-button,
+.menu-button{
+    width:38px;
+    height:38px;
+    border:0;
+    border-radius:8px;
+    background:#1e293b;
+    color:#fff;
+    font-size:22px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.test-heading{
+    min-width:0;
+}
+
+.test-heading-title{
+    font-size:14px;
+    font-weight:bold;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.test-heading-sub{
+    color:#cbd5e1;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.test-timer{
+    color:#22c55e;
+    font-size:15px;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+.test-timer.warning{
+    color:#fbbf24;
+}
+
+.test-timer.danger{
+    color:#ef4444;
+}
+
+/* TEST BODY */
+
+.test-body{
+    background:#fff;
+    min-height:calc(100vh - 65px);
+}
+
+.test-progress-info{
+    display:flex;
+    justify-content:space-between;
+    padding:13px 14px;
+    font-size:13px;
+    color:#64748b;
+    border-bottom:1px solid #e2e8f0;
+}
+
+.answered-count{
+    color:#2563eb;
+    font-weight:bold;
+}
+
+.last-time{
+    color:#dc2626;
+    font-weight:bold;
+}
+
+.question-area{
+    padding:16px 14px 105px;
+}
+
+.question-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:13px;
+}
+
+.question-number-box{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.question-number{
+    min-width:34px;
+    height:34px;
+    background:#2563eb;
+    color:#fff;
+    border-radius:5px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+.question-time{
+    color:#64748b;
+    font-size:13px;
+}
+
+.question-icons{
+    display:flex;
+    gap:14px;
+}
+
+.question-icon{
+    color:#64748b;
+    font-size:23px;
+    cursor:pointer;
+}
+
+.question-icon.active{
+    color:#2563eb;
+}
+
+.question-text{
+    font-size:18px;
+    line-height:1.75;
+    white-space:pre-wrap;
+    margin-bottom:18px;
+}
+
+.options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.option{
+    display:flex;
+    align-items:flex-start;
+    gap:11px;
+    padding:14px 13px;
+    border:1px solid #cbd5e1;
+    border-radius:10px;
+    background:#fff;
+    cursor:pointer;
+}
+
+.option.selected{
+    border-color:#2563eb;
+    background:#eff6ff;
+}
+
+.option input{
+    margin-top:4px;
+    accent-color:#2563eb;
+}
+
+.option-text{
+    flex:1;
+    line-height:1.55;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:1100;
+    background:#fff;
+    border-top:1px solid #cbd5e1;
+    padding:10px;
+    box-shadow:0 -3px 12px rgba(0,0,0,.08);
+}
+
+.bottom-nav-inner{
+    width:100%;
+    max-width:1000px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:1fr 1.2fr 1fr;
+    gap:9px;
+}
+
+.bottom-btn{
+    height:48px;
+    border-radius:8px;
+    border:1px solid #93c5fd;
+    background:#fff;
+    color:#2563eb;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.bottom-btn.primary{
+    background:#2563eb;
+    color:#fff;
+    border-color:#2563eb;
+}
+
+.bottom-btn:disabled{
+    opacity:.45;
+    cursor:not-allowed;
+}
+
+/* MENU */
+
+.menu-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:2000;
+    display:none;
+}
+
+.menu-overlay.show{
+    display:block;
+}
+
+.menu-drawer{
+    position:absolute;
+    right:0;
+    top:0;
+    bottom:0;
+    width:310px;
+    max-width:88%;
+    background:#fff;
+    box-shadow:-5px 0 20px rgba(0,0,0,.25);
+    display:flex;
+    flex-direction:column;
+}
+
+.menu-title{
+    padding:18px;
+    background:#0f172a;
+    color:#fff;
+    font-size:18px;
+    font-weight:bold;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.menu-close{
+    border:0;
+    background:none;
+    color:#fff;
+    font-size:24px;
+    cursor:pointer;
+}
+
+.menu-content{
+    flex:1;
+    overflow-y:auto;
+    padding:14px;
+}
+
+.menu-section-title{
+    color:#64748b;
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.menu-question-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:8px;
+}
+
+.menu-q-btn{
+    height:40px;
+    border:1px solid #cbd5e1;
+    background:#fff;
+    color:#334155;
+    border-radius:7px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.menu-q-btn.current{
+    outline:2px solid #2563eb;
+}
+
+.menu-q-btn.answered{
+    background:#dcfce7;
+    border-color:#16a34a;
+    color:#166534;
+}
+
+.menu-q-btn.review{
+    background:#fef3c7;
+    border-color:#f59e0b;
+    color:#92400e;
+}
+
+.menu-q-btn.answered.review{
+    background:#dbeafe;
+    border-color:#2563eb;
+    color:#1d4ed8;
+}
+
+.menu-submit{
+    margin-top:20px;
+    width:100%;
+    height:50px;
+    border:0;
+    border-radius:9px;
+    background:#16a34a;
+    color:#fff;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* MODALS */
+
+.modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.58);
+    z-index:3000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+}
+
+.modal-overlay.show{
+    display:flex;
+}
+
+.pause-modal{
+    width:100%;
+    max-width:520px;
+    background:#fff;
+    border-radius:8px;
+    padding:25px 18px 20px;
+    text-align:center;
+    box-shadow:0 8px 35px rgba(0,0,0,.35);
+}
+
+.pause-modal h2{
+    margin:0 0 22px;
+    color:#1e293b;
+    font-size:20px;
+}
+
+.pause-buttons{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.pause-buttons button{
+    height:50px;
+    border:0;
+    border-radius:6px;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.resume-btn{
+    background:#2563eb;
+    color:#fff;
+}
+
+.pause-submit-btn{
+    background:#64748b;
+    color:#fff;
+}
+
+.submit-modal{
+    width:100%;
+    max-width:500px;
+    background:#fff;
+    border-radius:10px;
+    padding:23px 18px;
+}
+
+.submit-modal h2{
+    margin:0 0 10px;
+}
+
+.submit-modal p{
+    color:#64748b;
+    line-height:1.6;
+}
+
+.submit-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+/* RESULT */
+
+.result{
+    background:#fff;
+    border:1px solid #e2e8f0;
+    border-radius:15px;
+    padding:20px;
+}
+
+.result-title{
+    text-align:center;
+    color:#2563eb;
+    font-size:26px;
+    font-weight:bold;
+}
+
+.score{
+    text-align:center;
+    font-size:40px;
+    font-weight:bold;
+    color:#16a34a;
+    margin:15px 0;
+}
+
+.result-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
+.result-box{
+    border:1px solid #e2e8f0;
+    border-radius:10px;
+    padding:14px;
+}
+
+.result-label{
+    color:#64748b;
+    font-size:13px;
+}
+
+.result-value{
+    font-size:21px;
+    font-weight:bold;
+    margin-top:5px;
+}
+
+.review-card{
+    background:#fff;
+    border:1px solid #cbd5e1;
+    border-radius:12px;
+    padding:15px;
+    margin-top:12px;
+}
+
+.review-option{
+    background:#f1f5f9;
+    border-radius:8px;
+    padding:9px;
+    margin-top:6px;
+}
+
+.review-correct{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.review-wrong{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.solution{
+    margin-top:10px;
+    padding:11px;
+    background:#eff6ff;
+    border-radius:8px;
+    color:#1e40af;
+    line-height:1.6;
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    .page{
+        padding-left:8px;
+        padding-right:8px;
+    }
+
+    .category-grid{
+        grid-template-columns:1fr;
+    }
+
+    .test-header{
+        margin-left:-8px;
+        margin-right:-8px;
+    }
+
+    .test-heading-title{
+        max-width:180px;
+    }
+
+    .test-timer{
+        font-size:13px;
+    }
+
+    .question-text{
+        font-size:17px;
+    }
+
+    .result-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+<div id="normalHeader" class="header">
+
+    <div class="header-top">
+
+        <div>
+
+            <h1>📝 THE HUB</h1>
+
+            <p>
+                SSC Exams Learning and Mock Test
+            </p>
+
+        </div>
+
+        <div>
+
+            👤
+
+            <span id="studentName"
+                  class="student-name">
+                Student
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="status"
+     class="status">
+</div>
+
+
+<!-- =====================================================
+     ATTEMPTED TESTS
+===================================================== -->
+
+<div id="attemptedSection"
+     class="section attempted-section hidden">
+
+    <div class="attempted-title">
+        📝 Attempted Tests
+    </div>
+
+    <div id="attemptedList"
+         class="attempted-list">
+    </div>
+
+</div>
+
+
+<!-- HOME -->
+
+<div id="freeHome"
+     class="section">
+
+    <div class="section-title">
+        🆓 Free Mock Test
+    </div>
+
+    <div class="category-grid">
+
+        <div class="category-card"
+             onclick="openCategory('chapter')">
+
+            <div class="category-icon">📘</div>
+
+            <div class="category-name">
+                Chapter Test
+            </div>
+
+            <div id="chapterCount"
+                 class="category-count">
+                Loading...
+            </div>
+
+        </div>
+
+
+        <div class="category-card"
+             onclick="openCategory('sectional')">
+
+            <div class="category-icon">📑</div>
+
+            <div class="category-name">
+                Sectional Test
+            </div>
+
+            <div id="sectionalCount"
+                 class="category-count">
+                Loading...
+            </div>
+
+        </div>
+
+
+        <div class="category-card"
+             onclick="openCategory('full')">
+
+            <div class="category-icon">📚</div>
+
+            <div class="category-name">
+                Full Test
+            </div>
+
+            <div id="fullCount"
+                 class="category-count">
+                Loading...
+            </div>
+
+        </div>
+
+
+        <div class="category-card"
+             onclick="openCategory('pyq')">
+
+            <div class="category-icon">📜</div>
+
+            <div class="category-name">
+                Full PYQ
+            </div>
+
+            <div id="pyqCount"
+                 class="category-count">
+                Loading...
+            </div>
+
+        </div>
+
+
+        <div class="category-card"
+             onclick="openCategory('practice')">
+
+            <div class="category-icon">✍️</div>
+
+            <div class="category-name">
+                Practice Test
+            </div>
+
+            <div id="practiceCount"
+                 class="category-count">
+                Loading...
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- TEST LIST -->
+
+<div id="testListBox"
+     class="section hidden">
+
+    <div id="listTitle"
+         class="section-title">
+    </div>
+
+    <div id="testList"
+         class="test-list">
+    </div>
+
+    <div style="margin-top:15px;">
+
+        <button class="btn gray"
+                onclick="backToCategories()">
+
+            ⬅️ वापस
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- TEST INTERFACE -->
+
+<div id="testInterface"
+     class="hidden">
+
+    <div class="test-header">
+
+        <div class="test-header-row">
+
+            <div class="test-header-left">
+
+                <button class="pause-button"
+                        onclick="showPauseModal()">
+
+                    ⏸
+
+                </button>
+
+                <div class="test-heading">
+
+                    <div id="testHeadingTitle"
+                         class="test-heading-title">
+
+                        Mock Test
+
+                    </div>
+
+                    <div id="testHeadingSub"
+                         class="test-heading-sub">
+
+                        Test
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div id="testTimer"
+                 class="test-timer">
+
+                00:00
+
+            </div>
+
+
+            <button class="menu-button"
+                    onclick="openQuestionMenu()">
+
+                ☰
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="test-body">
+
+        <div class="test-progress-info">
+
+            <div>
+
+                Total Questions Answered:
+
+                <span id="answeredCount"
+                      class="answered-count">
+                    0
+                </span>
+
+            </div>
+
+            <div id="lastTime"
+                 class="last-time">
+
+                Live
+
+            </div>
+
+        </div>
+
+
+        <div id="questionArea"
+             class="question-area">
+        </div>
+
+    </div>
+
+
+    <div class="bottom-nav">
+
+        <div class="bottom-nav-inner">
+
+            <button id="previousBtn"
+                    class="bottom-btn"
+                    onclick="previousQuestion()">
+
+                Previous
+
+            </button>
+
+
+            <button id="reviewBtn"
+                    class="bottom-btn"
+                    onclick="toggleReview()">
+
+                Mark For Review
+
+            </button>
+
+
+            <button id="nextBtn"
+                    class="bottom-btn primary"
+                    onclick="saveAndNext()">
+
+                Save &amp; Next
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- RESULT -->
+
+<div id="resultBox"
+     class="result hidden">
+
+    <div class="result-title">
+        🏆 Test Result
+    </div>
+
+    <div id="scoreDisplay"
+         class="score">
+        0
+    </div>
+
+    <div id="resultGrid"
+         class="result-grid">
+    </div>
+
+    <div style="margin-top:18px;">
+
+        <button class="btn blue"
+                onclick="showReview()">
+
+            📖 Review Answers
+
+        </button>
+
+        <button class="btn green"
+                onclick="reattemptTest()">
+
+            🔄 Reattempt
+
+        </button>
+
+        <button class="btn gray"
+                onclick="resetTestPage()">
+
+            ⬅️ Test List
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- REVIEW -->
+
+<div id="reviewBox"
+     class="result hidden">
+
+    <div class="result-title">
+        📖 Answer Review
+    </div>
+
+    <div id="reviewContainer">
+    </div>
+
+</div>
+
+
+<footer style="
+text-align:center;
+color:#64748b;
+padding:20px;
+">
+
+© 2026 THE HUB. All Rights Reserved.
+
+</footer>
+
+</div>
+
+
+<!-- QUESTION MENU -->
+
+<div id="menuOverlay"
+     class="menu-overlay"
+     onclick="closeMenu(event)">
+
+    <div class="menu-drawer"
+         onclick="event.stopPropagation()">
+
+        <div class="menu-title">
+
+            <span>
+                📌 Questions
+            </span>
+
+            <button class="menu-close"
+                    onclick="closeQuestionMenu()">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <div class="menu-content">
+
+            <div class="menu-section-title">
+
+                Question Numbers
+
+            </div>
+
+
+            <div id="menuQuestionGrid"
+                 class="menu-question-grid">
+            </div>
+
+
+            <button class="menu-submit"
+                    onclick="submitFromMenu()">
+
+                ✅ Submit Test
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- PAUSE -->
+
+<div id="pauseModal"
+     class="modal-overlay">
+
+    <div class="pause-modal">
+
+        <h2>
+            Are you sure you want to pause the test?
+        </h2>
+
+        <div class="pause-buttons">
+
+            <button class="resume-btn"
+                    onclick="resumeTest()">
+
+                Resume Test
+
+            </button>
+
+            <button class="pause-submit-btn"
+                    onclick="submitFromPause()">
+
+                Submit Test
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- SUBMIT -->
+
+<div id="submitModal"
+     class="modal-overlay">
+
+    <div class="submit-modal">
+
+        <h2>
+            Submit Test?
+        </h2>
+
+        <p id="submitMessage">
+            क्या आप test submit करना चाहते हैं?
+        </p>
+
+        <div class="submit-actions">
+
+            <button class="btn gray"
+                    onclick="closeSubmitModal()">
+
+                Cancel
+
+            </button>
+
+            <button class="btn green"
+                    onclick="confirmSubmit()">
+
+                Submit Test
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script type="module">
+
+/* =====================================================
+   FIREBASE
+===================================================== */
+
+import {
+    initializeApp
+}
+from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+import {
+    getFirestore,
+    collection,
+    getDocs,
+    getDoc,
+    doc,
+    addDoc,
+    serverTimestamp
+}
+from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyAqsesw3BWaHK7G1Y1jw0K9kr9suZ1pPV4",
+
+    authDomain:
+        "ssc-courses.firebaseapp.com",
+
+    projectId:
+        "ssc-courses",
+
+    storageBucket:
+        "ssc-courses.firebasestorage.app",
+
+    messagingSenderId:
+        "886294132394",
+
+    appId:
+        "1:886294132394:web:58b82a2a49f9cd1e0f02d3",
+
+    measurementId:
+        "G-9QSCEVYSE5"
+
+};
+
+
+const app =
+    initializeApp(firebaseConfig);
+
+const auth =
+    getAuth(app);
+
+const db =
+    getFirestore(app);
+
+
+const TESTS =
+    "mockTests";
+
+const QUESTIONS =
+    "mockQuestions";
+
+const RESULTS =
+    "testResults";
+
+
+/* =====================================================
+   GLOBAL STATE
+===================================================== */
+
+let firebaseUser = null;
+
+let allTests = [];
+
+let currentCategory = "";
+
+let currentTest = null;
+
+let currentQuestions = [];
+
+let answers = {};
+
+let markedQuestions = {};
+
+let currentQuestion = 0;
+
+let submitted = false;
+
+let resultData = null;
+
+let timerInterval = null;
+
+let remainingSeconds = 0;
+
+let questionStartedAt = 0;
+
+let questionTimes = {};
+
+let testPaused = false;
+
+let testHistoryActive = false;
+
+let allowHistoryExit = false;
+
+/* ATTEMPT HISTORY */
+
+let testAttemptMap = {};
+
+let attemptedTests = [];
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+function getStudentName(){
+
+    return localStorage.getItem(
+        "ssc_student_name"
+    )
+    ||
+    localStorage.getItem(
+        "studentName"
+    )
+    ||
+    "Student";
+
+}
+
+
+function getStudentUsername(){
+
+    return localStorage.getItem(
+        "ssc_student_username"
+    )
+    ||
+    localStorage.getItem(
+        "studentUsername"
+    )
+    ||
+    firebaseUser?.email
+    ||
+    firebaseUser?.uid
+    ||
+    "student";
+
+}
+
+
+function showStatus(
+    message,
+    type="success"
+){
+
+    const box =
+        document.getElementById("status");
+
+    box.className =
+        "status show " + type;
+
+    box.textContent =
+        message;
+
+    setTimeout(()=>{
+
+        box.className =
+            "status";
+
+    },4500);
+
+}
+
+
+/* =====================================================
+   CATEGORY
+===================================================== */
+
+function normalizeCategory(test){
+
+    const values = [
+
+        test.testType,
+        test.type,
+        test.category,
+        test.testCategory,
+        test.mockType,
+        test.examType
+
+    ]
+    .filter(
+        value =>
+        value !== undefined &&
+        value !== null
+    )
+    .map(
+        value =>
+        String(value)
+        .trim()
+        .toLowerCase()
+    );
+
+
+    const text =
+        values.join(" ");
+
+
+    if(
+        text.includes("chapter") ||
+        text.includes("अध्याय")
+    ){
+
+        return "chapter";
+
+    }
+
+
+    if(
+        text.includes("sectional") ||
+        text.includes("section") ||
+        text.includes("सेक्शन")
+    ){
+
+        return "sectional";
+
+    }
+
+
+    if(
+        text.includes("pyq") ||
+        text.includes("previous year") ||
+        text.includes("previous") ||
+        text.includes("पिछला")
+    ){
+
+        return "pyq";
+
+    }
+
+
+    if(
+        text.includes("practice") ||
+        text.includes("प्रैक्टिस") ||
+        text.includes("अभ्यास")
+    ){
+
+        return "practice";
+
+    }
+
+
+    if(
+        text.includes("full") ||
+        text.includes("complete") ||
+        text.includes("पूर्ण") ||
+        text.includes("mock")
+    ){
+
+        return "full";
+
+    }
+
+
+    return "full";
+
+}
+
+
+/* =====================================================
+   FREE TEST
+===================================================== */
+
+function isFreeTest(test){
+
+    if(test.isFree === true){
+
+        return true;
+
+    }
+
+
+    if(test.isPaid === true){
+
+        return false;
+
+    }
+
+
+    const access =
+        String(
+            test.access ??
+            test.accessType ??
+            test.testAccess ??
+            test.paymentType ??
+            ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    if(
+        access === "free" ||
+        access === "free_test" ||
+        access === "free-test"
+    ){
+
+        return true;
+
+    }
+
+
+    if(
+        access === "paid" ||
+        access === "premium" ||
+        access === "paid_test" ||
+        access === "paid-test"
+    ){
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =====================================================
+   LOAD TESTS
+===================================================== */
+
+async function loadTests(){
+
+    try{
+
+        const snap =
+            await getDocs(
+                collection(
+                    db,
+                    TESTS
+                )
+            );
+
+
+        allTests = [];
+
+
+        snap.forEach(item=>{
+
+            const data =
+                item.data();
+
+
+            if(
+                data.active === false ||
+                String(data.status)
+                .toLowerCase() === "inactive" ||
+                String(data.status)
+                .toLowerCase() === "disabled"
+            ){
+
+                return;
+
+            }
+
+
+            allTests.push({
+
+                id:item.id,
+                ...data
+
+            });
+
+        });
+
+
+        allTests.sort((a,b)=>{
+
+            const sa =
+                Number(
+                    a.testNumber ??
+                    a.serialNumber ??
+                    a.serial ??
+                    999999
+                );
+
+
+            const sb =
+                Number(
+                    b.testNumber ??
+                    b.serialNumber ??
+                    b.serial ??
+                    999999
+                );
+
+
+            return sa - sb;
+
+        });
+
+
+        updateCounts();
+
+        renderAttemptedTests();
+
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        showStatus(
+            "Tests load नहीं हुए: " +
+            error.message,
+            "error"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   LOAD STUDENT ATTEMPTS
+===================================================== */
+
+async function loadTestAttempts(){
+
+    testAttemptMap = {};
+
+    attemptedTests = [];
+
+
+    if(!firebaseUser){
+
+        return;
+
+    }
+
+
+    try{
+
+        const snap =
+            await getDocs(
+                collection(
+                    db,
+                    RESULTS
+                )
+            );
+
+
+        const myResults = [];
+
+
+        snap.forEach(item=>{
+
+            const data =
+                item.data();
+
+
+            if(
+                !data.studentUid ||
+                String(data.studentUid)
+                !==
+                String(firebaseUser.uid)
+            ){
+
+                return;
+
+            }
+
+
+            if(!data.testId){
+
+                return;
+
+            }
+
+
+            myResults.push({
+
+                id:item.id,
+                ...data
+
+            });
+
+        });
+
+
+        /*
+           Latest record for every test
+        */
+
+        myResults.sort((a,b)=>{
+
+            const aTime =
+                a.submittedAt?.seconds ||
+                a.savedAt?.seconds ||
+                a.createdAt?.seconds ||
+                0;
+
+            const bTime =
+                b.submittedAt?.seconds ||
+                b.savedAt?.seconds ||
+                b.createdAt?.seconds ||
+                0;
+
+            return bTime - aTime;
+
+        });
+
+
+        myResults.forEach(result=>{
+
+            const testId =
+                String(result.testId);
+
+
+            if(
+                !testAttemptMap[testId]
+            ){
+
+                testAttemptMap[testId] =
+                    result;
+
+            }
+
+        });
+
+
+        attemptedTests =
+            Object.values(
+                testAttemptMap
+            );
+
+
+        renderAttemptedTests();
+
+
+        if(currentCategory){
+
+            openCategory(
+                currentCategory
+            );
+
+        }
+
+    }
+    catch(error){
+
+        console.error(
+            "ATTEMPT LOAD ERROR:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   GET TEST STATUS
+===================================================== */
+
+function getTestStatus(testId){
+
+    const attempt =
+        testAttemptMap[
+            String(testId)
+        ];
+
+
+    if(!attempt){
+
+        return "new";
+
+    }
+
+
+    const status =
+        String(
+            attempt.status || ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    if(status === "submitted"){
+
+        return "submitted";
+
+    }
+
+
+    if(status === "paused"){
+
+        return "paused";
+
+    }
+
+
+    return "new";
+
+}
+
+
+/* =====================================================
+   TEST BUTTON
+===================================================== */
+
+function getTestActionButton(test){
+
+    const status =
+        getTestStatus(test.id);
+
+
+    if(status === "paused"){
+
+        return `
+
+            <button
+                class="btn blue"
+                style="
+                    width:100%;
+                    margin-top:12px;
+                "
+                onclick="
+                    resumeSavedTest('${escapeHTML(test.id)}')
+                "
+            >
+
+                ▶️ Resume Test
+
+            </button>
+
+        `;
+
+    }
+
+
+    if(status === "submitted"){
+
+        return `
+
+            <button
+                class="btn green"
+                style="
+                    width:100%;
+                    margin-top:12px;
+                "
+                onclick="
+                    reattemptSavedTest('${escapeHTML(test.id)}')
+                "
+            >
+
+                🔄 Reattempt
+
+            </button>
+
+        `;
+
+    }
+
+
+    return `
+
+        <button
+            class="btn blue"
+            style="
+                width:100%;
+                margin-top:12px;
+            "
+            onclick="
+                startNewTest('${escapeHTML(test.id)}')
+            "
+        >
+
+            ▶️ Start Test
+
+        </button>
+
+    `;
+
+}
+
+
+/* =====================================================
+   ATTEMPTED TESTS UI
+===================================================== */
+
+function renderAttemptedTests(){
+
+    const section =
+        document.getElementById(
+            "attemptedSection"
+        );
+
+    const list =
+        document.getElementById(
+            "attemptedList"
+        );
+
+
+    if(
+        !section ||
+        !list
+    ){
+
+        return;
+
+    }
+
+
+    if(!attemptedTests.length){
+
+        section.classList.add(
+            "hidden"
+        );
+
+        return;
+
+    }
+
+
+    section.classList.remove(
+        "hidden"
+    );
+
+
+    list.innerHTML =
+        attemptedTests.map(
+            attempt=>{
+
+                const test =
+                    allTests.find(
+                        item =>
+                        String(item.id)
+                        ===
+                        String(attempt.testId)
+                    );
+
+
+                const testName =
+                    test?.testName ||
+                    test?.name ||
+                    attempt.testName ||
+                    "Test";
+
+
+                const status =
+                    String(
+                        attempt.status || ""
+                    )
+                    .toLowerCase();
+
+
+                const statusText =
+                    status === "paused"
+                    ?
+                    "⏸ Paused"
+                    :
+                    "✅ Submitted";
+
+
+                const button =
+                    status === "paused"
+                    ?
+                    `
+                    <button
+                        class="btn blue"
+                        style="margin-top:9px;width:100%;"
+                        onclick="
+                            resumeSavedTest('${escapeHTML(attempt.testId)}')
+                        "
+                    >
+                        ▶️ Resume Test
+                    </button>
+                    `
+                    :
+                    `
+                    <button
+                        class="btn green"
+                        style="margin-top:9px;width:100%;"
+                        onclick="
+                            reattemptSavedTest('${escapeHTML(attempt.testId)}')
+                        "
+                    >
+                        🔄 Reattempt
+                    </button>
+                    `;
+
+
+                return `
+
+                    <div class="attempted-item">
+
+                        <div class="attempted-name">
+
+                            ${escapeHTML(testName)}
+
+                        </div>
+
+                        <div class="attempted-meta">
+
+                            ${statusText}
+
+                            ${
+                                attempt.attemptNumber
+                                ?
+                                " • Attempt " +
+                                escapeHTML(
+                                    attempt.attemptNumber
+                                )
+                                :
+                                ""
+                            }
+
+                            ${
+                                status === "paused"
+                                ?
+                                " • " +
+                                formatSeconds(
+                                    Number(
+                                        attempt.remainingSeconds
+                                    ) || 0
+                                ) +
+                                " remaining"
+                                :
+                                ""
+                            }
+
+                        </div>
+
+                        ${button}
+
+                    </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* =====================================================
+   COUNTS
+===================================================== */
+
+function updateCounts(){
+
+    [
+        "chapter",
+        "sectional",
+        "full",
+        "pyq",
+        "practice"
+    ]
+    .forEach(category=>{
+
+        const count =
+            allTests.filter(test=>
+
+                isFreeTest(test) &&
+                normalizeCategory(test)
+                ===
+                category
+
+            ).length;
+
+
+        const element =
+            document.getElementById(
+                category + "Count"
+            );
+
+
+        if(element){
+
+            element.textContent =
+                count +
+                " Test उपलब्ध";
+
+        }
+
+    });
+
+}
+
+
+/* =====================================================
+   OPEN CATEGORY
+===================================================== */
+
+window.openCategory =
+function(category){
+
+    currentCategory =
+        category;
+
+
+    const names = {
+
+        chapter:"📘 Chapter Test",
+
+        sectional:"📑 Sectional Test",
+
+        full:"📚 Full Test",
+
+        pyq:"📜 Full PYQ",
+
+        practice:"✍️ Practice Test"
+
+    };
+
+
+    const tests =
+        allTests.filter(test=>
+
+            isFreeTest(test) &&
+            normalizeCategory(test)
+            ===
+            category
+
+        );
+
+
+    document
+    .getElementById("freeHome")
+    .classList.add("hidden");
+
+
+    document
+    .getElementById("testListBox")
+    .classList.remove("hidden");
+
+
+    document
+    .getElementById("listTitle")
+    .textContent =
+        names[category];
+
+
+    const list =
+        document.getElementById("testList");
+
+
+    if(!tests.length){
+
+        list.innerHTML = `
+
+            <div style="
+                text-align:center;
+                color:#64748b;
+                padding:25px;
+            ">
+
+                इस section में अभी कोई
+                Free Test उपलब्ध नहीं है।
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        tests.map((test,index)=>{
+
+            const serial =
+                test.testNumber ??
+                test.serialNumber ??
+                test.serial ??
+                index+1;
+
+
+            const questionCount =
+                Number(
+                    test.totalQuestions ??
+                    test.questionCount ??
+                    (
+                        Array.isArray(
+                            test.questionIds
+                        )
+                        ?
+                        test.questionIds.length
+                        :
+                        0
+                    )
+                );
+
+
+            return `
+
+                <div class="test-item">
+
+                    <div class="test-number">
+
+                        Test ${escapeHTML(serial)}
+
+                    </div>
+
+                    <div class="test-name">
+
+                        ${escapeHTML(
+                            test.testName ||
+                            test.name ||
+                            "Untitled Test"
+                        )}
+
+                    </div>
+
+                    <div class="test-meta">
+
+                        📚 Course:
+                        ${escapeHTML(
+                            test.course || "-"
+                        )}
+
+                        <br>
+
+                        📝 Exam:
+                        ${escapeHTML(
+                            test.examName || "-"
+                        )}
+
+                        <br>
+
+                        📘 Subject:
+                        ${escapeHTML(
+                            test.subject || "-"
+                        )}
+
+                        <br>
+
+                        📖 Chapter:
+                        ${escapeHTML(
+                            test.chapter || "-"
+                        )}
+
+                        <br>
+
+                        ❓ Questions:
+                        ${questionCount}
+
+                        &nbsp; | &nbsp;
+
+                        ⏱️
+                        ${Number(
+                            test.testTime || 30
+                        )}
+                        Minutes
+
+                    </div>
+
+                    ${getTestActionButton(test)}
+
+                </div>
+
+            `;
+
+        })
+        .join("");
+
+};
+
+
+/* =====================================================
+   BACK
+===================================================== */
+
+window.backToCategories =
+function(){
+
+    document
+    .getElementById("testListBox")
+    .classList.add("hidden");
+
+
+    document
+    .getElementById("freeHome")
+    .classList.remove("hidden");
+
+};
+
+
+/* =====================================================
+   START NEW TEST
+===================================================== */
+
+window.startNewTest =
+async function(testId){
+
+    await openTest(
+        testId,
+        null
+    );
+
+};
+
+
+/* =====================================================
+   RESUME
+===================================================== */
+
+window.resumeSavedTest =
+async function(testId){
+
+    const saved =
+        testAttemptMap[
+            String(testId)
+        ];
+
+
+    if(!saved){
+
+        showStatus(
+            "Saved test नहीं मिला।",
+            "error"
+        );
+
+        await loadTestAttempts();
+
+        return;
+
+    }
+
+
+    if(
+        String(saved.status)
+        .toLowerCase()
+        !==
+        "paused"
+    ){
+
+        showStatus(
+            "यह test अब Resume नहीं किया जा सकता।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    await openTest(
+        testId,
+        saved
+    );
+
+};
+
+
+/* =====================================================
+   REATTEMPT
+===================================================== */
+
+window.reattemptSavedTest =
+async function(testId){
+
+    const test =
+        allTests.find(
+            item =>
+            String(item.id)
+            ===
+            String(testId)
+        );
+
+
+    if(!test){
+
+        showStatus(
+            "Test नहीं मिला।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    await openTest(
+        testId,
+        null
+    );
+
+};
+
+
+/* =====================================================
+   OPEN TEST
+===================================================== */
+
+window.openTest =
+async function(id,savedAttempt=null){
+
+    if(testHistoryActive){
+
+        return;
+
+    }
+
+
+    const test =
+        allTests.find(
+            item =>
+            String(item.id)
+            ===
+            String(id)
+        );
+
+
+    if(!test){
+
+        showStatus(
+            "Test नहीं मिला।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    currentTest = test;
+
+    currentQuestions = [];
+
+    answers = {};
+
+    markedQuestions = {};
+
+    questionTimes = {};
+
+    currentQuestion = 0;
+
+    submitted = false;
+
+    resultData = null;
+
+    testPaused = false;
+
+    questionStartedAt = 0;
+
+
+    try{
+
+        showStatus(
+            savedAttempt
+            ?
+            "⏳ Saved Test resume हो रहा है..."
+            :
+            "⏳ Questions load हो रहे हैं...",
+            "info"
+        );
+
+
+        await loadQuestions();
+
+
+        if(!currentQuestions.length){
+
+            showStatus(
+                "इस Test के questions नहीं मिले।",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if(savedAttempt){
+
+            /*
+               Restore answers
+            */
+
+            if(
+                Array.isArray(
+                    savedAttempt.answers
+                )
+            ){
+
+                savedAttempt.answers
+                .forEach(item=>{
+
+                    const index =
+                        Number(
+                            item.questionNumber
+                        ) - 1;
+
+
+                    if(
+                        index >= 0 &&
+                        index <
+                        currentQuestions.length
+                    ){
+
+                        answers[index] =
+                            Number(
+                                item.selectedAnswer
+                            );
+
+                    }
+
+                });
+
+            }
+
+
+            /*
+               Restore question times
+            */
+
+            if(
+                Array.isArray(
+                    savedAttempt.questionTimes
+                )
+            ){
+
+                savedAttempt.questionTimes
+                .forEach(item=>{
+
+                    const index =
+                        Number(
+                            item.questionNo
+                        ) - 1;
+
+
+                    if(index >= 0){
+
+                        questionTimes[index] =
+                            Number(
+                                item.timeSpentSeconds
+                            ) || 0;
+
+                    }
+
+                });
+
+            }
+
+
+            /*
+               Restore marked questions
+            */
+
+            if(
+                savedAttempt.markedQuestions &&
+                typeof savedAttempt.markedQuestions
+                ===
+                "object"
+            ){
+
+                markedQuestions =
+                    savedAttempt.markedQuestions;
+
+            }
+
+
+            /*
+               Restore current question
+            */
+
+            currentQuestion =
+                Math.max(
+                    0,
+                    Math.min(
+                        Number(
+                            savedAttempt.currentQuestion
+                        ) || 0,
+                        currentQuestions.length - 1
+                    )
+                );
+
+
+            /*
+               Restore remaining timer
+            */
+
+            remainingSeconds =
+                Math.max(
+                    0,
+                    Number(
+                        savedAttempt.remainingSeconds
+                    ) ||
+                    (
+                        Number(
+                            currentTest.testTime || 30
+                        ) * 60
+                    )
+                );
+
+        }
+
+
+        history.pushState(
+            {
+                theHubTest:true,
+                testId:String(id)
+            },
+            "",
+            location.href
+        );
+
+
+        testHistoryActive = true;
+
+        allowHistoryExit = false;
+
+
+        document
+        .getElementById("normalHeader")
+        .classList.add("hidden");
+
+
+        document
+        .getElementById("attemptedSection")
+        .classList.add("hidden");
+
+
+        document
+        .getElementById("freeHome")
+        .classList.add("hidden");
+
+
+        document
+        .getElementById("testListBox")
+        .classList.add("hidden");
+
+
+        document
+        .getElementById("resultBox")
+        .classList.add("hidden");
+
+
+        document
+        .getElementById("reviewBox")
+        .classList.add("hidden");
+
+
+        document
+        .getElementById("testInterface")
+        .classList.remove("hidden");
+
+
+        renderTestHeader();
+
+        renderCurrentQuestion();
+
+        updateAnsweredCount();
+
+        renderQuestionMenu();
+
+
+        if(savedAttempt){
+
+            startSavedTimer();
+
+        }
+        else{
+
+            startTimer();
+
+        }
+
+
+        startQuestionTimer();
+
+    }
+    catch(error){
+
+        console.error(
+            "OPEN TEST ERROR:",
+            error
+        );
+
+
+        testHistoryActive = false;
+
+
+        showStatus(
+            "Test open नहीं हुआ: " +
+            error.message,
+            "error"
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   LOAD QUESTIONS
+===================================================== */
+
+async function loadQuestions(){
+
+    const ids =
+        Array.isArray(
+            currentTest.questionIds
+        )
+        ?
+        currentTest.questionIds
+        :
+        [];
+
+
+    if(ids.length){
+
+        for(
+            const questionId of ids
+        ){
+
+            try{
+
+                const snap =
+                    await getDoc(
+                        doc(
+                            db,
+                            QUESTIONS,
+                            String(questionId)
+                        )
+                    );
+
+
+                if(snap.exists()){
+
+                    currentQuestions.push({
+
+                        id:snap.id,
+                        ...snap.data()
+
+                    });
+
+                }
+
+            }
+            catch(error){
+
+                console.error(
+                    "Question error:",
+                    questionId,
+                    error
+                );
+
+            }
+
+        }
+
+    }
+
+
+    if(!currentQuestions.length){
+
+        const snap =
+            await getDocs(
+                collection(
+                    db,
+                    QUESTIONS
+                )
+            );
+
+
+        snap.forEach(item=>{
+
+            const q =
+                item.data();
+
+
+            if(
+                q.testId &&
+                String(q.testId)
+                ===
+                String(currentTest.id)
+            ){
+
+                currentQuestions.push({
+
+                    id:item.id,
+                    ...q
+
+                });
+
+            }
+
+        });
+
+    }
+
+
+    if(!currentQuestions.length){
+
+        const snap =
+            await getDocs(
+                collection(
+                    db,
+                    QUESTIONS
+                )
+            );
+
+
+        const testName =
+            String(
+                currentTest.testName ||
+                currentTest.name ||
+                ""
+            )
+            .trim()
+            .toLowerCase();
+
+
+        snap.forEach(item=>{
+
+            const q =
+                item.data();
+
+
+            const qTestName =
+                String(
+                    q.testName || ""
+                )
+                .trim()
+                .toLowerCase();
+
+
+            if(
+                testName &&
+                qTestName &&
+                testName === qTestName
+            ){
+
+                currentQuestions.push({
+
+                    id:item.id,
+                    ...q
+
+                });
+
+            }
+
+        });
+
+    }
+
+
+    currentQuestions.sort((a,b)=>{
+
+        const aa =
+            Number(
+                a.serialNumber ??
+                a.questionNumber ??
+                a.serial ??
+                999999
+            );
+
+
+        const bb =
+            Number(
+                b.serialNumber ??
+                b.questionNumber ??
+                b.serial ??
+                999999
+            );
+
+
+        return aa-bb;
+
+    });
+
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+function renderTestHeader(){
+
+    document
+    .getElementById("testHeadingTitle")
+    .textContent =
+        currentTest.testName ||
+        currentTest.name ||
+        "Mock Test";
+
+
+    document
+    .getElementById("testHeadingSub")
+    .textContent =
+        (
+            currentTest.subject ||
+            ""
+        ) +
+        (
+            currentTest.testType
+            ?
+            " • " + currentTest.testType
+            :
+            ""
+        );
+
+}
+
+
+/* =====================================================
+   OPTIONS
+===================================================== */
+
+function getOptions(q){
+
+    if(Array.isArray(q.options)){
+
+        return q.options.slice(0,4);
+
+    }
+
+
+    return [
+
+        q.A || "",
+        q.B || "",
+        q.C || "",
+        q.D || ""
+
+    ];
+
+}
+
+
+/* =====================================================
+   CORRECT ANSWER
+===================================================== */
+
+function getCorrectIndex(q){
+
+    const value =
+        q.correctAnswer ??
+        q.answer ??
+        q.correctOption;
+
+
+    if(value === undefined ||
+       value === null){
+
+        return -1;
+
+    }
+
+
+    if(typeof value === "number"){
+
+        if(
+            value >= 0 &&
+            value <= 3
+        ){
+
+            return value;
+
+        }
+
+
+        if(
+            value >= 1 &&
+            value <= 4
+        ){
+
+            return value - 1;
+
+        }
+
+    }
+
+
+    const text =
+        String(value)
+        .trim()
+        .toUpperCase();
+
+
+    if(
+        ["A","B","C","D"]
+        .includes(text)
+    ){
+
+        return [
+            "A","B","C","D"
+        ].indexOf(text);
+
+    }
+
+
+    const num =
+        Number(text);
+
+
+    if(
+        num >= 1 &&
+        num <= 4
+    ){
+
+        return num - 1;
+
+    }
+
+
+    if(
+        num >= 0 &&
+        num <= 3
+    ){
+
+        return num;
+
+    }
+
+
+    return -1;
+
+}
+
+
+/* =====================================================
+   QUESTION RENDER
+===================================================== */
+
+function renderCurrentQuestion(){
+
+    if(!currentQuestions.length){
+
+        return;
+
+    }
+
+
+    const q =
+        currentQuestions[
+            currentQuestion
+        ];
+
+
+    if(!q){
+
+        return;
+
+    }
+
+
+    const options =
+        getOptions(q);
+
+
+    const selected =
+        answers[currentQuestion];
+
+
+    const marked =
+        markedQuestions[currentQuestion]
+        === true;
+
+
+    document
+    .getElementById("questionArea")
+    .innerHTML = `
+
+        <div class="question-top">
+
+            <div class="question-number-box">
+
+                <div class="question-number">
+
+                    ${currentQuestion + 1}
+
+                </div>
+
+                <div class="question-time">
+
+                    ⏱️
+                    <span id="currentQuestionTime">
+                        ${formatSeconds(
+                            getQuestionTime(
+                                currentQuestion
+                            )
+                        )}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="question-icons">
+
+                <span
+                    class="
+                        question-icon
+                        ${marked ? "active" : ""}
+                    "
+                    onclick="toggleReview()"
+                >
+
+                    ${marked ? "★" : "☆"}
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="question-text">
+
+            ${escapeHTML(
+                q.question ||
+                q.questionText ||
+                "-"
+            )}
+
+        </div>
+
+
+        <div class="options">
+
+            ${
+                options.map(
+                    (option,index)=>`
+
+                    <label
+                        class="
+                            option
+                            ${
+                                selected === index
+                                ?
+                                "selected"
+                                :
+                                ""
+                            }
+                        "
+                    >
+
+                        <input
+                            type="radio"
+                            name="currentQuestion"
+                            value="${index}"
+                            ${
+                                selected === index
+                                ?
+                                "checked"
+                                :
+                                ""
+                            }
+                            onchange="
+                                selectCurrentAnswer(${index})
+                            "
+                        >
+
+                        <div class="option-text">
+
+                            <b>
+                                ${["A","B","C","D"][index]}.
+                            </b>
+
+                            ${escapeHTML(option)}
+
+                        </div>
+
+                    </label>
+
+                `
+                ).join("")
+            }
+
+        </div>
+
+    `;
+
+
+    document
+    .getElementById("previousBtn")
+    .disabled =
+        currentQuestion === 0;
+
+
+    document
+    .getElementById("reviewBtn")
+    .textContent =
+        marked
+        ?
+        "Unmark Review"
+        :
+        "Mark For Review";
+
+
+    document
+    .getElementById("nextBtn")
+    .textContent =
+        currentQuestion ===
+        currentQuestions.length - 1
+        ?
+        "Save & Submit"
+        :
+        "Save & Next";
+
+
+    updateAnsweredCount();
+
+    renderQuestionMenu();
+
+}
+
+
+/* =====================================================
+   QUESTION CLOCK
+===================================================== */
+
+function updateCurrentQuestionClock(){
+
+    if(
+        submitted ||
+        testPaused ||
+        !currentQuestions.length
+    ){
+
+        return;
+
+    }
+
+
+    const element =
+        document.getElementById(
+            "currentQuestionTime"
+        );
+
+
+    if(element){
+
+        element.textContent =
+            formatSeconds(
+                getQuestionTime(
+                    currentQuestion
+                )
+            );
+
+    }
+
+}
+
+
+setInterval(()=>{
+
+    updateCurrentQuestionClock();
+
+},1000);
+
+
+/* =====================================================
+   SELECT ANSWER
+===================================================== */
+
+window.selectCurrentAnswer =
+function(index){
+
+    if(
+        submitted ||
+        testPaused
+    ){
+
+        return;
+
+    }
+
+
+    answers[
+        currentQuestion
+    ] = index;
+
+
+    document
+    .querySelectorAll(".option")
+    .forEach(
+        (element,i)=>{
+
+            element.classList.toggle(
+                "selected",
+                i === index
+            );
+
+        }
+    );
+
+
+    updateAnsweredCount();
+
+    renderQuestionMenu();
+
+};
+
+
+/* =====================================================
+   QUESTION TIMER
+===================================================== */
+
+function startQuestionTimer(){
+
+    questionStartedAt =
+        Date.now();
+
+
+    updateCurrentQuestionClock();
+
+}
+
+
+function saveCurrentQuestionTime(){
+
+    if(
+        !currentQuestions[
+            currentQuestion
+        ]
+    ){
+
+        return 0;
+
+    }
+
+
+    if(!questionStartedAt){
+
+        questionStartedAt =
+            Date.now();
+
+        return 0;
+
+    }
+
+
+    const now =
+        Date.now();
+
+
+    const elapsed =
+        Math.max(
+            0,
+            Math.floor(
+                (
+                    now -
+                    questionStartedAt
+                ) / 1000
+            )
+        );
+
+
+    if(elapsed > 0){
+
+        questionTimes[
+            currentQuestion
+        ] =
+            (
+                Number(
+                    questionTimes[
+                        currentQuestion
+                    ]
+                ) || 0
+            )
+            +
+            elapsed;
+
+    }
+
+
+    questionStartedAt =
+        now;
+
+
+    updateCurrentQuestionClock();
+
+
+    return elapsed;
+
+}
+
+
+function getQuestionTime(index){
+
+    let total =
+        Number(
+            questionTimes[index]
+        ) || 0;
+
+
+    if(
+        index === currentQuestion &&
+        questionStartedAt &&
+        !testPaused &&
+        !submitted
+    ){
+
+        const live =
+            Math.max(
+                0,
+                Math.floor(
+                    (
+                        Date.now() -
+                        questionStartedAt
+                    ) / 1000
+                )
+            );
+
+
+        total += live;
+
+    }
+
+
+    return total;
+
+}
+
+
+/* =====================================================
+   PREVIOUS
+===================================================== */
+
+window.previousQuestion =
+function(){
+
+    if(
+        currentQuestion <= 0 ||
+        submitted ||
+        testPaused
+    ){
+
+        return;
+
+    }
+
+
+    saveCurrentQuestionTime();
+
+
+    currentQuestion--;
+
+
+    startQuestionTimer();
+
+    renderCurrentQuestion();
+
+};
+
+
+/* =====================================================
+   NEXT
+===================================================== */
+
+window.saveAndNext =
+function(){
+
+    if(
+        submitted ||
+        testPaused
+    ){
+
+        return;
+
+    }
+
+
+    saveCurrentQuestionTime();
+
+
+    if(
+        currentQuestion <
+        currentQuestions.length - 1
+    ){
+
+        currentQuestion++;
+
+        startQuestionTimer();
+
+        renderCurrentQuestion();
+
+    }
+    else{
+
+        openSubmitModal();
+
+    }
+
+};
+
+
+/* =====================================================
+   REVIEW MARK
+===================================================== */
+
+window.toggleReview =
+function(){
+
+    if(
+        submitted ||
+        testPaused
+    ){
+
+        return;
+
+    }
+
+
+    markedQuestions[
+        currentQuestion
+    ] =
+        !markedQuestions[
+            currentQuestion
+        ];
+
+
+    renderCurrentQuestion();
+
+};
+
+
+/* =====================================================
+   QUESTION MENU
+===================================================== */
+
+window.openQuestionMenu =
+function(){
+
+    if(submitted){
+
+        return;
+
+    }
+
+
+    renderQuestionMenu();
+
+
+    document
+    .getElementById("menuOverlay")
+    .classList.add("show");
+
+};
+
+
+window.closeQuestionMenu =
+function(){
+
+    document
+    .getElementById("menuOverlay")
+    .classList.remove("show");
+
+};
+
+
+window.closeMenu =
+function(event){
+
+    if(
+        event.target.id ===
+        "menuOverlay"
+    ){
+
+        closeQuestionMenu();
+
+    }
+
+};
+
+
+function renderQuestionMenu(){
+
+    const grid =
+        document.getElementById(
+            "menuQuestionGrid"
+        );
+
+
+    if(!grid){
+
+        return;
+
+    }
+
+
+    grid.innerHTML =
+        currentQuestions.map(
+            (q,index)=>{
+
+                const answered =
+                    answers[index] !==
+                    undefined;
+
+
+                const marked =
+                    markedQuestions[index]
+                    === true;
+
+
+                return `
+
+                    <button
+                        class="
+                            menu-q-btn
+                            ${
+                                index === currentQuestion
+                                ?
+                                "current"
+                                :
+                                ""
+                            }
+                            ${
+                                answered
+                                ?
+                                "answered"
+                                :
+                                ""
+                            }
+                            ${
+                                marked
+                                ?
+                                "review"
+                                :
+                                ""
+                            }
+                        "
+                        onclick="
+                            goToQuestionFromMenu(${index})
+                        "
+                    >
+
+                        ${index+1}
+
+                    </button>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+window.goToQuestionFromMenu =
+function(index){
+
+    if(
+        submitted ||
+        testPaused ||
+        index === currentQuestion
+    ){
+
+        return;
+
+    }
+
+
+    saveCurrentQuestionTime();
+
+
+    currentQuestion =
+        index;
+
+
+    closeQuestionMenu();
+
+
+    startQuestionTimer();
+
+    renderCurrentQuestion();
+
+};
+
+
+/* =====================================================
+   ANSWER COUNT
+===================================================== */
+
+function updateAnsweredCount(){
+
+    const count =
+        Object.keys(
+            answers
+        ).length;
+
+
+    document
+    .getElementById("answeredCount")
+    .textContent =
+        count;
+
+}
+
+
+/* =====================================================
+   FORMAT
+===================================================== */
+
+function formatSeconds(seconds){
+
+    seconds =
+        Number(seconds) || 0;
+
+
+    const min =
+        Math.floor(
+            seconds / 60
+        );
+
+
+    const sec =
+        seconds % 60;
+
+
+    return (
+        String(min).padStart(2,"0")
+        +
+        ":"
+        +
+        String(sec).padStart(2,"0")
+    );
+
+}
+
+
+/* =====================================================
+   MAIN TIMER
+===================================================== */
+
+function startTimer(){
+
+    stopTimer();
+
+
+    remainingSeconds =
+        Number(
+            currentTest.testTime || 30
+        ) * 60;
+
+
+    testPaused = false;
+
+
+    updateTimer();
+
+
+    timerInterval =
+        setInterval(()=>{
+
+            if(testPaused){
+
+                return;
+
+            }
+
+
+            remainingSeconds--;
+
+
+            updateTimer();
+
+
+            if(
+                remainingSeconds <= 0
+            ){
+
+                remainingSeconds = 0;
+
+                stopTimer();
+
+                saveCurrentQuestionTime();
+
+                submitTest(true);
+
+            }
+
+        },1000);
+
+}
+
+
+function startSavedTimer(){
+
+    stopTimer();
+
+
+    if(
+        remainingSeconds <= 0
+    ){
+
+        remainingSeconds = 0;
+
+        updateTimer();
+
+        saveCurrentQuestionTime();
+
+        submitTest(true);
+
+        return;
+
+    }
+
+
+    testPaused = false;
+
+    updateTimer();
+
+
+    timerInterval =
+        setInterval(()=>{
+
+            if(testPaused){
+
+                return;
+
+            }
+
+
+            remainingSeconds--;
+
+            updateTimer();
+
+
+            if(
+                remainingSeconds <= 0
+            ){
+
+                remainingSeconds = 0;
+
+                stopTimer();
+
+                saveCurrentQuestionTime();
+
+                submitTest(true);
+
+            }
+
+        },1000);
+
+}
+
+
+function stopTimer(){
+
+    if(timerInterval){
+
+        clearInterval(
+            timerInterval
+        );
+
+        timerInterval = null;
+
+    }
+
+}
+
+
+function updateTimer(){
+
+    const timer =
+        document.getElementById(
+            "testTimer"
+        );
+
+
+    if(!timer){
+
+        return;
+
+    }
+
+
+    timer.textContent =
+        formatSeconds(
+            remainingSeconds
+        );
+
+
+    timer.classList.remove(
+        "warning",
+        "danger"
+    );
+
+
+    if(
+        remainingSeconds <= 300
+    ){
+
+        timer.classList.add(
+            "danger"
+        );
+
+    }
+    else if(
+        remainingSeconds <= 600
+    ){
+
+        timer.classList.add(
+            "warning"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   PAUSE
+===================================================== */
+
+window.showPauseModal =
+async function(){
+
+    if(
+        submitted ||
+        !currentTest
+    ){
+
+        return;
+
+    }
+
+
+    saveCurrentQuestionTime();
+
+
+    testPaused = true;
+
+    stopTimer();
+
+
+    try{
+
+        await savePausedAttempt();
+
+        showStatus(
+            "⏸ Test Firestore में save हो गया।",
+            "success"
+        );
+
+    }
+    catch(error){
+
+        console.error(
+            "PAUSE SAVE ERROR:",
+            error
+        );
+
+        showStatus(
+            "Pause data save नहीं हुआ: " +
+            error.message,
+            "error"
+        );
+
+    }
+
+
+    document
+    .getElementById("pauseModal")
+    .classList.add("show");
+
+};
+
+
+window.resumeTest =
+function(){
+
+    document
+    .getElementById("pauseModal")
+    .classList.remove("show");
+
+
+    testPaused = false;
+
+
+    questionStartedAt =
+        Date.now();
+
+
+    resumeTimerOnly();
+
+};
+
+
+window.submitFromPause =
+function(){
+
+    document
+    .getElementById("pauseModal")
+    .classList.remove("show");
+
+
+    openSubmitModal();
+
+};
+
+
+/* =====================================================
+   SAVE PAUSED ATTEMPT
+===================================================== */
+
+async function savePausedAttempt(){
+
+    if(!firebaseUser){
+
+        throw new Error(
+            "Student Firebase Auth में login नहीं है।"
+        );
+
+    }
+
+
+    const questionTimesArray =
+        currentQuestions.map(
+            (q,index)=>({
+
+                questionNo:
+                    index + 1,
+
+                questionId:
+                    q.id || "",
+
+                timeSpentSeconds:
+                    Number(
+                        questionTimes[index]
+                    ) || 0,
+
+                timeSpent:
+                    formatSeconds(
+                        Number(
+                            questionTimes[index]
+                        ) || 0
+                    )
+
+            })
+        );
+
+
+    const answersArray =
+        Object.keys(
+            answers
+        ).map(index=>({
+
+            questionId:
+                currentQuestions[
+                    Number(index)
+                ]?.id || "",
+
+            questionNumber:
+                Number(index) + 1,
+
+            selectedAnswer:
+                answers[index],
+
+            correctAnswer:
+                getCorrectIndex(
+                    currentQuestions[
+                        Number(index)
+                    ]
+                )
+
+        }));
+
+
+    const data = {
+
+        studentUid:
+            firebaseUser.uid,
+
+        studentEmail:
+            firebaseUser.email || "",
+
+        studentUsername:
+            getStudentUsername(),
+
+        studentName:
+            getStudentName(),
+
+        testId:
+            currentTest.id,
+
+        testName:
+            currentTest.testName ||
+            currentTest.name ||
+            "",
+
+        testType:
+            currentTest.testType ||
+            currentTest.category ||
+            "",
+
+        subject:
+            currentTest.subject ||
+            "",
+
+        chapter:
+            currentTest.chapter ||
+            "",
+
+        status:
+            "paused",
+
+        currentQuestion:
+            currentQuestion,
+
+        remainingSeconds:
+            remainingSeconds,
+
+        answers:
+            answersArray,
+
+        questionTimes:
+            questionTimesArray,
+
+        markedQuestions:
+            markedQuestions,
+
+        savedAt:
+            serverTimestamp(),
+
+        createdAt:
+            serverTimestamp()
+
+    };
+
+
+    const ref =
+        await addDoc(
+            collection(
+                db,
+                RESULTS
+            ),
+            data
+        );
+
+
+    testAttemptMap[
+        String(currentTest.id)
+    ] = {
+
+        id:ref.id,
+
+        ...data,
+
+        savedAt:{
+            seconds:
+                Math.floor(
+                    Date.now()/1000
+                )
+        }
+
+    };
+
+
+    attemptedTests =
+        Object.values(
+            testAttemptMap
+        );
+
+
+    renderAttemptedTests();
+
+}
+
+
+/* =====================================================
+   RESUME TIMER
+===================================================== */
+
+function resumeTimerOnly(){
+
+    stopTimer();
+
+
+    timerInterval =
+        setInterval(()=>{
+
+            if(testPaused){
+
+                return;
+
+            }
+
+
+            remainingSeconds--;
+
+            updateTimer();
+
+
+            if(
+                remainingSeconds <= 0
+            ){
+
+                remainingSeconds = 0;
+
+                stopTimer();
+
+                saveCurrentQuestionTime();
+
+                submitTest(true);
+
+            }
+
+        },1000);
+
+
+    updateTimer();
+
+}
+
+
+/* =====================================================
+   SUBMIT MODAL
+===================================================== */
+
+function openSubmitModal(){
+
+    if(submitted){
+
+        return;
+
+    }
+
+
+    saveCurrentQuestionTime();
+
+
+    testPaused = true;
+
+    stopTimer();
+
+
+    const answered =
+        Object.keys(
+            answers
+        ).length;
+
+
+    document
+    .getElementById("submitMessage")
+    .textContent =
+        `आपने ${answered} / ${currentQuestions.length} questions attempt किए हैं। क्या आप Test submit करना चाहते हैं?`;
+
+
+    document
+    .getElementById("submitModal")
+    .classList.add("show");
+
+}
+
+
+window.closeSubmitModal =
+function(){
+
+    document
+    .getElementById("submitModal")
+    .classList.remove("show");
+
+
+    if(
+        !submitted &&
+        currentTest
+    ){
+
+        testPaused = false;
+
+        questionStartedAt =
+            Date.now();
+
+        resumeTimerOnly();
+
+    }
+
+};
+
+
+window.confirmSubmit =
+function(){
+
+    document
+    .getElementById("submitModal")
+    .classList.remove("show");
+
+
+    submitTest(true);
+
+};
+
+
+window.submitFromMenu =
+function(){
+
+    closeQuestionMenu();
+
+    openSubmitModal();
+
+};
+
+
+/* =====================================================
+   NEXT ATTEMPT NUMBER
+===================================================== */
+
+function getNextAttemptNumber(){
+
+    const old =
+        testAttemptMap[
+            String(currentTest.id)
+        ];
+
+
+    if(
+        !old ||
+        !old.attemptNumber
+    ){
+
+        return 1;
+
+    }
+
+
+    return (
+        Number(
+            old.attemptNumber
+        ) || 1
+    ) + 1;
+
+}
+
+
+/* =====================================================
+   SUBMIT TEST
+===================================================== */
+
+window.submitTest =
+async function(force=false){
+
+    if(submitted){
+
+        return;
+
+    }
+
+
+    saveCurrentQuestionTime();
+
+
+    if(!force){
+
+        openSubmitModal();
+
+        return;
+
+    }
+
+
+    submitted = true;
+
+    testPaused = true;
+
+    stopTimer();
+
+
+    resultData =
+        calculateResult();
+
+
+    try{
+
+        await saveResult();
+
+        showStatus(
+            "✅ Result Firestore में save हो गया।",
+            "success"
+        );
+
+    }
+    catch(error){
+
+        console.error(
+            "RESULT SAVE ERROR:",
+            error
+        );
+
+        showStatus(
+            "Result save नहीं हुआ: " +
+            error.message,
+            "error"
+        );
+
+    }
+
+
+    showResult();
+
+
+    document
+    .getElementById("testInterface")
+    .classList.add("hidden");
+
+
+    document
+    .getElementById("normalHeader")
+    .classList.remove("hidden");
+
+
+    testHistoryActive = false;
+
+    allowHistoryExit = true;
+
+
+    await loadTestAttempts();
+
+};
+
+
+/* =====================================================
+   RESULT CALCULATION
+===================================================== */
+
+function calculateResult(){
+
+    const positive =
+        Number(
+            currentTest.marksPerQuestion || 1
+        );
+
+
+    const negative =
+        Number(
+            currentTest.negativeMarks || 0
+        );
+
+
+    let correct = 0;
+
+    let wrong = 0;
+
+    let skipped = 0;
+
+    let score = 0;
+
+
+    currentQuestions.forEach(
+        (q,index)=>{
+
+            const selected =
+                answers[index];
+
+
+            if(
+                selected === undefined
+            ){
+
+                skipped++;
+
+                return;
+
+            }
+
+
+            const correctAnswer =
+                getCorrectIndex(q);
+
+
+            if(
+                selected === correctAnswer
+            ){
+
+                correct++;
+
+                score +=
+                    Number(
+                        q.marks ??
+                        positive
+                    );
+
+            }
+            else{
+
+                wrong++;
+
+                score -= negative;
+
+            }
+
+        }
+    );
+
+
+    const totalMarks =
+        currentQuestions.reduce(
+            (total,q)=>
+                total +
+                Number(
+                    q.marks ??
+                    positive
+                ),
+            0
+        );
+
+
+    const percentage =
+        totalMarks > 0
+        ?
+        (
+            score /
+            totalMarks
+        ) * 100
+        :
+        0;
+
+
+    return {
+
+        correct,
+
+        wrong,
+
+        skipped,
+
+        attempted:
+            correct + wrong,
+
+        score,
+
+        totalMarks,
+
+        percentage
+
+    };
+
+}
+
+
+/* =====================================================
+   SAVE RESULT
+===================================================== */
+
+async function saveResult(){
+
+    if(!firebaseUser){
+
+        throw new Error(
+            "Student Firebase Auth में login नहीं है।"
+        );
+
+    }
+
+
+    const attemptNumber =
+        getNextAttemptNumber();
+
+
+    const questionTimesArray =
+        currentQuestions.map(
+            (q,index)=>({
+
+                questionNo:
+                    index + 1,
+
+                questionId:
+                    q.id || "",
+
+                timeSpentSeconds:
+                    Number(
+                        questionTimes[index]
+                    ) || 0,
+
+                timeSpent:
+                    formatSeconds(
+                        Number(
+                            questionTimes[index]
+                        ) || 0
+                    )
+
+            })
+        );
+
+
+    const answersArray =
+        Object.keys(
+            answers
+        ).map(index=>({
+
+            questionId:
+                currentQuestions[
+                    Number(index)
+                ]?.id || "",
+
+            questionNumber:
+                Number(index) + 1,
+
+            selectedAnswer:
+                answers[index],
+
+            correctAnswer:
+                getCorrectIndex(
+                    currentQuestions[
+                        Number(index)
+                    ]
+                )
+
+        }));
+
+
+    const data = {
+
+        studentUid:
+            firebaseUser.uid,
+
+        studentEmail:
+            firebaseUser.email || "",
+
+        studentUsername:
+            getStudentUsername(),
+
+        studentName:
+            getStudentName(),
+
+        testId:
+            currentTest.id,
+
+        testName:
+            currentTest.testName ||
+            currentTest.name ||
+            "",
+
+        testType:
+            currentTest.testType ||
+            currentTest.category ||
+            "",
+
+        subject:
+            currentTest.subject ||
+            "",
+
+        chapter:
+            currentTest.chapter ||
+            "",
+
+        status:
+            "submitted",
+
+        attemptNumber:
+            attemptNumber,
+
+        currentQuestion:
+            currentQuestion,
+
+        remainingSeconds:
+            remainingSeconds,
+
+        correct:
+            resultData.correct,
+
+        wrong:
+            resultData.wrong,
+
+        skipped:
+            resultData.skipped,
+
+        attempted:
+            resultData.attempted,
+
+        score:
+            resultData.score,
+
+        totalMarks:
+            resultData.totalMarks,
+
+        percentage:
+            resultData.percentage,
+
+        answers:
+            answersArray,
+
+        questionTimes:
+            questionTimesArray,
+
+        markedQuestions:
+            markedQuestions,
+
+        submittedAt:
+            serverTimestamp(),
+
+        createdAt:
+            serverTimestamp()
+
+    };
+
+
+    const ref =
+        await addDoc(
+            collection(
+                db,
+                RESULTS
+            ),
+            data
+        );
+
+
+    testAttemptMap[
+        String(currentTest.id)
+    ] = {
+
+        id:ref.id,
+
+        ...data,
+
+        submittedAt:{
+            seconds:
+                Math.floor(
+                    Date.now()/1000
+                )
+        }
+
+    };
+
+
+    attemptedTests =
+        Object.values(
+            testAttemptMap
+        );
+
+
+    renderAttemptedTests();
+
+}
+
+
+/* =====================================================
+   RESULT UI
+===================================================== */
+
+function showResult(){
+
+    const result =
+        resultData;
+
+
+    document
+    .getElementById("resultBox")
+    .classList.remove("hidden");
+
+
+    document
+    .getElementById("scoreDisplay")
+    .textContent =
+        Number(
+            result.score
+        ).toFixed(2);
+
+
+    document
+    .getElementById("resultGrid")
+    .innerHTML = `
+
+        <div class="result-box">
+
+            <div class="result-label">
+                Correct
+            </div>
+
+            <div class="result-value">
+                ${result.correct}
+            </div>
+
+        </div>
+
+
+        <div class="result-box">
+
+            <div class="result-label">
+                Wrong
+            </div>
+
+            <div class="result-value">
+                ${result.wrong}
+            </div>
+
+        </div>
+
+
+        <div class="result-box">
+
+            <div class="result-label">
+                Skipped
+            </div>
+
+            <div class="result-value">
+                ${result.skipped}
+            </div>
+
+        </div>
+
+
+        <div class="result-box">
+
+            <div class="result-label">
+                Attempted
+            </div>
+
+            <div class="result-value">
+                ${result.attempted}
+            </div>
+
+        </div>
+
+
+        <div class="result-box">
+
+            <div class="result-label">
+                Total Marks
+            </div>
+
+            <div class="result-value">
+                ${Number(
+                    result.totalMarks
+                ).toFixed(2)}
+            </div>
+
+        </div>
+
+
+        <div class="result-box">
+
+            <div class="result-label">
+                Percentage
+            </div>
+
+            <div class="result-value">
+                ${Number(
+                    result.percentage
+                ).toFixed(2)}
+                %
+            </div>
+
+        </div>
+
+    `;
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =====================================================
+   REVIEW
+===================================================== */
+
+window.showReview =
+function(){
+
+    if(
+        !submitted ||
+        !resultData
+    ){
+
+        return;
+
+    }
+
+
+    const box =
+        document.getElementById(
+            "reviewContainer"
+        );
+
+
+    box.innerHTML =
+        currentQuestions.map(
+            (q,index)=>{
+
+                const options =
+                    getOptions(q);
+
+
+                const correct =
+                    getCorrectIndex(q);
+
+
+                const selected =
+                    answers[index];
+
+
+                return `
+
+                    <div class="review-card">
+
+                        <div style="
+                            line-height:1.6;
+                            margin-bottom:10px;
+                        ">
+
+                            <b>
+                                Q${index+1}.
+                            </b>
+
+                            ${escapeHTML(
+                                q.question ||
+                                q.questionText ||
+                                ""
+                            )}
+
+                        </div>
+
+
+                        ${
+                            options.map(
+                                (option,optIndex)=>{
+
+                                    let cls =
+                                        "review-option";
+
+
+                                    if(
+                                        optIndex === correct
+                                    ){
+
+                                        cls +=
+                                            " review-correct";
+
+                                    }
+
+
+                                    if(
+                                        selected === optIndex &&
+                                        selected !== correct
+                                    ){
+
+                                        cls +=
+                                            " review-wrong";
+
+                                    }
+
+
+                                    return `
+
+                                        <div
+                                            class="${cls}"
+                                        >
+
+                                            <b>
+                                                ${["A","B","C","D"][optIndex]}.
+                                            </b>
+
+                                            ${escapeHTML(option)}
+
+                                            ${
+                                                optIndex === correct
+                                                ?
+                                                " ✅ Correct"
+                                                :
+                                                ""
+                                            }
+
+                                            ${
+                                                selected === optIndex &&
+                                                selected !== correct
+                                                ?
+                                                " ❌ Your Answer"
+                                                :
+                                                ""
+                                            }
+
+                                        </div>
+
+                                    `;
+
+                                }
+                            ).join("")
+                        }
+
+
+                        ${
+                            selected === undefined
+                            ?
+                            `
+                            <div class="review-option">
+
+                                ⚪ आपने attempt नहीं किया।
+
+                            </div>
+                            `
+                            :
+                            ""
+                        }
+
+
+                        ${
+                            q.solution ||
+                            q.explanation
+                            ?
+                            `
+                            <div class="solution">
+
+                                💡
+                                <b>Solution:</b>
+
+                                ${escapeHTML(
+                                    q.solution ||
+                                    q.explanation ||
+                                    ""
+                                )}
+
+                            </div>
+                            `
+                            :
+                            ""
+                        }
+
+                    </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+
+    document
+    .getElementById("reviewBox")
+    .classList.remove("hidden");
+
+
+    document
+    .getElementById("reviewBox")
+    .scrollIntoView({
+        behavior:"smooth"
+    });
+
+};
+
+
+/* =====================================================
+   REATTEMPT CURRENT RESULT
+===================================================== */
+
+window.reattemptTest =
+async function(){
+
+    if(!currentTest){
+
+        return;
+
+    }
+
+
+    document
+    .getElementById("resultBox")
+    .classList.add("hidden");
+
+
+    document
+    .getElementById("reviewBox")
+    .classList.add("hidden");
+
+
+    testHistoryActive = false;
+
+
+    await openTest(
+        currentTest.id,
+        null
+    );
+
+};
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+window.resetTestPage =
+function(){
+
+    stopTimer();
+
+
+    testHistoryActive = false;
+
+    allowHistoryExit = false;
+
+
+    currentTest = null;
+
+    currentQuestions = [];
+
+    answers = {};
+
+    markedQuestions = {};
+
+    questionTimes = {};
+
+    currentQuestion = 0;
+
+    submitted = false;
+
+    resultData = null;
+
+    questionStartedAt = 0;
+
+
+    document
+    .getElementById("testInterface")
+    .classList.add("hidden");
+
+
+    document
+    .getElementById("resultBox")
+    .classList.add("hidden");
+
+
+    document
+    .getElementById("reviewBox")
+    .classList.add("hidden");
+
+
+    document
+    .getElementById("normalHeader")
+    .classList.remove("hidden");
+
+
+    document
+    .getElementById("attemptedSection")
+    .classList.remove("hidden");
+
+
+    document
+    .getElementById("testListBox")
+    .classList.remove("hidden");
+
+
+    openCategory(
+        currentCategory
+    );
+
+};
+
+
+/* =====================================================
+   ANDROID BACK
+===================================================== */
+
+window.addEventListener(
+    "popstate",
+    function(){
+
+        if(
+            testHistoryActive &&
+            !allowHistoryExit &&
+            !submitted
+        ){
+
+            history.pushState(
+                {
+                    theHubTest:true,
+                    testId:
+                        String(
+                            currentTest?.id || ""
+                        )
+                },
+                "",
+                location.href
+            );
+
+
+            showPauseModal();
+
+            return;
+
+        }
+
+    }
+);
+
+
+history.replaceState(
+    {
+        theHubHome:true
+    },
+    "",
+    location.href
+);
+
+
+/* =====================================================
+   AUTH
+===================================================== */
+
+onAuthStateChanged(
+    auth,
+    async user=>{
+
+        firebaseUser =
+            user;
+
+
+        document
+        .getElementById("studentName")
+        .textContent =
+            getStudentName();
+
+
+        if(user){
+
+            await loadTestAttempts();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   INITIAL
+===================================================== */
+
+document
+.getElementById("studentName")
+.textContent =
+    getStudentName();
+
+
+loadTests();
+
+</script>
+
+</body>
+
+</html>

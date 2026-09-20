@@ -1,0 +1,10 @@
+v11:
+- Dashboard Free Courses opens courses.html?type=free and shows only free courses.
+- Dashboard Paid Courses opens courses.html?type=paid and shows only paid courses.
+- Admin/Master Admin controls isPaid/accessType/price.
+- Free course: Enroll Free -> immediately goes to My Course.
+- Paid course: Buy/Enroll -> QR/UPI payment -> UTR submission -> Admin approval -> My Course unlock.
+- Admin approval now adds the paid course to enrolledCourses in the current browser.
+- Payment record carries courseId so the correct course is unlocked.
+
+Production note: replace localStorage enrollment/payment state with Firestore per authenticated UID for multi-device and secure access.

@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>RM Vidya Peeth - Student Dashboard</title>
+
+<style>
+
+:root{
+    --blue:#0b8fd3;
+    --blue2:#087fc0;
+    --pink:#e60087;
+    --text:#243447;
+    --muted:#6f7b86;
+    --card:#ffffff;
+    --bg:#f5f8fb;
+    --green:#15803d;
+    --orange:#c2410c;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+html,
+body{
+    margin:0;
+    padding:0;
+    min-height:100%;
+}
+
+body{
+    background:var(--bg);
+    font-family:Arial,Helvetica,sans-serif;
+    color:var(--text);
+}
+
+.student-app{
+    min-height:100vh;
+    max-width:520px;
+    margin:auto;
+    background:#fff;
+    position:relative;
+    padding-bottom:82px;
+}
+
+
+/* TOP BAR */
+
+.topbar{
+    height:64px;
+    background:linear-gradient(135deg,var(--blue),#16a1df);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    padding:0 16px;
+    gap:14px;
+}
+
+.menu-btn{
+    width:40px;
+    height:40px;
+    border:0;
+    background:transparent;
+    color:#fff;
+    font-size:27px;
+    cursor:pointer;
+    display:grid;
+    place-items:center;
+    border-radius:10px;
+}
+
+.menu-btn:hover{
+    background:#ffffff20;
+}
+
+.brand{
+    font-size:16px;
+    font-weight:700;
+    flex:1;
+}
+
+.brand-subtitle{
+    font-size:10px;
+    font-weight:500;
+    opacity:.9;
+    margin-top:2px;
+}
+
+.top-icons{
+    display:flex;
+    gap:18px;
+    font-size:22px;
+}
+
+
+/* LEFT SIDE MENU */
+
+.side-menu-overlay{
+    position:fixed;
+    inset:0;
+    background:#00000055;
+    z-index:9998;
+    display:none;
+}
+
+.side-menu-overlay.show{
+    display:block;
+}
+
+.side-menu{
+    position:fixed;
+    top:0;
+    left:-310px;
+    width:290px;
+    max-width:85vw;
+    height:100vh;
+    height:100dvh;
+    background:#fff;
+    z-index:9999;
+    box-shadow:8px 0 25px #00000030;
+    transition:left .25s ease;
+    display:flex;
+    flex-direction:column;
+    overflow-y:auto;
+}
+
+.side-menu.open{
+    left:0;
+}
+
+.side-menu-header{
+    background:linear-gradient(135deg,var(--blue),#16a1df);
+    color:#fff;
+    padding:24px 18px 20px;
+}
+
+.side-menu-profile{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.side-menu-avatar{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    background:#ffffff;
+    color:var(--blue);
+    display:grid;
+    place-items:center;
+    font-size:28px;
+    flex-shrink:0;
+}
+
+.side-menu-user{
+    min-width:0;
+}
+
+.side-menu-user strong{
+    display:block;
+    font-size:16px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.side-menu-user span{
+    display:block;
+    font-size:12px;
+    opacity:.9;
+    margin-top:4px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.side-menu-close{
+    position:absolute;
+    top:14px;
+    right:12px;
+    width:36px;
+    height:36px;
+    border:0;
+    border-radius:9px;
+    background:#ffffff22;
+    color:#fff;
+    font-size:22px;
+    cursor:pointer;
+}
+
+.side-menu-list{
+    padding:12px 10px;
+    flex:1;
+}
+
+.side-menu-item{
+    width:100%;
+    border:0;
+    background:transparent;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:14px 13px;
+    border-radius:11px;
+    color:#263746;
+    text-decoration:none;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    text-align:left;
+    margin-bottom:4px;
+}
+
+.side-menu-item:hover{
+    background:#f1f7fb;
+}
+
+.side-menu-icon{
+    width:35px;
+    height:35px;
+    display:grid;
+    place-items:center;
+    border-radius:9px;
+    background:#eef6fb;
+    font-size:19px;
+}
+
+.side-menu-divider{
+    height:1px;
+    background:#e5e7eb;
+    margin:10px 13px;
+}
+
+.side-menu-logout{
+    color:#dc2626;
+}
+
+.side-menu-logout .side-menu-icon{
+    background:#fef2f2;
+}
+
+.side-menu-footer{
+    padding:15px 18px 22px;
+    border-top:1px solid #edf0f3;
+    color:#94a3b8;
+    font-size:11px;
+    text-align:center;
+}
+
+
+/* SEARCH */
+
+.search-pill{
+    margin:10px 16px 14px;
+    background:#fff;
+    border-radius:28px;
+    box-shadow:0 2px 10px #00000012;
+    display:flex;
+    align-items:center;
+    padding:10px 15px;
+    color:#88939e;
+    gap:10px;
+}
+
+.search-pill input{
+    border:0;
+    outline:0;
+    width:100%;
+    font-size:14px;
+    background:transparent;
+}
+
+
+/* MAIN */
+
+.section{
+    padding:0 16px;
+}
+
+.notice{
+    background:#fff7ed;
+    color:#9a3412;
+    border:1px solid #fed7aa;
+    border-radius:12px;
+    padding:12px 14px;
+    margin-bottom:14px;
+    font-size:13px;
+    line-height:1.5;
+}
+
+.notice[hidden]{
+    display:none;
+}
+
+.announcement{
+    background:#fff;
+    border-radius:14px;
+    box-shadow:0 3px 14px #00000010;
+    padding:16px;
+    margin-bottom:14px;
+}
+
+.announcement h3{
+    font-size:15px;
+    margin:0 0 14px;
+}
+
+.announcement-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#65717d;
+    font-size:13px;
+}
+
+.avatar{
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    background:#e9eef3;
+    display:grid;
+    place-items:center;
+}
+
+.stars{
+    margin-left:auto;
+    color:#f5b400;
+    letter-spacing:1px;
+}
+
+
+/* RANK */
+
+.rank{
+    display:block;
+    text-decoration:none;
+    color:#fff;
+    background:linear-gradient(90deg,#e60078,#c000ff);
+    border-radius:12px;
+    padding:17px;
+    text-align:center;
+    font-size:18px;
+    font-weight:700;
+    margin-bottom:20px;
+}
+
+.rank small{
+    display:block;
+    font-size:12px;
+    font-weight:500;
+    opacity:.9;
+    margin-top:4px;
+}
+
+
+/* FEATURE GRID */
+
+.feature-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px 18px;
+    padding:2px 24px 20px;
+}
+
+.feature{
+    border:0;
+    background:#fff;
+    text-align:center;
+    text-decoration:none;
+    color:#263746;
+    cursor:pointer;
+    border-radius:12px;
+    padding:8px 4px;
+    transition:transform .2s,box-shadow .2s;
+    display:block;
+}
+
+.feature:hover{
+    transform:translateY(-3px);
+    box-shadow:0 5px 16px #00000010;
+}
+
+.icon-wrap{
+    height:74px;
+    display:grid;
+    place-items:center;
+    font-size:45px;
+}
+
+.feature-title{
+    font-size:13px;
+    margin-top:7px;
+    font-weight:600;
+}
+
+.free-mock{
+    background:linear-gradient(180deg,#f0fff5,#ffffff);
+    border:1px solid #bbf7d0;
+}
+
+.free-mock .feature-title{
+    color:#15803d;
+}
+
+.paid-mock{
+    background:linear-gradient(180deg,#fff8ed,#ffffff);
+    border:1px solid #fed7aa;
+}
+
+.paid-mock .feature-title{
+    color:#c2410c;
+}
+
+
+/* BOTTOM NAV */
+
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:min(520px,100%);
+    height:72px;
+    background:#fff;
+    border-top:1px solid #e7edf2;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    z-index:50;
+}
+
+.nav-item{
+    text-decoration:none;
+    color:#687580;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    font-size:11px;
+    gap:5px;
+}
+
+.nav-item .nav-icon{
+    font-size:23px;
+}
+
+.nav-item.active{
+    color:var(--blue);
+    font-weight:700;
+}
+
+
+/* COPYRIGHT
+   (bottom-padding: footer fixed bottom-nav ke neeche na chhupe) */
+
+.the-hub-copyright{
+    text-align:center;
+    color:#64748b;
+    padding:20px 10px 92px;
+    font-size:13px;
+    background:#fff;
+}
+
+.footer-brand{
+    font-size:15px;
+    font-weight:700;
+    color:#0b8fd3;
+    margin-bottom:3px;
+}
+
+.footer-tagline{
+    font-size:11px;
+    color:#94a3b8;
+    margin-bottom:5px;
+}
+
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    .student-app{
+        width:100%;
+    }
+
+    .feature-grid{
+        padding:2px 18px 20px;
+        gap:18px 12px;
+    }
+
+    .icon-wrap{
+        font-size:42px;
+    }
+
+}
+
+@media(min-width:700px){
+
+    .student-app{
+        box-shadow:0 0 30px #00000010;
+    }
+
+}
+
+
+
+/* KEYBOARD FOCUS (desktop par Tab key se chalane wale ke liye) */
+
+.feature:focus-visible,
+.nav-item:focus-visible,
+.side-menu-item:focus-visible,
+.menu-btn:focus-visible,
+.side-menu-close:focus-visible,
+.rank:focus-visible{
+    outline:3px solid #0b8fd3;
+    outline-offset:2px;
+}
+
+
+/* =====================================================
+   DESKTOP (900px+)
+   Mobile layout (900px se chhoti screen) bilkul waisa hi rehta hai.
+   Desktop par: badi card-width, features 3 columns me,
+   aur bottom nav upar ke sticky menu ban jata hai.
+===================================================== */
+
+@media(min-width:900px){
+
+    .student-app{
+        display:flex;
+        flex-direction:column;
+        max-width:1100px;
+        min-height:0;
+        margin:24px auto 0;
+        padding-bottom:32px;
+        border-radius:18px;
+        box-shadow:0 4px 30px #0000001a;
+    }
+
+    /* topbar sabse upar, uske neeche nav, baaki DOM order me */
+
+    .topbar{
+        order:-2;
+        height:72px;
+        padding:0 24px;
+        border-radius:18px 18px 0 0;
+    }
+
+    .brand{
+        font-size:18px;
+    }
+
+    .bottom-nav{
+        order:-1;
+        position:sticky;
+        top:0;
+        bottom:auto;
+        left:auto;
+        transform:none;
+        width:100%;
+        height:58px;
+        border-top:0;
+        border-bottom:1px solid #e7edf2;
+        grid-template-columns:repeat(5,minmax(0,1fr));
+        z-index:60;
+    }
+
+    .nav-item{
+        flex-direction:row;
+        gap:8px;
+        font-size:14px;
+        border-bottom:3px solid transparent;
+    }
+
+    .nav-item:hover{
+        background:#f1f7fb;
+    }
+
+    .nav-item.active{
+        border-bottom-color:var(--blue);
+    }
+
+    .nav-item .nav-icon{
+        font-size:20px;
+    }
+
+    .search-pill{
+        width:calc(100% - 48px);
+        max-width:680px;
+        margin:22px auto 6px;
+    }
+
+    .section{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:18px;
+        padding:16px 24px 0;
+        align-items:stretch;
+    }
+
+    .section .notice{
+        grid-column:1 / -1;
+        margin-bottom:0;
+    }
+
+    .announcement,
+    .rank{
+        margin-bottom:0;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+    }
+
+    .feature-grid{
+        grid-template-columns:repeat(3,1fr);
+        gap:24px;
+        padding:24px 24px 8px;
+    }
+
+    .feature{
+        padding:18px 8px;
+    }
+
+    .feature:not(.free-mock):not(.paid-mock){
+        border:1px solid #e7edf2;
+        box-shadow:0 2px 10px #0000000a;
+    }
+
+    .feature:hover{
+        box-shadow:0 8px 22px #00000018;
+    }
+
+    .icon-wrap{
+        height:88px;
+        font-size:52px;
+    }
+
+    .feature-title{
+        font-size:15px;
+    }
+
+    .the-hub-copyright{
+        background:transparent;
+        padding:20px 10px 30px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     LEFT SIDE MENU
+===================================================== -->
+
+<div
+    id="sideMenuOverlay"
+    class="side-menu-overlay"
+    onclick="closeSideMenu()"
+></div>
+
+
+<aside
+    id="sideMenu"
+    class="side-menu"
+    aria-label="Student Menu"
+>
+
+    <button
+        class="side-menu-close"
+        type="button"
+        onclick="closeSideMenu()"
+        aria-label="Close Menu"
+    >
+        ×
+    </button>
+
+
+    <div class="side-menu-header">
+
+        <div class="side-menu-profile">
+
+            <div class="side-menu-avatar">👤</div>
+
+            <div class="side-menu-user">
+
+                <strong id="sideMenuStudentName">Student</strong>
+
+                <span id="sideMenuStudentEmail">Student Account</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="side-menu-list">
+
+        <a
+            href="profile.html"
+            class="side-menu-item"
+            onclick="closeSideMenu()"
+        >
+            <span class="side-menu-icon">👤</span>
+            <span>Student Profile</span>
+        </a>
+
+        <button
+            type="button"
+            class="side-menu-item"
+            onclick="openContactUs()"
+        >
+            <span class="side-menu-icon">📞</span>
+            <span>Contact Us</span>
+        </button>
+
+        <button
+            type="button"
+            class="side-menu-item"
+            onclick="openReferEarn()"
+        >
+            <span class="side-menu-icon">🎁</span>
+            <span>Refer &amp; Earn</span>
+        </button>
+
+        <div class="side-menu-divider"></div>
+
+        <button
+            type="button"
+            class="side-menu-item side-menu-logout"
+            onclick="logoutStudent()"
+        >
+            <span class="side-menu-icon">🚪</span>
+            <span>Logout</span>
+        </button>
+
+    </div>
+
+
+    <div class="side-menu-footer">
+        RM Vidya Peeth<br>
+        By Ranjan Mishra Sir
+    </div>
+
+</aside>
+
+
+<div class="student-app">
+
+
+    <!-- TOP BAR -->
+
+    <header class="topbar">
+
+        <button
+            id="menuButton"
+            class="menu-btn"
+            type="button"
+            onclick="openSideMenu()"
+            aria-label="Open Menu"
+        >
+            ☰
+        </button>
+
+        <div class="brand">
+
+            <div>RM Vidya Peeth</div>
+
+            <div class="brand-subtitle">By Ranjan Mishra Sir</div>
+
+        </div>
+
+        <div class="top-icons">
+            <span>⌕</span>
+            <span>♧</span>
+        </div>
+
+    </header>
+
+
+    <!-- SEARCH -->
+
+    <div class="search-pill">
+
+        <span>🔍</span>
+
+        <input
+            id="dashboardSearch"
+            type="search"
+            placeholder="Search courses, tests, classes..."
+        >
+
+    </div>
+
+
+    <!-- STUDENT INFO -->
+
+    <main class="section">
+
+        <div
+            id="dashboardNotice"
+            class="notice"
+            hidden
+        ></div>
+
+        <div class="announcement">
+
+            <h3>CONTENT, जो पढ़ा है वही आएगा ❤️</h3>
+
+            <div class="announcement-row">
+
+                <div class="avatar">👤</div>
+
+                <span id="studentName">Student</span>
+
+                <span class="stars">★★★★★</span>
+
+            </div>
+
+        </div>
+
+
+        <!-- RANK PREDICTOR -->
+
+        <a class="rank" href="rank-predictor.html">
+
+            📊 &nbsp; Rank Predictor
+
+            <small>अपना अनुमानित Rank देखें</small>
+
+        </a>
+
+    </main>
+
+
+    <!-- FEATURE GRID -->
+
+    <section class="feature-grid" id="featureGrid">
+
+        <a class="feature" href="courses.html?type=paid">
+            <div class="icon-wrap">💻</div>
+            <div class="feature-title">Paid Courses</div>
+        </a>
+
+        <a class="feature" href="courses.html?type=free">
+            <div class="icon-wrap">📚</div>
+            <div class="feature-title">Free Courses</div>
+        </a>
+
+        <a class="feature" href="downloads.html">
+            <div class="icon-wrap">📕</div>
+            <div class="feature-title">Free E-Books</div>
+        </a>
+
+        <a class="feature" href="courses.html?type=test-pass">
+            <div class="icon-wrap">🎟️</div>
+            <div class="feature-title">Test Pass</div>
+        </a>
+
+        <!-- mode=free / mode=paid (pehle dono ka link ek hi tha) -->
+
+        <a class="feature free-mock" href="mock-test.html?mode=free">
+            <div class="icon-wrap">🆓</div>
+            <div class="feature-title">Free Mock Tests</div>
+        </a>
+
+        <a class="feature paid-mock" href="mock-test.html?mode=paid">
+            <div class="icon-wrap">💎</div>
+            <div class="feature-title">Paid Mock Tests</div>
+        </a>
+
+    </section>
+
+
+    <!-- BOTTOM NAV -->
+
+    <nav class="bottom-nav">
+
+        <a class="nav-item active" href="dashboard.html">
+            <span class="nav-icon">⌂</span>
+            Home
+        </a>
+
+        <a class="nav-item" href="my-courses.html">
+            <span class="nav-icon">📚</span>
+            My Course
+        </a>
+
+        <a class="nav-item" href="live-classes.html">
+            <span class="nav-icon">▣</span>
+            Live
+        </a>
+
+        <a class="nav-item" href="downloads.html">
+            <span class="nav-icon">⬇</span>
+            Downloads
+        </a>
+
+        <a
+            class="nav-item"
+            href="#"
+            onclick="openWhatsApp(); return false;"
+        >
+            <span class="nav-icon">◉</span>
+            WhatsApp
+        </a>
+
+    </nav>
+
+</div>
+
+
+<!-- COPYRIGHT -->
+
+<footer
+    class="the-hub-copyright"
+    aria-label="Copyright"
+>
+
+    <div class="footer-brand">RM Vidya Peeth</div>
+
+    <div class="footer-tagline">By Ranjan Mishra Sir</div>
+
+    © 2026 RM Vidya Peeth. All Rights Reserved.
+
+</footer>
+
+
+<!-- सारा dashboard logic dashboard.js में है (inline duplicate हटा दिया) -->
+<script type="module" src="./dashboard.js"></script>
+
+</body>
+
+</html>

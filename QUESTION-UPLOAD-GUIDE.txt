@@ -1,0 +1,8 @@
+v12 Question Management:
+- Manual method: mock-management.html -> Add Question / Edit / Delete.
+- Bulk method: question-upload.html -> CSV or JSON -> Preview -> Add All Questions.
+- Both methods write to the same Firestore collection: mockQuestions.
+- Bulk CSV columns:
+  question, optionA, optionB, optionC, optionD, correctAnswer, solution
+- Test metadata is set once on the upload page and applied to every uploaded question.
+- Up to 450 writes per batch are committed safely in chunks.

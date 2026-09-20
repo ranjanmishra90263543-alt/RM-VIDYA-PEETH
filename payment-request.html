@@ -1,0 +1,2631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Payment Request</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #222;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 25px auto;
+            padding: 15px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,.08);
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 0;
+            font-size: 24px;
+        }
+
+        h2 {
+            font-size: 18px;
+            margin-top: 0;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .row:last-child {
+            border-bottom: none;
+        }
+
+        .label {
+            color: #666;
+        }
+
+        .value {
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .original {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        .discount {
+            color: #16833b;
+        }
+
+        .final {
+            font-size: 22px;
+            color: #d35400;
+        }
+
+        .upi-box {
+            text-align: center;
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .upi-id {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 8px 0;
+            word-break: break-all;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #2878ff;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        .field {
+            margin-top: 15px;
+        }
+
+        button {
+            width: 100%;
+            border: none;
+            padding: 14px;
+            border-radius: 9px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .apply-btn {
+            background: #2878ff;
+            color: white;
+        }
+
+        .submit-btn {
+            background: #16833b;
+            color: white;
+        }
+
+        button:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .coupon-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .coupon-row input {
+            flex: 1;
+        }
+
+        .coupon-row button {
+            width: 120px;
+            margin-top: 0;
+        }
+
+        .message {
+            margin-top: 10px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .success {
+            color: #16833b;
+        }
+
+        .error {
+            color: #d63031;
+        }
+
+        .loading {
+            color: #555;
+        }
+
+        .free-box {
+            background: #eaf8ee;
+            border: 1px solid #b8e6c5;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            color: #16833b;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .small {
+            font-size: 13px;
+            color: #777;
+            line-height: 1.5;
+        }
+
+        #statusBox {
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background: #fff3cd;
+            color: #856404;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div id="statusBox">
+        Loading payment details...
+    </div>
+
+    <div class="card">
+
+        <h1>Payment Request</h1>
+
+        <div class="row">
+            <span class="label">Student</span>
+            <span class="value" id="studentName">-</span>
+        </div>
+
+        <div class="row">
+            <span class="label">Item</span>
+            <span class="value" id="itemName">-</span>
+        </div>
+
+        <div class="row">
+            <span class="label">Type</span>
+            <span class="value" id="itemType">-</span>
+        </div>
+
+        <div class="row">
+            <span class="label">Original Price</span>
+            <span class="value original" id="originalAmount">
+                ₹0
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="label">Coupon</span>
+            <span class="value" id="couponDisplay">
+                No Coupon
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="label">Discount</span>
+            <span class="value discount" id="discountAmount">
+                ₹0
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="label">Final Payable</span>
+            <span class="value final" id="finalAmount">
+                ₹0
+            </span>
+        </div>
+
+    </div>
+
+
+    <!-- COUPON -->
+    <div class="card">
+
+        <h2>Have a Coupon?</h2>
+
+        <div class="coupon-row">
+
+            <input
+                type="text"
+                id="couponCode"
+                placeholder="Enter coupon code"
+                autocomplete="off"
+            >
+
+            <button
+                type="button"
+                class="apply-btn"
+                id="applyCouponBtn"
+            >
+                Apply
+            </button>
+
+        </div>
+
+        <div
+            id="couponMessage"
+            class="message"
+        ></div>
+
+    </div>
+
+
+    <!-- UPI PAYMENT -->
+    <div
+        class="card"
+        id="upiBox"
+    >
+
+        <h2>Make Payment</h2>
+
+        <div class="upi-box">
+
+            <div>Pay using UPI</div>
+
+            <div
+                class="upi-id"
+                id="upiId"
+            >
+                9958522950@upi
+            </div>
+
+            <div class="small">
+                UPI app me above UPI ID par exact payable amount
+                pay karein.
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- UTR -->
+    <div
+        class="card"
+        id="utrBox"
+    >
+
+        <h2>Payment Verification</h2>
+
+        <div class="field">
+
+            <label for="utr">
+                UTR / Transaction ID
+            </label>
+
+            <input
+                type="text"
+                id="utr"
+                placeholder="Enter payment UTR / Transaction ID"
+                autocomplete="off"
+            >
+
+        </div>
+
+        <div class="small" style="margin-top:8px;">
+            Payment karne ke baad apna real UTR number enter karein.
+        </div>
+
+    </div>
+
+
+    <!-- FREE PAYMENT -->
+    <div
+        class="card hidden"
+        id="freeBox"
+    >
+
+        <div class="free-box">
+
+            🎉 100% Coupon Applied
+
+            <br><br>
+
+            Payable Amount: ₹0
+
+            <br><br>
+
+            Is order ke liye payment/UTR ki zarurat nahi hai.
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <button
+            type="button"
+            class="submit-btn"
+            id="submitBtn"
+        >
+            Submit Payment Request
+        </button>
+
+        <div
+            id="submitMessage"
+            class="message"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<script type="module">
+
+/* =========================================================
+   FIREBASE
+========================================================= */
+
+import { db } from "./firebase-config.js";
+
+import {
+    collection,
+    getDocs,
+    getDoc,
+    addDoc,
+    doc,
+    query,
+    where,
+    limit,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+import {
+    getAuth,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+
+/* =========================================================
+   AUTH
+========================================================= */
+
+const auth = getAuth();
+
+
+/* =========================================================
+   CONSTANTS
+========================================================= */
+
+const UPI_ID = "9958522950@upi";
+
+const PAYMENT_REQUESTS = "paymentRequests";
+
+const COUPONS = "coupons";
+
+const COURSES = "courses";
+
+const MOCK_SERIES = "mockSeries";
+
+
+/* =========================================================
+   GLOBAL VARIABLES
+========================================================= */
+
+let currentUser = null;
+
+let paymentItem = null;
+
+let isTestPass = false;
+
+let isCourse = false;
+
+let paymentOriginalAmount = 0;
+
+let paymentDiscountAmount = 0;
+
+let paymentFinalAmount = 0;
+
+let appliedCoupon = null;
+
+let submitting = false;
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const statusBox =
+    document.getElementById("statusBox");
+
+const studentNameEl =
+    document.getElementById("studentName");
+
+const itemNameEl =
+    document.getElementById("itemName");
+
+const itemTypeEl =
+    document.getElementById("itemType");
+
+const originalAmountEl =
+    document.getElementById("originalAmount");
+
+const couponDisplayEl =
+    document.getElementById("couponDisplay");
+
+const discountAmountEl =
+    document.getElementById("discountAmount");
+
+const finalAmountEl =
+    document.getElementById("finalAmount");
+
+const couponCodeEl =
+    document.getElementById("couponCode");
+
+const applyCouponBtn =
+    document.getElementById("applyCouponBtn");
+
+const couponMessage =
+    document.getElementById("couponMessage");
+
+const upiBox =
+    document.getElementById("upiBox");
+
+const utrBox =
+    document.getElementById("utrBox");
+
+const freeBox =
+    document.getElementById("freeBox");
+
+const utrEl =
+    document.getElementById("utr");
+
+const submitBtn =
+    document.getElementById("submitBtn");
+
+const submitMessage =
+    document.getElementById("submitMessage");
+
+const upiIdEl =
+    document.getElementById("upiId");
+
+
+upiIdEl.textContent = UPI_ID;
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function money(value) {
+
+    const amount =
+        Number(value || 0);
+
+    return "₹" +
+        amount.toLocaleString("en-IN", {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
+        });
+}
+
+
+function normalizeCode(value) {
+
+    return String(value || "")
+        .trim()
+        .toUpperCase();
+}
+
+
+function getRandomCode(length = 6) {
+
+    const chars =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    let result = "";
+
+    for (let i = 0; i < length; i++) {
+
+        result +=
+            chars[
+                Math.floor(
+                    Math.random() * chars.length
+                )
+            ];
+    }
+
+    return result;
+}
+
+
+function createFreeReference() {
+
+    const now = new Date();
+
+    const date =
+        now.getFullYear() +
+        String(now.getMonth() + 1).padStart(2, "0") +
+        String(now.getDate()).padStart(2, "0");
+
+    return "FREE-" +
+        date +
+        "-" +
+        getRandomCode(6);
+}
+
+
+function showStatus(message, type = "") {
+
+    statusBox.textContent = message;
+
+    if (type === "success") {
+
+        statusBox.style.background = "#eaf8ee";
+        statusBox.style.color = "#16833b";
+
+    } else if (type === "error") {
+
+        statusBox.style.background = "#fdecec";
+        statusBox.style.color = "#d63031";
+
+    } else {
+
+        statusBox.style.background = "#fff3cd";
+        statusBox.style.color = "#856404";
+    }
+}
+
+
+function setCouponMessage(
+    message,
+    type = ""
+) {
+
+    couponMessage.textContent = message;
+
+    couponMessage.className =
+        "message " + type;
+}
+
+
+function setSubmitMessage(
+    message,
+    type = ""
+) {
+
+    submitMessage.textContent = message;
+
+    submitMessage.className =
+        "message " + type;
+}
+
+
+/* =========================================================
+   GET PAYMENT DATA
+========================================================= */
+
+function getStoredPaymentData() {
+
+    let data = null;
+
+
+    /*
+       1. paymentRequestData
+    */
+
+    try {
+
+        const value =
+            localStorage.getItem(
+                "paymentRequestData"
+            );
+
+        if (value) {
+
+            data = JSON.parse(value);
+        }
+
+    } catch (error) {
+
+        console.warn(
+            "paymentRequestData error:",
+            error
+        );
+    }
+
+
+    /*
+       2. paymentData
+    */
+
+    if (!data) {
+
+        try {
+
+            const value =
+                localStorage.getItem(
+                    "paymentData"
+                );
+
+            if (value) {
+
+                data = JSON.parse(value);
+            }
+
+        } catch (error) {
+
+            console.warn(
+                "paymentData error:",
+                error
+            );
+        }
+    }
+
+
+    /*
+       3. paymentItem
+    */
+
+    if (!data) {
+
+        try {
+
+            const value =
+                localStorage.getItem(
+                    "paymentItem"
+                );
+
+            if (value) {
+
+                data = JSON.parse(value);
+            }
+
+        } catch (error) {
+
+            console.warn(
+                "paymentItem error:",
+                error
+            );
+        }
+    }
+
+
+    /*
+       4. URL parameters
+    */
+
+    if (!data) {
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const raw =
+            params.get("paymentItem");
+
+        if (raw) {
+
+            try {
+
+                data =
+                    JSON.parse(
+                        decodeURIComponent(raw)
+                    );
+
+            } catch (error) {
+
+                console.warn(
+                    "URL paymentItem error:",
+                    error
+                );
+            }
+        }
+    }
+
+
+    return data;
+}
+
+
+/* =========================================================
+   LOAD TEST PASS FROM FIRESTORE
+   IMPORTANT:
+   PRICE = mockSeries.price
+========================================================= */
+
+async function loadTestPassFromFirestore(
+    suppliedId
+) {
+
+    if (!suppliedId) {
+
+        throw new Error(
+            "Test Pass / Series ID nahi mila."
+        );
+    }
+
+
+    /*
+       First try:
+       Firestore document ID
+    */
+
+    try {
+
+        const directRef =
+            doc(
+                db,
+                MOCK_SERIES,
+                String(suppliedId)
+            );
+
+        const directSnap =
+            await getDoc(directRef);
+
+        if (directSnap.exists()) {
+
+            return makeTestPassObject(
+                directSnap.id,
+                directSnap.data()
+            );
+        }
+
+    } catch (error) {
+
+        console.warn(
+            "Direct Test Pass lookup failed:",
+            error
+        );
+    }
+
+
+    /*
+       Second try:
+       custom seriesId field
+    */
+
+    try {
+
+        const q =
+            query(
+                collection(db, MOCK_SERIES),
+                where(
+                    "seriesId",
+                    "==",
+                    String(suppliedId)
+                ),
+                limit(1)
+            );
+
+        const snap =
+            await getDocs(q);
+
+        if (!snap.empty) {
+
+            const found =
+                snap.docs[0];
+
+            return makeTestPassObject(
+                found.id,
+                found.data()
+            );
+        }
+
+    } catch (error) {
+
+        console.warn(
+            "seriesId lookup failed:",
+            error
+        );
+    }
+
+
+    /*
+       Legacy field:
+       seriesID
+    */
+
+    try {
+
+        const q =
+            query(
+                collection(db, MOCK_SERIES),
+                where(
+                    "seriesID",
+                    "==",
+                    String(suppliedId)
+                ),
+                limit(1)
+            );
+
+        const snap =
+            await getDocs(q);
+
+        if (!snap.empty) {
+
+            const found =
+                snap.docs[0];
+
+            return makeTestPassObject(
+                found.id,
+                found.data()
+            );
+        }
+
+    } catch (error) {
+
+        console.warn(
+            "seriesID lookup failed:",
+            error
+        );
+    }
+
+
+    throw new Error(
+        "Test Pass Firestore me nahi mila. ID: " +
+        suppliedId
+    );
+}
+
+
+/* =========================================================
+   MAKE TEST PASS OBJECT
+========================================================= */
+
+function makeTestPassObject(
+    firestoreDocId,
+    series
+) {
+
+    const access =
+        String(
+            series.access ||
+            (
+                series.isPaid === true
+                    ? "paid"
+                    : "free"
+            )
+        ).toLowerCase();
+
+
+    const isPaid =
+        access === "paid" ||
+        series.isPaid === true;
+
+
+    /*
+       IMPORTANT:
+       Test Pass price comes ONLY from
+       mockSeries.price
+    */
+
+    const firebasePrice =
+        isPaid
+            ? Number(series.price || 0)
+            : 0;
+
+
+    return {
+
+        id: firestoreDocId,
+
+        firestoreDocId,
+
+        seriesId:
+            series.seriesId ||
+            firestoreDocId,
+
+        testSeriesId:
+            series.seriesId ||
+            firestoreDocId,
+
+        testPassId:
+            series.seriesId ||
+            firestoreDocId,
+
+        seriesName:
+            series.seriesName || "",
+
+        name:
+            series.seriesName || "",
+
+        title:
+            series.seriesName || "",
+
+        course:
+            series.course || "",
+
+        examName:
+            series.examName || "",
+
+        category:
+            series.category || "",
+
+        subject:
+            series.subject || "",
+
+        access,
+
+        isPaid,
+
+        isFree:
+            !isPaid,
+
+        price:
+            firebasePrice,
+
+        amount:
+            firebasePrice,
+
+        originalPrice:
+            firebasePrice,
+
+        validityType:
+            series.validityType ||
+            "unlimited",
+
+        validityDays:
+            Number(
+                series.validityDays || 0
+            ),
+
+        startDate:
+            series.startDate || null,
+
+        expiryDate:
+            series.expiryDate || null,
+
+        description:
+            series.description || "",
+
+        totalTests:
+            Number(
+                series.totalTests || 0
+            )
+    };
+}
+
+
+/* =========================================================
+   LOAD COURSE FROM FIRESTORE
+========================================================= */
+
+async function loadCourseFromFirestore(
+    suppliedId
+) {
+
+    if (!suppliedId) {
+
+        throw new Error(
+            "Course ID nahi mila."
+        );
+    }
+
+
+    /*
+       Direct Firestore document ID
+    */
+
+    try {
+
+        const ref =
+            doc(
+                db,
+                COURSES,
+                String(suppliedId)
+            );
+
+        const snap =
+            await getDoc(ref);
+
+        if (snap.exists()) {
+
+            const data =
+                snap.data();
+
+            return {
+                id: snap.id,
+                ...data
+            };
+        }
+
+    } catch (error) {
+
+        console.warn(
+            "Direct course lookup failed:",
+            error
+        );
+    }
+
+
+    /*
+       Try courseId field
+    */
+
+    try {
+
+        const q =
+            query(
+                collection(db, COURSES),
+                where(
+                    "courseId",
+                    "==",
+                    String(suppliedId)
+                ),
+                limit(1)
+            );
+
+        const snap =
+            await getDocs(q);
+
+        if (!snap.empty) {
+
+            const found =
+                snap.docs[0];
+
+            return {
+                id: found.id,
+                ...found.data()
+            };
+        }
+
+    } catch (error) {
+
+        console.warn(
+            "courseId lookup failed:",
+            error
+        );
+    }
+
+
+    throw new Error(
+        "Course Firestore me nahi mila. ID: " +
+        suppliedId
+    );
+}
+
+
+/* =========================================================
+   LOAD PAYMENT DATA
+========================================================= */
+
+async function loadPaymentData() {
+
+    const stored =
+        getStoredPaymentData();
+
+
+    if (!stored) {
+
+        throw new Error(
+            "Payment data nahi mila. Please course/Test Pass se dobara payment page open karein."
+        );
+    }
+
+
+    paymentItem = {
+        ...stored
+    };
+
+
+    /*
+       Detect Test Pass
+    */
+
+    const typeText =
+        String(
+            stored.type ||
+            stored.itemType ||
+            stored.paymentType ||
+            ""
+        ).toLowerCase();
+
+
+    isTestPass =
+        typeText.includes("test") ||
+        typeText.includes("mock") ||
+        typeText.includes("pass") ||
+        Boolean(
+            stored.seriesId ||
+            stored.testSeriesId ||
+            stored.testPassId
+        );
+
+
+    isCourse =
+        !isTestPass &&
+        Boolean(
+            stored.courseId ||
+            stored.courseID ||
+            stored.course_id ||
+            typeText.includes("course")
+        );
+
+
+    /* =====================================================
+       TEST PASS
+       ALWAYS LOAD FRESH FROM mockSeries
+    ===================================================== */
+
+    if (isTestPass) {
+
+        const seriesId =
+            stored.seriesId ||
+            stored.testSeriesId ||
+            stored.testPassId ||
+            stored.id ||
+            stored.seriesID;
+
+
+        if (!seriesId) {
+
+            throw new Error(
+                "Test Pass ID / Series ID nahi mila."
+            );
+        }
+
+
+        paymentItem =
+            await loadTestPassFromFirestore(
+                seriesId
+            );
+
+
+        /*
+           VERY IMPORTANT
+           Fresh Firebase price
+        */
+
+        paymentOriginalAmount =
+            Number(
+                paymentItem.price || 0
+            );
+
+
+        paymentDiscountAmount = 0;
+
+        paymentFinalAmount =
+            paymentOriginalAmount;
+
+        return;
+    }
+
+
+    /* =====================================================
+       COURSE
+    ===================================================== */
+
+    if (isCourse) {
+
+        const courseId =
+            stored.courseId ||
+            stored.courseID ||
+            stored.course_id ||
+            stored.id;
+
+
+        if (courseId) {
+
+            try {
+
+                const freshCourse =
+                    await loadCourseFromFirestore(
+                        courseId
+                    );
+
+                paymentItem = {
+                    ...stored,
+                    ...freshCourse
+                };
+
+            } catch (error) {
+
+                console.warn(
+                    "Fresh course loading failed:",
+                    error
+                );
+            }
+        }
+
+
+        paymentOriginalAmount =
+            Number(
+                paymentItem.price ??
+                paymentItem.amount ??
+                paymentItem.originalPrice ??
+                0
+            );
+
+
+        paymentDiscountAmount = 0;
+
+        paymentFinalAmount =
+            paymentOriginalAmount;
+
+        return;
+    }
+
+
+    /*
+       Unknown item:
+       use supplied price
+    */
+
+    paymentOriginalAmount =
+        Number(
+            paymentItem.price ??
+            paymentItem.amount ??
+            paymentItem.originalPrice ??
+            0
+        );
+
+
+    paymentDiscountAmount = 0;
+
+    paymentFinalAmount =
+        paymentOriginalAmount;
+}
+
+
+/* =========================================================
+   UPDATE PRICE UI
+========================================================= */
+
+function updatePriceUI() {
+
+    originalAmountEl.textContent =
+        money(paymentOriginalAmount);
+
+
+    discountAmountEl.textContent =
+        "- " +
+        money(paymentDiscountAmount);
+
+
+    finalAmountEl.textContent =
+        money(paymentFinalAmount);
+
+
+    if (appliedCoupon) {
+
+        couponDisplayEl.textContent =
+            appliedCoupon.code;
+
+    } else {
+
+        couponDisplayEl.textContent =
+            "No Coupon";
+    }
+
+
+    /*
+       100% discount / ₹0
+    */
+
+    if (paymentFinalAmount <= 0) {
+
+        upiBox.classList.add("hidden");
+
+        utrBox.classList.add("hidden");
+
+        freeBox.classList.remove("hidden");
+
+    } else {
+
+        upiBox.classList.remove("hidden");
+
+        utrBox.classList.remove("hidden");
+
+        freeBox.classList.add("hidden");
+    }
+}
+
+
+/* =========================================================
+   CHECK COUPON APPLICABILITY
+========================================================= */
+
+function couponAppliesToItem(
+    coupon
+) {
+
+    const applicableTo =
+        String(
+            coupon.applicableTo ||
+            coupon.appliesTo ||
+            "both"
+        ).toLowerCase();
+
+
+    /*
+       Determine type
+    */
+
+    if (
+        isCourse &&
+        (
+            applicableTo === "course" ||
+            applicableTo === "courses" ||
+            applicableTo === "both"
+        )
+    ) {
+
+        return true;
+    }
+
+
+    if (
+        isTestPass &&
+        (
+            applicableTo === "test-pass" ||
+            applicableTo === "testpass" ||
+            applicableTo === "mock-test" ||
+            applicableTo === "mocktest" ||
+            applicableTo === "both"
+        )
+    ) {
+
+        return true;
+    }
+
+
+    return false;
+}
+
+
+/* =========================================================
+   SPECIFIC COURSE / TEST PASS CHECK
+========================================================= */
+
+function couponMatchesSpecificItem(
+    coupon
+) {
+
+    /*
+       Course
+    */
+
+    if (isCourse) {
+
+        const selectedCourseId =
+            paymentItem.id ||
+            paymentItem.courseId ||
+            paymentItem.courseID;
+
+
+        const couponCourseId =
+            coupon.courseId ||
+            coupon.courseID ||
+            coupon.selectedCourseId ||
+            coupon.specificCourseId;
+
+
+        /*
+           No specific course
+           = coupon applies generally
+        */
+
+        if (!couponCourseId) {
+
+            return true;
+        }
+
+
+        return String(couponCourseId) ===
+               String(selectedCourseId);
+    }
+
+
+    /*
+       Test Pass
+    */
+
+    if (isTestPass) {
+
+        const selectedSeriesId =
+            paymentItem.id ||
+            paymentItem.firestoreDocId;
+
+
+        const selectedSeriesCustomId =
+            paymentItem.seriesId ||
+            paymentItem.testSeriesId ||
+            paymentItem.testPassId;
+
+
+        const couponSeriesId =
+            coupon.seriesId ||
+            coupon.testSeriesId ||
+            coupon.testPassId ||
+            coupon.specificSeriesId;
+
+
+        if (!couponSeriesId) {
+
+            return true;
+        }
+
+
+        return (
+            String(couponSeriesId) ===
+            String(selectedSeriesId)
+        ) || (
+            String(couponSeriesId) ===
+            String(selectedSeriesCustomId)
+        );
+    }
+
+
+    return true;
+}
+
+
+/* =========================================================
+   DATE CHECK
+========================================================= */
+
+function couponDateValid(
+    coupon
+) {
+
+    const now =
+        new Date();
+
+
+    const startValue =
+        coupon.startDate ||
+        coupon.startAt ||
+        coupon.validFrom;
+
+
+    const expiryValue =
+        coupon.expiryDate ||
+        coupon.endDate ||
+        coupon.validUntil ||
+        coupon.expiresAt;
+
+
+    if (startValue) {
+
+        const start =
+            new Date(startValue);
+
+        if (
+            !Number.isNaN(start.getTime()) &&
+            now < start
+        ) {
+
+            return {
+                valid: false,
+                message:
+                    "Coupon abhi active nahi hua hai."
+            };
+        }
+    }
+
+
+    if (expiryValue) {
+
+        const expiry =
+            new Date(expiryValue);
+
+        if (
+            !Number.isNaN(expiry.getTime()) &&
+            now > expiry
+        ) {
+
+            return {
+                valid: false,
+                message:
+                    "Coupon expire ho chuka hai."
+            };
+        }
+    }
+
+
+    return {
+        valid: true
+    };
+}
+
+
+/* =========================================================
+   FIND COUPON
+========================================================= */
+
+async function findCoupon(
+    code
+) {
+
+    const normalized =
+        normalizeCode(code);
+
+
+    if (!normalized) {
+
+        throw new Error(
+            "Coupon code enter karein."
+        );
+    }
+
+
+    /*
+       Get all coupons.
+       This avoids Firestore index/order issues.
+    */
+
+    const snap =
+        await getDocs(
+            collection(db, COUPONS)
+        );
+
+
+    let coupon = null;
+
+
+    snap.forEach(item => {
+
+        if (coupon) {
+            return;
+        }
+
+
+        const data =
+            item.data();
+
+
+        const couponCode =
+            normalizeCode(
+                data.code ||
+                data.couponCode ||
+                data.name
+            );
+
+
+        if (
+            couponCode === normalized
+        ) {
+
+            coupon = {
+                id: item.id,
+                ...data
+            };
+        }
+    });
+
+
+    if (!coupon) {
+
+        throw new Error(
+            "Invalid coupon code."
+        );
+    }
+
+
+    /*
+       Active check
+    */
+
+    if (
+        coupon.active === false ||
+        coupon.isActive === false
+    ) {
+
+        throw new Error(
+            "Coupon inactive hai."
+        );
+    }
+
+
+    /*
+       Date check
+    */
+
+    const dateCheck =
+        couponDateValid(
+            coupon
+        );
+
+
+    if (!dateCheck.valid) {
+
+        throw new Error(
+            dateCheck.message
+        );
+    }
+
+
+    /*
+       Usage limit
+    */
+
+    const usageLimit =
+        Number(
+            coupon.usageLimit ??
+            coupon.maxUses ??
+            0
+        );
+
+
+    const usedCount =
+        Number(
+            coupon.usedCount ||
+            coupon.usageCount ||
+            0
+        );
+
+
+    if (
+        usageLimit > 0 &&
+        usedCount >= usageLimit
+    ) {
+
+        throw new Error(
+            "Coupon usage limit complete ho chuka hai."
+        );
+    }
+
+
+    /*
+       Applicable item
+    */
+
+    if (
+        !couponAppliesToItem(
+            coupon
+        )
+    ) {
+
+        throw new Error(
+            "Ye coupon is item ke liye valid nahi hai."
+        );
+    }
+
+
+    /*
+       Specific item
+    */
+
+    if (
+        !couponMatchesSpecificItem(
+            coupon
+        )
+    ) {
+
+        throw new Error(
+            "Ye coupon selected course/Test Pass ke liye valid nahi hai."
+        );
+    }
+
+
+    /*
+       Minimum purchase
+    */
+
+    const minAmount =
+        Number(
+            coupon.minAmount ??
+            coupon.minimumAmount ??
+            coupon.minPurchase ??
+            0
+        );
+
+
+    if (
+        paymentOriginalAmount <
+        minAmount
+    ) {
+
+        throw new Error(
+            "Minimum purchase " +
+            money(minAmount) +
+            " hona chahiye."
+        );
+    }
+
+
+    return coupon;
+}
+
+
+/* =========================================================
+   CALCULATE COUPON DISCOUNT
+========================================================= */
+
+function calculateCouponDiscount(
+    coupon
+) {
+
+    const type =
+        String(
+            coupon.discountType ||
+            coupon.type ||
+            "percentage"
+        ).toLowerCase();
+
+
+    const value =
+        Number(
+            coupon.discountValue ??
+            coupon.value ??
+            coupon.discount ??
+            0
+        );
+
+
+    let discount = 0;
+
+
+    if (
+        type === "fixed" ||
+        type === "flat" ||
+        type === "amount"
+    ) {
+
+        discount = value;
+
+    } else {
+
+        /*
+           Percentage
+        */
+
+        discount =
+            (
+                paymentOriginalAmount *
+                value
+            ) / 100;
+    }
+
+
+    /*
+       Maximum discount
+    */
+
+    const maxDiscount =
+        Number(
+            coupon.maxDiscount ??
+            coupon.maximumDiscount ??
+            0
+        );
+
+
+    if (
+        maxDiscount > 0 &&
+        discount > maxDiscount
+    ) {
+
+        discount = maxDiscount;
+    }
+
+
+    /*
+       Never exceed original price
+    */
+
+    if (
+        discount >
+        paymentOriginalAmount
+    ) {
+
+        discount =
+            paymentOriginalAmount;
+    }
+
+
+    if (discount < 0) {
+
+        discount = 0;
+    }
+
+
+    return Math.round(
+        discount * 100
+    ) / 100;
+}
+
+
+/* =========================================================
+   APPLY COUPON
+========================================================= */
+
+applyCouponBtn.addEventListener(
+    "click",
+    async () => {
+
+        if (!paymentItem) {
+
+            setCouponMessage(
+                "Payment data load nahi hua.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        const code =
+            normalizeCode(
+                couponCodeEl.value
+            );
+
+
+        if (!code) {
+
+            setCouponMessage(
+                "Coupon code enter karein.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        applyCouponBtn.disabled = true;
+
+        applyCouponBtn.textContent =
+            "Checking...";
+
+
+        setCouponMessage(
+            "Coupon check ho raha hai...",
+            "loading"
+        );
+
+
+        try {
+
+            const coupon =
+                await findCoupon(
+                    code
+                );
+
+
+            const discount =
+                calculateCouponDiscount(
+                    coupon
+                );
+
+
+            appliedCoupon = coupon;
+
+
+            paymentDiscountAmount =
+                discount;
+
+
+            paymentFinalAmount =
+                Math.max(
+                    0,
+                    paymentOriginalAmount -
+                    paymentDiscountAmount
+                );
+
+
+            updatePriceUI();
+
+
+            setCouponMessage(
+                "Coupon applied successfully. Discount: " +
+                money(discount),
+                "success"
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Coupon error:",
+                error
+            );
+
+
+            appliedCoupon = null;
+
+            paymentDiscountAmount = 0;
+
+            paymentFinalAmount =
+                paymentOriginalAmount;
+
+
+            updatePriceUI();
+
+
+            setCouponMessage(
+                error.message ||
+                "Invalid coupon.",
+                "error"
+            );
+
+        } finally {
+
+            applyCouponBtn.disabled = false;
+
+            applyCouponBtn.textContent =
+                "Apply";
+        }
+    }
+);
+
+
+/* =========================================================
+   REMOVE COUPON WHEN INPUT CHANGES
+========================================================= */
+
+couponCodeEl.addEventListener(
+    "input",
+    () => {
+
+        if (appliedCoupon) {
+
+            appliedCoupon = null;
+
+            paymentDiscountAmount = 0;
+
+            paymentFinalAmount =
+                paymentOriginalAmount;
+
+            updatePriceUI();
+        }
+
+
+        setCouponMessage(
+            ""
+        );
+    }
+);
+
+
+/* =========================================================
+   CHECK DUPLICATE UTR
+========================================================= */
+
+async function checkDuplicateUTR(
+    utr
+) {
+
+    const cleanUTR =
+        String(utr || "")
+            .trim();
+
+
+    if (!cleanUTR) {
+
+        return false;
+    }
+
+
+    const q =
+        query(
+            collection(
+                db,
+                PAYMENT_REQUESTS
+            ),
+            where(
+                "utr",
+                "==",
+                cleanUTR
+            ),
+            limit(1)
+        );
+
+
+    const snap =
+        await getDocs(q);
+
+
+    return !snap.empty;
+}
+
+
+/* =========================================================
+   SUBMIT PAYMENT REQUEST
+========================================================= */
+
+submitBtn.addEventListener(
+    "click",
+    async () => {
+
+        if (submitting) {
+            return;
+        }
+
+
+        if (!currentUser) {
+
+            setSubmitMessage(
+                "Please login first.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if (!paymentItem) {
+
+            setSubmitMessage(
+                "Payment data available nahi hai.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        /*
+           FINAL amount
+        */
+
+        const finalAmount =
+            Number(
+                paymentFinalAmount || 0
+            );
+
+
+        /*
+           Paid payment
+        */
+
+        let utr = "";
+
+        let paymentMethod =
+            "UPI";
+
+        let paymentReference = "";
+
+
+        if (finalAmount > 0) {
+
+            utr =
+                String(
+                    utrEl.value || ""
+                ).trim();
+
+
+            if (!utr) {
+
+                setSubmitMessage(
+                    "Payment ke baad UTR / Transaction ID enter karein.",
+                    "error"
+                );
+
+                utrEl.focus();
+
+                return;
+            }
+
+
+            if (utr.length < 4) {
+
+                setSubmitMessage(
+                    "Valid UTR / Transaction ID enter karein.",
+                    "error"
+                );
+
+                utrEl.focus();
+
+                return;
+            }
+
+
+            /*
+               Duplicate UTR
+            */
+
+            try {
+
+                const duplicate =
+                    await checkDuplicateUTR(
+                        utr
+                    );
+
+
+                if (duplicate) {
+
+                    setSubmitMessage(
+                        "Ye UTR already submit ho chuka hai.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "UTR check error:",
+                    error
+                );
+
+                setSubmitMessage(
+                    "UTR verify nahi ho saka. Please try again.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            paymentReference = utr;
+
+        } else {
+
+            /*
+               ₹0 / 100% coupon
+            */
+
+            utr = "";
+
+            paymentMethod =
+                "FREE_COUPON";
+
+            paymentReference =
+                createFreeReference();
+        }
+
+
+        submitBtn.disabled = true;
+
+        submitting = true;
+
+        submitBtn.textContent =
+            "Submitting...";
+
+
+        setSubmitMessage(
+            "Payment request submit ho raha hai...",
+            "loading"
+        );
+
+
+        try {
+
+            /*
+               Course IDs
+            */
+
+            const courseId =
+                paymentItem.courseId ||
+                paymentItem.courseID ||
+                paymentItem.course_id ||
+                (
+                    isCourse
+                        ? paymentItem.id
+                        : ""
+                );
+
+
+            /*
+               Test Pass IDs
+            */
+
+            const firestoreSeriesId =
+                isTestPass
+                    ? (
+                        paymentItem.firestoreDocId ||
+                        paymentItem.id ||
+                        ""
+                    )
+                    : "";
+
+
+            const customSeriesId =
+                isTestPass
+                    ? (
+                        paymentItem.seriesId ||
+                        paymentItem.testSeriesId ||
+                        paymentItem.testPassId ||
+                        firestoreSeriesId
+                    )
+                    : "";
+
+
+            /*
+               Item name
+            */
+
+            const itemName =
+                paymentItem.seriesName ||
+                paymentItem.courseName ||
+                paymentItem.name ||
+                paymentItem.title ||
+                (
+                    isTestPass
+                        ? "Test Pass"
+                        : "Course"
+                );
+
+
+            /*
+               SAVE PAYMENT REQUEST
+            */
+
+            const paymentRequest = {
+
+                /* Student */
+
+                studentUid:
+                    currentUser.uid,
+
+                userId:
+                    currentUser.uid,
+
+                studentId:
+                    currentUser.uid,
+
+                studentEmail:
+                    currentUser.email || "",
+
+
+                /* Item */
+
+                type:
+                    isTestPass
+                        ? "test-pass"
+                        : "course",
+
+                itemType:
+                    isTestPass
+                        ? "test-pass"
+                        : "course",
+
+                itemName,
+
+                courseId:
+                    courseId || "",
+
+                courseName:
+                    paymentItem.courseName ||
+                    paymentItem.course ||
+                    "",
+
+
+                /* Test Pass */
+
+                seriesId:
+                    customSeriesId,
+
+                testSeriesId:
+                    customSeriesId,
+
+                testPassId:
+                    customSeriesId,
+
+                firestoreSeriesId:
+                    firestoreSeriesId,
+
+                seriesName:
+                    paymentItem.seriesName ||
+                    "",
+
+
+                /* Pricing */
+
+                originalAmount:
+                    Number(
+                        paymentOriginalAmount
+                    ),
+
+                discountAmount:
+                    Number(
+                        paymentDiscountAmount
+                    ),
+
+                finalAmount:
+                    Number(
+                        finalAmount
+                    ),
+
+                /*
+                   Keep amount/price for
+                   old admin compatibility
+                */
+
+                amount:
+                    Number(
+                        finalAmount
+                    ),
+
+                price:
+                    Number(
+                        finalAmount
+                    ),
+
+
+                /* Coupon */
+
+                couponCode:
+                    appliedCoupon
+                        ? (
+                            appliedCoupon.code ||
+                            appliedCoupon.couponCode ||
+                            ""
+                        )
+                        : "",
+
+                couponId:
+                    appliedCoupon
+                        ? appliedCoupon.id
+                        : "",
+
+                couponDiscountType:
+                    appliedCoupon
+                        ? (
+                            appliedCoupon.discountType ||
+                            ""
+                        )
+                        : "",
+
+                couponDiscountValue:
+                    appliedCoupon
+                        ? Number(
+                            appliedCoupon.discountValue ??
+                            appliedCoupon.value ??
+                            0
+                        )
+                        : 0,
+
+
+                /* Payment */
+
+                paymentMethod,
+
+                paymentReference,
+
+                utr,
+
+                upiId:
+                    finalAmount > 0
+                        ? UPI_ID
+                        : "",
+
+
+                /* Status */
+
+                status:
+                    "pending",
+
+                paymentStatus:
+                    finalAmount <= 0
+                        ? "free"
+                        : "pending",
+
+
+                /* Time */
+
+                createdAt:
+                    serverTimestamp(),
+
+                updatedAt:
+                    serverTimestamp()
+            };
+
+
+            const ref =
+                await addDoc(
+                    collection(
+                        db,
+                        PAYMENT_REQUESTS
+                    ),
+                    paymentRequest
+                );
+
+
+            /*
+               Save reference locally
+            */
+
+            try {
+
+                localStorage.setItem(
+                    "lastPaymentRequestId",
+                    ref.id
+                );
+
+            } catch (error) {
+
+                console.warn(
+                    "Local storage error:",
+                    error
+                );
+            }
+
+
+            showStatus(
+                "Payment request successfully submitted.",
+                "success"
+            );
+
+
+            setSubmitMessage(
+                finalAmount <= 0
+                    ? (
+                        "Free enrollment request submit ho gaya. Reference: " +
+                        paymentReference
+                    )
+                    : (
+                        "Payment request submit ho gaya. Admin verification ke baad access milega."
+                    ),
+                "success"
+            );
+
+
+            submitBtn.textContent =
+                "Request Submitted";
+
+
+            /*
+               Do not auto-approve here.
+               Admin verification required.
+            */
+
+        } catch (error) {
+
+            console.error(
+                "Payment request error:",
+                error
+            );
+
+
+            setSubmitMessage(
+                error.message ||
+                "Payment request submit nahi ho saka.",
+                "error"
+            );
+
+
+            submitBtn.disabled = false;
+
+            submitBtn.textContent =
+                "Submit Payment Request";
+
+
+        } finally {
+
+            submitting = false;
+        }
+    }
+);
+
+
+/* =========================================================
+   DISPLAY PAYMENT DATA
+========================================================= */
+
+function displayPaymentData() {
+
+    studentNameEl.textContent =
+        currentUser?.displayName ||
+        currentUser?.email ||
+        "Student";
+
+
+    itemNameEl.textContent =
+        paymentItem.seriesName ||
+        paymentItem.courseName ||
+        paymentItem.name ||
+        paymentItem.title ||
+        "Course";
+
+
+    itemTypeEl.textContent =
+        isTestPass
+            ? "Test Pass"
+            : "Course";
+
+
+    updatePriceUI();
+}
+
+
+/* =========================================================
+   AUTH STATE
+========================================================= */
+
+onAuthStateChanged(
+    auth,
+    async user => {
+
+        if (!user) {
+
+            currentUser = null;
+
+            showStatus(
+                "Please login first.",
+                "error"
+            );
+
+            submitBtn.disabled = true;
+
+            return;
+        }
+
+
+        currentUser = user;
+
+
+        try {
+
+            showStatus(
+                "Loading payment details..."
+            );
+
+
+            await loadPaymentData();
+
+
+            displayPaymentData();
+
+
+            showStatus(
+                "Payment details loaded successfully.",
+                "success"
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Payment loading error:",
+                error
+            );
+
+
+            showStatus(
+                error.message ||
+                "Payment details load nahi ho paye.",
+                "error"
+            );
+
+
+            submitBtn.disabled = true;
+        }
+    }
+);
+
+</script>
+
+</body>
+</html>

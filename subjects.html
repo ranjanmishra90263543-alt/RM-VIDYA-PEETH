@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>RM Vidya Peeth - Subject Management</title>
+
+<link
+    rel="stylesheet"
+    href="style.css"
+>
+
+<style>
+
+    body {
+        margin: 0;
+        background: #0f172a;
+        color: white;
+        font-family: Arial, sans-serif;
+    }
+
+    .page {
+        max-width: 1000px;
+        margin: auto;
+        padding: 20px 15px 60px;
+    }
+
+    .header,
+    .box {
+        background: #1e293b;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 18px;
+    }
+
+    .header {
+        text-align: center;
+    }
+
+    .header h1 {
+        margin: 0 0 8px;
+    }
+
+    .header p {
+        margin: 0;
+        color: #cbd5e1;
+    }
+
+    .brand-by {
+        margin-top: 5px;
+        color: #93c5fd;
+        font-weight: bold;
+    }
+
+    .back-btn,
+    .action-btn {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .back-btn {
+        background: #334155;
+        margin-bottom: 18px;
+    }
+
+    .action-btn {
+        background: #2563eb;
+        margin-top: 12px;
+    }
+
+    .delete-btn {
+        background: #dc2626;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 7px;
+        color: white;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    label {
+        display: block;
+        margin-top: 12px;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    input,
+    select {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #475569;
+        font-size: 15px;
+    }
+
+    .subject-card {
+        background: white;
+        color: #111827;
+        padding: 16px;
+        border-radius: 10px;
+        margin-top: 12px;
+    }
+
+    .subject-card h3 {
+        margin: 0 0 8px;
+    }
+
+    .subject-info {
+        color: #475569;
+        line-height: 1.7;
+    }
+
+    .empty {
+        text-align: center;
+        color: #cbd5e1;
+        padding: 15px;
+    }
+
+    .status {
+        margin-top: 12px;
+        padding: 10px;
+        border-radius: 8px;
+        background: #334155;
+        color: #cbd5e1;
+    }
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <h1>
+        📘 RM Vidya Peeth - Subject Management
+    </h1>
+
+    <div class="brand-by">
+        By Ranjan Mishra Sir
+    </div>
+
+    <p style="margin-top:8px;">
+        RM Vidya Peeth में Subjects बनाएं और manage करें।
+    </p>
+
+</div>
+
+
+<!-- BACK -->
+
+<button
+    class="back-btn"
+    onclick="goAdmin()"
+>
+    ← Back to Admin Dashboard
+</button>
+
+
+<!-- ADD SUBJECT -->
+
+<div class="box">
+
+    <h2>
+        ➕ Add New Subject
+    </h2>
+
+
+    <label>
+        🏛️ Exam Category
+    </label>
+
+    <select id="subjectCategory">
+
+        <option value="">
+            Select Category
+        </option>
+
+        <option value="SSC">
+            SSC
+        </option>
+
+        <option value="Railway">
+            Railway
+        </option>
+
+        <option value="Banking">
+            Banking
+        </option>
+
+        <option value="State Exams">
+            State Exams
+        </option>
+
+        <option value="Other">
+            Other
+        </option>
+
+    </select>
+
+
+    <label>
+        📋 Exam Name
+    </label>
+
+    <input
+        type="text"
+        id="subjectExam"
+        placeholder="Example: SSC CGL"
+    >
+
+
+    <label>
+        📘 Subject Name
+    </label>
+
+    <input
+        type="text"
+        id="subjectName"
+        placeholder="Example: Mathematics"
+    >
+
+
+    <button
+        class="action-btn"
+        onclick="addSubject()"
+    >
+        ➕ Add Subject
+    </button>
+
+
+    <div
+        id="status"
+        class="status"
+    >
+        अभी कोई Subject add नहीं किया गया है।
+    </div>
+
+</div>
+
+
+<!-- SUBJECT LIST -->
+
+<div class="box">
+
+    <h2>
+        📚 Added Subjects
+    </h2>
+
+    <div id="subjectList">
+
+        <div class="empty">
+            Subjects loading...
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- BACK -->
+
+<button
+    class="back-btn"
+    onclick="goAdmin()"
+>
+    ← Back to Admin Dashboard
+</button>
+
+</div>
+
+
+<script>
+
+
+// =====================================================
+// PAGE LOAD
+// =====================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        if (
+            !checkAdminAccess()
+        ) {
+
+            return;
+
+        }
+
+        loadSubjects();
+
+    }
+);
+
+
+// =====================================================
+// ADMIN ACCESS
+// =====================================================
+
+function checkAdminAccess() {
+
+    const oldLoggedIn =
+        localStorage.getItem(
+            "adminLoggedIn"
+        );
+
+    const oldType =
+        localStorage.getItem(
+            "adminType"
+        );
+
+
+    const newLoggedIn =
+        localStorage.getItem(
+            "ssc_logged_in"
+        );
+
+    const newType =
+        localStorage.getItem(
+            "ssc_login_type"
+        );
+
+
+    const validOld =
+        oldLoggedIn === "true" &&
+        (
+            oldType === "master" ||
+            oldType === "normal"
+        );
+
+
+    const validNew =
+        newLoggedIn === "true" &&
+        (
+            newType === "master_admin" ||
+            newType === "admin"
+        );
+
+
+    if (
+        !validOld &&
+        !validNew
+    ) {
+
+        window.location.href =
+            "admin-login.html";
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+// =====================================================
+// GET SUBJECTS
+// =====================================================
+
+function getSubjects() {
+
+    try {
+
+        const data =
+            JSON.parse(
+                localStorage.getItem(
+                    "subjects"
+                ) || "[]"
+            );
+
+
+        return Array.isArray(data)
+            ? data
+            : [];
+
+    } catch (error) {
+
+        console.error(
+            "Subjects Error:",
+            error
+        );
+
+        return [];
+
+    }
+
+}
+
+
+// =====================================================
+// SAVE SUBJECTS
+// =====================================================
+
+function saveSubjects(
+    subjects
+) {
+
+    localStorage.setItem(
+        "subjects",
+        JSON.stringify(
+            subjects
+        )
+    );
+
+}
+
+
+// =====================================================
+// ADD SUBJECT
+// =====================================================
+
+function addSubject() {
+
+    const category =
+        document.getElementById(
+            "subjectCategory"
+        ).value.trim();
+
+
+    const exam =
+        document.getElementById(
+            "subjectExam"
+        ).value.trim();
+
+
+    const name =
+        document.getElementById(
+            "subjectName"
+        ).value.trim();
+
+
+    if (!category) {
+
+        alert(
+            "Exam Category select करें।"
+        );
+
+        return;
+
+    }
+
+
+    if (!exam) {
+
+        alert(
+            "Exam Name डालें।"
+        );
+
+        return;
+
+    }
+
+
+    if (!name) {
+
+        alert(
+            "Subject Name डालें।"
+        );
+
+        return;
+
+    }
+
+
+    const subjects =
+        getSubjects();
+
+
+    const duplicate =
+        subjects.some(
+            function (subject) {
+
+                return (
+                    String(
+                        subject.category
+                    ).toLowerCase() ===
+                    category.toLowerCase() &&
+
+                    String(
+                        subject.exam
+                    ).toLowerCase() ===
+                    exam.toLowerCase() &&
+
+                    String(
+                        subject.name
+                    ).toLowerCase() ===
+                    name.toLowerCase()
+                );
+
+            }
+        );
+
+
+    if (duplicate) {
+
+        alert(
+            "⚠️ यह Subject पहले से मौजूद है।"
+        );
+
+        return;
+
+    }
+
+
+    subjects.push({
+
+        id:
+            Date.now(),
+
+        category,
+
+        exam,
+
+        name,
+
+        createdAt:
+            new Date().toISOString()
+
+    });
+
+
+    saveSubjects(
+        subjects
+    );
+
+
+    document.getElementById(
+        "subjectName"
+    ).value = "";
+
+
+    document.getElementById(
+        "status"
+    ).textContent =
+        "✅ Subject Successfully Added!";
+
+
+    loadSubjects();
+
+}
+
+
+// =====================================================
+// LOAD SUBJECTS
+// =====================================================
+
+function loadSubjects() {
+
+    const container =
+        document.getElementById(
+            "subjectList"
+        );
+
+
+    if (!container) {
+
+        return;
+
+    }
+
+
+    const subjects =
+        getSubjects();
+
+
+    if (
+        subjects.length === 0
+    ) {
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                📘 अभी कोई Subject add नहीं किया गया है।
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        subjects.map(
+            function (
+                subject
+            ) {
+
+                return `
+
+                    <div
+                        class="subject-card"
+                    >
+
+                        <h3>
+                            📘
+                            ${escapeHTML(
+                                subject.name
+                            )}
+                        </h3>
+
+
+                        <div
+                            class="subject-info"
+                        >
+
+                            🏛️ Category:
+                            <b>
+                                ${escapeHTML(
+                                    subject.category
+                                )}
+                            </b>
+
+                            <br>
+
+                            📋 Exam:
+                            <b>
+                                ${escapeHTML(
+                                    subject.exam
+                                )}
+                            </b>
+
+                        </div>
+
+
+                        <button
+                            class="delete-btn"
+                            onclick="
+                                deleteSubject(
+                                    ${subject.id}
+                                )
+                            "
+                        >
+                            🗑️ Delete
+                        </button>
+
+                    </div>
+
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+// =====================================================
+// DELETE SUBJECT
+// =====================================================
+
+function deleteSubject(
+    id
+) {
+
+    if (
+        !confirm(
+            "क्या आप यह Subject delete करना चाहते हैं?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    const subjects =
+        getSubjects()
+            .filter(
+                function (subject) {
+
+                    return (
+                        subject.id !== id
+                    );
+
+                }
+            );
+
+
+    saveSubjects(
+        subjects
+    );
+
+
+    loadSubjects();
+
+}
+
+
+// =====================================================
+// ADMIN DASHBOARD
+// =====================================================
+
+function goAdmin() {
+
+    window.location.href =
+        "admin.html";
+
+}
+
+
+// =====================================================
+// ESCAPE HTML
+// =====================================================
+
+function escapeHTML(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+</script>
+
+
+<footer
+    class="the-hub-copyright"
+    aria-label="Copyright"
+    style="
+        text-align:center;
+        color:#64748b;
+        padding:20px;
+    "
+>
+
+    <div style="font-weight:bold;">
+        RM Vidya Peeth
+    </div>
+
+    <div style="margin-top:5px;">
+        By Ranjan Mishra Sir
+    </div>
+
+    <div style="margin-top:5px;">
+        © 2026 RM Vidya Peeth. All Rights Reserved.
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

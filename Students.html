@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>RM Vidya Peeth - Student Management</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+.page{
+    width:100%;
+    max-width:1050px;
+    margin:auto;
+    padding:20px 15px 70px;
+}
+
+.header,
+.box{
+    background:#1e293b;
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:18px;
+}
+
+.header{
+    text-align:center;
+}
+
+.header h1{
+    margin:0 0 8px;
+}
+
+.header p{
+    margin:0;
+    color:#cbd5e1;
+}
+
+.brand-by{
+    margin-top:5px;
+    color:#93c5fd;
+    font-weight:bold;
+}
+
+.back-btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#334155;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+    margin-bottom:18px;
+}
+
+.search-box{
+    width:100%;
+    padding:13px;
+    border-radius:8px;
+    border:1px solid #475569;
+    font-size:15px;
+    outline:none;
+}
+
+.search-box:focus{
+    border-color:#2563eb;
+}
+
+.count{
+    margin-top:12px;
+    color:#cbd5e1;
+    font-weight:bold;
+}
+
+.student-card{
+    background:#fff;
+    color:#111827;
+    padding:17px;
+    border-radius:11px;
+    margin-top:12px;
+    border:1px solid #e2e8f0;
+}
+
+.student-card h3{
+    margin:0 0 12px;
+    color:#1e293b;
+    font-size:19px;
+    word-break:break-word;
+}
+
+.student-info{
+    line-height:1.9;
+    color:#374151;
+    font-size:14px;
+    word-break:break-word;
+}
+
+.status{
+    display:inline-block;
+    padding:4px 9px;
+    border-radius:6px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.active{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.blocked{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.action-btn{
+    border:none;
+    border-radius:7px;
+    padding:9px 12px;
+    margin-top:12px;
+    margin-right:5px;
+    color:#fff;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.block-btn{
+    background:#dc2626;
+}
+
+.unblock-btn{
+    background:#16a34a;
+}
+
+.delete-btn{
+    background:#7f1d1d;
+}
+
+.empty{
+    text-align:center;
+    color:#cbd5e1;
+    padding:25px;
+}
+
+.loading{
+    text-align:center;
+    color:#93c5fd;
+    padding:25px;
+}
+
+.error-box{
+    background:#fee2e2;
+    color:#991b1b;
+    padding:15px;
+    border-radius:9px;
+    margin-top:12px;
+    line-height:1.6;
+}
+
+.refresh-btn{
+    margin-top:12px;
+    padding:10px 15px;
+    border:none;
+    border-radius:8px;
+    background:#2563eb;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.role{
+    display:inline-block;
+    background:#dbeafe;
+    color:#1d4ed8;
+    padding:4px 8px;
+    border-radius:6px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+@media(max-width:600px){
+
+    .page{
+        padding:12px 8px 60px;
+    }
+
+    .header,
+    .box{
+        padding:15px;
+    }
+
+    .student-card{
+        padding:14px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <h1>👨‍🎓 RM Vidya Peeth - Student Management</h1>
+
+    <div class="brand-by">By Ranjan Mishra Sir</div>
+
+    <p style="margin-top:8px;">
+        RM Vidya Peeth के सभी Students को manage करें।
+    </p>
+
+</div>
+
+
+<!-- BACK -->
+
+<button class="back-btn" id="backBtn" type="button">
+    ← Back to Admin Dashboard
+</button>
+
+
+<!-- SEARCH -->
+
+<div class="box">
+
+    <h2>🔍 Search Students</h2>
+
+    <input
+        id="studentSearch"
+        class="search-box"
+        type="search"
+        placeholder="Name, Username, Email या Mobile से search करें..."
+    >
+
+    <div id="studentCount" class="count">
+        Admin verify हो रहा है...
+    </div>
+
+    <button class="refresh-btn" id="refreshBtn" type="button">
+        🔄 Refresh Students
+    </button>
+
+</div>
+
+
+<!-- STUDENT LIST -->
+
+<div class="box">
+
+    <h2>📋 Student List</h2>
+
+    <div id="studentList">
+
+        <div class="loading">
+            ⏳ Admin access जाँच रहे हैं...
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+<script type="module">
+
+/* =====================================================
+   IMPORTS
+   (अलग Firebase app बनाने की जगह shared firebase-config
+   इस्तेमाल हो रहा है, ताकि Firestore requests में
+   login किए हुए admin की identity जाए)
+===================================================== */
+
+import {
+    app,
+    auth,
+    db
+} from "./firebase-config.js";
+
+// auth.js: verifyAdminUser, hasAdminPermission, adminLogout आदि
+import "./auth.js";
+
+import {
+    getFunctions,
+    httpsCallable
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-functions.js";
+
+import {
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+import {
+    collection,
+    getDocs,
+    doc,
+    updateDoc,
+    deleteDoc
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+const STUDENTS = "students";
+const LOGIN_PAGE = "admin-login.html";
+const ADMIN_PAGE = "admin.html";
+
+// Cloud Function (functions/index.js) - student ko login account सहित पूरा delete करता है
+const functions = getFunctions(app);
+
+let students = [];
+let panelStarted = false;
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const listBox = document.getElementById("studentList");
+const countBox = document.getElementById("studentCount");
+const searchInput = document.getElementById("studentSearch");
+
+
+/* =====================================================
+   ADMIN GUARD
+   Firebase login + Firestore admin check.
+   localStorage clear ho jaye tab bhi session wapas ban jata hai.
+   Internet problem par logout NAHI hota.
+===================================================== */
+
+function reasonText(reason){
+
+    if(reason === "inactive"){
+        return "🚫 आपका Admin account blocked / inactive है।";
+    }
+
+    if(reason === "not_registered"){
+        return "🚫 यह account Admin के रूप में registered नहीं है।";
+    }
+
+    if(reason === "permission_denied"){
+        return "🚫 Firestore permission denied। Firestore Rules check करें।";
+    }
+
+    return "🚫 आपको Admin access नहीं है।";
+
+}
+
+
+function showPageError(text){
+
+    listBox.innerHTML =
+        `<div class="error-box">${escapeHTML(text)}</div>`;
+
+    countBox.textContent = "—";
+
+}
+
+
+function openIfAllowed(){
+
+    if(panelStarted){
+        return;
+    }
+
+    if(!window.hasAdminPermission("students")){
+
+        alert("🚫 आपको Students section की permission नहीं दी गई है।");
+
+        window.location.replace(ADMIN_PAGE);
+
+        return;
+
+    }
+
+    panelStarted = true;
+
+    loadStudents();
+
+}
+
+
+onAuthStateChanged(auth, async function(user){
+
+    // Firebase में सच में login नहीं है
+    if(!user){
+
+        await window.adminLogout(false);
+
+        window.location.replace(LOGIN_PAGE);
+
+        return;
+
+    }
+
+    const email =
+        String(user.email || "")
+        .trim()
+        .toLowerCase();
+
+    const result =
+        await window.verifyAdminUser(user);
+
+
+    if(result.valid){
+
+        openIfAllowed();
+
+        return;
+
+    }
+
+
+    // Temporary problem: logout नहीं करना
+    if(result.reason === "error"){
+
+        const cached =
+            window.isAdminLoggedIn() &&
+            String(
+                localStorage.getItem("adminUsername") || ""
+            )
+            .trim()
+            .toLowerCase() === email;
+
+        if(cached){
+
+            openIfAllowed();
+
+        }
+        else{
+
+            showPageError(
+                "🌐 Admin verify नहीं हो पाया। Internet check करके page refresh करें।"
+            );
+
+        }
+
+        return;
+
+    }
+
+
+    // पक्का reject
+    await window.adminLogout(false);
+
+    alert(reasonText(result.reason));
+
+    window.location.replace(LOGIN_PAGE);
+
+});
+
+
+/* =====================================================
+   LOAD STUDENTS FROM FIRESTORE
+===================================================== */
+
+async function loadStudents(){
+
+    listBox.innerHTML = `
+        <div class="loading">
+            ⏳ Firestore से Students load हो रहे हैं...
+        </div>
+    `;
+
+    countBox.textContent = "Students loading...";
+
+    try{
+
+        const snapshot =
+            await getDocs(
+                collection(db, STUDENTS)
+            );
+
+        students = [];
+
+        snapshot.forEach(function(item){
+
+            students.push({
+                id: item.id,
+                ...item.data()
+            });
+
+        });
+
+        // Latest students first
+        students.sort(function(a, b){
+
+            return getDateValue(b.createdAt) -
+                   getDateValue(a.createdAt);
+
+        });
+
+        renderStudents();
+
+    }
+    catch(error){
+
+        console.error("STUDENT LOAD ERROR:", error);
+
+        listBox.innerHTML = `
+            <div class="error-box">
+
+                ❌ Students load नहीं हो पाए।
+
+                <br><br>
+
+                <b>Error:</b>
+                ${escapeHTML(error.message)}
+
+                <br><br>
+
+                अगर permission error आता है, तो Firestore Rules में
+                <b>students</b> collection का read permission check करें।
+
+            </div>
+        `;
+
+        countBox.textContent = "Students load error";
+
+    }
+
+}
+
+
+/* =====================================================
+   RENDER STUDENTS
+===================================================== */
+
+function renderStudents(){
+
+    const search =
+        String(searchInput.value || "")
+        .trim()
+        .toLowerCase();
+
+    const filtered =
+        students.filter(function(student){
+
+            const fields = [
+                student.name || student.fullName,
+                student.username || student.userName,
+                student.email,
+                student.mobile || student.phone || student.phoneNumber
+            ];
+
+            return fields.some(function(value){
+
+                return String(value || "")
+                    .toLowerCase()
+                    .includes(search);
+
+            });
+
+        });
+
+    countBox.textContent =
+        `Total Students: ${students.length} | Showing: ${filtered.length}`;
+
+    if(!filtered.length){
+
+        listBox.innerHTML = `
+            <div class="empty">
+                👨‍🎓 कोई Student नहीं मिला।
+            </div>
+        `;
+
+        return;
+
+    }
+
+    listBox.innerHTML =
+        filtered.map(function(student){
+
+            /*
+               auth.js सिर्फ "active" status वाले student को login देता है,
+               इसलिए "active" के अलावा हर status को Blocked/Inactive दिखाओ।
+            */
+
+            const status =
+                String(student.status || "active")
+                .trim()
+                .toLowerCase();
+
+            const isActive = status === "active";
+
+            const statusLabel =
+                isActive
+                    ? "Active"
+                    : (status === "blocked" ? "Blocked" : status);
+
+            const name =
+                student.name || student.fullName || "Student";
+
+            const username =
+                student.username || student.userName || "-";
+
+            const email = student.email || "-";
+
+            const mobile =
+                student.mobile || student.phone || student.phoneNumber || "-";
+
+            const role = student.role || "student";
+
+            const created = formatDate(student.createdAt);
+
+            const id = escapeHTML(student.id);
+
+            return `
+
+                <div class="student-card">
+
+                    <h3>👨‍🎓 ${escapeHTML(name)}</h3>
+
+                    <div class="student-info">
+
+                        👤 Username: <b>${escapeHTML(username)}</b><br>
+
+                        📧 Email: <b>${escapeHTML(email)}</b><br>
+
+                        📱 Mobile: <b>${escapeHTML(mobile)}</b><br>
+
+                        🆔 Firestore ID: <b>${id}</b><br>
+
+                        👑 Role:
+                        <span class="role">${escapeHTML(role)}</span><br>
+
+                        📅 Created: <b>${escapeHTML(created)}</b><br>
+
+                        📌 Status:
+                        <span class="status ${isActive ? "active" : "blocked"}">
+                            ${escapeHTML(statusLabel)}
+                        </span>
+
+                    </div>
+
+                    ${
+                        isActive
+                        ? `<button
+                                class="action-btn block-btn"
+                                type="button"
+                                data-action="block"
+                                data-id="${id}"
+                           >🚫 Block</button>`
+                        : `<button
+                                class="action-btn unblock-btn"
+                                type="button"
+                                data-action="unblock"
+                                data-id="${id}"
+                           >✅ Unblock</button>`
+                    }
+
+                    <button
+                        class="action-btn delete-btn"
+                        type="button"
+                        data-action="delete"
+                        data-id="${id}"
+                    >🗑️ Delete</button>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+}
+
+
+/* =====================================================
+   BUTTON CLICKS (event delegation - inline onclick नहीं)
+===================================================== */
+
+listBox.addEventListener("click", function(event){
+
+    const button =
+        event.target.closest("[data-action]");
+
+    if(!button){
+        return;
+    }
+
+    const action = button.dataset.action;
+    const id = button.dataset.id;
+
+    if(action === "block"){
+        changeStudentStatus(id, "blocked");
+    }
+    else if(action === "unblock"){
+        changeStudentStatus(id, "active");
+    }
+    else if(action === "delete"){
+        deleteStudent(id);
+    }
+
+});
+
+
+/* =====================================================
+   CHANGE STATUS
+===================================================== */
+
+async function changeStudentStatus(studentId, status){
+
+    if(!window.requireAdminPermission("students")){
+        return;
+    }
+
+    const student =
+        students.find(function(item){
+            return String(item.id) === String(studentId);
+        });
+
+    if(!student){
+
+        alert("Student नहीं मिला।");
+
+        return;
+
+    }
+
+    const action =
+        status === "blocked" ? "block" : "unblock";
+
+    if(
+        !confirm(
+            `क्या आप ${student.name || "इस Student"} को ${action} करना चाहते हैं?`
+        )
+    ){
+        return;
+    }
+
+    try{
+
+        await updateDoc(
+            doc(db, STUDENTS, String(studentId)),
+            { status: status }
+        );
+
+        student.status = status;
+
+        renderStudents();
+
+        alert(
+            status === "blocked"
+                ? "🚫 Student block हो गया।"
+                : "✅ Student unblock हो गया।"
+        );
+
+    }
+    catch(error){
+
+        console.error("STATUS UPDATE ERROR:", error);
+
+        alert(
+            "Student status update नहीं हुआ:\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   DELETE STUDENT
+===================================================== */
+
+function removeStudentFromList(studentId){
+
+    students =
+        students.filter(function(item){
+            return String(item.id) !== String(studentId);
+        });
+
+    renderStudents();
+
+}
+
+
+/*
+   Cloud Function deploy न हो तो fallback:
+   सिर्फ Firestore record delete (login account बचा रहेगा)
+*/
+
+async function deleteFirestoreOnly(student){
+
+    const email = student.email || "-";
+
+    if(
+        !confirm(
+            "⚠️ पूरा delete (login account सहित) अभी नहीं हो पाया — " +
+            "Cloud Function चालू नहीं है या उसमें error आया।\n\n" +
+            "क्या सिर्फ Firestore record delete करें?\n\n" +
+            "ध्यान दें: Student का login Firebase Authentication में बचा रहेगा, " +
+            "इसलिए वो इसी email (" + email + ") से दोबारा registration नहीं कर पाएगा, " +
+            "जब तक आप Firebase Console → Authentication → Users से उसे delete न करें।"
+        )
+    ){
+        return;
+    }
+
+    try{
+
+        await deleteDoc(
+            doc(db, STUDENTS, String(student.id))
+        );
+
+        removeStudentFromList(student.id);
+
+        alert(
+            "🗑️ सिर्फ Firestore record delete हुआ। " +
+            "Login account Firebase Console से delete करना बाकी है।"
+        );
+
+    }
+    catch(error){
+
+        console.error("DELETE STUDENT ERROR:", error);
+
+        alert(
+            "Student delete नहीं हुआ:\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+async function deleteStudent(studentId){
+
+    if(!window.requireAdminPermission("students")){
+        return;
+    }
+
+    const student =
+        students.find(function(item){
+            return String(item.id) === String(studentId);
+        });
+
+    if(!student){
+
+        alert("Student नहीं मिला।");
+
+        return;
+
+    }
+
+    const name =
+        student.name ||
+        student.fullName ||
+        student.username ||
+        "Student";
+
+    const email = student.email || "-";
+
+    if(
+        !confirm(
+            `क्या आप "${name}" (${email}) को पूरी तरह delete करना चाहते हैं?\n\n` +
+            `• Student का record delete होगा\n` +
+            `• उसका login account भी delete होगा\n\n` +
+            `इसके बाद वो नए सिरे से दोबारा registration कर सकेगा।\n` +
+            `सिर्फ login रोकना हो तो Delete की जगह Block करें।`
+        )
+    ){
+        return;
+    }
+
+    try{
+
+        const callDelete =
+            httpsCallable(functions, "adminDeleteStudent");
+
+        await callDelete({
+            studentId: String(studentId)
+        });
+
+        removeStudentFromList(studentId);
+
+        alert(
+            "🗑️ Student पूरी तरह delete हो गया। " +
+            "अब वो दोबारा registration कर सकता है।"
+        );
+
+    }
+    catch(error){
+
+        console.error("FULL DELETE ERROR:", error);
+
+        const code = (error && error.code) || "";
+
+        // Function deploy नहीं है / server error -> fallback
+        if(
+            code === "functions/not-found" ||
+            code === "functions/internal" ||
+            code === "functions/unavailable"
+        ){
+
+            await deleteFirestoreOnly(student);
+
+            return;
+
+        }
+
+        alert(
+            "Student delete नहीं हुआ:\n" +
+            (error.message || code)
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   DATE
+===================================================== */
+
+function getDateValue(value){
+
+    if(!value){
+        return 0;
+    }
+
+    if(typeof value.toMillis === "function"){
+        return value.toMillis();
+    }
+
+    if(value.seconds){
+        return Number(value.seconds) * 1000;
+    }
+
+    const date = new Date(value);
+
+    return isNaN(date.getTime()) ? 0 : date.getTime();
+
+}
+
+
+function formatDate(value){
+
+    const timestamp = getDateValue(value);
+
+    if(!timestamp){
+        return "-";
+    }
+
+    return new Date(timestamp).toLocaleString(
+        "en-IN",
+        {
+            day:"2-digit",
+            month:"2-digit",
+            year:"numeric",
+            hour:"2-digit",
+            minute:"2-digit"
+        }
+    );
+
+}
+
+
+/* =====================================================
+   HTML SECURITY
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =====================================================
+   BUTTONS / SEARCH
+===================================================== */
+
+document
+    .getElementById("backBtn")
+    .addEventListener("click", function(){
+
+        window.location.href = ADMIN_PAGE;
+
+    });
+
+document
+    .getElementById("refreshBtn")
+    .addEventListener("click", function(){
+
+        if(panelStarted){
+            loadStudents();
+        }
+
+    });
+
+searchInput.addEventListener("input", renderStudents);
+
+</script>
+
+
+<footer style="
+    text-align:center;
+    color:#64748b;
+    padding:20px;
+">
+
+    <div style="font-weight:bold;">
+        RM Vidya Peeth
+    </div>
+
+    <div style="margin-top:5px;">
+        By Ranjan Mishra Sir
+    </div>
+
+    <div style="margin-top:5px;">
+        © 2026 RM Vidya Peeth. All Rights Reserved.
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

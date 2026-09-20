@@ -1,0 +1,2010 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>THE HUB - Live Classes Management</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial,sans-serif;
+}
+
+.wrap{
+    max-width:1100px;
+    margin:auto;
+    padding:18px;
+}
+
+.head,
+.card{
+    background:#1e293b;
+    border:1px solid #334155;
+    border-radius:15px;
+    padding:18px;
+    margin-bottom:16px;
+}
+
+.head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+h1,h2,h3{
+    margin-top:0;
+}
+
+.muted{
+    color:#94a3b8;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.field{
+    margin:10px 0;
+}
+
+label{
+    display:block;
+    color:#cbd5e1;
+    margin-bottom:6px;
+    font-weight:bold;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #475569;
+    background:#0f172a;
+    color:#fff;
+    font-size:15px;
+}
+
+textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+button{
+    border:0;
+    border-radius:8px;
+    padding:11px 15px;
+    color:#fff;
+    background:#2563eb;
+    font-weight:bold;
+    cursor:pointer;
+    margin:4px;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+.success{
+    background:#16a34a;
+}
+
+.danger{
+    background:#dc2626;
+}
+
+.secondary{
+    background:#475569;
+}
+
+.warning{
+    background:#d97706;
+}
+
+.live{
+    background:#dc2626;
+}
+
+.row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    align-items:center;
+}
+
+.status-box{
+    background:#0f172a;
+    border:1px solid #334155;
+    padding:12px;
+    border-radius:9px;
+    margin-top:12px;
+    white-space:pre-wrap;
+}
+
+.info{
+    background:#0c4a6e;
+    border:1px solid #0369a1;
+    color:#bae6fd;
+    padding:12px;
+    border-radius:9px;
+    line-height:1.6;
+    margin-bottom:15px;
+}
+
+.list{
+    margin-top:15px;
+}
+
+.item{
+    background:#0f172a;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:15px;
+    margin:10px 0;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:6px;
+    font-size:12px;
+    font-weight:bold;
+    margin:3px;
+}
+
+.badge-scheduled{
+    background:#164e63;
+    color:#67e8f9;
+}
+
+.badge-live{
+    background:#7f1d1d;
+    color:#fecaca;
+}
+
+.badge-completed{
+    background:#374151;
+    color:#d1d5db;
+}
+
+.badge-cancelled{
+    background:#451a03;
+    color:#fdba74;
+}
+
+.badge-course{
+    background:#312e81;
+    color:#c4b5fd;
+}
+
+.empty{
+    text-align:center;
+    color:#94a3b8;
+    padding:25px;
+}
+
+.hidden{
+    display:none;
+}
+
+@media(max-width:750px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .head{
+        display:block;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="wrap">
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<div class="head">
+
+    <div>
+
+        <h1>🔴 Live Classes Management</h1>
+
+        <div class="muted">
+            Live Classes create, schedule, edit और delete करें।
+        </div>
+
+    </div>
+
+
+    <button
+        class="secondary"
+        onclick="location.href='admin.html'"
+    >
+        ← Admin Dashboard
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     INFO
+===================================================== -->
+
+<div class="info">
+
+    <b>🔴 THE HUB Live Class System</b>
+
+    <br><br>
+
+    यहाँ से Admin Live Class बना सकता है।
+
+    <br>
+
+    📅 Date और Time schedule करें।
+
+    <br>
+
+    🔗 Student को Join Link दिया जाएगा।
+
+    <br>
+
+    📚 Live Class को किसी Course से जोड़ें।
+
+    <br>
+
+    🟢 Status Scheduled, Live, Completed या Cancelled किया जा सकता है।
+
+    <br>
+
+    ☁️ सभी Live Classes Firebase Firestore में सुरक्षित रहेंगी।
+
+</div>
+
+
+<!-- =====================================================
+     ADD / EDIT
+===================================================== -->
+
+<div class="card">
+
+    <h2>
+        ➕ Add / Edit Live Class
+    </h2>
+
+
+    <input
+        type="hidden"
+        id="classId"
+    >
+
+
+    <input
+        type="hidden"
+        id="classCourseId"
+    >
+
+
+    <div class="grid">
+
+
+        <!-- TITLE -->
+
+        <div class="field">
+
+            <label>
+                Class Title
+            </label>
+
+            <input
+                id="classTitle"
+                placeholder="Maths Live Class - Percentage"
+            >
+
+        </div>
+
+
+        <!-- TEACHER -->
+
+        <div class="field">
+
+            <label>
+                Teacher Name
+            </label>
+
+            <input
+                id="teacherName"
+                placeholder="Teacher Name"
+            >
+
+        </div>
+
+
+        <!-- COURSE -->
+
+        <div class="field">
+
+            <label>
+                Course
+            </label>
+
+            <select id="classCourse">
+
+                <option value="">
+                    -- Course Select करें --
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- SUBJECT -->
+
+        <div class="field">
+
+            <label>
+                Subject
+            </label>
+
+            <input
+                id="classSubject"
+                placeholder="Mathematics"
+            >
+
+        </div>
+
+
+        <!-- DATE -->
+
+        <div class="field">
+
+            <label>
+                Class Date
+            </label>
+
+            <input
+                id="classDate"
+                type="date"
+            >
+
+        </div>
+
+
+        <!-- TIME -->
+
+        <div class="field">
+
+            <label>
+                Class Time
+            </label>
+
+            <input
+                id="classTime"
+                type="time"
+            >
+
+        </div>
+
+
+        <!-- STATUS -->
+
+        <div class="field">
+
+            <label>
+                Status
+            </label>
+
+            <select id="classStatus">
+
+                <option value="scheduled">
+                    📅 Scheduled
+                </option>
+
+                <option value="live">
+                    🔴 Live Now
+                </option>
+
+                <option value="completed">
+                    ✅ Completed
+                </option>
+
+                <option value="cancelled">
+                    ❌ Cancelled
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- JOIN LINK -->
+
+        <div class="field">
+
+            <label>
+                Join Link
+            </label>
+
+            <input
+                id="joinLink"
+                type="url"
+                placeholder="https://meet.google.com/..."
+            >
+
+        </div>
+
+    </div>
+
+
+    <!-- DESCRIPTION -->
+
+    <div class="field">
+
+        <label>
+            Description
+        </label>
+
+        <textarea
+            id="classDescription"
+            placeholder="Live class के बारे में जानकारी..."
+        ></textarea>
+
+    </div>
+
+
+    <!-- BUTTONS -->
+
+    <div class="row">
+
+        <button
+            class="success"
+            onclick="saveLiveClass()"
+        >
+            💾 Save Live Class
+        </button>
+
+
+        <button
+            class="secondary"
+            onclick="clearForm()"
+        >
+            Cancel
+        </button>
+
+
+        <button
+            class="warning"
+            onclick="loadLiveClasses()"
+        >
+            🔄 Refresh
+        </button>
+
+    </div>
+
+
+    <div
+        id="statusBox"
+        class="status-box"
+    >
+        Firebase Live Classes loading...
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     LIVE CLASS LIST
+===================================================== -->
+
+<div class="card">
+
+    <h2>
+        🔴 Live Classes
+    </h2>
+
+
+    <div
+        id="classList"
+        class="list"
+    >
+        Loading...
+    </div>
+
+</div>
+
+
+</div>
+
+
+<!-- =====================================================
+     FIREBASE JAVASCRIPT
+===================================================== -->
+
+<script type="module">
+
+
+/* =====================================================
+   FIREBASE
+===================================================== */
+
+import {
+    db
+} from "./firebase-config.js";
+
+
+import {
+    collection,
+    getDocs,
+    doc,
+    setDoc,
+    deleteDoc
+}
+from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+/* =====================================================
+   ADMIN CHECK
+===================================================== */
+
+(function(){
+
+    const oldSystem =
+
+        localStorage.getItem(
+            "adminLoggedIn"
+        ) === "true"
+
+        &&
+
+        [
+            "master",
+            "normal"
+        ].includes(
+            localStorage.getItem(
+                "adminType"
+            )
+        );
+
+
+    const newSystem =
+
+        localStorage.getItem(
+            "ssc_logged_in"
+        ) === "true"
+
+        &&
+
+        [
+            "master_admin",
+            "admin"
+        ].includes(
+            localStorage.getItem(
+                "ssc_login_type"
+            )
+        );
+
+
+    if(!oldSystem && !newSystem){
+
+        location.replace(
+            "admin-login.html"
+        );
+
+        return;
+
+    }
+
+
+    /* =================================================
+       MASTER ADMIN
+    ================================================= */
+
+    const type =
+        localStorage.getItem(
+            "adminType"
+        );
+
+
+    const loginType =
+        localStorage.getItem(
+            "ssc_login_type"
+        );
+
+
+    const isMaster =
+        type === "master"
+        ||
+        loginType === "master_admin";
+
+
+    if(isMaster){
+
+        return;
+
+    }
+
+
+    /* =================================================
+       NORMAL ADMIN PERMISSION
+    ================================================= */
+
+    const adminId =
+
+        localStorage.getItem(
+            "adminId"
+        )
+
+        ||
+
+        localStorage.getItem(
+            "ssc_admin_username"
+        );
+
+
+    let allowed = false;
+
+
+    /* Old permission system */
+
+    try{
+
+        const permissions =
+            JSON.parse(
+                localStorage.getItem(
+                    "adminPermissions"
+                ) || "{}"
+            );
+
+
+        if(
+            permissions?.[adminId]
+            ?.liveClasses === true
+        ){
+
+            allowed = true;
+
+        }
+
+    }catch(e){
+
+        console.warn(
+            "Old permission read error:",
+            e
+        );
+
+    }
+
+
+    /* New managed admin system */
+
+    try{
+
+        const admins =
+            JSON.parse(
+                localStorage.getItem(
+                    "ssc_managed_admins"
+                ) || "[]"
+            );
+
+
+        const admin =
+            admins.find(
+                a =>
+
+                    String(
+                        a.username ||
+                        a.id ||
+                        ""
+                    ).toLowerCase()
+
+                    ===
+
+                    String(
+                        adminId || ""
+                    ).toLowerCase()
+            );
+
+
+        if(
+            admin?.permissions?.all === true
+        ){
+
+            allowed = true;
+
+        }
+
+
+        if(
+            Array.isArray(
+                admin?.permissions?.subjects
+            )
+
+            &&
+
+            admin.permissions.subjects
+            .includes(
+                "liveClasses"
+            )
+        ){
+
+            allowed = true;
+
+        }
+
+
+        if(
+            Array.isArray(
+                admin?.commands
+            )
+
+            &&
+
+            admin.commands.includes(
+                "liveClasses"
+            )
+        ){
+
+            allowed = true;
+
+        }
+
+
+        if(
+            admin?.commands === "all"
+        ){
+
+            allowed = true;
+
+        }
+
+
+    }catch(e){
+
+        console.warn(
+            "Managed admin permission error:",
+            e
+        );
+
+    }
+
+
+    if(!allowed){
+
+        alert(
+            "🚫 आपको Live Classes की permission नहीं दी गई है।"
+        );
+
+
+        location.replace(
+            "admin.html"
+        );
+
+    }
+
+})();
+
+
+/* =====================================================
+   COLLECTION
+===================================================== */
+
+const COLLECTION =
+    "liveClasses";
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let classes = [];
+
+let courseList = [];
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const classId =
+document.getElementById(
+    "classId"
+);
+
+
+const classCourseId =
+document.getElementById(
+    "classCourseId"
+);
+
+
+const classTitle =
+document.getElementById(
+    "classTitle"
+);
+
+
+const teacherName =
+document.getElementById(
+    "teacherName"
+);
+
+
+const classCourse =
+document.getElementById(
+    "classCourse"
+);
+
+
+const classSubject =
+document.getElementById(
+    "classSubject"
+);
+
+
+const classDate =
+document.getElementById(
+    "classDate"
+);
+
+
+const classTime =
+document.getElementById(
+    "classTime"
+);
+
+
+const classStatus =
+document.getElementById(
+    "classStatus"
+);
+
+
+const joinLink =
+document.getElementById(
+    "joinLink"
+);
+
+
+const classDescription =
+document.getElementById(
+    "classDescription"
+);
+
+
+const classList =
+document.getElementById(
+    "classList"
+);
+
+
+const statusBox =
+document.getElementById(
+    "statusBox"
+);
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function esc(value){
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /[&<>"']/g,
+        m => ({
+
+            "&":"&amp;",
+            "<":"&lt;",
+            ">":"&gt;",
+            '"':"&quot;",
+            "'":"&#039;"
+
+        }[m])
+
+    );
+
+}
+
+
+/* =====================================================
+   MAKE ID
+===================================================== */
+
+function makeId(){
+
+    return "live_" +
+        Date.now() +
+        "_" +
+        Math.random()
+        .toString(36)
+        .substring(2,8);
+
+}
+
+
+/* =====================================================
+   LOAD COURSES FROM FIRESTORE
+===================================================== */
+
+async function loadCourses(){
+
+    try{
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "courses"
+                )
+            );
+
+
+        courseList = [];
+
+
+        snapshot.forEach(
+            courseDoc => {
+
+                const course =
+                    courseDoc.data();
+
+
+                courseList.push({
+
+                    id:
+                        courseDoc.id,
+
+                    name:
+                        course.name ||
+                        course.courseName ||
+                        courseDoc.id
+
+                });
+
+            }
+        );
+
+
+        /* Alphabetical order */
+
+        courseList.sort(
+            (a,b) =>
+                String(a.name)
+                .localeCompare(
+                    String(b.name),
+                    "hi"
+                )
+        );
+
+
+        renderCourseSelect();
+
+
+    }catch(error){
+
+        console.error(
+            "Course Load Error:",
+            error
+        );
+
+
+        classCourse.innerHTML =
+            `<option value="">
+                ❌ Course load नहीं हुआ
+            </option>`;
+
+    }
+
+}
+
+
+/* =====================================================
+   RENDER COURSE SELECT
+===================================================== */
+
+function renderCourseSelect(
+    selectedId = ""
+){
+
+    classCourse.innerHTML =
+
+        `<option value="">
+            -- Course Select करें --
+        </option>`;
+
+
+    courseList.forEach(
+        course => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                course.id;
+
+
+            option.textContent =
+                course.name;
+
+
+            classCourse.appendChild(
+                option
+            );
+
+        }
+    );
+
+
+    if(selectedId){
+
+        const exists =
+            courseList.some(
+                c =>
+                    String(c.id)
+                    ===
+                    String(selectedId)
+            );
+
+
+        if(exists){
+
+            classCourse.value =
+                selectedId;
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   COURSE CHANGE
+===================================================== */
+
+classCourse.addEventListener(
+    "change",
+    function(){
+
+        classCourseId.value =
+            classCourse.value || "";
+
+    }
+);
+
+
+/* =====================================================
+   SAVE LIVE CLASS
+===================================================== */
+
+window.saveLiveClass =
+async function(){
+
+    const title =
+        classTitle.value.trim();
+
+
+    const teacher =
+        teacherName.value.trim();
+
+
+    const selectedCourseId =
+        classCourse.value.trim();
+
+
+    const subject =
+        classSubject.value.trim();
+
+
+    const date =
+        classDate.value;
+
+
+    const time =
+        classTime.value;
+
+
+    const status =
+        classStatus.value;
+
+
+    const link =
+        joinLink.value.trim();
+
+
+    const description =
+        classDescription.value.trim();
+
+
+    /* -----------------------------------------------
+       VALIDATION
+    ----------------------------------------------- */
+
+    if(!title){
+
+        alert(
+            "❌ Class Title डालें।"
+        );
+
+        return;
+
+    }
+
+
+    if(!selectedCourseId){
+
+        alert(
+            "❌ Course Select करें।"
+        );
+
+        return;
+
+    }
+
+
+    if(!date){
+
+        alert(
+            "❌ Class Date चुनें।"
+        );
+
+        return;
+
+    }
+
+
+    if(!time){
+
+        alert(
+            "❌ Class Time चुनें।"
+        );
+
+        return;
+
+    }
+
+
+    if(!link){
+
+        alert(
+            "❌ Join Link डालें।"
+        );
+
+        return;
+
+    }
+
+
+    /* -----------------------------------------------
+       URL VALIDATION
+    ----------------------------------------------- */
+
+    try{
+
+        const url =
+            new URL(link);
+
+
+        if(
+            ![
+                "http:",
+                "https:"
+            ].includes(
+                url.protocol
+            )
+        ){
+
+            throw new Error(
+                "Invalid URL"
+            );
+
+        }
+
+    }catch(error){
+
+        alert(
+            "❌ सही Join Link डालें।"
+        );
+
+        return;
+
+    }
+
+
+    /* -----------------------------------------------
+       SELECTED COURSE
+    ----------------------------------------------- */
+
+    const selectedCourse =
+        courseList.find(
+            c =>
+                String(c.id)
+                ===
+                String(selectedCourseId)
+        );
+
+
+    if(!selectedCourse){
+
+        alert(
+            "❌ Selected Course नहीं मिला।"
+        );
+
+        return;
+
+    }
+
+
+    /* -----------------------------------------------
+       ID
+    ----------------------------------------------- */
+
+    const id =
+        classId.value.trim()
+        ||
+        makeId();
+
+
+    const old =
+        classes.find(
+            c =>
+                String(c.id)
+                ===
+                String(id)
+        );
+
+
+    /* -----------------------------------------------
+       DATA
+    ----------------------------------------------- */
+
+    const data = {
+
+        id:id,
+
+        title:title,
+
+        teacher:
+            teacher,
+
+        courseId:
+            selectedCourse.id,
+
+        courseName:
+            selectedCourse.name,
+
+        /*
+         * पुराने data के लिए
+         * course field भी रखी गई है।
+         */
+
+        course:
+            selectedCourse.name,
+
+        subject:
+            subject,
+
+        date:
+            date,
+
+        time:
+            time,
+
+        status:
+            status,
+
+        joinLink:
+            link,
+
+        description:
+            description,
+
+        createdAt:
+            old?.createdAt
+            ||
+            new Date().toISOString(),
+
+        updatedAt:
+            new Date().toISOString()
+
+    };
+
+
+    /* -----------------------------------------------
+       FIRESTORE SAVE
+    ----------------------------------------------- */
+
+    try{
+
+        statusBox.textContent =
+            "⏳ Firebase में save हो रहा है...";
+
+
+        await setDoc(
+
+            doc(
+                db,
+                COLLECTION,
+                id
+            ),
+
+            data,
+
+            {
+                merge:true
+            }
+
+        );
+
+
+        alert(
+            "✅ Live Class Firebase में successfully save हो गई।"
+        );
+
+
+        clearForm();
+
+
+        await loadLiveClasses();
+
+
+    }catch(error){
+
+        console.error(
+            "Save Live Class Error:",
+            error
+        );
+
+
+        statusBox.textContent =
+            "❌ Save Error: " +
+            error.message;
+
+
+        alert(
+            "❌ Live Class save नहीं हुई:\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   LOAD LIVE CLASSES
+===================================================== */
+
+window.loadLiveClasses =
+async function(){
+
+    statusBox.textContent =
+        "⏳ Live Classes loading...";
+
+
+    classList.innerHTML =
+        "<div class='empty'>Loading...</div>";
+
+
+    try{
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    COLLECTION
+                )
+            );
+
+
+        classes = [];
+
+
+        snapshot.forEach(
+            d => {
+
+                classes.push({
+
+                    id:
+                        d.id,
+
+                    ...d.data()
+
+                });
+
+            }
+        );
+
+
+        /* ---------------------------------------------
+           DATE + TIME SORT
+        --------------------------------------------- */
+
+        classes.sort(
+            (a,b) => {
+
+                const da =
+                    new Date(
+                        `${a.date || "9999-12-31"}T${a.time || "23:59"}`
+                    );
+
+
+                const dbb =
+                    new Date(
+                        `${b.date || "9999-12-31"}T${b.time || "23:59"}`
+                    );
+
+
+                return da - dbb;
+
+            }
+        );
+
+
+        render();
+
+
+        statusBox.textContent =
+            `✅ ${classes.length} Live Classes loaded.`;
+
+
+    }catch(error){
+
+        console.error(
+            "Load Live Classes Error:",
+            error
+        );
+
+
+        statusBox.textContent =
+            "❌ Firebase Load Error: " +
+            error.message;
+
+
+        classList.innerHTML =
+            `<div class="empty">
+                ❌ Live Classes load नहीं हुईं।
+            </div>`;
+
+    }
+
+};
+
+
+/* =====================================================
+   RENDER
+===================================================== */
+
+function render(){
+
+    if(!classes.length){
+
+        classList.innerHTML =
+            `<div class="empty">
+                अभी कोई Live Class नहीं है।
+            </div>`;
+
+        return;
+
+    }
+
+
+    classList.innerHTML =
+
+        classes.map(
+            c => {
+
+                let badgeClass =
+                    "badge-scheduled";
+
+
+                let badgeText =
+                    "📅 Scheduled";
+
+
+                if(
+                    c.status === "live"
+                ){
+
+                    badgeClass =
+                        "badge-live";
+
+                    badgeText =
+                        "🔴 Live Now";
+
+                }
+
+
+                if(
+                    c.status === "completed"
+                ){
+
+                    badgeClass =
+                        "badge-completed";
+
+                    badgeText =
+                        "✅ Completed";
+
+                }
+
+
+                if(
+                    c.status === "cancelled"
+                ){
+
+                    badgeClass =
+                        "badge-cancelled";
+
+                    badgeText =
+                        "❌ Cancelled";
+
+                }
+
+
+                const courseName =
+                    c.courseName
+                    ||
+                    c.course
+                    ||
+                    "-";
+
+
+                const courseId =
+                    c.courseId
+                    ||
+                    "";
+
+
+                return `
+
+                <div class="item">
+
+                    <h3>
+                        ${esc(c.title)}
+                    </h3>
+
+
+                    <span
+                        class="badge ${badgeClass}"
+                    >
+                        ${badgeText}
+                    </span>
+
+
+                    <span class="badge">
+                        📅 ${esc(c.date || "-")}
+                    </span>
+
+
+                    <span class="badge">
+                        ⏰ ${esc(c.time || "-")}
+                    </span>
+
+
+                    <span class="badge badge-course">
+                        📚 ${esc(courseName)}
+                    </span>
+
+
+                    <p>
+
+                        👨‍🏫
+                        <b>Teacher:</b>
+                        ${esc(c.teacher || "-")}
+
+                        <br>
+
+                        📘
+                        <b>Subject:</b>
+                        ${esc(c.subject || "-")}
+
+                    </p>
+
+
+                    ${
+                        c.description
+                        ?
+
+                        `<p class="muted">
+                            📝
+                            ${esc(c.description)}
+                        </p>`
+
+                        :
+
+                        ""
+                    }
+
+
+                    <div class="row">
+
+
+                        <a
+                            href="${esc(c.joinLink || "#")}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+
+                            <button class="live">
+                                🔗 Open Join Link
+                            </button>
+
+                        </a>
+
+
+                        <button
+                            onclick="editLiveClass('${esc(c.id)}')"
+                        >
+                            ✏️ Edit
+                        </button>
+
+
+                        <button
+                            class="danger"
+                            onclick="deleteLiveClass('${esc(c.id)}')"
+                        >
+                            🗑️ Delete
+                        </button>
+
+
+                    </div>
+
+
+                    ${
+                        courseId
+
+                        ?
+
+                        `<div
+                            class="muted"
+                            style="font-size:12px;margin-top:8px"
+                        >
+                            Course ID:
+                            ${esc(courseId)}
+                        </div>`
+
+                        :
+
+                        ""
+                    }
+
+
+                    <div
+                        class="muted"
+                        style="font-size:12px;margin-top:6px"
+                    >
+                        Live Class ID:
+                        ${esc(c.id)}
+                    </div>
+
+
+                </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* =====================================================
+   EDIT LIVE CLASS
+===================================================== */
+
+window.editLiveClass =
+function(id){
+
+    const c =
+        classes.find(
+            x =>
+                String(x.id)
+                ===
+                String(id)
+        );
+
+
+    if(!c){
+
+        return;
+
+    }
+
+
+    classId.value =
+        c.id || "";
+
+
+    classTitle.value =
+        c.title || "";
+
+
+    teacherName.value =
+        c.teacher || "";
+
+
+    /*
+     * New system:
+     * courseId
+     *
+     * Old system:
+     * course name
+     */
+
+    let selectedCourseId =
+        c.courseId || "";
+
+
+    if(!selectedCourseId){
+
+        const oldCourseName =
+            c.courseName ||
+            c.course ||
+            "";
+
+
+        const oldCourse =
+            courseList.find(
+                course =>
+                    String(course.name)
+                    ===
+                    String(oldCourseName)
+            );
+
+
+        if(oldCourse){
+
+            selectedCourseId =
+                oldCourse.id;
+
+        }
+
+    }
+
+
+    renderCourseSelect(
+        selectedCourseId
+    );
+
+
+    classCourseId.value =
+        selectedCourseId;
+
+
+    classSubject.value =
+        c.subject || "";
+
+
+    classDate.value =
+        c.date || "";
+
+
+    classTime.value =
+        c.time || "";
+
+
+    classStatus.value =
+        c.status || "scheduled";
+
+
+    joinLink.value =
+        c.joinLink || "";
+
+
+    classDescription.value =
+        c.description || "";
+
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+};
+
+
+/* =====================================================
+   DELETE
+===================================================== */
+
+window.deleteLiveClass =
+async function(id){
+
+    const c =
+        classes.find(
+            x =>
+                String(x.id)
+                ===
+                String(id)
+        );
+
+
+    if(!c){
+
+        return;
+
+    }
+
+
+    if(
+        !confirm(
+            `क्या "${c.title}" को Firebase से delete करना है?`
+        )
+    ){
+
+        return;
+
+    }
+
+
+    try{
+
+        statusBox.textContent =
+            "⏳ Delete हो रहा है...";
+
+
+        await deleteDoc(
+
+            doc(
+                db,
+                COLLECTION,
+                String(id)
+            )
+
+        );
+
+
+        classes =
+            classes.filter(
+                x =>
+                    String(x.id)
+                    !==
+                    String(id)
+            );
+
+
+        render();
+
+
+        statusBox.textContent =
+            "✅ Live Class Firebase से deleted.";
+
+
+    }catch(error){
+
+        console.error(
+            "Delete Error:",
+            error
+        );
+
+
+        statusBox.textContent =
+            "❌ Delete Error: " +
+            error.message;
+
+
+        alert(
+            "❌ Delete failed:\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   CLEAR FORM
+===================================================== */
+
+window.clearForm =
+function(){
+
+    classId.value = "";
+
+    classCourseId.value = "";
+
+    classTitle.value = "";
+
+    teacherName.value = "";
+
+    classCourse.value = "";
+
+    classSubject.value = "";
+
+    classDate.value = "";
+
+    classTime.value = "";
+
+    classStatus.value =
+        "scheduled";
+
+    joinLink.value = "";
+
+    classDescription.value = "";
+
+};
+
+
+/* =====================================================
+   INITIAL LOAD
+===================================================== */
+
+async function initialize(){
+
+    await loadCourses();
+
+    await loadLiveClasses();
+
+}
+
+
+initialize();
+
+
+</script>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer
+    style="
+        text-align:center;
+        padding:20px;
+        color:#94a3b8;
+        font-size:13px;
+    "
+>
+
+    © 2026 THE HUB. All Rights Reserved.
+
+</footer>
+
+
+</body>
+
+</html>

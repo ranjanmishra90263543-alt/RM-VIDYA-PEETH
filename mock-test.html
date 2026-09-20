@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,initial-scale=1.0">
+
+<meta name="theme-color"
+      content="#0f172a">
+
+<title>RM Vidya Peeth - Mock Test</title>
+
+<link rel="stylesheet"
+      href="mock-test.css">
+
+</head>
+
+<body>
+
+<div class="page">
+
+
+<!-- =========================
+     NORMAL HEADER
+========================= -->
+
+<div id="normalHeader"
+     class="header">
+
+    <div class="header-top">
+
+        <div>
+
+            <h1>📝 RM Vidya Peeth</h1>
+
+            <p>
+                <strong>By Ranjan Mishra Sir</strong><br>
+                SSC Exams Learning and Mock Test
+            </p>
+
+        </div>
+
+        <div>
+
+            👤
+            <span id="studentName"
+                  class="student-name">
+                Student
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     STATUS
+========================= -->
+
+<div id="status"
+     class="status">
+</div>
+
+
+<!-- =========================
+     LANGUAGE BOX
+========================= -->
+
+<div id="languageBox"
+     class="language-box hidden">
+
+    <div class="language-title">
+        🌐 Select Language
+    </div>
+
+    <div class="language-buttons">
+
+        <button id="hindiLanguageBtn"
+                class="language-btn active"
+                onclick="setQuestionLanguage('hi')">
+            🇮🇳 Hindi
+        </button>
+
+        <button id="englishLanguageBtn"
+                class="language-btn"
+                onclick="setQuestionLanguage('en')">
+            🇬🇧 English
+        </button>
+
+        <button id="bothLanguageBtn"
+                class="language-btn"
+                onclick="setQuestionLanguage('both')">
+            🌐 Both
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     MOCK HOME
+========================= -->
+
+<div id="freeHome"
+     class="section">
+
+    <div class="section-title">
+        📝 Mock Test
+    </div>
+
+    <div class="category-grid">
+
+
+        <!-- FREE MOCK -->
+
+        <div class="category-card"
+             onclick="openMockType('free')">
+
+            <div class="category-icon">
+                🆓
+            </div>
+
+            <div class="category-name">
+                Free Mock Test
+            </div>
+
+            <div id="freeTestCount"
+                 class="category-count">
+                Loading...
+            </div>
+
+        </div>
+
+
+        <!-- PAID MOCK -->
+
+        <div class="category-card"
+             onclick="openMockType('paid')">
+
+            <div class="category-icon">
+                💎
+            </div>
+
+            <div class="category-name">
+                Paid Mock Test
+            </div>
+
+            <div id="paidTestCount"
+                 class="category-count">
+                Loading...
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     SERIES
+========================= -->
+
+<div id="seriesBox"
+     class="section hidden">
+
+    <div id="seriesBreadcrumb"
+         class="breadcrumb">
+    </div>
+
+    <div id="seriesTitle"
+         class="section-title">
+        📚 Test Series
+    </div>
+
+    <div id="seriesGrid"
+         class="series-grid">
+    </div>
+
+</div>
+
+
+<!-- =========================
+     SERIES CATEGORY
+========================= -->
+
+<div id="seriesCategoryBox"
+     class="section hidden">
+
+    <div id="categoryBreadcrumb"
+         class="breadcrumb">
+    </div>
+
+    <div id="seriesCategoryTitle"
+         class="section-title">
+        📂 Category
+    </div>
+
+    <div id="seriesCategoryGrid"
+         class="category-grid">
+    </div>
+
+</div>
+
+
+<!-- =========================
+     TEST LIST
+========================= -->
+
+<div id="testListBox"
+     class="section hidden">
+
+    <div id="testBreadcrumb"
+         class="breadcrumb">
+    </div>
+
+    <div id="listTitle"
+         class="section-title">
+        Available Tests
+    </div>
+
+    <div id="testList"
+         class="test-list">
+    </div>
+
+</div>
+
+
+<!-- =========================
+     TEST INTERFACE
+========================= -->
+
+<div id="testInterface"
+     class="hidden">
+
+
+    <!-- TEST HEADER -->
+
+    <div class="test-header">
+
+        <div class="test-header-row">
+
+
+            <div class="test-heading">
+
+                <div id="testHeadingTitle"
+                     class="test-heading-title">
+                    Mock Test
+                </div>
+
+            </div>
+
+
+            <div id="testTimer"
+                 class="test-timer">
+                00:00
+            </div>
+
+
+            <!--
+                Translates only the question currently
+                on screen (Hindi <-> English), without
+                touching the timer or saved answers.
+            -->
+            <button id="questionLangToggleBtn"
+                    class="lang-toggle-btn"
+                    type="button"
+                    onclick="toggleQuestionLanguage()"
+                    title="Question ka language badlein">
+                🌐 EN
+            </button>
+
+
+            <button class="menu-button"
+                    onclick="openQuestionMenu()">
+                ☰
+            </button>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- PROGRESS -->
+
+    <div class="test-progress-info">
+
+        <div>
+
+            Answered:
+
+            <span id="answeredCount"
+                  class="answered-count">
+                0
+            </span>
+
+        </div>
+
+
+        <div>
+
+            Question
+
+            <span id="questionCounter">
+                1/1
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- QUESTION -->
+
+    <div id="questionArea"
+         class="question-area">
+    </div>
+
+
+    <!-- BOTTOM NAVIGATION -->
+
+    <div class="bottom-nav">
+
+        <div class="bottom-nav-inner">
+
+
+            <button id="previousBtn"
+                    class="bottom-btn"
+                    onclick="previousQuestion()">
+                Previous
+            </button>
+
+
+            <button id="reviewBtn"
+                    class="bottom-btn"
+                    onclick="toggleReview()">
+                Mark For Review
+            </button>
+
+
+            <button id="nextBtn"
+                    class="bottom-btn primary"
+                    onclick="saveAndNext()">
+                Save & Next
+            </button>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     RESULT
+========================= -->
+
+<div id="resultBox"
+     class="result hidden">
+
+
+    <div class="result-title">
+        🏆 Test Result
+    </div>
+
+
+    <!-- ATTEMPTS -->
+
+    <div id="attemptTabs"
+         class="attempt-tabs">
+    </div>
+
+
+    <!-- SCORE -->
+
+    <div id="scoreDisplay"
+         class="score">
+        0
+    </div>
+
+
+    <!-- RESULT GRID -->
+
+    <div id="resultGrid"
+         class="result-grid">
+    </div>
+
+
+    <!-- RESULT ACTIONS -->
+
+    <div class="result-actions">
+
+
+        <button class="btn blue"
+                onclick="showSelectedAnalysis()">
+            📊 Analysis
+        </button>
+
+
+        <button class="btn green"
+                onclick="showSelectedAnswers()">
+            📖 Answer
+        </button>
+
+
+        <button class="btn gray"
+                onclick="reattemptTest()">
+            🔄 Reattempt
+        </button>
+
+
+        <button class="btn gray"
+                onclick="backToAvailableTests()">
+            ⬅️ Test List
+        </button>
+
+
+    </div>
+
+
+    <!-- ANALYSIS -->
+
+    <div id="analysisBox"
+         class="analysis-card hidden">
+    </div>
+
+
+    <!-- ANSWERS -->
+
+    <div id="answerBox"
+         class="hidden">
+    </div>
+
+
+</div>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div style="font-weight:bold;color:#cbd5e1;">
+        RM Vidya Peeth
+    </div>
+
+    <div style="margin-top:5px;">
+        By Ranjan Mishra Sir
+    </div>
+
+    <div style="margin-top:5px;">
+        © 2026 RM Vidya Peeth. All Rights Reserved.
+    </div>
+
+</footer>
+
+
+</div>
+
+
+<!-- =========================
+     QUESTION MENU
+========================= -->
+
+<div id="menuOverlay"
+     class="menu-overlay"
+     onclick="closeMenu(event)">
+
+
+    <div class="menu-drawer"
+         onclick="event.stopPropagation()">
+
+
+        <div class="menu-title">
+            📌 Questions
+        </div>
+
+
+        <div class="menu-content">
+
+
+            <div id="menuQuestionGrid"
+                 class="menu-question-grid">
+            </div>
+
+
+            <button class="menu-submit"
+                    onclick="submitFromMenu()">
+                ✅ Submit Test
+            </button>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     SUBMIT MODAL
+========================= -->
+
+<div id="submitModal"
+     class="modal-overlay">
+
+
+    <div class="modal-box">
+
+
+        <h2>
+            Submit Test?
+        </h2>
+
+
+        <p id="submitMessage">
+        </p>
+
+
+        <div class="modal-buttons">
+
+
+            <button class="no"
+                    onclick="closeSubmitModal()">
+                No
+            </button>
+
+
+            <button class="yes"
+                    onclick="confirmSubmit()">
+                Yes
+            </button>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     PAUSE & EXIT MODAL
+     (shown on browser/mobile back button
+     press while a test is in progress)
+========================= -->
+
+<div id="pauseExitModal"
+     class="modal-overlay">
+
+
+    <div class="modal-box">
+
+
+        <h2>
+            ⏸️ Pause &amp; Exit Test?
+        </h2>
+
+
+        <p>
+            Agar aap ab bahar jaate hain to aapka
+            test pause ho jaayega. Aap ise baad me
+            isi question se dobara resume kar sakte hain.
+        </p>
+
+
+        <div class="modal-buttons">
+
+
+            <button class="no"
+                    onclick="cancelPauseExit()">
+                Cancel
+            </button>
+
+
+            <button class="yes"
+                    onclick="confirmPauseExit()">
+                Pause &amp; Exit
+            </button>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script type="module"
+        src="mock-test.js">
+</script>
+
+</body>
+
+</html>

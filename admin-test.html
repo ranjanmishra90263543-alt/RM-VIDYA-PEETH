@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>RM Vidya Peeth - Admin Test</title>
+<link rel="stylesheet" href="admin-test.css">
+</head>
+
+<body>
+
+<div class="page">
+
+<div class="header">
+    <h1>📝 RM Vidya Peeth</h1>
+    <p>By Ranjan Mishra Sir — Firestore Test, Series, Question & Translation Management</p>
+</div>
+
+<div id="status" class="status"></div>
+
+<!-- ================= AUTH ================= -->
+<div id="authBox" class="auth-box">
+    <h2>🔐 Firebase Admin Login</h2>
+    <p>Firestore data देखने और बदलने के लिए Firebase Authentication जरूरी है।</p>
+
+    <div class="grid">
+        <div>
+            <label>📧 Admin Email</label>
+            <input id="authEmail" type="email" placeholder="Admin Firebase Email">
+        </div>
+
+        <div>
+            <label>🔑 Password</label>
+            <input id="authPassword" type="password" placeholder="Password">
+        </div>
+    </div>
+
+    <br>
+    <button class="btn blue" onclick="firebaseAdminLogin()">🔐 Firebase Admin Login</button>
+</div>
+
+<div id="userBox" class="user-info hidden">
+    👤 Firebase Admin: <span id="userEmail"></span>
+    <br><br>
+    <button class="btn red" onclick="firebaseAdminLogout()">🚪 Logout</button>
+</div>
+
+<div id="appContent" class="hidden">
+
+<!-- ================= SERIES ================= -->
+<div class="card">
+    <h2 class="card-title">📚 Series Management</h2>
+
+    <div class="help" style="margin-bottom:15px">
+        पहले Series बनाएं। उसके बाद उसी Series के अंदर Test 1, Test 2, Test 3 आदि बनाए जा सकते हैं।
+    </div>
+
+    <div class="grid">
+
+        <div class="full">
+            <label>📚 Series Name</label>
+            <input id="seriesName" placeholder="जैसे SSC CGL Mathematics Practice Series">
+        </div>
+
+        <div>
+            <label>📘 Course</label>
+            <input id="seriesCourse" placeholder="जैसे SSC CGL">
+        </div>
+
+        <div>
+            <label>🏛️ Exam Name</label>
+            <input id="seriesExamName" placeholder="जैसे SSC CGL 2026">
+        </div>
+
+        <div>
+            <label>📁 Category</label>
+            <input id="seriesCategory" placeholder="जैसे SSC">
+        </div>
+
+        <div>
+            <label>📖 Subject</label>
+            <input id="seriesSubject" placeholder="जैसे Mathematics">
+        </div>
+
+        <div>
+            <label>💳 Series Access</label>
+            <select id="seriesAccess" onchange="toggleSeriesPrice()">
+                <option value="free">🆓 Free</option>
+                <option value="paid">💳 Paid</option>
+            </select>
+        </div>
+
+        <div id="seriesPriceBox" class="price-box hidden">
+            <label class="price-label">💰 Series Price (₹)</label>
+            <input id="seriesPrice" type="number" min="1" step="0.01">
+            <div id="seriesPricePreview" class="price-preview">💰 Price: ₹0.00</div>
+        </div>
+
+        <div class="full validity-box">
+            <label>⏳ Series Validity</label>
+
+            <select id="seriesValidityType" onchange="toggleSeriesValidity()">
+                <option value="unlimited">♾️ Unlimited</option>
+                <option value="days">📅 Valid for Days</option>
+                <option value="date-range">🗓️ Date Range</option>
+            </select>
+
+            <div id="seriesDaysBox" class="hidden" style="margin-top:12px">
+                <label>Validity Days</label>
+                <input id="seriesValidityDays" type="number" min="1" placeholder="जैसे 30">
+            </div>
+
+            <div id="seriesDateBox" class="hidden" style="margin-top:12px">
+                <div class="grid">
+                    <div>
+                        <label>Start Date</label>
+                        <input id="seriesStartDate" type="date">
+                    </div>
+
+                    <div>
+                        <label>Expiry Date</label>
+                        <input id="seriesExpiryDate" type="date">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="full">
+            <label>📝 Series Description</label>
+            <textarea id="seriesDescription" placeholder="Series के बारे में जानकारी..."></textarea>
+        </div>
+
+    </div>
+
+    <br>
+
+    <div class="button-row">
+        <button id="seriesSaveBtn" class="btn purple" onclick="saveSeries()">
+            📚 Create Series
+        </button>
+
+        <button class="btn gray" onclick="clearSeriesForm()">
+            🧹 Clear
+        </button>
+    </div>
+</div>
+
+<!-- ================= SELECT SERIES ================= -->
+<div class="card">
+    <h2 class="card-title">📚 Select Series</h2>
+
+    <label>📚 Existing Series</label>
+
+    <select id="seriesSelect" onchange="selectSeries()">
+        <option value="">-- Standalone Test / कोई Series नहीं --</option>
+    </select>
+
+    <br><br>
+
+    <div id="activeSeriesBox" class="session-box hidden">
+        <b>🟢 Current Series</b><br><br>
+
+        📚 Name: <span id="activeSeriesName"></span><br>
+        🔐 Series ID: <span id="activeSeriesId"></span><br>
+        💳 Access: <span id="activeSeriesAccess"></span><br>
+        💰 Price: <span id="activeSeriesPrice"></span><br>
+        ⏳ Validity: <span id="activeSeriesValidity"></span>
+    </div>
+</div>
+
+<!-- ================= SESSION ================= -->
+<div class="session-box">
+    <b>🟢 Current Test Session</b><br><br>
+
+    इस page पर पहले Test की सारी जानकारी भरें।
+    फिर उसी Test के questions Add या Bulk Upload करें।<br><br>
+
+    <b>📚 Series:</b>
+    <span id="sessionSeriesText">Standalone</span><br>
+
+    <b>🔐 Session ID:</b>
+    <span id="sessionIdText">-</span>
+</div>
+
+<!-- ================= TEST INFORMATION ================= -->
+<div class="card">
+
+    <h2 class="card-title">📋 Test Information</h2>
+
+    <div class="grid">
+
+        <div>
+            <label>📝 Test Type</label>
+            <select id="testType">
+                <option value="Chapter">📖 Chapter Test</option>
+                <option value="Sectional">📚 Sectional Test</option>
+                <option value="Full PYQ">📜 Full PYQ</option>
+                <option value="Full Mock">📝 Full Mock Test</option>
+            </select>
+        </div>
+
+        <div>
+            <label>💳 Test Access</label>
+            <select id="access" onchange="togglePriceField()">
+                <option value="free">🆓 Free</option>
+                <option value="paid">💳 Paid</option>
+            </select>
+        </div>
+
+        <div id="priceBox" class="price-box hidden">
+            <label class="price-label">💰 Test Price (₹)</label>
+            <input id="price" type="number" min="1" step="0.01">
+            <div id="pricePreview" class="price-preview">💰 Price: ₹0.00</div>
+        </div>
+
+        <div>
+            <label>📘 Course</label>
+            <input id="course" placeholder="जैसे SSC CGL">
+        </div>
+
+        <div>
+            <label>🏛️ Exam Name</label>
+            <input id="examName" placeholder="जैसे SSC CGL 2026">
+        </div>
+
+        <div>
+            <label>📁 Category</label>
+            <input id="category" placeholder="जैसे SSC">
+        </div>
+
+        <div>
+            <label>📘 Subject</label>
+            <input id="subject" placeholder="जैसे Mathematics">
+        </div>
+
+        <div>
+            <label>📖 Chapter</label>
+            <input id="chapter">
+        </div>
+
+        <div>
+            <label>📚 Section / Topic</label>
+            <input id="section">
+        </div>
+
+        <div>
+            <label>🔢 Test Number</label>
+            <input id="testNumber" type="number" min="1" value="1">
+        </div>
+
+        <div>
+            <label>📋 Test Name</label>
+            <input id="testName" placeholder="जैसे Percentage Test - 1">
+        </div>
+
+        <div>
+            <label>⏱️ Test Time (Minutes)</label>
+            <input id="testTime" type="number" min="1" value="30">
+        </div>
+
+        <div>
+            <label>🎯 Marks Per Question</label>
+            <input id="marksPerQuestion" type="number" step="0.01" value="1">
+        </div>
+
+        <div>
+            <label>➖ Negative Marks</label>
+            <input id="negativeMarks" type="number" step="0.01" value="0">
+        </div>
+
+        <div class="full validity-box">
+
+            <label>⏳ Test Validity</label>
+
+            <select id="testValidityType" onchange="toggleTestValidity()">
+                <option value="unlimited">♾️ Unlimited</option>
+                <option value="days">📅 Valid for Days</option>
+                <option value="date-range">🗓️ Date Range</option>
+            </select>
+
+            <div id="testDaysBox" class="hidden" style="margin-top:12px">
+                <label>Validity Days</label>
+                <input id="testValidityDays" type="number" min="1" placeholder="जैसे 30">
+            </div>
+
+            <div id="testDateBox" class="hidden" style="margin-top:12px">
+
+                <div class="grid">
+
+                    <div>
+                        <label>Start Date</label>
+                        <input id="testStartDate" type="date">
+                    </div>
+
+                    <div>
+                        <label>Expiry Date</label>
+                        <input id="testExpiryDate" type="date">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="full reattempt-box">
+            <b>🔄 Reattempt System</b><br>
+            Student इस Test को unlimited बार attempt कर सकेगा।
+        </div>
+
+    </div>
+</div>
+
+<!-- ================= QUESTION FORM ================= -->
+<div class="card">
+
+    <h2 class="card-title">❓ Add / Correct Question</h2>
+
+    <div class="counter">
+        Current Test Questions:
+        <span id="questionCount">0</span>
+    </div>
+
+    <!-- HINDI -->
+    <div class="language-section hindi-section">
+
+        <div class="language-heading">
+            🇮🇳 Hindi Question
+        </div>
+
+        <div class="grid">
+
+            <div class="full">
+                <label>📁 Question File Name</label>
+                <input id="fileName" placeholder="mathematics-chapter-1.txt">
+            </div>
+
+            <div class="full">
+                <label>❓ Question (Hindi)</label>
+                <textarea id="question" placeholder="पूरा Hindi question लिखें..."></textarea>
+            </div>
+
+            <div>
+                <label>A. Option (Hindi)</label>
+                <input id="optionA">
+            </div>
+
+            <div>
+                <label>B. Option (Hindi)</label>
+                <input id="optionB">
+            </div>
+
+            <div>
+                <label>C. Option (Hindi)</label>
+                <input id="optionC">
+            </div>
+
+            <div>
+                <label>D. Option (Hindi)</label>
+                <input id="optionD">
+            </div>
+
+            <div class="full">
+                <label>💡 Solution / Explanation (Hindi)</label>
+                <textarea id="solution"></textarea>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ENGLISH -->
+    <div class="language-section english-section">
+
+        <div class="language-heading english-heading">
+            🇬🇧 English Question
+        </div>
+
+        <div class="grid">
+
+            <div class="full">
+                <label>❓ Question (English)</label>
+                <textarea id="questionEn" placeholder="Enter English question..."></textarea>
+            </div>
+
+            <div>
+                <label>A. Option (English)</label>
+                <input id="optionAEn" placeholder="English Option A">
+            </div>
+
+            <div>
+                <label>B. Option (English)</label>
+                <input id="optionBEn" placeholder="English Option B">
+            </div>
+
+            <div>
+                <label>C. Option (English)</label>
+                <input id="optionCEn" placeholder="English Option C">
+            </div>
+
+            <div>
+                <label>D. Option (English)</label>
+                <input id="optionDEn" placeholder="English Option D">
+            </div>
+
+            <div class="full">
+                <label>💡 Solution / Explanation (English)</label>
+                <textarea id="solutionEn" placeholder="Enter English solution..."></textarea>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ANSWER -->
+    <div class="grid question-extra">
+
+        <div>
+            <label>✅ Correct Answer</label>
+
+            <select id="correctAnswer">
+                <option value="">-- Select --</option>
+                <option value="1">A</option>
+                <option value="2">B</option>
+                <option value="3">C</option>
+                <option value="4">D</option>
+            </select>
+
+            <div class="help">
+                A = 1, B = 2, C = 3, D = 4
+            </div>
+        </div>
+
+        <div>
+            <label>🎯 Marks</label>
+            <input id="questionMarks" type="number" step="0.01" value="1">
+        </div>
+
+    </div>
+
+    <br>
+
+    <div class="button-row">
+
+        <button id="questionSaveBtn" class="btn green" onclick="addQuestion()">
+            ➕ Add Question
+        </button>
+
+        <button class="btn cyan" onclick="translateCurrentQuestion()">
+            🌐 Translate Hindi → English
+        </button>
+
+        <button class="btn gray" onclick="clearQuestionForm()">
+            🧹 Clear
+        </button>
+
+    </div>
+
+    <div class="help bilingual-help">
+        💡 English fields manually edit किए जा सकते हैं। खाली English fields को
+        <b>Translate Hindi → English</b> button से automatically भर सकते हैं।
+    </div>
+
+</div>
+
+<!-- ================= TRANSLATOR ================= -->
+<div class="card translation-card">
+
+    <h2 class="card-title">
+        🌐 Hindi → English Question Translator
+    </h2>
+
+    <div class="translation-info">
+
+        <b>🔤 MyMemory Automatic Translation System</b><br><br>
+
+        यह system <b>mockQuestions</b> के Hindi questions को English में translate करेगा।<br><br>
+
+        ✅ Hindi content सुरक्षित रहेगा।<br>
+        ✅ English data अलग fields में save होगा:<br>
+        <b>questionEn, AEn, BEn, CEn, DEn, solutionEn</b><br>
+        ✅ Manual English editing उपलब्ध है।<br>
+        ✅ Resume / Pause feature उपलब्ध रहेगा।
+
+        <div class="translation-limit">
+            ⚠️ MyMemory free quota limit पर request रुकने पर थोड़ी देर बाद
+            Resume दबाएं।
+        </div>
+
+    </div>
+
+    <div class="translation-stats">
+
+        <div class="translation-stat">
+            Total Questions
+            <b id="trTotal">0</b>
+        </div>
+
+        <div class="translation-stat">
+            Completed
+            <b id="trDone">0</b>
+        </div>
+
+        <div class="translation-stat">
+            Pending
+            <b id="trPending">0</b>
+        </div>
+
+    </div>
+
+    <div class="progress-wrap">
+        <div id="trProgressBar" class="progress-bar"></div>
+    </div>
+
+    <div id="trProgressText" class="translation-progress-text">
+        0 / 0
+    </div>
+
+    <div class="button-row">
+
+        <button class="btn green" onclick="startTranslation()">
+            ▶️ Start / Resume
+        </button>
+
+        <button class="btn orange" onclick="pauseTranslation()">
+            ⏸️ Pause
+        </button>
+
+        <button class="btn red" onclick="stopTranslation()">
+            ⏹️ Stop
+        </button>
+
+        <button class="btn blue" onclick="refreshTranslationStats()">
+            🔄 Refresh
+        </button>
+
+    </div>
+
+    <div id="translatorStatus"
+         class="translation-status"
+         style="margin-top:15px">
+        Translator ready.
+    </div>
+
+    <div id="translatorCurrent" class="translation-current">
+        Current Question: -
+    </div>
+
+</div>
+
+<!-- ================= BULK UPLOAD ================= -->
+<div class="card">
+
+    <h2 class="card-title">📥 Bulk Question Upload</h2>
+
+    <div class="format">
+
+        <b style="color:#60a5fa">
+            📌 TXT Format — Hindi Only
+        </b>
+
+        <p>
+            हर question के बीच <b>---</b> लगाएँ।
+            English fields खाली छोड़ सकते हैं।
+        </p>
+
+<pre>FileName: mathematics-chapter-1.txt
+Question: 2 + 2 = ?
+A: 2
+B: 3
+C: 4
+D: 5
+Answer: C
+Solution: 2 और 2 का योग 4 होता है।
+
+---</pre>
+
+        <b style="color:#60a5fa">
+            📌 TXT Format — Hindi + English
+        </b>
+
+<pre>FileName: mathematics-chapter-1.txt
+Question: 2 + 2 = ?
+QuestionEn: What is 2 + 2?
+A: 2
+AEn: 2
+B: 3
+BEn: 3
+C: 4
+CEn: 4
+D: 5
+DEn: 5
+Answer: C
+Solution: 2 और 2 का योग 4 होता है।
+SolutionEn: The sum of 2 and 2 is 4.
+
+---</pre>
+
+    </div>
+
+    <label>📄 Select Question File</label>
+
+    <input id="questionFile"
+           type="file"
+           accept=".txt,.csv">
+
+    <br><br>
+
+    <label>📥 या Questions Paste करें</label>
+
+    <textarea id="bulkText"
+              style="min-height:300px"></textarea>
+
+    <br>
+
+    <div class="button-row">
+
+        <button class="btn purple"
+                onclick="uploadBulkQuestions()">
+            📥 Upload Questions
+        </button>
+
+        <button class="btn gray"
+                onclick="clearBulk()">
+            🧹 Clear
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ================= CURRENT TEST QUESTIONS ================= -->
+<div class="card">
+
+    <h2 class="card-title">
+        📋 Current Test Questions
+    </h2>
+
+    <div class="counter">
+        इस Test के Questions:
+        <span id="firestoreQuestionCount">0</span>
+    </div>
+
+    <div id="questionList">
+        <div class="empty">
+            Questions load हो रहे हैं...
+        </div>
+    </div>
+
+</div>
+
+<!-- ================= SAVE TEST ================= -->
+<div class="card">
+
+    <h2 class="card-title">💾 Save Test</h2>
+
+    <div class="help" style="margin-bottom:15px">
+        Current Test Session में Add/Bulk Upload किए गए questions
+        automatically इसी Test में जुड़ेंगे।
+    </div>
+
+    <div class="button-row">
+
+        <button class="btn green" onclick="saveTest()">
+            💾 Save Test
+        </button>
+
+        <button class="btn blue" onclick="loadCurrentTestQuestions()">
+            🔄 Refresh Questions
+        </button>
+
+        <button class="btn orange" onclick="newTest()">
+            ➕ New Test
+        </button>
+
+        <button class="btn dark" onclick="goBack()">
+            ⬅️ Admin Dashboard
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ================= SERIES TESTS ================= -->
+<div class="card">
+
+    <h2 class="card-title">
+        📚 Current Series Tests
+    </h2>
+
+    <div id="seriesTestList">
+        <div class="empty">
+            Series select करने पर Tests दिखाई देंगे।
+        </div>
+    </div>
+
+</div>
+
+<!-- ================= ALL TESTS ================= -->
+<div class="card">
+
+    <h2 class="card-title">
+        📚 All Firestore Tests
+    </h2>
+
+    <div id="testList">
+        <div class="empty">
+            Tests load हो रहे हैं...
+        </div>
+    </div>
+
+</div>
+
+<!-- ================= ALL SERIES ================= -->
+<div class="card">
+
+    <h2 class="card-title">
+        📚 All Series
+    </h2>
+
+    <div id="allSeriesList">
+        <div class="empty">
+            Series load हो रही हैं...
+        </div>
+    </div>
+
+</div>
+
+<!-- ================= DANGER ZONE ================= -->
+<div class="card">
+
+    <div class="danger-box">
+
+        <h3>⚠️ Danger Zone</h3>
+
+        <p>
+            यह button <b>mockQuestions</b> collection के सभी
+            questions permanently delete करेगा।
+        </p>
+
+        <button class="btn red"
+                onclick="deleteAllQuestions()">
+            🗑️ Delete All Firestore Questions
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+<footer style="text-align:center;color:#64748b;padding:20px">
+    © 2026 RM Vidya Peeth. All Rights Reserved.<br>
+    By Ranjan Mishra Sir
+</footer>
+
+<script type="module" src="admin-test.js"></script>
+
+</div>
+
+</body>
+</html>

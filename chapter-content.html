@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>RM Vidya Peeth - Chapter Content</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+    background:#111827;
+    padding:18px 20px;
+    border-bottom:1px solid #334155;
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.header-top{
+    max-width:1100px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.back-btn{
+    border:none;
+    background:#2563eb;
+    color:#fff;
+    padding:10px 15px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.back-btn:hover{
+    background:#1d4ed8;
+}
+
+.brand-box{
+    flex:1;
+}
+
+.brand-title{
+    font-size:23px;
+    font-weight:800;
+    color:#60a5fa;
+}
+
+.brand-tagline{
+    font-size:13px;
+    color:#cbd5e1;
+    margin-top:3px;
+}
+
+.chapter-title{
+    max-width:1100px;
+    margin:18px auto 0;
+}
+
+.chapter-title h1{
+    margin:0;
+    font-size:24px;
+}
+
+.chapter-title p{
+    margin:6px 0 0;
+    color:#94a3b8;
+    font-size:14px;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:22px 18px 40px;
+}
+
+/* =========================
+   TABS
+========================= */
+
+.tabs{
+    display:flex;
+    gap:10px;
+    margin-bottom:22px;
+}
+
+.tab-btn{
+    flex:1;
+    border:1px solid #334155;
+    background:#1e293b;
+    color:#cbd5e1;
+    padding:13px 15px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:15px;
+    font-weight:bold;
+}
+
+.tab-btn.active{
+    background:#2563eb;
+    color:#fff;
+    border-color:#2563eb;
+}
+
+.tab-btn:hover{
+    background:#1d4ed8;
+    color:#fff;
+}
+
+/* =========================
+   TAB CONTENT
+========================= */
+
+.tab-content{
+    display:none;
+}
+
+.tab-content.active{
+    display:block;
+}
+
+/* =========================
+   GRID
+========================= */
+
+.content-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.content-card{
+    background:#1e293b;
+    border:1px solid #334155;
+    border-radius:14px;
+    padding:18px;
+    transition:0.2s;
+}
+
+.content-card:hover{
+    transform:translateY(-3px);
+    border-color:#3b82f6;
+}
+
+.card-icon{
+    width:45px;
+    height:45px;
+    border-radius:10px;
+    background:#2563eb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    margin-bottom:13px;
+}
+
+.content-card h3{
+    margin:0 0 8px;
+    font-size:18px;
+}
+
+.content-card p{
+    margin:5px 0;
+    color:#cbd5e1;
+    font-size:14px;
+    line-height:1.5;
+}
+
+.meta{
+    color:#94a3b8 !important;
+    font-size:13px !important;
+}
+
+.action-btn{
+    width:100%;
+    margin-top:15px;
+    border:none;
+    background:#2563eb;
+    color:#fff;
+    padding:11px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.action-btn:hover{
+    background:#1d4ed8;
+}
+
+/* =========================
+   EMPTY / LOADING
+========================= */
+
+.loading,
+.empty{
+    background:#1e293b;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:25px;
+    text-align:center;
+    color:#94a3b8;
+}
+
+.error{
+    background:#450a0a;
+    border:1px solid #991b1b;
+    color:#fecaca;
+    padding:18px;
+    border-radius:10px;
+    text-align:center;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+    border-top:1px solid #334155;
+    background:#111827;
+    text-align:center;
+    padding:20px 15px;
+    color:#94a3b8;
+    font-size:13px;
+}
+
+.footer-brand{
+    color:#60a5fa;
+    font-weight:bold;
+    font-size:15px;
+    margin-bottom:5px;
+}
+
+.footer-tagline{
+    color:#cbd5e1;
+    margin-bottom:8px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:850px){
+
+    .content-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:600px){
+
+    .header{
+        padding:14px;
+    }
+
+    .header-top{
+        align-items:flex-start;
+    }
+
+    .brand-title{
+        font-size:19px;
+    }
+
+    .brand-tagline{
+        font-size:11px;
+    }
+
+    .chapter-title h1{
+        font-size:20px;
+    }
+
+    .container{
+        padding:18px 12px 30px;
+    }
+
+    .tabs{
+        gap:7px;
+    }
+
+    .tab-btn{
+        padding:11px 8px;
+        font-size:13px;
+    }
+
+    .content-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="header">
+
+    <div class="header-top">
+
+        <button
+            class="back-btn"
+            id="backBtn"
+        >
+            ← Back to Chapters
+        </button>
+
+        <div class="brand-box">
+
+            <div class="brand-title">
+                RM Vidya Peeth
+            </div>
+
+            <div class="brand-tagline">
+                By Ranjan Mishra Sir
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="chapter-title">
+
+        <h1 id="chapterTitle">
+            Chapter
+        </h1>
+
+        <p id="subjectTitle">
+            Subject
+        </p>
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="container">
+
+
+    <!-- TABS -->
+
+    <div class="tabs">
+
+        <button
+            class="tab-btn active"
+            id="videoTabBtn"
+            onclick="showTab('videos')"
+        >
+            🎥 Videos
+            (<span id="videoCount">0</span>)
+        </button>
+
+
+        <button
+            class="tab-btn"
+            id="pdfTabBtn"
+            onclick="showTab('pdfs')"
+        >
+            📄 PDFs
+            (<span id="pdfCount">0</span>)
+        </button>
+
+    </div>
+
+
+    <!-- =========================
+         VIDEOS
+    ========================= -->
+
+    <section
+        id="videos"
+        class="tab-content active"
+    >
+
+        <div
+            id="videoGrid"
+            class="content-grid"
+        >
+
+            <div class="loading">
+                Videos loading...
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         PDFS
+    ========================= -->
+
+    <section
+        id="pdfs"
+        class="tab-content"
+    >
+
+        <div
+            id="pdfGrid"
+            class="content-grid"
+        >
+
+            <div class="loading">
+                PDFs loading...
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer class="footer">
+
+    <div class="footer-brand">
+        RM Vidya Peeth
+    </div>
+
+    <div class="footer-tagline">
+        By Ranjan Mishra Sir
+    </div>
+
+    © 2026 RM Vidya Peeth. All Rights Reserved.
+
+</footer>
+
+
+<!-- =========================
+     FIREBASE
+========================= -->
+
+<script type="module">
+
+import {
+    db
+} from "./firebase-config.js";
+
+
+import {
+    collection,
+    getDocs
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+/* =========================
+   LOGIN CHECK
+========================= */
+
+const studentLoggedIn =
+    localStorage.getItem("studentLoggedIn") === "true";
+
+const sscLoggedIn =
+    localStorage.getItem("ssc_logged_in") === "true";
+
+const sscLoginType =
+    localStorage.getItem("ssc_login_type") === "student";
+
+
+if(!studentLoggedIn && !(sscLoggedIn && sscLoginType)){
+
+    alert("Please login first.");
+
+    window.location.href = "login.html";
+
+}
+
+
+/* =========================
+   URL PARAMETERS
+========================= */
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+const courseId =
+    params.get("courseId") || "";
+
+
+const subject =
+    params.get("subject") || "";
+
+
+const chapter =
+    params.get("chapter") || "";
+
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const chapterTitle =
+    document.getElementById("chapterTitle");
+
+
+const subjectTitle =
+    document.getElementById("subjectTitle");
+
+
+const videoGrid =
+    document.getElementById("videoGrid");
+
+
+const pdfGrid =
+    document.getElementById("pdfGrid");
+
+
+const videoCount =
+    document.getElementById("videoCount");
+
+
+const pdfCount =
+    document.getElementById("pdfCount");
+
+
+const backBtn =
+    document.getElementById("backBtn");
+
+
+/* =========================
+   SET TITLE
+========================= */
+
+chapterTitle.textContent =
+    chapter || "Chapter";
+
+
+subjectTitle.textContent =
+    subject || "Subject";
+
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
+function escapeHTML(value){
+
+    if(value === null || value === undefined){
+
+        return "";
+
+    }
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================
+   NORMALIZE
+========================= */
+
+function normalize(value){
+
+    return String(value || "")
+        .trim()
+        .toLowerCase();
+
+}
+
+
+/* =========================
+   GET COURSE
+========================= */
+
+async function getCourse(){
+
+    if(!courseId){
+
+        return null;
+
+    }
+
+
+    try{
+
+        const snapshot =
+            await getDocs(
+                collection(db,"courses")
+            );
+
+
+        for(const doc of snapshot.docs){
+
+            const data =
+                doc.data();
+
+
+            const currentId =
+                data.id ||
+                data.courseId ||
+                doc.id;
+
+
+            if(
+                String(currentId) ===
+                String(courseId)
+            ){
+
+                return {
+                    id:doc.id,
+                    ...data
+                };
+
+            }
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "Course loading error:",
+            error
+        );
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =========================
+   MATCH CHAPTER
+========================= */
+
+function matchesChapter(item,course){
+
+    if(!item){
+
+        return false;
+
+    }
+
+
+    const itemSubject =
+        normalize(
+            item.subject ||
+            item.Subject ||
+            ""
+        );
+
+
+    const itemChapter =
+        normalize(
+            item.chapter ||
+            item.Chapter ||
+            ""
+        );
+
+
+    const selectedSubject =
+        normalize(subject);
+
+
+    const selectedChapter =
+        normalize(chapter);
+
+
+    if(
+        itemSubject !==
+        selectedSubject
+    ){
+
+        return false;
+
+    }
+
+
+    if(
+        itemChapter !==
+        selectedChapter
+    ){
+
+        return false;
+
+    }
+
+
+    /*
+       If content has courseId,
+       match exact course.
+    */
+
+    const contentCourseId =
+        item.courseId ||
+        item.courseID ||
+        item.course_id ||
+        "";
+
+
+    if(contentCourseId){
+
+        return String(contentCourseId) ===
+            String(courseId);
+
+    }
+
+
+    /*
+       If exam/category information
+       exists, match course exam.
+    */
+
+    const contentExam =
+        normalize(
+            item.exam ||
+            item.category ||
+            ""
+        );
+
+
+    const courseExam =
+        normalize(
+            course?.exam ||
+            course?.category ||
+            course?.name ||
+            ""
+        );
+
+
+    if(
+        contentExam &&
+        courseExam
+    ){
+
+        return (
+            contentExam === courseExam ||
+            contentExam.includes(courseExam) ||
+            courseExam.includes(contentExam)
+        );
+
+    }
+
+
+    /*
+       Subject + chapter match
+       is sufficient when no course
+       information is available.
+    */
+
+    return true;
+
+}
+
+
+/* =========================
+   LOAD VIDEOS
+========================= */
+
+async function loadVideos(course){
+
+    videoGrid.innerHTML =
+        `<div class="loading">
+            Videos loading...
+        </div>`;
+
+
+    try{
+
+        const snapshot =
+            await getDocs(
+                collection(db,"videos")
+            );
+
+
+        const videos = [];
+
+
+        snapshot.forEach(doc => {
+
+            const data =
+                doc.data();
+
+
+            if(
+                matchesChapter(
+                    data,
+                    course
+                )
+            ){
+
+                videos.push({
+                    id:doc.id,
+                    ...data
+                });
+
+            }
+
+        });
+
+
+        videoCount.textContent =
+            videos.length;
+
+
+        if(videos.length === 0){
+
+            videoGrid.innerHTML =
+                `<div class="empty">
+                    इस chapter के लिए अभी कोई video उपलब्ध नहीं है।
+                </div>`;
+
+            return;
+
+        }
+
+
+        videoGrid.innerHTML =
+            videos.map(
+                videoCard
+            ).join("");
+
+
+    }catch(error){
+
+        console.error(
+            "Video loading error:",
+            error
+        );
+
+
+        videoGrid.innerHTML =
+            `<div class="error">
+                Videos load करने में समस्या हुई।
+            </div>`;
+
+    }
+
+}
+
+
+/* =========================
+   VIDEO CARD
+========================= */
+
+function videoCard(video){
+
+    const title =
+        video.title ||
+        video.name ||
+        video.videoTitle ||
+        "Video";
+
+
+    const duration =
+        video.duration ||
+        "";
+
+
+    const description =
+        video.description ||
+        "";
+
+
+    const url =
+        video.url ||
+        video.videoUrl ||
+        video.videoURL ||
+        video.link ||
+        "";
+
+
+    return `
+
+        <div class="content-card">
+
+            <div class="card-icon">
+                🎥
+            </div>
+
+            <h3>
+                ${escapeHTML(title)}
+            </h3>
+
+            ${
+                duration
+                ?
+                `<p class="meta">
+                    ⏱ ${escapeHTML(duration)}
+                </p>`
+                :
+                ""
+            }
+
+            ${
+                description
+                ?
+                `<p>
+                    ${escapeHTML(description)}
+                </p>`
+                :
+                ""
+            }
+
+            ${
+                url
+                ?
+                `<button
+                    class="action-btn"
+                    onclick="openVideo('${encodeURIComponent(url)}')"
+                >
+                    ▶ Watch Video
+                </button>`
+                :
+                ""
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================
+   OPEN VIDEO
+========================= */
+
+window.openVideo =
+    function(encodedUrl){
+
+        const url =
+            decodeURIComponent(
+                encodedUrl
+            );
+
+
+        if(!url){
+
+            return;
+
+        }
+
+
+        window.open(
+            url,
+            "_blank"
+        );
+
+    };
+
+
+/* =========================
+   LOAD PDFS
+========================= */
+
+async function loadPDFs(course){
+
+    pdfGrid.innerHTML =
+        `<div class="loading">
+            PDFs loading...
+        </div>`;
+
+
+    try{
+
+        const snapshot =
+            await getDocs(
+                collection(db,"pdfs")
+            );
+
+
+        const pdfs = [];
+
+
+        snapshot.forEach(doc => {
+
+            const data =
+                doc.data();
+
+
+            if(
+                matchesChapter(
+                    data,
+                    course
+                )
+            ){
+
+                pdfs.push({
+                    id:doc.id,
+                    ...data
+                });
+
+            }
+
+        });
+
+
+        pdfCount.textContent =
+            pdfs.length;
+
+
+        if(pdfs.length === 0){
+
+            pdfGrid.innerHTML =
+                `<div class="empty">
+                    इस chapter के लिए अभी कोई PDF उपलब्ध नहीं है।
+                </div>`;
+
+            return;
+
+        }
+
+
+        pdfGrid.innerHTML =
+            pdfs.map(
+                pdfCard
+            ).join("");
+
+
+    }catch(error){
+
+        console.error(
+            "PDF loading error:",
+            error
+        );
+
+
+        pdfGrid.innerHTML =
+            `<div class="error">
+                PDFs load करने में समस्या हुई।
+            </div>`;
+
+    }
+
+}
+
+
+/* =========================
+   PDF CARD
+========================= */
+
+function pdfCard(pdf){
+
+    const title =
+        pdf.title ||
+        pdf.name ||
+        pdf.fileName ||
+        "PDF";
+
+
+    const fileName =
+        pdf.fileName ||
+        "";
+
+
+    const description =
+        pdf.description ||
+        "";
+
+
+    const url =
+        pdf.secureUrl ||
+        pdf.url ||
+        pdf.pdfUrl ||
+        "";
+
+
+    return `
+
+        <div class="content-card">
+
+            <div class="card-icon">
+                📄
+            </div>
+
+            <h3>
+                ${escapeHTML(title)}
+            </h3>
+
+            ${
+                fileName
+                ?
+                `<p class="meta">
+                    📁 ${escapeHTML(fileName)}
+                </p>`
+                :
+                ""
+            }
+
+            ${
+                description
+                ?
+                `<p>
+                    ${escapeHTML(description)}
+                </p>`
+                :
+                ""
+            }
+
+            ${
+                url
+                ?
+                `<button
+                    class="action-btn"
+                    onclick="openPDF('${encodeURIComponent(url)}')"
+                >
+                    📖 Open PDF
+                </button>`
+                :
+                ""
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================
+   OPEN PDF
+========================= */
+
+window.openPDF =
+    function(encodedUrl){
+
+        const url =
+            decodeURIComponent(
+                encodedUrl
+            );
+
+
+        if(!url){
+
+            return;
+
+        }
+
+
+        window.open(
+            url,
+            "_blank"
+        );
+
+    };
+
+
+/* =========================
+   TAB SYSTEM
+========================= */
+
+window.showTab =
+    function(tabName){
+
+        const allTabs =
+            document.querySelectorAll(
+                ".tab-content"
+            );
+
+
+        const allButtons =
+            document.querySelectorAll(
+                ".tab-btn"
+            );
+
+
+        allTabs.forEach(
+            tab => {
+
+                tab.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+
+        allButtons.forEach(
+            button => {
+
+                button.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+
+        if(tabName === "videos"){
+
+            document
+                .getElementById("videos")
+                .classList.add("active");
+
+
+            document
+                .getElementById("videoTabBtn")
+                .classList.add("active");
+
+        }
+
+
+        if(tabName === "pdfs"){
+
+            document
+                .getElementById("pdfs")
+                .classList.add("active");
+
+
+            document
+                .getElementById("pdfTabBtn")
+                .classList.add("active");
+
+        }
+
+    };
+
+
+/* =========================
+   BACK BUTTON
+========================= */
+
+backBtn.addEventListener(
+    "click",
+    function(){
+
+        const url =
+            `course-chapters.html?courseId=${encodeURIComponent(courseId)}`;
+
+        window.location.href =
+            url;
+
+    }
+);
+
+
+/* =========================
+   INITIAL LOAD
+========================= */
+
+async function init(){
+
+    try{
+
+        const course =
+            await getCourse();
+
+
+        await Promise.all([
+            loadVideos(course),
+            loadPDFs(course)
+        ]);
+
+
+    }catch(error){
+
+        console.error(
+            "Page initialization error:",
+            error
+        );
+
+    }
+
+}
+
+
+init();
+
+</script>
+
+</body>
+
+</html>

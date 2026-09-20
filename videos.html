@@ -1,0 +1,2130 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>RM Vidya Peeth - Video Management</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial,sans-serif;
+}
+
+.page{
+    max-width:1000px;
+    margin:auto;
+    padding:20px 15px 70px;
+}
+
+.header,
+.box{
+    background:#1e293b;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:18px;
+}
+
+.header{
+    text-align:center;
+}
+
+.header h1{
+    margin:0 0 8px;
+}
+
+.header p{
+    margin:0;
+    color:#cbd5e1;
+    line-height:1.6;
+}
+
+.brand-by{
+    color:#60a5fa;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.back-btn,
+.action-btn{
+    width:100%;
+    padding:12px;
+    border:0;
+    border-radius:8px;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.back-btn{
+    background:#334155;
+    margin-bottom:18px;
+}
+
+.action-btn{
+    background:#2563eb;
+    margin-top:15px;
+}
+
+.action-btn:hover{
+    background:#1d4ed8;
+}
+
+.delete-btn{
+    background:#dc2626;
+    padding:9px 13px;
+    border:0;
+    border-radius:7px;
+    color:#fff;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+.delete-btn:hover{
+    background:#b91c1c;
+}
+
+label{
+    display:block;
+    margin-top:13px;
+    margin-bottom:6px;
+    font-weight:bold;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #475569;
+    background:#fff;
+    color:#111827;
+    font-size:15px;
+}
+
+select:disabled{
+    background:#cbd5e1;
+    color:#64748b;
+}
+
+textarea{
+    min-height:90px;
+    resize:vertical;
+}
+
+.help{
+    margin-top:6px;
+    color:#94a3b8;
+    font-size:13px;
+    line-height:1.5;
+}
+
+.status{
+    margin-top:12px;
+    padding:11px;
+    border-radius:8px;
+    background:#334155;
+    color:#cbd5e1;
+    line-height:1.5;
+}
+
+.video-card{
+    background:#fff;
+    color:#111827;
+    padding:16px;
+    border-radius:10px;
+    margin-top:12px;
+}
+
+.video-card h3{
+    margin:0 0 9px;
+}
+
+.video-info{
+    color:#475569;
+    line-height:1.7;
+}
+
+.video-link{
+    display:block;
+    margin-top:12px;
+    padding:11px;
+    background:#dc2626;
+    color:#fff;
+    border-radius:7px;
+    text-align:center;
+    text-decoration:none;
+    font-weight:bold;
+    word-break:break-word;
+}
+
+.empty{
+    text-align:center;
+    color:#cbd5e1;
+    padding:20px 10px;
+}
+
+.loading{
+    text-align:center;
+    color:#cbd5e1;
+    padding:20px;
+}
+
+.error{
+    background:#450a0a;
+    color:#fecaca;
+    padding:15px;
+    border-radius:9px;
+}
+
+footer{
+    text-align:center;
+    color:#94a3b8;
+    font-size:13px;
+    padding:20px;
+    line-height:1.5;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<div class="header">
+
+    <h1>
+        🎥 RM Vidya Peeth - Video Management
+    </h1>
+
+    <div class="brand-by">
+        By Ranjan Mishra Sir
+    </div>
+
+    <p>
+        Course → Subject → Chapter के अनुसार Video manage करें।
+    </p>
+
+</div>
+
+
+<!-- =====================================================
+     BACK
+===================================================== -->
+
+<button
+    class="back-btn"
+    type="button"
+    onclick="goAdmin()"
+>
+
+    ← Back to Admin Dashboard
+
+</button>
+
+
+<!-- =====================================================
+     ADD VIDEO
+===================================================== -->
+
+<div class="box">
+
+    <h2>
+        ➕ Add New Video
+    </h2>
+
+
+    <!-- CATEGORY -->
+
+    <label>
+        🏛️ Exam Category
+    </label>
+
+    <select id="videoCategory">
+
+        <option value="">
+            Select Category
+        </option>
+
+        <option value="SSC">
+            SSC
+        </option>
+
+        <option value="Railway">
+            Railway
+        </option>
+
+        <option value="Banking">
+            Banking
+        </option>
+
+        <option value="State Exams">
+            State Exams
+        </option>
+
+        <option value="Other">
+            Other
+        </option>
+
+    </select>
+
+
+    <!-- COURSE -->
+
+    <label>
+        📚 Course
+    </label>
+
+    <select id="videoCourse">
+
+        <option value="">
+            Courses loading...
+        </option>
+
+    </select>
+
+
+    <!-- SUBJECT -->
+
+    <label>
+        📘 Subject
+    </label>
+
+    <select
+        id="videoSubject"
+        disabled
+    >
+
+        <option value="">
+            पहले Course select करें
+        </option>
+
+    </select>
+
+
+    <!-- CHAPTER -->
+
+    <label>
+        📖 Chapter
+    </label>
+
+    <select
+        id="videoChapter"
+        disabled
+    >
+
+        <option value="">
+            पहले Subject select करें
+        </option>
+
+    </select>
+
+
+    <!-- VIDEO TITLE -->
+
+    <label>
+        🎬 Video Title
+    </label>
+
+    <input
+        type="text"
+        id="videoTitle"
+        placeholder="Example: Percentage Class 1"
+    >
+
+
+    <!-- VIDEO URL -->
+
+    <label>
+        🔗 YouTube / Video URL
+    </label>
+
+    <input
+        type="url"
+        id="videoURL"
+        placeholder="https://www.youtube.com/watch?v=..."
+    >
+
+
+    <div class="help">
+
+        YouTube, Vimeo या किसी अन्य valid video URL का उपयोग कर सकते हैं।
+
+    </div>
+
+
+    <!-- DURATION -->
+
+    <label>
+        ⏱️ Duration
+    </label>
+
+    <input
+        type="text"
+        id="videoDuration"
+        placeholder="Example: 45 Minutes"
+    >
+
+
+    <!-- DESCRIPTION -->
+
+    <label>
+        📝 Description
+    </label>
+
+    <textarea
+        id="videoDescription"
+        placeholder="Video के बारे में जानकारी"
+    ></textarea>
+
+
+    <!-- ADD BUTTON -->
+
+    <button
+        class="action-btn"
+        type="button"
+        onclick="addVideo()"
+    >
+
+        ➕ Add Video
+
+    </button>
+
+
+    <div
+        id="status"
+        class="status"
+    >
+
+        Video add करने के लिए Course, Subject और Chapter select करें।
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     VIDEO LIST
+===================================================== -->
+
+<div class="box">
+
+    <h2>
+        🎥 Added Videos
+    </h2>
+
+    <div id="videoList">
+
+        <div class="loading">
+            Videos loading...
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     BACK
+===================================================== -->
+
+<button
+    class="back-btn"
+    type="button"
+    onclick="goAdmin()"
+>
+
+    ← Back to Admin Dashboard
+
+</button>
+
+
+</div>
+
+
+<footer>
+
+    <div style="font-weight:bold;">
+        RM Vidya Peeth
+    </div>
+
+    <div style="margin-top:5px;">
+        By Ranjan Mishra Sir
+    </div>
+
+    <div style="margin-top:5px;">
+        © 2026 RM Vidya Peeth. All Rights Reserved.
+    </div>
+
+</footer>
+
+
+<script type="module">
+
+
+/* =====================================================
+   FIREBASE
+===================================================== */
+
+import {
+    db
+}
+from "./firebase-config.js";
+
+
+import {
+    collection,
+    getDocs,
+    addDoc,
+    deleteDoc,
+    doc,
+    serverTimestamp
+}
+from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let courses = [];
+
+let selectedCourse = null;
+
+
+/* =====================================================
+   ADMIN LOGIN CHECK
+===================================================== */
+
+function checkAdminAccess(){
+
+    const oldLoggedIn =
+        localStorage.getItem(
+            "adminLoggedIn"
+        );
+
+    const oldType =
+        localStorage.getItem(
+            "adminType"
+        );
+
+
+    const newLoggedIn =
+        localStorage.getItem(
+            "ssc_logged_in"
+        );
+
+    const newType =
+        localStorage.getItem(
+            "ssc_login_type"
+        );
+
+
+    const validOld =
+        oldLoggedIn === "true" &&
+        (
+            oldType === "master" ||
+            oldType === "normal"
+        );
+
+
+    const validNew =
+        newLoggedIn === "true" &&
+        (
+            newType === "master_admin" ||
+            newType === "admin"
+        );
+
+
+    if(
+        !validOld &&
+        !validNew
+    ){
+
+        window.location.href =
+            "admin-login.html";
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+/* =====================================================
+   NORMALIZE
+===================================================== */
+
+function normalize(value){
+
+    return String(
+        value ?? ""
+    )
+    .trim()
+    .toLowerCase();
+
+}
+
+
+/* =====================================================
+   LOAD COURSES
+===================================================== */
+
+async function loadCourses(){
+
+    const courseSelect =
+        document.getElementById(
+            "videoCourse"
+        );
+
+
+    if(!courseSelect){
+
+        return;
+
+    }
+
+
+    courseSelect.innerHTML = `
+
+        <option value="">
+            ⏳ Courses loading...
+        </option>
+
+    `;
+
+
+    try{
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "courses"
+                )
+            );
+
+
+        courses = [];
+
+
+        snapshot.forEach(
+            function(docItem){
+
+                const data =
+                    docItem.data();
+
+
+                const id =
+                    String(
+                        data.id ||
+                        data.courseId ||
+                        docItem.id
+                    ).trim();
+
+
+                courses.push({
+
+                    ...data,
+
+                    id
+
+                });
+
+            }
+        );
+
+
+        if(!courses.length){
+
+            courseSelect.innerHTML = `
+
+                <option value="">
+                    ❌ कोई Course नहीं मिला
+                </option>
+
+            `;
+
+            return;
+
+        }
+
+
+        courseSelect.innerHTML = `
+
+            <option value="">
+                Select Course
+            </option>
+
+        `;
+
+
+        courses.forEach(
+            function(course){
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    course.id;
+
+
+                option.textContent =
+                    course.name ||
+                    course.courseName ||
+                    course.title ||
+                    course.id;
+
+
+                courseSelect.appendChild(
+                    option
+                );
+
+            }
+        );
+
+    }
+    catch(error){
+
+        console.error(
+            "Courses load error:",
+            error
+        );
+
+
+        courseSelect.innerHTML = `
+
+            <option value="">
+                ❌ Courses load नहीं हुए
+            </option>
+
+        `;
+
+
+        alert(
+            "Courses load नहीं हो पाए:\n" +
+            (
+                error?.message ||
+                error
+            )
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   COURSE CHANGE
+===================================================== */
+
+function courseChanged(){
+
+    const courseSelect =
+        document.getElementById(
+            "videoCourse"
+        );
+
+
+    const subjectSelect =
+        document.getElementById(
+            "videoSubject"
+        );
+
+
+    const chapterSelect =
+        document.getElementById(
+            "videoChapter"
+        );
+
+
+    const courseId =
+        courseSelect.value;
+
+
+    selectedCourse =
+        courses.find(
+            function(course){
+
+                return (
+                    String(
+                        course.id
+                    ) ===
+                    String(
+                        courseId
+                    )
+                );
+
+            }
+        ) ||
+        null;
+
+
+    subjectSelect.innerHTML = `
+
+        <option value="">
+            Select Subject
+        </option>
+
+    `;
+
+
+    chapterSelect.innerHTML = `
+
+        <option value="">
+            पहले Subject select करें
+        </option>
+
+    `;
+
+
+    chapterSelect.disabled =
+        true;
+
+
+    if(
+        !selectedCourse
+    ){
+
+        subjectSelect.disabled =
+            true;
+
+        return;
+
+    }
+
+
+    const subjects =
+        Array.isArray(
+            selectedCourse.subjects
+        )
+        ?
+        selectedCourse.subjects
+        :
+        [];
+
+
+    if(!subjects.length){
+
+        subjectSelect.innerHTML = `
+
+            <option value="">
+                ❌ कोई Subject नहीं मिला
+            </option>
+
+        `;
+
+
+        subjectSelect.disabled =
+            true;
+
+        return;
+
+    }
+
+
+    subjects.forEach(
+        function(subject,index){
+
+            const name =
+                subject?.name ||
+                subject?.subjectName ||
+                `Subject ${index + 1}`;
+
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                name;
+
+
+            option.textContent =
+                name;
+
+
+            subjectSelect.appendChild(
+                option
+            );
+
+        }
+    );
+
+
+    subjectSelect.disabled =
+        false;
+
+}
+
+
+/* =====================================================
+   SUBJECT CHANGE
+===================================================== */
+
+function subjectChanged(){
+
+    const subjectSelect =
+        document.getElementById(
+            "videoSubject"
+        );
+
+
+    const chapterSelect =
+        document.getElementById(
+            "videoChapter"
+        );
+
+
+    const subjectName =
+        subjectSelect.value;
+
+
+    chapterSelect.innerHTML = `
+
+        <option value="">
+            Select Chapter
+        </option>
+
+    `;
+
+
+    if(
+        !selectedCourse ||
+        !subjectName
+    ){
+
+        chapterSelect.disabled =
+            true;
+
+        return;
+
+    }
+
+
+    const subjects =
+        Array.isArray(
+            selectedCourse.subjects
+        )
+        ?
+        selectedCourse.subjects
+        :
+        [];
+
+
+    const subjectData =
+        subjects.find(
+            function(item){
+
+                return (
+                    normalize(
+                        item?.name ||
+                        item?.subjectName
+                    ) ===
+                    normalize(
+                        subjectName
+                    )
+                );
+
+            }
+        );
+
+
+    const chapters =
+        Array.isArray(
+            subjectData?.chapters
+        )
+        ?
+        subjectData.chapters
+        :
+        [];
+
+
+    if(!chapters.length){
+
+        chapterSelect.innerHTML = `
+
+            <option value="">
+                ❌ इस Subject में Chapter नहीं है
+            </option>
+
+        `;
+
+
+        chapterSelect.disabled =
+            true;
+
+        return;
+
+    }
+
+
+    chapters.forEach(
+        function(chapter,index){
+
+            const name =
+                chapter?.name ||
+                chapter?.chapterName ||
+                `Chapter ${index + 1}`;
+
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                name;
+
+
+            option.textContent =
+                name;
+
+
+            chapterSelect.appendChild(
+                option
+            );
+
+        }
+    );
+
+
+    chapterSelect.disabled =
+        false;
+
+}
+
+
+/* =====================================================
+   LOCAL VIDEOS
+===================================================== */
+
+function getLocalVideos(){
+
+    try{
+
+        const data =
+            JSON.parse(
+                localStorage.getItem(
+                    "videos"
+                ) ||
+                "[]"
+            );
+
+
+        return Array.isArray(data)
+            ? data
+            : [];
+
+    }
+    catch(error){
+
+        return [];
+
+    }
+
+}
+
+
+function saveLocalVideos(
+    videos
+){
+
+    localStorage.setItem(
+        "videos",
+        JSON.stringify(
+            videos
+        )
+    );
+
+}
+
+
+/* =====================================================
+   ADD VIDEO
+===================================================== */
+
+async function addVideo(){
+
+    const category =
+        document.getElementById(
+            "videoCategory"
+        ).value.trim();
+
+
+    const courseSelect =
+        document.getElementById(
+            "videoCourse"
+        );
+
+
+    const subjectSelect =
+        document.getElementById(
+            "videoSubject"
+        );
+
+
+    const chapterSelect =
+        document.getElementById(
+            "videoChapter"
+        );
+
+
+    const title =
+        document.getElementById(
+            "videoTitle"
+        ).value.trim();
+
+
+    const url =
+        document.getElementById(
+            "videoURL"
+        ).value.trim();
+
+
+    const duration =
+        document.getElementById(
+            "videoDuration"
+        ).value.trim();
+
+
+    const description =
+        document.getElementById(
+            "videoDescription"
+        ).value.trim();
+
+
+    const status =
+        document.getElementById(
+            "status"
+        );
+
+
+    const courseId =
+        courseSelect.value;
+
+
+    const subject =
+        subjectSelect.value;
+
+
+    const chapter =
+        chapterSelect.value;
+
+
+    /* =================================================
+       VALIDATION
+    ================================================= */
+
+    if(!category){
+
+        alert(
+            "Exam Category select करें।"
+        );
+
+        return;
+
+    }
+
+
+    if(!courseId){
+
+        alert(
+            "Course select करें।"
+        );
+
+        return;
+
+    }
+
+
+    if(!subject){
+
+        alert(
+            "Subject select करें।"
+        );
+
+        return;
+
+    }
+
+
+    if(!chapter){
+
+        alert(
+            "Chapter select करें।"
+        );
+
+        return;
+
+    }
+
+
+    if(!title){
+
+        alert(
+            "Video Title डालें।"
+        );
+
+        return;
+
+    }
+
+
+    if(!url){
+
+        alert(
+            "Video URL डालें।"
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        new URL(url);
+
+    }
+    catch(error){
+
+        alert(
+            "❌ सही Video URL डालें।"
+        );
+
+        return;
+
+    }
+
+
+    /* =================================================
+       STATUS
+    ================================================= */
+
+    status.textContent =
+        "⏳ Video save हो रहा है...";
+
+
+    try{
+
+        const courseName =
+            selectedCourse?.name ||
+            selectedCourse?.courseName ||
+            selectedCourse?.title ||
+            "";
+
+
+        /* =============================================
+           DUPLICATE CHECK - FIRESTORE
+        ============================================= */
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "videos"
+                )
+            );
+
+
+        let duplicate =
+            false;
+
+
+        snapshot.forEach(
+            function(docItem){
+
+                const video =
+                    docItem.data();
+
+
+                if(
+
+                    normalize(
+                        video.courseId
+                    ) ===
+                    normalize(
+                        courseId
+                    )
+
+                    &&
+
+                    normalize(
+                        video.subject
+                    ) ===
+                    normalize(
+                        subject
+                    )
+
+                    &&
+
+                    normalize(
+                        video.chapter
+                    ) ===
+                    normalize(
+                        chapter
+                    )
+
+                    &&
+
+                    normalize(
+                        video.url
+                    ) ===
+                    normalize(
+                        url
+                    )
+
+                ){
+
+                    duplicate =
+                        true;
+
+                }
+
+            }
+        );
+
+
+        /* =============================================
+           DUPLICATE CHECK - LOCAL
+        ============================================= */
+
+        if(!duplicate){
+
+            const localVideos =
+                getLocalVideos();
+
+
+            duplicate =
+                localVideos.some(
+                    function(video){
+
+                        return (
+
+                            normalize(
+                                video.courseId
+                            ) ===
+                            normalize(
+                                courseId
+                            )
+
+                            &&
+
+                            normalize(
+                                video.subject
+                            ) ===
+                            normalize(
+                                subject
+                            )
+
+                            &&
+
+                            normalize(
+                                video.chapter
+                            ) ===
+                            normalize(
+                                chapter
+                            )
+
+                            &&
+
+                            normalize(
+                                video.url
+                            ) ===
+                            normalize(
+                                url
+                            )
+
+                        );
+
+                    }
+                );
+
+        }
+
+
+        if(duplicate){
+
+            status.textContent =
+                "⚠️ यह Video पहले से मौजूद है।";
+
+
+            alert(
+                "⚠️ यह Video इस Chapter में पहले से मौजूद है।"
+            );
+
+
+            return;
+
+        }
+
+
+        /* =============================================
+           FIRESTORE SAVE
+        ============================================= */
+
+        const docRef =
+            await addDoc(
+                collection(
+                    db,
+                    "videos"
+                ),
+                {
+
+                    courseId,
+
+                    courseName,
+
+                    category,
+
+                    subject,
+
+                    chapter,
+
+                    title,
+
+                    url,
+
+                    duration,
+
+                    description,
+
+                    source:
+                        "firestore",
+
+                    createdAt:
+                        serverTimestamp()
+
+                }
+            );
+
+
+        /* =============================================
+           LOCAL RECORD
+        ============================================= */
+
+        const localRecord = {
+
+            id:
+                Date.now(),
+
+            firestoreId:
+                docRef.id,
+
+            courseId,
+
+            courseName,
+
+            category,
+
+            subject,
+
+            chapter,
+
+            title,
+
+            url,
+
+            duration,
+
+            description,
+
+            source:
+                "firestore",
+
+            createdAt:
+                new Date().toISOString()
+
+        };
+
+
+        const localVideos =
+            getLocalVideos();
+
+
+        localVideos.push(
+            localRecord
+        );
+
+
+        saveLocalVideos(
+            localVideos
+        );
+
+
+        /* =============================================
+           CLEAR FORM
+        ============================================= */
+
+        document.getElementById(
+            "videoTitle"
+        ).value = "";
+
+
+        document.getElementById(
+            "videoURL"
+        ).value = "";
+
+
+        document.getElementById(
+            "videoDuration"
+        ).value = "";
+
+
+        document.getElementById(
+            "videoDescription"
+        ).value = "";
+
+
+        status.textContent =
+            "✅ Video successfully save हो गया।";
+
+
+        alert(
+            "✅ Video successfully add हो गया।"
+        );
+
+
+        loadVideos();
+
+    }
+    catch(error){
+
+        console.error(
+            "Video save error:",
+            error
+        );
+
+
+        status.textContent =
+            "❌ Video save नहीं हो सका।";
+
+
+        alert(
+            "❌ Video save error:\n" +
+            (
+                error?.message ||
+                error
+            )
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   LOAD VIDEOS
+===================================================== */
+
+async function loadVideos(){
+
+    const container =
+        document.getElementById(
+            "videoList"
+        );
+
+
+    if(!container){
+
+        return;
+
+    }
+
+
+    try{
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "videos"
+                )
+            );
+
+
+        const firestoreVideos =
+            [];
+
+
+        snapshot.forEach(
+            function(docItem){
+
+                const data =
+                    docItem.data();
+
+
+                firestoreVideos.push({
+
+                    id:
+                        docItem.id,
+
+                    firestoreId:
+                        docItem.id,
+
+                    ...data
+
+                });
+
+            }
+        );
+
+
+        const localVideos =
+            getLocalVideos();
+
+
+        const map =
+            new Map();
+
+
+        /* =============================================
+           FIRESTORE FIRST
+        ============================================= */
+
+        firestoreVideos.forEach(
+            function(video){
+
+                const key =
+                    String(
+                        video.firestoreId ||
+                        video.id
+                    );
+
+
+                map.set(
+                    key,
+                    video
+                );
+
+            }
+        );
+
+
+        /* =============================================
+           LOCAL
+        ============================================= */
+
+        localVideos.forEach(
+            function(video){
+
+                const firestoreId =
+                    String(
+                        video.firestoreId ||
+                        ""
+                    );
+
+
+                if(
+                    firestoreId &&
+                    map.has(
+                        firestoreId
+                    )
+                ){
+
+                    return;
+
+                }
+
+
+                const key =
+                    "local_" +
+                    String(
+                        video.id
+                    );
+
+
+                map.set(
+                    key,
+                    video
+                );
+
+            }
+        );
+
+
+        const allVideos =
+            Array.from(
+                map.values()
+            );
+
+
+        if(!allVideos.length){
+
+            container.innerHTML = `
+
+                <div class="empty">
+
+                    🎥 अभी कोई Video add नहीं किया गया है।
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        container.innerHTML =
+            allVideos
+            .map(
+                function(video){
+
+                    const firestoreId =
+                        video.firestoreId ||
+                        (
+                            video.id &&
+                            firestoreVideos.some(
+                                function(item){
+
+                                    return (
+                                        String(
+                                            item.id
+                                        ) ===
+                                        String(
+                                            video.id
+                                        )
+                                    );
+
+                                }
+                            )
+                            ?
+                            video.id
+                            :
+                            ""
+                        );
+
+
+                    return `
+
+                        <div
+                            class="video-card"
+                        >
+
+                            <h3>
+
+                                🎬
+                                ${escapeHTML(
+                                    video.title ||
+                                    "Video Lesson"
+                                )}
+
+                            </h3>
+
+
+                            <div
+                                class="video-info"
+                            >
+
+                                🏛️ Category:
+                                <b>
+                                    ${escapeHTML(
+                                        video.category
+                                    )}
+                                </b>
+
+                                <br>
+
+                                📚 Course:
+                                <b>
+                                    ${escapeHTML(
+                                        video.courseName
+                                    )}
+                                </b>
+
+                                <br>
+
+                                📘 Subject:
+                                <b>
+                                    ${escapeHTML(
+                                        video.subject
+                                    )}
+                                </b>
+
+                                <br>
+
+                                📖 Chapter:
+                                <b>
+                                    ${escapeHTML(
+                                        video.chapter
+                                    )}
+                                </b>
+
+
+                                ${
+                                    video.duration
+                                    ?
+                                    `
+                                        <br>
+
+                                        ⏱️ Duration:
+                                        <b>
+                                            ${escapeHTML(
+                                                video.duration
+                                            )}
+                                        </b>
+                                    `
+                                    :
+                                    ""
+                                }
+
+
+                                ${
+                                    video.description
+                                    ?
+                                    `
+                                        <br>
+
+                                        📝
+                                        ${escapeHTML(
+                                            video.description
+                                        )}
+                                    `
+                                    :
+                                    ""
+                                }
+
+                            </div>
+
+
+                            ${
+                                video.url
+                                ?
+                                `
+                                    <a
+                                        class="video-link"
+                                        href="${escapeHTML(
+                                            video.url
+                                        )}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+
+                                        ▶️ Open Video
+
+                                    </a>
+                                `
+                                :
+                                ""
+                            }
+
+
+                            <button
+                                class="delete-btn"
+                                type="button"
+                                onclick="
+                                    deleteVideo(
+                                        '${escapeHTML(
+                                            video.id ||
+                                            ""
+                                        )}',
+                                        '${escapeHTML(
+                                            firestoreId ||
+                                            ""
+                                        )}'
+                                    )
+                                "
+                            >
+
+                                🗑️ Delete
+
+                            </button>
+
+                        </div>
+
+                    `;
+
+                }
+            )
+            .join("");
+
+    }
+    catch(error){
+
+        console.error(
+            "Video load error:",
+            error
+        );
+
+
+        container.innerHTML = `
+
+            <div class="error">
+
+                ❌ Videos load नहीं हो पाए।
+
+                <br><br>
+
+                ${escapeHTML(
+                    error?.message ||
+                    error
+                )}
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   DELETE VIDEO
+===================================================== */
+
+async function deleteVideo(
+    id,
+    firestoreId
+){
+
+    if(
+        !confirm(
+            "क्या आप यह Video delete करना चाहते हैं?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    try{
+
+        /* =============================================
+           FIRESTORE DELETE
+        ============================================= */
+
+        if(
+            firestoreId
+        ){
+
+            await deleteDoc(
+                doc(
+                    db,
+                    "videos",
+                    firestoreId
+                )
+            );
+
+        }
+
+
+        /* =============================================
+           LOCAL DELETE
+        ============================================= */
+
+        const localVideos =
+            getLocalVideos()
+            .filter(
+                function(video){
+
+                    return (
+
+                        String(
+                            video.id
+                        ) !==
+                        String(
+                            id
+                        )
+
+                        &&
+
+                        String(
+                            video.firestoreId ||
+                            ""
+                        ) !==
+                        String(
+                            firestoreId ||
+                            ""
+                        )
+
+                    );
+
+                }
+            );
+
+
+        saveLocalVideos(
+            localVideos
+        );
+
+
+        alert(
+            "✅ Video delete हो गया।"
+        );
+
+
+        loadVideos();
+
+    }
+    catch(error){
+
+        console.error(
+            "Delete video error:",
+            error
+        );
+
+
+        alert(
+            "❌ Video delete नहीं हो सका:\n" +
+            (
+                error?.message ||
+                error
+            )
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   BACK
+===================================================== */
+
+function goAdmin(){
+
+    window.location.href =
+        "admin.html";
+
+}
+
+
+window.goAdmin =
+    goAdmin;
+
+
+window.addVideo =
+    addVideo;
+
+
+window.deleteVideo =
+    deleteVideo;
+
+
+/* =====================================================
+   EVENTS
+===================================================== */
+
+document
+    .getElementById(
+        "videoCourse"
+    )
+    .addEventListener(
+        "change",
+        courseChanged
+    );
+
+
+document
+    .getElementById(
+        "videoSubject"
+    )
+    .addEventListener(
+        "change",
+        subjectChanged
+    );
+
+
+/* =====================================================
+   START
+===================================================== */
+
+async function start(){
+
+    if(
+        !checkAdminAccess()
+    ){
+
+        return;
+
+    }
+
+
+    await loadCourses();
+
+
+    await loadVideos();
+
+}
+
+
+start();
+
+
+</script>
+
+
+</body>
+
+</html>

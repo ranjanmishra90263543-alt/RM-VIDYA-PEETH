@@ -1,0 +1,1007 @@
+<!doctype html>
+<html lang="hi">
+
+<head>
+
+<meta charset="utf-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+>
+
+<title>My Course</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#f5f8fb;
+    font-family:Arial,Helvetica,sans-serif;
+    color:#243447;
+}
+
+.wrap{
+    max-width:520px;
+    margin:auto;
+    min-height:100vh;
+    background:#fff;
+    padding-bottom:90px;
+}
+
+.head{
+    background:linear-gradient(
+        135deg,
+        #0b8fd3,
+        #16a1df
+    );
+    color:#fff;
+    padding:20px 18px;
+}
+
+.head h2{
+    margin:0 0 6px;
+}
+
+.head p{
+    margin:0;
+    opacity:.9;
+    font-size:13px;
+}
+
+.grid{
+    padding:16px;
+    display:grid;
+    gap:14px;
+}
+
+.card{
+    background:#fff;
+    border-radius:14px;
+    padding:16px;
+    box-shadow:0 3px 14px #00000012;
+    border:1px solid #edf1f5;
+}
+
+.card h3{
+    margin:0 0 8px;
+    font-size:17px;
+    color:#0f172a;
+}
+
+.meta{
+    font-size:12px;
+    color:#71808d;
+    margin-bottom:12px;
+    line-height:1.6;
+}
+
+.course-id{
+    background:#f1f5f9;
+    padding:8px;
+    border-radius:8px;
+    font-size:11px;
+    color:#64748b;
+    word-break:break-all;
+    margin-bottom:12px;
+}
+
+.btn{
+    display:inline-block;
+    text-decoration:none;
+    background:#0b8fd3;
+    color:#fff;
+    padding:10px 13px;
+    border-radius:9px;
+    font-weight:700;
+    font-size:13px;
+    border:0;
+}
+
+.test-btn{
+    background:#e60087;
+    margin-left:7px;
+}
+
+.empty{
+    text-align:center;
+    padding:55px 20px;
+    color:#71808d;
+}
+
+.loading{
+    text-align:center;
+    padding:50px 20px;
+    color:#71808d;
+}
+
+.error{
+    margin:16px;
+    padding:18px;
+    border-radius:12px;
+    background:#fee2e2;
+    color:#991b1b;
+    line-height:1.6;
+}
+
+.refresh{
+    display:block;
+    margin:0 auto 5px;
+    background:#334155;
+}
+
+.nav{
+    position:fixed;
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:min(520px,100%);
+    height:70px;
+    background:#fff;
+    border-top:1px solid #e7edf2;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    z-index:100;
+}
+
+.nav a{
+    text-decoration:none;
+    color:#687580;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    font-size:11px;
+    gap:5px;
+}
+
+.nav a.active{
+    color:#0b8fd3;
+    font-weight:700;
+}
+
+.nav i{
+    font-size:22px;
+    font-style:normal;
+}
+
+footer{
+    text-align:center;
+    color:#71808d;
+    font-size:13px;
+    padding:20px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="wrap">
+
+
+    <div class="head">
+
+        <h2>📚 My Course</h2>
+
+        <p>
+            आपके enrolled courses
+        </p>
+
+    </div>
+
+
+    <div id="list" class="grid">
+
+        <div class="loading">
+
+            ⏳ Courses loading...
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<nav class="nav">
+
+    <a href="dashboard.html">
+
+        <i>⌂</i>
+        Home
+
+    </a>
+
+
+    <a
+        class="active"
+        href="my-courses.html"
+    >
+
+        <i>📚</i>
+        My Course
+
+    </a>
+
+
+    <a href="live-classes.html">
+
+        <i>▣</i>
+        Live
+
+    </a>
+
+
+    <a href="downloads.html">
+
+        <i>⬇</i>
+        Downloads
+
+    </a>
+
+
+    <a
+        href="#"
+        onclick="
+            openWhatsApp();
+            return false;
+        "
+    >
+
+        <i>◉</i>
+        WhatsApp
+
+    </a>
+
+</nav>
+
+
+<footer>
+
+© 2026 THE HUB. All Rights Reserved.
+
+</footer>
+
+
+
+<script type="module">
+
+
+/* =====================================================
+   FIREBASE
+===================================================== */
+
+import {
+    auth,
+    db
+}
+from "./firebase-config.js";
+
+
+import {
+    onAuthStateChanged
+}
+from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+
+import {
+    collection,
+    getDocs
+}
+from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let currentUser = null;
+
+let enrollments = [];
+
+let courses = [];
+
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+onAuthStateChanged(
+    auth,
+    async function(user){
+
+        currentUser = user;
+
+
+        if(!user){
+
+            /*
+               पुराने login system के लिए
+               localStorage भी check करें
+            */
+
+            const logged =
+                localStorage.getItem(
+                    "studentLoggedIn"
+                );
+
+
+            if(logged !== "true"){
+
+                document.getElementById(
+                    "list"
+                ).innerHTML = `
+
+                    <div class="empty">
+
+                        🔐 Please login first.
+
+                        <br><br>
+
+                        <a
+                            class="btn"
+                            href="login.html"
+                        >
+                            Login
+                        </a>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+        }
+
+
+        await loadMyCourses();
+
+    }
+);
+
+
+
+/* =====================================================
+   LOAD MY COURSES
+===================================================== */
+
+async function loadMyCourses(){
+
+    const list =
+        document.getElementById(
+            "list"
+        );
+
+
+    list.innerHTML = `
+
+        <div class="loading">
+
+            ⏳ आपके courses load हो रहे हैं...
+
+        </div>
+
+    `;
+
+
+    try{
+
+        /*
+           -----------------------------------------------
+           1. FIRESTORE ENROLLMENTS
+           -----------------------------------------------
+        */
+
+        const enrollmentSnapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "enrollments"
+                )
+            );
+
+
+        enrollments = [];
+
+
+        enrollmentSnapshot.forEach(
+            function(item){
+
+                const data =
+                    item.data();
+
+
+                /*
+                   सिर्फ current student के
+                   enrollment लें
+                */
+
+                if(
+                    currentUser &&
+                    data.studentUid &&
+                    String(
+                        data.studentUid
+                    ) === String(
+                        currentUser.uid
+                    )
+                ){
+
+                    enrollments.push({
+
+                        id:item.id,
+
+                        ...data
+
+                    });
+
+                }
+
+            }
+        );
+
+
+        /*
+           -----------------------------------------------
+           2. COURSES COLLECTION
+           -----------------------------------------------
+        */
+
+        const courseSnapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "courses"
+                )
+            );
+
+
+        courses = [];
+
+
+        courseSnapshot.forEach(
+            function(item){
+
+                const data =
+                    item.data();
+
+
+                const id =
+                    String(
+                        data.id ||
+                        data.courseId ||
+                        item.id
+                    ).trim();
+
+
+                courses.push({
+
+                    firestoreId:
+                        item.id,
+
+                    ...data,
+
+                    id:id
+
+                });
+
+            }
+        );
+
+
+        /*
+           -----------------------------------------------
+           3. ENROLLMENT + COURSE MERGE
+           -----------------------------------------------
+        */
+
+        const myCourses =
+            enrollments.map(
+                function(enrollment){
+
+                    const course =
+                        courses.find(
+                            function(courseItem){
+
+                                return (
+                                    String(
+                                        courseItem.id
+                                    ) ===
+                                    String(
+                                        enrollment.courseId
+                                    )
+                                );
+
+                            }
+                        );
+
+
+                    return {
+
+                        ...course,
+
+                        ...enrollment,
+
+                        /*
+                           Enrollment का courseId
+                           सबसे ज्यादा important है
+                        */
+
+                        id:
+                            String(
+                                enrollment.courseId ||
+                                course?.id ||
+                                ""
+                            ).trim(),
+
+                        courseId:
+                            String(
+                                enrollment.courseId ||
+                                course?.id ||
+                                ""
+                            ).trim(),
+
+                        title:
+                            enrollment.courseName ||
+                            course?.courseName ||
+                            course?.name ||
+                            course?.title ||
+                            "Course"
+
+                    };
+
+                }
+            );
+
+
+        /*
+           -----------------------------------------------
+           4. APPROVED / ACTIVE ONLY
+           -----------------------------------------------
+        */
+
+        const activeCourses =
+            myCourses.filter(
+                function(course){
+
+                    const status =
+                        String(
+                            course.status ||
+                            "active"
+                        ).toLowerCase();
+
+
+                    return (
+
+                        status === "active"
+
+                        ||
+
+                        status === "approved"
+
+                        ||
+
+                        course.access === true
+
+                        ||
+
+                        course.enrolled === true
+
+                        ||
+
+                        course.isPaid === true
+
+                    );
+
+                }
+            );
+
+
+        /*
+           -----------------------------------------------
+           5. REMOVE DUPLICATES
+           -----------------------------------------------
+        */
+
+        const unique = [];
+
+
+        const usedIds =
+            new Set();
+
+
+        activeCourses.forEach(
+            function(course){
+
+                const id =
+                    String(
+                        course.courseId ||
+                        course.id ||
+                        ""
+                    ).trim();
+
+
+                if(
+                    id &&
+                    !usedIds.has(id)
+                ){
+
+                    usedIds.add(id);
+
+                    unique.push(
+                        course
+                    );
+
+                }
+
+            }
+        );
+
+
+        /*
+           -----------------------------------------------
+           6. RENDER
+           -----------------------------------------------
+        */
+
+        render(
+            unique
+        );
+
+
+    }
+    catch(error){
+
+        console.error(
+            "MY COURSE ERROR:",
+            error
+        );
+
+
+        list.innerHTML = `
+
+            <div class="error">
+
+                ❌ My Course load नहीं हो पाया।
+
+                <br><br>
+
+                ${escapeHtml(
+                    error.message
+                )}
+
+                <br><br>
+
+                <button
+                    class="btn refresh"
+                    onclick="location.reload()"
+                >
+
+                    🔄 Retry
+
+                </button>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   RENDER
+===================================================== */
+
+function render(
+    myCourses
+){
+
+    const list =
+        document.getElementById(
+            "list"
+        );
+
+
+    if(
+        !myCourses.length
+    ){
+
+        list.innerHTML = `
+
+            <div class="empty">
+
+                <div
+                    style="
+                        font-size:50px;
+                        margin-bottom:10px;
+                    "
+                >
+                    📚
+                </div>
+
+
+                <h3>
+                    No enrolled courses
+                </h3>
+
+
+                <p>
+                    अभी आपके account में कोई
+                    approved course नहीं है।
+                </p>
+
+
+                <button
+                    class="btn refresh"
+                    onclick="location.reload()"
+                >
+
+                    🔄 Refresh
+
+                </button>
+
+
+                <br>
+
+
+                <a
+                    class="btn"
+                    href="courses.html"
+                >
+
+                    Browse Courses
+
+                </a>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        myCourses
+        .map(
+            function(course){
+
+                return createCourseCard(
+                    course
+                );
+
+            }
+        )
+        .join("");
+
+}
+
+
+
+/* =====================================================
+   COURSE CARD
+===================================================== */
+
+function createCourseCard(
+    course
+){
+
+    const courseId =
+        String(
+            course.courseId ||
+            course.id ||
+            ""
+        ).trim();
+
+
+    const title =
+        course.title ||
+        course.courseName ||
+        course.name ||
+        "Course";
+
+
+    const isTestPass =
+        (
+            String(
+                title
+            )
+            .toLowerCase()
+            .includes(
+                "test pass"
+            )
+        )
+        ||
+        course.isTestPass === true
+        ||
+        course.accessType ===
+        "test-pass";
+
+
+    return `
+
+        <div class="card">
+
+            <h3>
+
+                📚
+                ${escapeHtml(
+                    title
+                )}
+
+            </h3>
+
+
+            <div class="meta">
+
+                ${
+                    course.isPaid !== false
+                    ?
+                    "💳 Paid Course"
+                    :
+                    "🆓 Free Course"
+                }
+
+                •
+
+                ✅ Enrolled
+
+            </div>
+
+
+            <div class="course-id">
+
+                Course ID:
+
+                ${escapeHtml(
+                    courseId
+                )}
+
+            </div>
+
+
+            <a
+                class="btn"
+                href="
+                    chapters.html?courseId=${encodeURIComponent(
+                        courseId
+                    )}
+                "
+            >
+
+                Continue Course →
+
+            </a>
+
+
+            ${
+                isTestPass
+                ?
+
+                `
+
+                <a
+                    class="btn test-btn"
+                    href="Mock-test.html"
+                >
+
+                    📝 Give Mock Test
+
+                </a>
+
+                `
+
+                :
+
+                ""
+
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+
+/* =====================================================
+   WHATSAPP
+===================================================== */
+
+function openWhatsApp(){
+
+    const n =
+        localStorage.getItem(
+            "whatsappNumber"
+        ) ||
+        "";
+
+
+    if(n){
+
+        window.open(
+            "https://wa.me/" +
+            n.replace(
+                /\D/g,
+                ""
+            ),
+            "_blank"
+        );
+
+    }
+    else{
+
+        alert(
+            "WhatsApp number admin panel से set नहीं है।"
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHtml(
+    value
+){
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+window.openWhatsApp =
+    openWhatsApp;
+
+
+</script>
+
+
+</body>
+
+</html>

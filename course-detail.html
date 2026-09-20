@@ -1,0 +1,1577 @@
+<!DOCTYPE html><html lang="hi"><head><meta charset="UTF-8"><meta
+name="viewport"
+content="width=device-width,initial-scale=1.0"
+
+«»
+
+<title>RM Vidya Peeth - Course Details</title><style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial,sans-serif;
+}
+
+.page{
+    max-width:1000px;
+    margin:auto;
+    padding:20px 15px 80px;
+}
+
+.back-btn{
+    width:100%;
+    padding:15px 18px;
+    margin-bottom:20px;
+    border:0;
+    border-radius:12px;
+    background:#334155;
+    color:#fff;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.back-btn:hover{
+    background:#475569;
+}
+
+.header{
+    background:linear-gradient(
+        135deg,
+        #1e293b,
+        #172554
+    );
+    padding:25px;
+    border-radius:18px;
+    margin-bottom:20px;
+    border:1px solid #334155;
+}
+
+.brand-title{
+    margin:0 0 4px;
+    color:#60a5fa;
+    font-size:25px;
+    font-weight:800;
+}
+
+.brand-tagline{
+    margin:0 0 16px;
+    color:#cbd5e1;
+    font-size:13px;
+}
+
+.icon{
+    font-size:55px;
+    margin-bottom:10px;
+}
+
+.header h1{
+    margin:0 0 10px;
+    font-size:34px;
+}
+
+.header p{
+    color:#cbd5e1;
+    font-size:18px;
+    line-height:1.5;
+}
+
+.info-grid{
+    display:grid;
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(180px,1fr)
+        );
+    gap:12px;
+    margin-top:20px;
+}
+
+.info{
+    background:#0f172a;
+    padding:17px;
+    border-radius:12px;
+    border:1px solid #334155;
+}
+
+.info small{
+    display:block;
+    color:#94a3b8;
+    margin-bottom:8px;
+    font-size:14px;
+}
+
+.info b{
+    font-size:17px;
+}
+
+.course-id{
+    margin-top:14px;
+    color:#64748b;
+    font-size:12px;
+    word-break:break-all;
+}
+
+.badge{
+    display:inline-block;
+    padding:8px 13px;
+    border-radius:8px;
+    font-size:14px;
+    font-weight:bold;
+    margin-top:15px;
+}
+
+.free{
+    background:#166534;
+    color:#bbf7d0;
+}
+
+.paid{
+    background:#92400e;
+    color:#fde68a;
+}
+
+.start-btn{
+    width:100%;
+    padding:15px;
+    margin-top:16px;
+    border:0;
+    border-radius:10px;
+    background:#2563eb;
+    color:#fff;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.start-btn:hover{
+    background:#1d4ed8;
+}
+
+.payment-btn{
+    background:#d97706;
+}
+
+.payment-btn:hover{
+    background:#b45309;
+}
+
+.section{
+    background:#1e293b;
+    padding:22px;
+    border-radius:16px;
+    margin-top:20px;
+    border:1px solid #334155;
+}
+
+.section h2{
+    margin-top:0;
+}
+
+.description{
+    color:#cbd5e1;
+    line-height:1.7;
+    white-space:pre-line;
+}
+
+.empty{
+    background:#1e293b;
+    padding:30px;
+    border-radius:12px;
+    text-align:center;
+    color:#cbd5e1;
+    border:1px solid #334155;
+}
+
+.error{
+    background:#450a0a;
+    color:#fecaca;
+    padding:30px;
+    border-radius:12px;
+    text-align:center;
+    font-size:18px;
+}
+
+footer{
+    text-align:center;
+    padding:20px;
+    color:#94a3b8;
+    font-size:13px;
+}
+
+.footer-brand{
+    color:#60a5fa;
+    font-size:17px;
+    font-weight:800;
+    margin-bottom:4px;
+}
+
+.footer-tagline{
+    color:#cbd5e1;
+    font-size:12px;
+    margin-bottom:8px;
+}
+
+@media(max-width:600px){
+
+    .page{
+        padding:15px 10px 60px;
+    }
+
+    .header{
+        padding:20px;
+    }
+
+    .header h1{
+        font-size:29px;
+    }
+
+}
+
+</style></head><body><div class="page"><!-- BACK -->
+
+<button
+    class="back-btn"
+    onclick="goCourses()"
+    type="button"
+>
+
+    ← Back to Courses
+
+</button>
+
+
+<!-- COURSE CONTAINER -->
+
+<div id="container">
+
+    <div class="empty">
+
+        📚 Course loading...
+
+    </div>
+
+</div>
+
+</div><footer><div class="footer-brand">
+    RM Vidya Peeth
+</div>
+
+<div class="footer-tagline">
+    By Ranjan Mishra Sir
+</div>
+
+© 2026 RM Vidya Peeth. All Rights Reserved.
+
+</footer><script type="module">
+
+
+// =====================================================
+// FIREBASE
+// =====================================================
+
+import { db } from "./firebase-config.js";
+
+import {
+    collection,
+    getDocs
+}
+from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+// =====================================================
+// STUDENT LOGIN
+// =====================================================
+
+function getCurrentStudent(){
+
+    const keys = [
+        "studentUser",
+        "currentUser",
+        "user"
+    ];
+
+
+    for(const key of keys){
+
+        const raw =
+            localStorage.getItem(key);
+
+
+        if(!raw){
+
+            continue;
+
+        }
+
+
+        try{
+
+            const user =
+                JSON.parse(raw);
+
+
+            if(
+                user &&
+                typeof user === "object"
+            ){
+
+                return user;
+
+            }
+
+        }
+        catch(error){
+
+            console.warn(
+                "Invalid student data:",
+                key,
+                error
+            );
+
+        }
+
+    }
+
+
+    const logged =
+        localStorage.getItem(
+            "studentLoggedIn"
+        );
+
+
+    if(logged === "true"){
+
+        return {
+            loggedIn:true
+        };
+
+    }
+
+
+    return null;
+
+}
+
+
+// =====================================================
+// LOGIN CHECK
+// =====================================================
+
+function checkLogin(){
+
+    const student =
+        getCurrentStudent();
+
+
+    if(!student){
+
+        window.location.replace(
+            "login.html"
+        );
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+// =====================================================
+// COURSE ID
+// =====================================================
+
+function getCourseId(){
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    return String(
+        params.get("courseId") || ""
+    ).trim();
+
+}
+
+
+// =====================================================
+// LOCAL COURSES
+// =====================================================
+
+function getLocalCourses(){
+
+    try{
+
+        const data =
+            JSON.parse(
+                localStorage.getItem(
+                    "ssc_courses"
+                ) || "[]"
+            );
+
+
+        return Array.isArray(data)
+            ? data
+            : [];
+
+    }
+    catch(error){
+
+        console.warn(
+            "Local courses error:",
+            error
+        );
+
+        return [];
+
+    }
+
+}
+
+
+// =====================================================
+// FIREBASE COURSES
+// =====================================================
+
+async function getFirebaseCourses(){
+
+    try{
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "courses"
+                )
+            );
+
+
+        const courses = [];
+
+
+        snapshot.forEach(function(item){
+
+            const data =
+                item.data() || {};
+
+
+            courses.push({
+
+                ...data,
+
+                id:
+                    data.id ||
+                    data.courseId ||
+                    data.courseID ||
+                    item.id
+
+            });
+
+        });
+
+
+        return courses;
+
+    }
+    catch(error){
+
+        console.warn(
+            "Firebase courses error:",
+            error
+        );
+
+        return [];
+
+    }
+
+}
+
+
+// =====================================================
+// FIND COURSE
+// =====================================================
+
+async function findCourse(courseId){
+
+    const id =
+        String(
+            courseId
+        ).trim();
+
+
+    const firebaseCourses =
+        await getFirebaseCourses();
+
+
+    let course =
+        firebaseCourses.find(
+            function(item){
+
+                return String(
+
+                    item.id ||
+                    item.courseId ||
+                    item.courseID ||
+                    ""
+
+                ).trim() === id;
+
+            }
+        );
+
+
+    if(course){
+
+        return course;
+
+    }
+
+
+    const localCourses =
+        getLocalCourses();
+
+
+    course =
+        localCourses.find(
+            function(item){
+
+                return String(
+
+                    item.id ||
+                    item.courseId ||
+                    item.courseID ||
+                    ""
+
+                ).trim() === id;
+
+            }
+        );
+
+
+    if(course){
+
+        return course;
+
+    }
+
+
+    try{
+
+        const saved =
+            JSON.parse(
+                localStorage.getItem(
+                    "selectedCourse"
+                ) || "null"
+            );
+
+
+        if(saved){
+
+            const savedId =
+                String(
+
+                    saved.id ||
+                    saved.courseId ||
+                    saved.courseID ||
+                    ""
+
+                ).trim();
+
+
+            if(savedId === id){
+
+                return saved;
+
+            }
+
+        }
+
+    }
+    catch(error){
+
+        console.warn(
+            "Selected course error:",
+            error
+        );
+
+    }
+
+
+    return null;
+
+}
+
+
+// =====================================================
+// PAID
+// =====================================================
+
+function isPaid(course){
+
+    if(!course){
+
+        return false;
+
+    }
+
+
+    const access =
+        String(
+            course.accessType || ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    const type =
+        String(
+            course.type || ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    const courseType =
+        String(
+            course.courseType || ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    return (
+
+        course.isPaid === true ||
+
+        course.paid === true ||
+
+        access === "paid" ||
+
+        type === "paid" ||
+
+        courseType === "paid"
+
+    );
+
+}
+
+
+// =====================================================
+// PRICE
+// =====================================================
+
+function getPrice(course){
+
+    if(!course){
+
+        return 0;
+
+    }
+
+
+    const possiblePrices = [
+
+        course.price,
+
+        course.amount,
+
+        course.coursePrice,
+
+        course.salePrice,
+
+        course.fee
+
+    ];
+
+
+    for(const value of possiblePrices){
+
+        if(
+            value !== undefined &&
+            value !== null &&
+            value !== ""
+        ){
+
+            const number =
+                Number(value);
+
+
+            if(
+                Number.isFinite(number) &&
+                number > 0
+            ){
+
+                return number;
+
+            }
+
+        }
+
+    }
+
+
+    return 0;
+
+}
+
+
+// =====================================================
+// TEST PASS
+// =====================================================
+
+function isTestPass(course){
+
+    const name =
+        String(
+            course?.name ||
+            course?.courseName ||
+            course?.title ||
+            ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    const type =
+        String(
+            course?.type ||
+            ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    const courseType =
+        String(
+            course?.courseType ||
+            ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    return (
+
+        course?.testPass === true ||
+
+        course?.isTestPass === true ||
+
+        type === "test-pass" ||
+
+        courseType === "test-pass" ||
+
+        name.includes("test pass") ||
+
+        name.includes("test-pass")
+
+    );
+
+}
+
+
+// =====================================================
+// SAVE PAYMENT COURSE
+// =====================================================
+
+function savePaymentCourse(course){
+
+    const id =
+        String(
+
+            course.id ||
+            course.courseId ||
+            course.courseID ||
+            ""
+
+        ).trim();
+
+
+    const name =
+        course.name ||
+        course.courseName ||
+        course.title ||
+        "Course";
+
+
+    const price =
+        getPrice(course);
+
+
+    const paymentCourse = {
+
+        id:
+            id,
+
+        courseId:
+            id,
+
+        courseID:
+            id,
+
+        name:
+            name,
+
+        courseName:
+            name,
+
+        title:
+            name,
+
+        price:
+            price,
+
+        amount:
+            price,
+
+        courseType:
+            course.courseType ||
+            course.type ||
+            "",
+
+        type:
+            course.type ||
+            "",
+
+        accessType:
+            course.accessType ||
+            (
+                price > 0
+                ? "paid"
+                : "free"
+            ),
+
+        isPaid:
+            isPaid(course),
+
+        paid:
+            isPaid(course),
+
+        isTestPass:
+            course.isTestPass === true ||
+            course.testPass === true,
+
+        testPass:
+            course.testPass === true
+
+    };
+
+
+    localStorage.setItem(
+        "paymentCourse",
+        JSON.stringify(
+            paymentCourse
+        )
+    );
+
+
+    return paymentCourse;
+
+}
+
+
+// =====================================================
+// RENDER COURSE
+// =====================================================
+
+function renderCourse(course){
+
+    const container =
+        document.getElementById(
+            "container"
+        );
+
+
+    const id =
+        String(
+
+            course.id ||
+            course.courseId ||
+            course.courseID ||
+            ""
+
+        ).trim();
+
+
+    const name =
+        course.name ||
+        course.courseName ||
+        course.title ||
+        "Course";
+
+
+    const exam =
+        course.exam ||
+        course.courseExam ||
+        course.examName ||
+        "RM Vidya Peeth";
+
+
+    const description =
+        course.description ||
+        course.desc ||
+        "इस course में अपनी तैयारी शुरू करें।";
+
+
+    const category =
+        course.category ||
+        course.examCategory ||
+        "-";
+
+
+    const duration =
+        course.duration ||
+        course.courseDuration ||
+        "-";
+
+
+    const subjects =
+        Array.isArray(
+            course.subjects
+        )
+        ? course.subjects
+        : [];
+
+
+    const paid =
+        isPaid(course);
+
+
+    const testPass =
+        isTestPass(course);
+
+
+    const price =
+        getPrice(course);
+
+
+    localStorage.setItem(
+        "selectedCourseId",
+        id
+    );
+
+
+    localStorage.setItem(
+        "selectedCourse",
+        JSON.stringify(
+            course
+        )
+    );
+
+
+    let accessHTML = "";
+
+
+    if(paid){
+
+        accessHTML = `
+
+            <span class="badge paid">
+
+                💳 ${
+                    testPass
+                    ? "Paid Test Pass"
+                    : "Paid Course"
+                }
+
+                · ₹${price}
+
+            </span>
+
+
+            <button
+                class="start-btn payment-btn"
+                onclick="goPayment()"
+                type="button"
+            >
+
+                💳 Buy / Pay Now
+
+            </button>
+
+        `;
+
+    }
+    else{
+
+        accessHTML = `
+
+            <span class="badge free">
+
+                ${
+                    testPass
+                    ? "🎟️ Free Test Pass"
+                    : "🆓 Free Course"
+                }
+
+            </span>
+
+
+            <button
+                class="start-btn"
+                onclick="startCourse()"
+                type="button"
+            >
+
+                ${
+                    testPass
+                    ? "🎟️ Open Test Pass"
+                    : "🚀 Start Course"
+                }
+
+            </button>
+
+        `;
+
+    }
+
+
+    container.innerHTML = `
+
+        <div class="header">
+
+            <div class="brand-title">
+                RM Vidya Peeth
+            </div>
+
+            <div class="brand-tagline">
+                By Ranjan Mishra Sir
+            </div>
+
+
+            <div class="icon">
+
+                ${
+                    testPass
+                    ? "🎟️"
+                    : "📚"
+                }
+
+            </div>
+
+
+            <h1>
+                ${escapeHTML(name)}
+            </h1>
+
+
+            <p>
+                ${escapeHTML(exam)}
+            </p>
+
+
+            <div class="info-grid">
+
+                <div class="info">
+
+                    <small>
+                        🏛️ Exam
+                    </small>
+
+                    <b>
+                        ${escapeHTML(exam)}
+                    </b>
+
+                </div>
+
+
+                <div class="info">
+
+                    <small>
+                        📂 Category
+                    </small>
+
+                    <b>
+                        ${escapeHTML(category)}
+                    </b>
+
+                </div>
+
+
+                <div class="info">
+
+                    <small>
+                        📚 Subjects
+                    </small>
+
+                    <b>
+                        ${subjects.length}
+                    </b>
+
+                </div>
+
+
+                <div class="info">
+
+                    <small>
+                        ⏱️ Duration
+                    </small>
+
+                    <b>
+                        ${escapeHTML(duration)}
+                    </b>
+
+                </div>
+
+            </div>
+
+
+            <div class="course-id">
+
+                Course ID:
+                ${escapeHTML(id)}
+
+            </div>
+
+
+            ${accessHTML}
+
+        </div>
+
+
+        <div class="section">
+
+            <h2>
+                📖 About This Course
+            </h2>
+
+
+            <div class="description">
+
+                ${escapeHTML(
+                    description
+                )}
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+// =====================================================
+// START FREE COURSE
+// =====================================================
+
+function startCourse(){
+
+    const student =
+        getCurrentStudent();
+
+
+    if(!student){
+
+        window.location.replace(
+            "login.html"
+        );
+
+        return;
+
+    }
+
+
+    const courseId =
+        getCourseId();
+
+
+    if(!courseId){
+
+        alert(
+            "❌ Course ID missing."
+        );
+
+        return;
+
+    }
+
+
+    localStorage.setItem(
+        "selectedCourseId",
+        courseId
+    );
+
+
+    window.location.href =
+        "course-chapters.html?courseId=" +
+        encodeURIComponent(
+            courseId
+        );
+
+}
+
+
+// =====================================================
+// PAYMENT
+// =====================================================
+
+async function goPayment(){
+
+    const student =
+        getCurrentStudent();
+
+
+    if(!student){
+
+        window.location.replace(
+            "login.html"
+        );
+
+        return;
+
+    }
+
+
+    const id =
+        getCourseId();
+
+
+    if(!id){
+
+        alert(
+            "❌ Course ID नहीं मिली।"
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        const course =
+            await findCourse(id);
+
+
+        if(!course){
+
+            alert(
+                "❌ Course नहीं मिला।"
+            );
+
+            return;
+
+        }
+
+
+        const price =
+            getPrice(course);
+
+
+        if(
+            !Number.isFinite(price) ||
+            price <= 0
+        ){
+
+            alert(
+                "❌ इस course की price सही नहीं है।"
+            );
+
+            return;
+
+        }
+
+
+        localStorage.removeItem(
+            "paymentCourse"
+        );
+
+
+        const courseId =
+            String(
+
+                course.id ||
+                course.courseId ||
+                course.courseID ||
+                id
+
+            ).trim();
+
+
+        const courseName =
+            course.name ||
+            course.courseName ||
+            course.title ||
+            "Paid Course";
+
+
+        const testPass =
+            isTestPass(course);
+
+
+        const paymentCourse = {
+
+            id:
+                courseId,
+
+            courseId:
+                courseId,
+
+            courseID:
+                courseId,
+
+            name:
+                courseName,
+
+            courseName:
+                courseName,
+
+            title:
+                courseName,
+
+            price:
+                price,
+
+            amount:
+                price,
+
+            accessType:
+                course.accessType ||
+                "paid",
+
+            isPaid:
+                true,
+
+            paid:
+                true,
+
+            type:
+                course.type ||
+                "course",
+
+            courseType:
+                course.courseType ||
+                course.type ||
+                "course",
+
+            isTestPass:
+                testPass,
+
+            testPass:
+                testPass
+
+        };
+
+
+        localStorage.setItem(
+            "paymentCourse",
+            JSON.stringify(
+                paymentCourse
+            )
+        );
+
+
+        console.log(
+            "================================="
+        );
+
+        console.log(
+            "CURRENT PAYMENT COURSE"
+        );
+
+        console.log(
+            paymentCourse
+        );
+
+        console.log(
+            "================================="
+        );
+
+
+        window.location.href =
+            "payment.html";
+
+    }
+    catch(error){
+
+        console.error(
+            "Payment redirect error:",
+            error
+        );
+
+
+        alert(
+            "❌ Payment page खोलने में समस्या हुई।\n\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+// =====================================================
+// ERROR
+// =====================================================
+
+function showError(message){
+
+    document.getElementById(
+        "container"
+    ).innerHTML = `
+
+        <div class="error">
+
+            ${escapeHTML(message)}
+
+            <br><br>
+
+            <button
+                class="start-btn"
+                onclick="goCourses()"
+                type="button"
+            >
+
+                ← Back to Courses
+
+            </button>
+
+        </div>
+
+    `;
+
+}
+
+
+// =====================================================
+// BACK
+// =====================================================
+
+function goCourses(){
+
+    window.location.href =
+        "courses.html";
+
+}
+
+
+// =====================================================
+// ESCAPE HTML
+// =====================================================
+
+function escapeHTML(value){
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+// =====================================================
+// GLOBAL FUNCTIONS
+// =====================================================
+
+window.goCourses =
+    goCourses;
+
+window.startCourse =
+    startCourse;
+
+window.goPayment =
+    goPayment;
+
+
+// =====================================================
+// START
+// =====================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function(){
+
+        if(!checkLogin()){
+
+            return;
+
+        }
+
+
+        const courseId =
+            getCourseId();
+
+
+        if(!courseId){
+
+            showError(
+                "❌ Course ID नहीं मिला।"
+            );
+
+            return;
+
+        }
+
+
+        try{
+
+            const course =
+                await findCourse(
+                    courseId
+                );
+
+
+            if(!course){
+
+                showError(
+                    "❌ यह Course उपलब्ध नहीं है।"
+                );
+
+                return;
+
+            }
+
+
+            renderCourse(
+                course
+            );
+
+        }
+        catch(error){
+
+            console.error(
+                "Course Detail Error:",
+                error
+            );
+
+
+            showError(
+                "❌ Course load नहीं हो पाया।"
+            );
+
+        }
+
+    }
+);
+
+</script></body></html>

@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>RM Vidya Peeth - Master Admin</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <style>
+
+        .admin-box {
+            background: white;
+            color: #111827;
+            padding: 20px;
+            margin: 20px 15px;
+            border-radius: 14px;
+            box-shadow: 0 3px 12px #0002;
+        }
+
+        .admin-box input,
+        .admin-box select {
+
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 10px;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+
+        }
+
+        .admin-box button {
+
+            width: 100%;
+            margin-top: 12px;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+
+        }
+
+        .danger-btn {
+            background: #dc2626;
+            color: white;
+        }
+
+        .success-btn {
+            background: #16a34a;
+            color: white;
+        }
+
+        .blue-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .admin-item {
+
+            background: #0f172a;
+            color: white;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 10px;
+
+        }
+
+        .top-header {
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+
+        }
+
+        #logoutButton {
+
+            padding: 9px 14px;
+            border: none;
+            border-radius: 7px;
+            background: #dc2626;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+
+        }
+
+        #splashPreview {
+
+            max-width: 100%;
+            max-height: 260px;
+            border-radius: 12px;
+            object-fit: contain;
+            background: #111;
+
+        }
+
+        .brand-tagline {
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 3px;
+        }
+
+        .rm-vidya-footer {
+            text-align: center;
+            margin: 25px 15px 20px;
+            line-height: 1.6;
+        }
+
+        .footer-brand {
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .footer-teacher {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .footer-copy {
+            font-size: 13px;
+            margin-top: 4px;
+            opacity: 0.85;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header class="top-header">
+
+    <div>
+
+        <div class="app-name">
+            👑 RM Vidya Peeth - MASTER ADMIN
+        </div>
+
+        <div class="brand-tagline">
+            By Ranjan Mishra Sir
+        </div>
+
+    </div>
+
+
+    <button id="logoutButton">
+        Logout
+    </button>
+
+</header>
+
+
+<main>
+
+
+<h2 style="padding:0 15px;">
+    👑 RM Vidya Peeth Master Admin Dashboard
+</h2>
+
+
+<!-- =====================================================
+     STARTING PAGE
+===================================================== -->
+
+<div
+    id="startingPageBox"
+    class="admin-box"
+    style="display:none;"
+>
+
+    <h3>
+        🖼️ Starting Page
+    </h3>
+
+    <p style="color:#64748b;">
+        App open होते समय Starting Page दिखाई जा सकती है।
+    </p>
+
+
+    <input
+        id="splashFile"
+        type="file"
+        accept="image/*"
+    >
+
+
+    <button
+        id="uploadSplashButton"
+        class="blue-btn"
+        type="button"
+    >
+        ⬆️ Upload Starting Page
+    </button>
+
+
+    <button
+        id="removeSplashButton"
+        class="danger-btn"
+        type="button"
+    >
+        🗑️ Remove Starting Page
+    </button>
+
+
+    <div
+        style="
+            margin-top:15px;
+            text-align:center;
+        "
+    >
+
+        <img
+            id="splashPreview"
+            src="splash-default.jpg"
+            alt="Starting Page Preview"
+        >
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     ADD NORMAL ADMIN
+===================================================== -->
+
+<div class="admin-box">
+
+    <h3>
+        ➕ Add Normal Admin
+    </h3>
+
+
+    <input
+        id="newAdminName"
+        type="text"
+        placeholder="Admin Name"
+    >
+
+
+    <input
+        id="newAdminEmail"
+        type="email"
+        placeholder="Admin Email"
+    >
+
+
+    <select id="newAdminAccess">
+
+        <option value="full">
+            Full Access
+        </option>
+
+        <option value="limited">
+            Limited Access
+        </option>
+
+    </select>
+
+
+    <button
+        id="createAdminButton"
+        class="success-btn"
+        type="button"
+    >
+        ➕ Create Admin Profile
+    </button>
+
+
+    <p
+        style="
+            font-size:13px;
+            color:#64748b;
+            line-height:1.5;
+        "
+    >
+        ⚠️ यह Firestore में Admin Profile बनाएगा।
+        Firebase Authentication login account अलग से बनाना होगा।
+    </p>
+
+</div>
+
+
+
+<!-- =====================================================
+     NORMAL ADMIN MANAGEMENT
+===================================================== -->
+
+<div class="admin-box">
+
+    <h3>
+        👨‍💼 Normal Admin Management
+    </h3>
+
+
+    <div id="normalAdminList">
+        ⏳ Loading...
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     WEBSITE CONTROL
+===================================================== -->
+
+<div class="admin-box">
+
+    <h3>
+        ⚙️ Website Control
+    </h3>
+
+
+    <p>
+        Course, Subject, Chapter, Video, PDF और Mock Test
+        का management Admin Panel से करें।
+    </p>
+
+
+    <button
+        id="openAdminPanel"
+        class="blue-btn"
+        type="button"
+    >
+        🛠️ Open Admin Panel
+    </button>
+
+</div>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     FIREBASE MASTER ADMIN
+===================================================== -->
+
+<script type="module">
+
+import {
+    auth,
+    db
+} from "./firebase-config.js";
+
+
+import {
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+
+import {
+    collection,
+    query,
+    where,
+    getDocs,
+    addDoc,
+    serverTimestamp,
+    doc,
+    getDoc,
+    setDoc
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+// =====================================================
+// MASTER
+// =====================================================
+
+const MASTER_EMAIL =
+    "ranjanmishra9026354@gmail.com";
+
+
+// =====================================================
+// ELEMENTS
+// =====================================================
+
+const logoutButton =
+    document.getElementById(
+        "logoutButton"
+    );
+
+
+const createAdminButton =
+    document.getElementById(
+        "createAdminButton"
+    );
+
+
+const openAdminPanel =
+    document.getElementById(
+        "openAdminPanel"
+    );
+
+
+const normalAdminList =
+    document.getElementById(
+        "normalAdminList"
+    );
+
+
+const startingPageBox =
+    document.getElementById(
+        "startingPageBox"
+    );
+
+
+const splashFile =
+    document.getElementById(
+        "splashFile"
+    );
+
+
+const uploadSplashButton =
+    document.getElementById(
+        "uploadSplashButton"
+    );
+
+
+const removeSplashButton =
+    document.getElementById(
+        "removeSplashButton"
+    );
+
+
+const splashPreview =
+    document.getElementById(
+        "splashPreview"
+    );
+
+
+// =====================================================
+// MASTER CHECK
+// =====================================================
+
+function isMaster(user) {
+
+    return (
+        user &&
+        String(user.email || "")
+            .trim()
+            .toLowerCase() ===
+        MASTER_EMAIL.toLowerCase()
+    );
+
+}
+
+
+// =====================================================
+// SESSION
+// =====================================================
+
+function saveMasterSession(user) {
+
+    localStorage.setItem(
+        "adminLoggedIn",
+        "true"
+    );
+
+    localStorage.setItem(
+        "adminType",
+        "master"
+    );
+
+    // IMPORTANT
+    // requireMasterAdmin() इसी ID को check करता है
+
+    localStorage.setItem(
+        "adminId",
+        "master"
+    );
+
+    localStorage.setItem(
+        "adminName",
+        "Master Admin"
+    );
+
+    localStorage.setItem(
+        "adminUsername",
+        MASTER_EMAIL
+    );
+
+    localStorage.setItem(
+        "ssc_logged_in",
+        "true"
+    );
+
+    localStorage.setItem(
+        "ssc_login_type",
+        "master_admin"
+    );
+
+    localStorage.setItem(
+        "ssc_admin_username",
+        MASTER_EMAIL
+    );
+
+    localStorage.setItem(
+        "ssc_admin_permissions",
+        JSON.stringify({
+            all: true
+        })
+    );
+
+}
+
+
+// =====================================================
+// CLEAR SESSION
+// =====================================================
+
+function clearAdminSession() {
+
+    const keys = [
+
+        "adminLoggedIn",
+        "adminType",
+        "adminId",
+        "adminName",
+        "adminUsername",
+        "adminAccess",
+        "ssc_logged_in",
+        "ssc_login_type",
+        "ssc_admin_username",
+        "ssc_admin_permissions"
+
+    ];
+
+
+    keys.forEach(
+        function(key) {
+
+            localStorage.removeItem(
+                key
+            );
+
+        }
+    );
+
+}
+
+
+// =====================================================
+// AUTH PROTECTION
+// =====================================================
+
+onAuthStateChanged(
+    auth,
+    async function(user) {
+
+        if (!user) {
+
+            window.location.replace(
+                "admin-login.html"
+            );
+
+            return;
+
+        }
+
+
+        if (!isMaster(user)) {
+
+            await signOut(auth);
+
+            clearAdminSession();
+
+            window.location.replace(
+                "admin-login.html"
+            );
+
+            return;
+
+        }
+
+
+        // Master verified
+
+        saveMasterSession(
+            user
+        );
+
+
+        if (startingPageBox) {
+
+            startingPageBox.style.display =
+                "block";
+
+        }
+
+
+        await loadNormalAdmins();
+
+        await loadSplashSetting();
+
+    }
+);
+
+
+// =====================================================
+// LOGOUT
+// =====================================================
+
+logoutButton.addEventListener(
+    "click",
+    async function() {
+
+        try {
+
+            await signOut(
+                auth
+            );
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Logout Error:",
+                error
+            );
+
+        }
+
+
+        clearAdminSession();
+
+
+        window.location.replace(
+            "admin-login.html"
+        );
+
+    }
+);
+
+
+// =====================================================
+// CREATE NORMAL ADMIN PROFILE
+// =====================================================
+
+createAdminButton.addEventListener(
+    "click",
+    async function() {
+
+        const name =
+            document
+                .getElementById(
+                    "newAdminName"
+                )
+                .value
+                .trim();
+
+
+        const email =
+            document
+                .getElementById(
+                    "newAdminEmail"
+                )
+                .value
+                .trim()
+                .toLowerCase();
+
+
+        const access =
+            document
+                .getElementById(
+                    "newAdminAccess"
+                )
+                .value;
+
+
+        if (
+            !name ||
+            !email
+        ) {
+
+            alert(
+                "⚠️ Admin Name और Email भरें।"
+            );
+
+            return;
+
+        }
+
+
+        if (
+            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+                email
+            )
+        ) {
+
+            alert(
+                "⚠️ सही Email डालें।"
+            );
+
+            return;
+
+        }
+
+
+        if (
+            email ===
+            MASTER_EMAIL
+        ) {
+
+            alert(
+                "❌ Master Admin Email को Normal Admin नहीं बनाया जा सकता।"
+            );
+
+            return;
+
+        }
+
+
+        createAdminButton.disabled =
+            true;
+
+
+        createAdminButton.textContent =
+            "⏳ Creating...";
+
+
+        try {
+
+            const existingQuery =
+                query(
+                    collection(
+                        db,
+                        "admins"
+                    ),
+                    where(
+                        "email",
+                        "==",
+                        email
+                    )
+                );
+
+
+            const existing =
+                await getDocs(
+                    existingQuery
+                );
+
+
+            if (
+                !existing.empty
+            ) {
+
+                throw new Error(
+                    "यह Admin Email पहले से मौजूद है।"
+                );
+
+            }
+
+
+            await addDoc(
+
+                collection(
+                    db,
+                    "admins"
+                ),
+
+                {
+
+                    name:
+                        name,
+
+                    email:
+                        email,
+
+                    access:
+                        access,
+
+                    role:
+                        "admin",
+
+                    status:
+                        "active",
+
+                    permissions:
+                        {},
+
+                    createdAt:
+                        serverTimestamp()
+
+                }
+
+            );
+
+
+            alert(
+                "✅ Normal Admin Profile बन गई।\n\n" +
+                "अब इस Email का Firebase Authentication account बनाना जरूरी है।"
+            );
+
+
+            document
+                .getElementById(
+                    "newAdminName"
+                )
+                .value = "";
+
+
+            document
+                .getElementById(
+                    "newAdminEmail"
+                )
+                .value = "";
+
+
+            await loadNormalAdmins();
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Create Admin Error:",
+                error
+            );
+
+
+            alert(
+                "❌ Admin create नहीं हुआ।\n\n" +
+                error.message
+            );
+
+        }
+
+        finally {
+
+            createAdminButton.disabled =
+                false;
+
+            createAdminButton.textContent =
+                "➕ Create Admin Profile";
+
+        }
+
+    }
+);
+
+
+// =====================================================
+// LOAD NORMAL ADMINS
+// =====================================================
+
+async function loadNormalAdmins() {
+
+    normalAdminList.innerHTML =
+        "⏳ Loading...";
+
+
+    try {
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "admins"
+                )
+            );
+
+
+        if (
+            snapshot.empty
+        ) {
+
+            normalAdminList.innerHTML =
+                `
+                <p>
+                    अभी कोई Normal Admin नहीं है।
+                </p>
+                `;
+
+            return;
+
+        }
+
+
+        let html = "";
+
+
+        snapshot.forEach(
+            function(item) {
+
+                const admin =
+                    item.data();
+
+
+                if (
+                    admin.role ===
+                    "master"
+                ) {
+
+                    return;
+
+                }
+
+
+                html += `
+
+                    <div class="admin-item">
+
+                        <b>
+                            👨‍💼
+                            ${escapeHTML(
+                                admin.name ||
+                                "Admin"
+                            )}
+                        </b>
+
+                        <br><br>
+
+                        📧
+                        ${escapeHTML(
+                            admin.email ||
+                            "-"
+                        )}
+
+                        <br>
+
+                        🔐 Access:
+                        ${escapeHTML(
+                            admin.access ||
+                            "full"
+                        )}
+
+                        <br>
+
+                        📌 Status:
+                        ${escapeHTML(
+                            admin.status ||
+                            "active"
+                        )}
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+
+        normalAdminList.innerHTML =
+            html ||
+            "<p>कोई Normal Admin नहीं है।</p>";
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Load Admin Error:",
+            error
+        );
+
+
+        normalAdminList.innerHTML =
+            `
+            <p>
+                ❌ Admin list load नहीं हुई।
+            </p>
+            `;
+
+    }
+
+}
+
+
+// =====================================================
+// OPEN ADMIN PANEL
+// =====================================================
+
+openAdminPanel.addEventListener(
+    "click",
+    function() {
+
+        window.location.replace(
+            "admin.html"
+        );
+
+    }
+);
+
+
+// =====================================================
+// SPLASH IMAGE COMPRESS
+// =====================================================
+
+function compressSplash(file) {
+
+    return new Promise(
+        function(resolve, reject) {
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function(event) {
+
+                    const image =
+                        new Image();
+
+
+                    image.onload =
+                        function() {
+
+                            const max =
+                                900;
+
+
+                            let width =
+                                image.width;
+
+
+                            let height =
+                                image.height;
+
+
+                            if (
+                                Math.max(
+                                    width,
+                                    height
+                                ) > max
+                            ) {
+
+                                const ratio =
+                                    max /
+                                    Math.max(
+                                        width,
+                                        height
+                                    );
+
+
+                                width =
+                                    Math.round(
+                                        width *
+                                        ratio
+                                    );
+
+
+                                height =
+                                    Math.round(
+                                        height *
+                                        ratio
+                                    );
+
+                            }
+
+
+                            const canvas =
+                                document.createElement(
+                                    "canvas"
+                                );
+
+
+                            canvas.width =
+                                width;
+
+
+                            canvas.height =
+                                height;
+
+
+                            const context =
+                                canvas.getContext(
+                                    "2d"
+                                );
+
+
+                            context.drawImage(
+                                image,
+                                0,
+                                0,
+                                width,
+                                height
+                            );
+
+
+                            resolve(
+                                canvas.toDataURL(
+                                    "image/jpeg",
+                                    0.72
+                                )
+                            );
+
+                        };
+
+
+                    image.onerror =
+                        reject;
+
+
+                    image.src =
+                        event.target.result;
+
+                };
+
+
+            reader.onerror =
+                reject;
+
+
+            reader.readAsDataURL(
+                file
+            );
+
+        }
+    );
+
+}
+
+
+// =====================================================
+// VERIFY MASTER
+// =====================================================
+
+function verifyMaster() {
+
+    const user =
+        auth.currentUser;
+
+
+    if (
+        !isMaster(user)
+    ) {
+
+        throw new Error(
+            "केवल Master Admin यह setting बदल सकता है।"
+        );
+
+    }
+
+
+    return user;
+
+}
+
+
+// =====================================================
+// LOAD SPLASH SETTING
+// =====================================================
+
+async function loadSplashSetting() {
+
+    try {
+
+        const snapshot =
+            await getDoc(
+                doc(
+                    db,
+                    "settings",
+                    "app"
+                )
+            );
+
+
+        if (
+            !snapshot.exists()
+        ) {
+
+            return;
+
+        }
+
+
+        const data =
+            snapshot.data();
+
+
+        if (
+            data.splashEnabled === false
+        ) {
+
+            splashPreview.style.display =
+                "none";
+
+            return;
+
+        }
+
+
+        if (
+            data.splashImageURL
+        ) {
+
+            splashPreview.src =
+                data.splashImageURL;
+
+            splashPreview.style.display =
+                "inline-block";
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Splash Load Error:",
+            error
+        );
+
+    }
+
+}
+
+
+// =====================================================
+// UPLOAD SPLASH
+// =====================================================
+
+uploadSplashButton.addEventListener(
+    "click",
+    async function() {
+
+        try {
+
+            verifyMaster();
+
+
+            const file =
+                splashFile.files[0];
+
+
+            if (!file) {
+
+                alert(
+                    "⚠️ पहले Starting Page image चुनें।"
+                );
+
+                return;
+
+            }
+
+
+            if (
+                !file.type.startsWith(
+                    "image/"
+                )
+            ) {
+
+                alert(
+                    "❌ केवल image file चुनें।"
+                );
+
+                return;
+
+            }
+
+
+            uploadSplashButton.disabled =
+                true;
+
+
+            uploadSplashButton.textContent =
+                "⏳ Uploading...";
+
+
+            const imageData =
+                await compressSplash(
+                    file
+                );
+
+
+            await setDoc(
+
+                doc(
+                    db,
+                    "settings",
+                    "app"
+                ),
+
+                {
+
+                    splashImageURL:
+                        imageData,
+
+                    splashEnabled:
+                        true,
+
+                    splashUpdatedAt:
+                        new Date()
+                            .toISOString(),
+
+                    splashUpdatedBy:
+                        auth.currentUser.uid
+
+                },
+
+                {
+                    merge: true
+                }
+
+            );
+
+
+            splashPreview.src =
+                imageData;
+
+
+            splashPreview.style.display =
+                "inline-block";
+
+
+            splashFile.value =
+                "";
+
+
+            alert(
+                "✅ Starting Page upload हो गया।"
+            );
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Splash Upload Error:",
+                error
+            );
+
+
+            alert(
+                "❌ Upload failed:\n\n" +
+                error.message
+            );
+
+        }
+
+        finally {
+
+            uploadSplashButton.disabled =
+                false;
+
+            uploadSplashButton.textContent =
+                "⬆️ Upload Starting Page";
+
+        }
+
+    }
+);
+
+
+// =====================================================
+// REMOVE SPLASH
+// =====================================================
+
+removeSplashButton.addEventListener(
+    "click",
+    async function() {
+
+        try {
+
+            verifyMaster();
+
+
+            if (
+                !confirm(
+                    "क्या Starting Page remove करनी है?"
+                )
+            ) {
+
+                return;
+
+            }
+
+
+            await setDoc(
+
+                doc(
+                    db,
+                    "settings",
+                    "app"
+                ),
+
+                {
+
+                    splashEnabled:
+                        false,
+
+                    splashImageURL:
+                        null,
+
+                    splashUpdatedAt:
+                        new Date()
+                            .toISOString(),
+
+                    splashUpdatedBy:
+                        auth.currentUser.uid
+
+                },
+
+                {
+                    merge: true
+                }
+
+            );
+
+
+            splashPreview.style.display =
+                "none";
+
+
+            splashFile.value =
+                "";
+
+
+            alert(
+                "✅ Starting Page remove हो गई।"
+            );
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Splash Remove Error:",
+                error
+            );
+
+
+            alert(
+                "❌ Remove failed:\n\n" +
+                error.message
+            );
+
+        }
+
+    }
+);
+
+
+// =====================================================
+// ESCAPE HTML
+// =====================================================
+
+function escapeHTML(value) {
+
+    return String(
+        value ?? ""
+    )
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+</script>
+
+
+<footer
+    class="rm-vidya-footer"
+    aria-label="Copyright"
+>
+
+    <div class="footer-brand">
+        RM Vidya Peeth
+    </div>
+
+    <div class="footer-teacher">
+        By Ranjan Mishra Sir
+    </div>
+
+    <div class="footer-copy">
+        © 2026 RM Vidya Peeth. All Rights Reserved.
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

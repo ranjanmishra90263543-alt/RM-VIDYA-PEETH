@@ -1,0 +1,2369 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>RM Vidya Peeth - Coupon Management</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f3f6fb;
+    color:#222;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:20px;
+}
+
+.header{
+    background:#1d4ed8;
+    color:white;
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:20px;
+}
+
+.header h1{
+    margin:0 0 6px;
+    font-size:24px;
+}
+
+.header p{
+    margin:0;
+    opacity:.9;
+}
+
+.card{
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 4px 18px rgba(0,0,0,.07);
+}
+
+.card h2{
+    margin-top:0;
+    color:#1d4ed8;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.full{
+    grid-column:1/-1;
+}
+
+label{
+    display:block;
+    font-weight:600;
+    margin-bottom:7px;
+}
+
+input,
+select{
+    width:100%;
+    padding:12px;
+    border:1px solid #d1d5db;
+    border-radius:9px;
+    font-size:15px;
+    background:white;
+}
+
+input:focus,
+select:focus{
+    outline:none;
+    border-color:#2563eb;
+}
+
+.checkbox-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:10px;
+}
+
+.checkbox-row input{
+    width:auto;
+}
+
+button{
+    border:none;
+    border-radius:9px;
+    padding:11px 16px;
+    cursor:pointer;
+    font-weight:700;
+    font-size:14px;
+}
+
+button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+.btn-primary{
+    background:#2563eb;
+    color:white;
+}
+
+.btn-success{
+    background:#16a34a;
+    color:white;
+}
+
+.btn-danger{
+    background:#dc2626;
+    color:white;
+}
+
+.btn-warning{
+    background:#f59e0b;
+    color:white;
+}
+
+.btn-secondary{
+    background:#64748b;
+    color:white;
+}
+
+.button-row{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:20px;
+}
+
+.message{
+    padding:12px;
+    border-radius:9px;
+    margin-bottom:15px;
+    display:none;
+    font-weight:600;
+}
+
+.message.success{
+    display:block;
+    background:#dcfce7;
+    color:#166534;
+}
+
+.message.error{
+    display:block;
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:900px;
+}
+
+th,
+td{
+    padding:12px;
+    border-bottom:1px solid #e5e7eb;
+    text-align:left;
+    vertical-align:middle;
+}
+
+th{
+    background:#eff6ff;
+    color:#1e40af;
+}
+
+.code{
+    font-weight:800;
+    color:#1d4ed8;
+    letter-spacing:.5px;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:700;
+}
+
+.active{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.inactive{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.expired{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+.actions{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+}
+
+.hidden{
+    display:none !important;
+}
+
+.loading{
+    text-align:center;
+    padding:25px;
+    color:#666;
+}
+
+.hint{
+    font-size:12px;
+    color:#6b7280;
+    margin-top:5px;
+}
+
+@media(max-width:700px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .full{
+        grid-column:auto;
+    }
+
+    .container{
+        padding:10px;
+    }
+
+    .card{
+        padding:15px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>
+            🎟️ Coupon Management
+        </h1>
+
+        <p>
+            RM Vidya Peeth Admin Panel
+        </p>
+
+    </div>
+
+
+    <div
+        id="message"
+        class="message"
+    ></div>
+
+
+    <!-- =================================================
+         ADD / EDIT COUPON
+    ================================================== -->
+
+    <div class="card">
+
+        <h2 id="formTitle">
+            ➕ Add Coupon
+        </h2>
+
+        <form id="couponForm">
+
+            <div class="grid">
+
+
+                <div>
+
+                    <label>
+                        Coupon Code *
+                    </label>
+
+                    <input
+                        type="text"
+                        id="couponCode"
+                        placeholder="Example: RM50"
+                        required
+                    >
+
+                    <div class="hint">
+                        Coupon automatically UPPERCASE me save hoga.
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Discount Type *
+                    </label>
+
+                    <select
+                        id="discountType"
+                        required
+                    >
+
+                        <option value="percentage">
+                            Percentage (%)
+                        </option>
+
+                        <option value="fixed">
+                            Fixed Amount (₹)
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Discount Value *
+                    </label>
+
+                    <input
+                        type="number"
+                        id="discountValue"
+                        min="0"
+                        step="0.01"
+                        placeholder="Example: 20"
+                        required
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Applicable To *
+                    </label>
+
+                    <select
+                        id="applicableTo"
+                        required
+                    >
+
+                        <option value="both">
+                            Course + Test Pass
+                        </option>
+
+                        <option value="course">
+                            Course Only
+                        </option>
+
+                        <option value="test-pass">
+                            Test Pass Only
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div id="courseBox">
+
+                    <label>
+                        Specific Course
+                    </label>
+
+                    <select id="courseId">
+
+                        <option value="">
+                            All Courses
+                        </option>
+
+                    </select>
+
+                    <div class="hint">
+                        Blank = सभी courses.
+                    </div>
+
+                </div>
+
+
+                <div id="seriesBox">
+
+                    <label>
+                        Specific Test Pass
+                    </label>
+
+                    <select id="seriesId">
+
+                        <option value="">
+                            All Test Passes
+                        </option>
+
+                    </select>
+
+                    <div class="hint">
+                        Blank = सभी test passes.
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Minimum Purchase Amount
+                    </label>
+
+                    <input
+                        type="number"
+                        id="minAmount"
+                        min="0"
+                        step="0.01"
+                        value="0"
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Maximum Discount
+                    </label>
+
+                    <input
+                        type="number"
+                        id="maxDiscount"
+                        min="0"
+                        step="0.01"
+                        value="0"
+                    >
+
+                    <div class="hint">
+                        0 = कोई maximum limit नहीं।
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Usage Limit
+                    </label>
+
+                    <input
+                        type="number"
+                        id="usageLimit"
+                        min="0"
+                        step="1"
+                        value="0"
+                    >
+
+                    <div class="hint">
+                        0 = Unlimited.
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Start Date & Time
+                    </label>
+
+                    <input
+                        type="datetime-local"
+                        id="startDate"
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Expiry Date & Time
+                    </label>
+
+                    <input
+                        type="datetime-local"
+                        id="expiryDate"
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Coupon Status
+                    </label>
+
+                    <div class="checkbox-row">
+
+                        <input
+                            type="checkbox"
+                            id="active"
+                            checked
+                        >
+
+                        <span>
+                            Coupon Active
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="full">
+
+                    <div class="button-row">
+
+                        <button
+                            type="submit"
+                            class="btn-primary"
+                            id="saveBtn"
+                        >
+                            Save Coupon
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn-secondary hidden"
+                            id="cancelEditBtn"
+                        >
+                            Cancel Edit
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- =================================================
+         COUPON LIST
+    ================================================== -->
+
+    <div class="card">
+
+        <h2>
+            🎟️ All Coupons
+        </h2>
+
+        <div
+            id="loadingCoupons"
+            class="loading"
+        >
+            Coupons load ho rahe hain...
+        </div>
+
+        <div
+            id="emptyCoupons"
+            class="loading hidden"
+        >
+            Abhi koi coupon nahi hai.
+        </div>
+
+        <div
+            id="tableWrap"
+            class="table-wrap hidden"
+        >
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Code</th>
+                        <th>Discount</th>
+                        <th>Applicable</th>
+                        <th>Minimum</th>
+                        <th>Usage</th>
+                        <th>Expiry</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="couponTableBody"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script type="module">
+
+import {
+    auth,
+    db
+} from "./firebase-config.js";
+
+import {
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+import {
+    collection,
+    addDoc,
+    getDocs,
+    getDoc,
+    doc,
+    updateDoc,
+    deleteDoc,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let editingCouponId = null;
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const messageBox =
+    document.getElementById("message");
+
+const couponForm =
+    document.getElementById("couponForm");
+
+const couponCode =
+    document.getElementById("couponCode");
+
+const discountType =
+    document.getElementById("discountType");
+
+const discountValue =
+    document.getElementById("discountValue");
+
+const applicableTo =
+    document.getElementById("applicableTo");
+
+const courseId =
+    document.getElementById("courseId");
+
+const seriesId =
+    document.getElementById("seriesId");
+
+const minAmount =
+    document.getElementById("minAmount");
+
+const maxDiscount =
+    document.getElementById("maxDiscount");
+
+const usageLimit =
+    document.getElementById("usageLimit");
+
+const startDate =
+    document.getElementById("startDate");
+
+const expiryDate =
+    document.getElementById("expiryDate");
+
+const active =
+    document.getElementById("active");
+
+const saveBtn =
+    document.getElementById("saveBtn");
+
+const cancelEditBtn =
+    document.getElementById("cancelEditBtn");
+
+const formTitle =
+    document.getElementById("formTitle");
+
+const courseBox =
+    document.getElementById("courseBox");
+
+const seriesBox =
+    document.getElementById("seriesBox");
+
+const loadingCoupons =
+    document.getElementById("loadingCoupons");
+
+const emptyCoupons =
+    document.getElementById("emptyCoupons");
+
+const tableWrap =
+    document.getElementById("tableWrap");
+
+const couponTableBody =
+    document.getElementById("couponTableBody");
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+function showMessage(
+    text,
+    type = "success"
+){
+
+    messageBox.textContent =
+        text;
+
+    messageBox.className =
+        "message " + type;
+
+    setTimeout(() => {
+
+        messageBox.className =
+            "message";
+
+    }, 5000);
+}
+
+
+/* =====================================================
+   NUMBER
+===================================================== */
+
+function numberValue(value){
+
+    const n =
+        Number(value);
+
+    return Number.isFinite(n)
+        ? n
+        : 0;
+}
+
+
+/* =====================================================
+   DATE
+===================================================== */
+
+function formatDate(value){
+
+    if(!value){
+        return "-";
+    }
+
+    try{
+
+        let date;
+
+        if(
+            value &&
+            typeof value.toDate ===
+            "function"
+        ){
+
+            date =
+                value.toDate();
+
+        }else{
+
+            date =
+                new Date(value);
+        }
+
+        if(
+            !date ||
+            Number.isNaN(
+                date.getTime()
+            )
+        ){
+
+            return "-";
+        }
+
+        return date.toLocaleString(
+            "en-IN",
+            {
+                dateStyle:"medium",
+                timeStyle:"short"
+            }
+        );
+
+    }catch{
+
+        return "-";
+    }
+}
+
+
+/* =====================================================
+   LOCAL DATE -> ISO
+===================================================== */
+
+function localDateToISO(value){
+
+    if(!value){
+        return "";
+    }
+
+    const date =
+        new Date(value);
+
+    if(
+        Number.isNaN(
+            date.getTime()
+        )
+    ){
+
+        return "";
+    }
+
+    return date.toISOString();
+}
+
+
+/* =====================================================
+   ISO -> LOCAL
+===================================================== */
+
+function isoToLocalDate(value){
+
+    if(!value){
+        return "";
+    }
+
+    let date;
+
+    try{
+
+        if(
+            value &&
+            typeof value.toDate ===
+            "function"
+        ){
+
+            date =
+                value.toDate();
+
+        }else{
+
+            date =
+                new Date(value);
+        }
+
+    }catch{
+
+        return "";
+    }
+
+    if(
+        !date ||
+        Number.isNaN(
+            date.getTime()
+        )
+    ){
+
+        return "";
+    }
+
+    const offset =
+        date.getTimezoneOffset();
+
+    const local =
+        new Date(
+            date.getTime() -
+            offset * 60000
+        );
+
+    return local
+        .toISOString()
+        .slice(0,16);
+}
+
+
+/* =====================================================
+   LOAD COURSES
+===================================================== */
+
+async function loadCourses(){
+
+    courseId.innerHTML = `
+        <option value="">
+            All Courses
+        </option>
+    `;
+
+    try{
+
+        const snap =
+            await getDocs(
+                collection(
+                    db,
+                    "courses"
+                )
+            );
+
+        snap.forEach(
+            item => {
+
+                const data =
+                    item.data();
+
+                const name =
+                    data.name ||
+                    data.title ||
+                    data.courseName ||
+                    "Unnamed Course";
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+                option.value =
+                    item.id;
+
+                option.textContent =
+                    name;
+
+                courseId.appendChild(
+                    option
+                );
+
+            }
+        );
+
+    }catch(error){
+
+        console.error(
+            "Courses error:",
+            error
+        );
+
+        showMessage(
+            "Courses load nahi ho paaye: " +
+            error.message,
+            "error"
+        );
+    }
+}
+
+
+/* =====================================================
+   LOAD TEST SERIES
+===================================================== */
+
+async function loadTestSeries(){
+
+    seriesId.innerHTML = `
+        <option value="">
+            All Test Passes
+        </option>
+    `;
+
+    try{
+
+        const snap =
+            await getDocs(
+                collection(
+                    db,
+                    "mockSeries"
+                )
+            );
+
+        snap.forEach(
+            item => {
+
+                const data =
+                    item.data();
+
+                const name =
+                    data.name ||
+                    data.title ||
+                    data.seriesName ||
+                    "Unnamed Test Pass";
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+                option.value =
+                    item.id;
+
+                option.textContent =
+                    name;
+
+                seriesId.appendChild(
+                    option
+                );
+
+            }
+        );
+
+    }catch(error){
+
+        console.error(
+            "Test Series error:",
+            error
+        );
+
+        showMessage(
+            "Test Pass load nahi ho paaye: " +
+            error.message,
+            "error"
+        );
+    }
+}
+
+
+/* =====================================================
+   APPLICABLE UI
+===================================================== */
+
+function updateApplicableUI(){
+
+    const value =
+        applicableTo.value;
+
+    if(
+        value === "course"
+    ){
+
+        courseBox.classList.remove(
+            "hidden"
+        );
+
+        seriesBox.classList.add(
+            "hidden"
+        );
+
+        seriesId.value =
+            "";
+
+    }
+
+    else if(
+        value === "test-pass"
+    ){
+
+        courseBox.classList.add(
+            "hidden"
+        );
+
+        seriesBox.classList.remove(
+            "hidden"
+        );
+
+        courseId.value =
+            "";
+
+    }
+
+    else{
+
+        courseBox.classList.remove(
+            "hidden"
+        );
+
+        seriesBox.classList.remove(
+            "hidden"
+        );
+    }
+}
+
+
+/* =====================================================
+   NORMALIZE CODE
+===================================================== */
+
+function normalizeCouponCode(
+    value
+){
+
+    return String(
+        value || ""
+    )
+    .trim()
+    .toUpperCase()
+    .replace(
+        /\s+/g,
+        ""
+    );
+}
+
+
+/* =====================================================
+   DUPLICATE CHECK
+===================================================== */
+
+async function couponCodeExists(
+    code,
+    excludeId = null
+){
+
+    const snap =
+        await getDocs(
+            collection(
+                db,
+                "coupons"
+            )
+        );
+
+    for(
+        const item of snap.docs
+    ){
+
+        if(
+            excludeId &&
+            item.id === excludeId
+        ){
+
+            continue;
+        }
+
+        const data =
+            item.data();
+
+        if(
+            normalizeCouponCode(
+                data.code
+            ) === code
+        ){
+
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+/* =====================================================
+   VALIDATE
+===================================================== */
+
+function validateForm(){
+
+    const code =
+        normalizeCouponCode(
+            couponCode.value
+        );
+
+    if(!code){
+
+        showMessage(
+            "Coupon code enter karein.",
+            "error"
+        );
+
+        return false;
+    }
+
+
+    const value =
+        numberValue(
+            discountValue.value
+        );
+
+    if(value <= 0){
+
+        showMessage(
+            "Discount value 0 se greater honi chahiye.",
+            "error"
+        );
+
+        return false;
+    }
+
+
+    if(
+        discountType.value ===
+        "percentage" &&
+        value > 100
+    ){
+
+        showMessage(
+            "Percentage 100% se zyada nahi ho sakta.",
+            "error"
+        );
+
+        return false;
+    }
+
+
+    if(
+        numberValue(
+            minAmount.value
+        ) < 0
+    ){
+
+        showMessage(
+            "Minimum amount valid nahi hai.",
+            "error"
+        );
+
+        return false;
+    }
+
+
+    if(
+        numberValue(
+            maxDiscount.value
+        ) < 0
+    ){
+
+        showMessage(
+            "Maximum discount valid nahi hai.",
+            "error"
+        );
+
+        return false;
+    }
+
+
+    const usage =
+        numberValue(
+            usageLimit.value
+        );
+
+    if(
+        usage < 0 ||
+        !Number.isInteger(
+            usage
+        )
+    ){
+
+        showMessage(
+            "Usage limit valid number hona chahiye.",
+            "error"
+        );
+
+        return false;
+    }
+
+
+    if(
+        startDate.value &&
+        expiryDate.value
+    ){
+
+        const start =
+            new Date(
+                startDate.value
+            );
+
+        const expiry =
+            new Date(
+                expiryDate.value
+            );
+
+        if(
+            expiry <= start
+        ){
+
+            showMessage(
+                "Expiry date start date ke baad honi chahiye.",
+                "error"
+            );
+
+            return false;
+        }
+    }
+
+
+    return true;
+}
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+function resetForm(){
+
+    editingCouponId =
+        null;
+
+    couponForm.reset();
+
+    discountType.value =
+        "percentage";
+
+    applicableTo.value =
+        "both";
+
+    minAmount.value =
+        "0";
+
+    maxDiscount.value =
+        "0";
+
+    usageLimit.value =
+        "0";
+
+    active.checked =
+        true;
+
+    formTitle.textContent =
+        "➕ Add Coupon";
+
+    saveBtn.textContent =
+        "Save Coupon";
+
+    cancelEditBtn.classList.add(
+        "hidden"
+    );
+
+    courseId.value =
+        "";
+
+    seriesId.value =
+        "";
+
+    updateApplicableUI();
+}
+
+
+/* =====================================================
+   SAVE
+===================================================== */
+
+couponForm.addEventListener(
+    "submit",
+    async event => {
+
+        event.preventDefault();
+
+        if(
+            !validateForm()
+        ){
+
+            return;
+        }
+
+        saveBtn.disabled =
+            true;
+
+        saveBtn.textContent =
+            "Saving...";
+
+
+        try{
+
+            const code =
+                normalizeCouponCode(
+                    couponCode.value
+                );
+
+            const duplicate =
+                await couponCodeExists(
+                    code,
+                    editingCouponId
+                );
+
+            if(duplicate){
+
+                showMessage(
+                    "Ye coupon code already exist karta hai.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            const couponData = {
+
+                code:code,
+
+                discountType:
+                    discountType.value,
+
+                discountValue:
+                    numberValue(
+                        discountValue.value
+                    ),
+
+                applicableTo:
+                    applicableTo.value,
+
+                courseId:
+                    courseId.value || "",
+
+                seriesId:
+                    seriesId.value || "",
+
+                minAmount:
+                    numberValue(
+                        minAmount.value
+                    ),
+
+                maxDiscount:
+                    numberValue(
+                        maxDiscount.value
+                    ),
+
+                usageLimit:
+                    numberValue(
+                        usageLimit.value
+                    ),
+
+                active:
+                    active.checked,
+
+                startDate:
+                    localDateToISO(
+                        startDate.value
+                    ),
+
+                expiryDate:
+                    localDateToISO(
+                        expiryDate.value
+                    ),
+
+                updatedAt:
+                    serverTimestamp()
+            };
+
+
+            if(
+                !editingCouponId
+            ){
+
+                couponData.usedCount =
+                    0;
+
+                couponData.createdAt =
+                    serverTimestamp();
+
+                await addDoc(
+                    collection(
+                        db,
+                        "coupons"
+                    ),
+                    couponData
+                );
+
+                showMessage(
+                    "Coupon successfully create ho gaya.",
+                    "success"
+                );
+
+            }else{
+
+                await updateDoc(
+                    doc(
+                        db,
+                        "coupons",
+                        editingCouponId
+                    ),
+                    couponData
+                );
+
+                showMessage(
+                    "Coupon successfully update ho gaya.",
+                    "success"
+                );
+            }
+
+
+            resetForm();
+
+            await loadCoupons();
+
+        }catch(error){
+
+            console.error(
+                "Save coupon error:",
+                error
+            );
+
+            showMessage(
+                error.message ||
+                "Coupon save nahi ho saka.",
+                "error"
+            );
+
+        }finally{
+
+            saveBtn.disabled =
+                false;
+
+            saveBtn.textContent =
+                "Save Coupon";
+        }
+
+    }
+);
+
+
+/* =====================================================
+   LOAD COUPONS
+===================================================== */
+
+async function loadCoupons(){
+
+    loadingCoupons.classList.remove(
+        "hidden"
+    );
+
+    emptyCoupons.classList.add(
+        "hidden"
+    );
+
+    tableWrap.classList.add(
+        "hidden"
+    );
+
+    couponTableBody.innerHTML =
+        "";
+
+
+    try{
+
+        /*
+         IMPORTANT:
+         orderBy intentionally nahi use kiya.
+         Isse Firestore index error nahi aayega.
+        */
+
+        const snap =
+            await getDocs(
+                collection(
+                    db,
+                    "coupons"
+                )
+            );
+
+
+        if(
+            snap.empty
+        ){
+
+            loadingCoupons.classList.add(
+                "hidden"
+            );
+
+            emptyCoupons.classList.remove(
+                "hidden"
+            );
+
+            return;
+        }
+
+
+        const coupons =
+            snap.docs.map(
+                item => ({
+                    id:item.id,
+                    ...item.data()
+                })
+            );
+
+
+        /*
+           Created date ke according
+           latest first
+        */
+
+        coupons.sort(
+            (a,b) => {
+
+                const getTime =
+                    value => {
+
+                        if(
+                            value &&
+                            typeof value.toDate ===
+                            "function"
+                        ){
+
+                            return value
+                                .toDate()
+                                .getTime();
+                        }
+
+                        if(value){
+
+                            const t =
+                                new Date(
+                                    value
+                                ).getTime();
+
+                            return Number.isNaN(t)
+                                ? 0
+                                : t;
+                        }
+
+                        return 0;
+                    };
+
+
+                return (
+                    getTime(
+                        b.createdAt
+                    ) -
+                    getTime(
+                        a.createdAt
+                    )
+                );
+            }
+        );
+
+
+        coupons.forEach(
+            coupon => {
+
+                addCouponRow(
+                    coupon.id,
+                    coupon
+                );
+
+            }
+        );
+
+
+        loadingCoupons.classList.add(
+            "hidden"
+        );
+
+        tableWrap.classList.remove(
+            "hidden"
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Coupon loading error:",
+            error
+        );
+
+        loadingCoupons.classList.add(
+            "hidden"
+        );
+
+
+        emptyCoupons.classList.remove(
+            "hidden"
+        );
+
+
+        showMessage(
+            "Coupons load nahi ho paaye: " +
+            error.message,
+            "error"
+        );
+    }
+}
+
+
+/* =====================================================
+   TABLE ROW
+===================================================== */
+
+function addCouponRow(
+    id,
+    data
+){
+
+    const tr =
+        document.createElement(
+            "tr"
+        );
+
+
+    let discountText;
+
+
+    if(
+        data.discountType ===
+        "percentage"
+    ){
+
+        discountText =
+            numberValue(
+                data.discountValue
+            ) + "%";
+
+    }else{
+
+        discountText =
+            "₹" +
+            numberValue(
+                data.discountValue
+            ).toLocaleString(
+                "en-IN"
+            );
+    }
+
+
+    let applicableText =
+        data.applicableTo ||
+        "both";
+
+
+    if(
+        applicableText ===
+        "test-pass"
+    ){
+
+        applicableText =
+            "Test Pass";
+
+    }else if(
+        applicableText ===
+        "course"
+    ){
+
+        applicableText =
+            "Course";
+
+    }else{
+
+        applicableText =
+            "Course + Test Pass";
+    }
+
+
+    const minimumText =
+        "₹" +
+        numberValue(
+            data.minAmount
+        ).toLocaleString(
+            "en-IN"
+        );
+
+
+    const used =
+        numberValue(
+            data.usedCount
+        );
+
+    const limit =
+        numberValue(
+            data.usageLimit
+        );
+
+
+    const usageText =
+        limit > 0
+            ? `${used} / ${limit}`
+            : `${used} / Unlimited`;
+
+
+    const expiry =
+        formatDate(
+            data.expiryDate
+        );
+
+
+    let expired =
+        false;
+
+
+    if(
+        data.expiryDate
+    ){
+
+        const expiryDate =
+            data.expiryDate &&
+            typeof data.expiryDate.toDate ===
+            "function"
+                ? data.expiryDate.toDate()
+                : new Date(
+                    data.expiryDate
+                );
+
+
+        if(
+            !Number.isNaN(
+                expiryDate.getTime()
+            ) &&
+            expiryDate < new Date()
+        ){
+
+            expired = true;
+        }
+    }
+
+
+    let statusHTML;
+
+
+    if(expired){
+
+        statusHTML = `
+            <span class="badge expired">
+                Expired
+            </span>
+        `;
+
+    }else if(
+        data.active !== false
+    ){
+
+        statusHTML = `
+            <span class="badge active">
+                Active
+            </span>
+        `;
+
+    }else{
+
+        statusHTML = `
+            <span class="badge inactive">
+                Inactive
+            </span>
+        `;
+    }
+
+
+    tr.innerHTML = `
+
+        <td>
+            <span class="code">
+                ${escapeHTML(
+                    data.code || ""
+                )}
+            </span>
+        </td>
+
+        <td>
+            ${discountText}
+        </td>
+
+        <td>
+            ${applicableText}
+        </td>
+
+        <td>
+            ${minimumText}
+        </td>
+
+        <td>
+            ${usageText}
+        </td>
+
+        <td>
+            ${escapeHTML(
+                expiry
+            )}
+        </td>
+
+        <td>
+            ${statusHTML}
+        </td>
+
+        <td>
+
+            <div class="actions">
+
+                <button
+                    class="btn-warning"
+                    data-action="edit"
+                    data-id="${id}"
+                >
+                    Edit
+                </button>
+
+                <button
+                    class="${
+                        data.active !== false
+                            ? "btn-secondary"
+                            : "btn-success"
+                    }"
+                    data-action="toggle"
+                    data-id="${id}"
+                    data-active="${
+                        data.active !== false
+                    }"
+                >
+                    ${
+                        data.active !== false
+                            ? "Disable"
+                            : "Enable"
+                    }
+                </button>
+
+                <button
+                    class="btn-danger"
+                    data-action="delete"
+                    data-id="${id}"
+                >
+                    Delete
+                </button>
+
+            </div>
+
+        </td>
+    `;
+
+
+    couponTableBody.appendChild(
+        tr
+    );
+}
+
+
+/* =====================================================
+   ESCAPE
+===================================================== */
+
+function escapeHTML(
+    value
+){
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+}
+
+
+/* =====================================================
+   EDIT
+===================================================== */
+
+async function editCoupon(
+    id
+){
+
+    try{
+
+        const snap =
+            await getDoc(
+                doc(
+                    db,
+                    "coupons",
+                    id
+                )
+            );
+
+
+        if(
+            !snap.exists()
+        ){
+
+            showMessage(
+                "Coupon nahi mila.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        const data =
+            snap.data();
+
+
+        editingCouponId =
+            id;
+
+
+        couponCode.value =
+            data.code || "";
+
+        discountType.value =
+            data.discountType ||
+            "percentage";
+
+        discountValue.value =
+            numberValue(
+                data.discountValue
+            );
+
+        applicableTo.value =
+            data.applicableTo ||
+            "both";
+
+        courseId.value =
+            data.courseId ||
+            "";
+
+        seriesId.value =
+            data.seriesId ||
+            "";
+
+        minAmount.value =
+            numberValue(
+                data.minAmount
+            );
+
+        maxDiscount.value =
+            numberValue(
+                data.maxDiscount
+            );
+
+        usageLimit.value =
+            numberValue(
+                data.usageLimit
+            );
+
+        startDate.value =
+            isoToLocalDate(
+                data.startDate
+            );
+
+        expiryDate.value =
+            isoToLocalDate(
+                data.expiryDate
+            );
+
+        active.checked =
+            data.active !== false;
+
+
+        formTitle.textContent =
+            "✏️ Edit Coupon";
+
+        saveBtn.textContent =
+            "Update Coupon";
+
+        cancelEditBtn.classList.remove(
+            "hidden"
+        );
+
+
+        updateApplicableUI();
+
+
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
+
+
+    }catch(error){
+
+        console.error(
+            "Edit error:",
+            error
+        );
+
+        showMessage(
+            error.message ||
+            "Coupon edit nahi ho saka.",
+            "error"
+        );
+    }
+}
+
+
+/* =====================================================
+   TOGGLE
+===================================================== */
+
+async function toggleCoupon(
+    id,
+    currentActive
+){
+
+    try{
+
+        await updateDoc(
+            doc(
+                db,
+                "coupons",
+                id
+            ),
+            {
+                active:
+                    !currentActive,
+
+                updatedAt:
+                    serverTimestamp()
+            }
+        );
+
+
+        showMessage(
+            currentActive
+                ? "Coupon disable kar diya gaya."
+                : "Coupon enable kar diya gaya.",
+            "success"
+        );
+
+
+        await loadCoupons();
+
+    }catch(error){
+
+        console.error(
+            "Toggle error:",
+            error
+        );
+
+        showMessage(
+            error.message ||
+            "Coupon status update nahi ho saka.",
+            "error"
+        );
+    }
+}
+
+
+/* =====================================================
+   DELETE
+===================================================== */
+
+async function deleteCoupon(
+    id
+){
+
+    if(
+        !confirm(
+            "Kya aap is coupon ko permanently delete karna chahte hain?"
+        )
+    ){
+
+        return;
+    }
+
+
+    try{
+
+        await deleteDoc(
+            doc(
+                db,
+                "coupons",
+                id
+            )
+        );
+
+
+        showMessage(
+            "Coupon successfully delete ho gaya.",
+            "success"
+        );
+
+
+        await loadCoupons();
+
+    }catch(error){
+
+        console.error(
+            "Delete error:",
+            error
+        );
+
+        showMessage(
+            error.message ||
+            "Coupon delete nahi ho saka.",
+            "error"
+        );
+    }
+}
+
+
+/* =====================================================
+   TABLE ACTIONS
+===================================================== */
+
+couponTableBody.addEventListener(
+    "click",
+    async event => {
+
+        const button =
+            event.target.closest(
+                "button"
+            );
+
+        if(!button){
+            return;
+        }
+
+
+        const id =
+            button.dataset.id;
+
+        const action =
+            button.dataset.action;
+
+
+        if(
+            action === "edit"
+        ){
+
+            await editCoupon(
+                id
+            );
+
+        }
+
+        else if(
+            action === "toggle"
+        ){
+
+            await toggleCoupon(
+                id,
+                button.dataset.active ===
+                "true"
+            );
+
+        }
+
+        else if(
+            action === "delete"
+        ){
+
+            await deleteCoupon(
+                id
+            );
+        }
+    }
+);
+
+
+/* =====================================================
+   CANCEL EDIT
+===================================================== */
+
+cancelEditBtn.addEventListener(
+    "click",
+    () => {
+
+        resetForm();
+
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
+
+    }
+);
+
+
+/* =====================================================
+   APPLICABLE CHANGE
+===================================================== */
+
+applicableTo.addEventListener(
+    "change",
+    updateApplicableUI
+);
+
+
+/* =====================================================
+   AUTH + INITIAL LOAD
+===================================================== */
+
+onAuthStateChanged(
+    auth,
+    async user => {
+
+        if(!user){
+
+            showMessage(
+                "Please admin account se login karein.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        try{
+
+            /*
+               Pehle dropdown data
+            */
+
+            await Promise.all([
+                loadCourses(),
+                loadTestSeries()
+            ]);
+
+
+            updateApplicableUI();
+
+
+            /*
+               Phir coupons
+            */
+
+            await loadCoupons();
+
+
+        }catch(error){
+
+            console.error(
+                "Initial load error:",
+                error
+            );
+
+            showMessage(
+                error.message ||
+                "Coupon management load nahi ho saka.",
+                "error"
+            );
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>

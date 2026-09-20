@@ -1,0 +1,11 @@
+v8 Test Pass flow:
+- Student sees Test Pass on dashboard.
+- Student opens Courses and enrolls in a course named "Test Pass".
+- Enrollment is stored in enrolledCourses.
+- Mock-test.html is locked until a Test Pass enrollment exists.
+- After enrollment, Mock Tests open normally.
+- My Course shows a "Give Mock Test" button for Test Pass.
+- Matching is by title/name containing "test pass", or isTestPass=true, or accessType="test-pass".
+
+For production multi-device support, mirror enrollments to Firestore under the authenticated
+student UID rather than relying only on localStorage.

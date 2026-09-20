@@ -1,0 +1,904 @@
+<!DOCTYPE html><html lang="hi"><head><meta charset="UTF-8"><meta
+name="viewport"
+content="width=device-width,initial-scale=1.0"
+
+«»
+
+<title>RM Vidya Peeth - Solution Analysis</title><style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+
+    background:#0f172a;
+
+    color:white;
+
+    font-family:Arial,sans-serif;
+}
+
+.page{
+    max-width:900px;
+
+    margin:auto;
+
+    padding:12px;
+}
+
+.header,
+.summary{
+    background:#1e293b;
+
+    border-radius:14px;
+
+    padding:18px;
+
+    margin-bottom:12px;
+}
+
+.header h1{
+    margin:0 0 8px;
+}
+
+.muted{
+    color:#cbd5e1;
+}
+
+.score{
+    font-size:36px;
+
+    font-weight:900;
+
+    margin-bottom:12px;
+}
+
+.grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:8px;
+}
+
+.stat{
+    background:#334155;
+
+    border-radius:10px;
+
+    padding:12px;
+}
+
+.solution-card{
+    background:white;
+
+    color:#111827;
+
+    border-radius:14px;
+
+    padding:18px;
+
+    margin-bottom:12px;
+}
+
+.question-head{
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:10px;
+
+    font-weight:900;
+
+    line-height:1.5;
+}
+
+.question-time{
+    color:#2563eb;
+
+    white-space:nowrap;
+
+    font-size:13px;
+}
+
+.answer-box{
+    background:#f1f5f9;
+
+    padding:10px;
+
+    border-radius:9px;
+
+    margin-top:8px;
+}
+
+.correct{
+    color:#15803d;
+
+    font-weight:900;
+}
+
+.wrong{
+    color:#dc2626;
+
+    font-weight:900;
+}
+
+.unanswered{
+    color:#b45309;
+
+    font-weight:900;
+}
+
+.review{
+    color:#d97706;
+
+    font-weight:900;
+}
+
+.solution-box{
+    background:#eff6ff;
+
+    border-left:
+        4px solid #2563eb;
+
+    padding:11px;
+
+    border-radius:8px;
+
+    margin-top:10px;
+
+    line-height:1.6;
+}
+
+.action-btn{
+    width:100%;
+
+    border:0;
+
+    border-radius:10px;
+
+    padding:13px;
+
+    margin-top:8px;
+
+    background:#2563eb;
+
+    color:white;
+
+    font-weight:900;
+
+    cursor:pointer;
+}
+
+@media(max-width:600px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .question-head{
+        flex-direction:column;
+    }
+
+}
+
+</style></head><body><div class="page"><div class="header"><h1>
+    💡 RM Vidya Peeth - Solution & Analysis
+</h1>
+
+<div
+    style="
+        color:#cbd5e1;
+        margin-top:6px;
+        font-weight:700;
+    "
+>
+    By Ranjan Mishra Sir
+</div>
+
+<div
+    id="testTitle"
+    class="muted"
+    style="margin-top:8px;"
+>
+    Loading...
+</div>
+
+</div><div
+    id="summary"
+    class="summary"
+></div><div
+    id="solutions"
+></div><button
+class="action-btn"
+type="button"
+onclick="reattemptTest()"
+
+«»
+
+🔄 Reattempt Test
+
+</button><button
+class="action-btn"
+type="button"
+onclick="goMockTests()"
+
+«»
+
+← Back to Mock Tests
+
+</button><button
+class="action-btn"
+type="button"
+onclick="goDashboard()"
+
+«»
+
+🏠 Student Dashboard
+
+</button><div
+    style="
+        text-align:center;
+        color:#94a3b8;
+        font-size:13px;
+        padding:22px 8px 8px;
+        line-height:1.6;
+    "
+><div style="font-weight:bold;">
+    RM Vidya Peeth
+</div>
+
+<div>
+    By Ranjan Mishra Sir
+</div>
+
+<div>
+    © 2026 RM Vidya Peeth. All Rights Reserved.
+</div>
+
+</div></div><script>
+
+/* =====================================================
+   ESCAPE
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+/* =====================================================
+   LOAD ANALYSIS
+===================================================== */
+
+function loadAnalysis(){
+
+    let attempt = null;
+
+
+    try{
+
+        attempt =
+            JSON.parse(
+                sessionStorage.getItem(
+                    "lastAttemptData"
+                ) ||
+                "null"
+            );
+
+    }catch(error){
+
+        attempt = null;
+
+    }
+
+
+    if(!attempt){
+
+        document.getElementById(
+            "solutions"
+        ).innerHTML = `
+
+            <div class="header">
+
+                ❌ Analysis data नहीं मिला।
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "testTitle"
+    ).textContent =
+
+        attempt.testName ||
+        "Mock Test";
+
+
+    const reviewCount =
+        Array.isArray(
+            attempt.reviewed
+        )
+
+        ?
+
+        attempt.reviewed.filter(
+            function(value){
+
+                return value === true;
+
+            }
+        ).length
+
+        :
+
+        0;
+
+
+    document.getElementById(
+        "summary"
+    ).innerHTML = `
+
+        <div class="score">
+
+            ${Number(
+                attempt.correct || 0
+            )}
+
+            /
+
+            ${Number(
+                attempt.totalQuestions || 0
+            )}
+
+        </div>
+
+
+        <div class="grid">
+
+            <div class="stat">
+
+                📊 Percentage:
+
+                <b>
+                    ${Number(
+                        attempt.percentage || 0
+                    )}%
+                </b>
+
+            </div>
+
+
+            <div class="stat">
+
+                ⏱️ Total Time:
+
+                <b>
+                    ${Number(
+                        attempt.totalTimeSpent || 0
+                    )} sec
+                </b>
+
+            </div>
+
+
+            <div class="stat">
+
+                ✅ Correct:
+
+                <b>
+                    ${Number(
+                        attempt.correct || 0
+                    )}
+                </b>
+
+            </div>
+
+
+            <div class="stat">
+
+                ❌ Wrong:
+
+                <b>
+                    ${Number(
+                        attempt.wrong || 0
+                    )}
+                </b>
+
+            </div>
+
+
+            <div class="stat">
+
+                ⭕ Unanswered:
+
+                <b>
+                    ${Number(
+                        attempt.unanswered || 0
+                    )}
+                </b>
+
+            </div>
+
+
+            <div class="stat">
+
+                ⭐ Review:
+
+                <b>
+                    ${reviewCount}
+                </b>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    const questions =
+        Array.isArray(
+            attempt.questions
+        )
+
+        ?
+
+        attempt.questions
+
+        :
+
+        [];
+
+
+    const answers =
+        Array.isArray(
+            attempt.userAnswers
+        )
+
+        ?
+
+        attempt.userAnswers
+
+        :
+
+        [];
+
+
+    const times =
+        Array.isArray(
+            attempt.questionTimeSpent
+        )
+
+        ?
+
+        attempt.questionTimeSpent
+
+        :
+
+        [];
+
+
+    const reviewed =
+        Array.isArray(
+            attempt.reviewed
+        )
+
+        ?
+
+        attempt.reviewed
+
+        :
+
+        [];
+
+
+    const container =
+        document.getElementById(
+            "solutions"
+        );
+
+
+    container.innerHTML = "";
+
+
+    questions.forEach(
+        function(
+            question,
+            index
+        ){
+
+            const userAnswer =
+                answers[index];
+
+
+            const correctAnswer =
+                Number(
+                    question.correctAnswer
+                );
+
+
+            const isCorrect =
+
+                userAnswer !== null &&
+
+                userAnswer !== undefined &&
+
+                Number(userAnswer) ===
+                correctAnswer;
+
+
+            const userText =
+
+                userAnswer !== null &&
+
+                userAnswer !== undefined &&
+
+                question.options &&
+
+                question.options[
+                    userAnswer
+                ] !== undefined
+
+                ?
+
+                question.options[
+                    userAnswer
+                ]
+
+                :
+
+                "Not Attempted";
+
+
+            const correctText =
+
+                question.options &&
+
+                question.options[
+                    correctAnswer
+                ] !== undefined
+
+                ?
+
+                question.options[
+                    correctAnswer
+                ]
+
+                :
+
+                "-";
+
+
+            let resultClass =
+                "wrong";
+
+
+            let resultText =
+                "❌ गलत उत्तर";
+
+
+            if(
+                userAnswer === null ||
+                userAnswer === undefined
+            ){
+
+                resultClass =
+                    "unanswered";
+
+                resultText =
+                    "⭕ Not Attempted";
+
+            }
+            else if(isCorrect){
+
+                resultClass =
+                    "correct";
+
+                resultText =
+                    "✅ सही उत्तर";
+
+            }
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "solution-card";
+
+
+            card.innerHTML = `
+
+                <div
+                    class="question-head"
+                >
+
+                    <span>
+
+                        Q${index + 1}.
+
+                        ${escapeHTML(
+                            question.question ||
+                            ""
+                        )}
+
+                    </span>
+
+
+                    <span
+                        class="question-time"
+                    >
+
+                        ⏱️
+
+                        ${Number(
+                            times[index] || 0
+                        )}
+
+                        sec
+
+                    </span>
+
+                </div>
+
+
+                ${
+                    reviewed[index]
+
+                    ?
+
+                    `
+
+                    <p class="review">
+
+                        ⭐ Marked for Review
+
+                    </p>
+
+                    `
+
+                    :
+
+                    ""
+
+                }
+
+
+                <div class="answer-box">
+
+                    आपका Answer:
+
+                    <b>
+
+                        ${escapeHTML(
+                            userText
+                        )}
+
+                    </b>
+
+                </div>
+
+
+                <div class="answer-box">
+
+                    सही Answer:
+
+                    <b class="correct">
+
+                        ${escapeHTML(
+                            correctText
+                        )}
+
+                    </b>
+
+                </div>
+
+
+                <p
+                    class="${resultClass}"
+                >
+
+                    ${resultText}
+
+                </p>
+
+
+                <div class="solution-box">
+
+                    💡 <b>Solution:</b>
+
+                    <br><br>
+
+                    ${escapeHTML(
+                        question.solution ||
+                        "Solution उपलब्ध नहीं है।"
+                    )}
+
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   REATTEMPT
+===================================================== */
+
+function reattemptTest(){
+
+    let attempt = null;
+
+
+    try{
+
+        attempt =
+            JSON.parse(
+                sessionStorage.getItem(
+                    "lastAttemptData"
+                ) ||
+                "null"
+            );
+
+    }catch(error){
+
+        attempt = null;
+
+    }
+
+
+    if(!attempt){
+
+        alert(
+            "❌ Test data नहीं मिला।"
+        );
+
+        return;
+
+    }
+
+
+    const newTest = {
+
+        testId:
+            attempt.testId ||
+            "",
+
+        testName:
+            attempt.testName ||
+            "Mock Test",
+
+        testType:
+            attempt.testType ||
+            "mock",
+
+        examName:
+            attempt.examName ||
+            "",
+
+        subject:
+            attempt.subject ||
+            "",
+
+        chapter:
+            attempt.chapter ||
+            "",
+
+        courseId:
+            attempt.courseId ||
+            "",
+
+        seriesId:
+            attempt.seriesId ||
+            "",
+
+        seriesName:
+            attempt.seriesName ||
+            "",
+
+        testTime:
+            Number(
+                attempt.testTime ||
+                0
+            ),
+
+        questions:
+            attempt.questions ||
+            []
+
+    };
+
+
+    localStorage.setItem(
+        "selectedDynamicTest",
+        JSON.stringify(
+            newTest
+        )
+    );
+
+
+    window.location.href =
+        "test.html";
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function goMockTests(){
+
+    window.location.href =
+        "mock-test.html";
+
+}
+
+
+function goDashboard(){
+
+    window.location.href =
+        "dashboard.html";
+
+}
+
+
+window.reattemptTest =
+    reattemptTest;
+
+window.goMockTests =
+    goMockTests;
+
+window.goDashboard =
+    goDashboard;
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadAnalysis
+);
+
+</script></body></html>

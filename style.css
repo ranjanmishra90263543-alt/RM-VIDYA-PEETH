@@ -1,0 +1,428 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    color: #222;
+    padding-bottom: 75px;
+}
+
+
+/* ================= HEADER ================= */
+
+.top-header {
+    height: 60px;
+    background: #08a6c7;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 15px;
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.menu {
+    font-size: 25px;
+}
+
+.app-name {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.app-name span {
+    font-size: 18px;
+}
+
+.header-icons {
+    font-size: 18px;
+}
+
+
+/* ================= TOP TABS ================= */
+
+.top-tabs {
+    background: white;
+
+    display: flex;
+    justify-content: center;
+
+    gap: 10px;
+
+    padding: 10px;
+}
+
+.top-tabs button {
+    border: none;
+
+    background: #f1f3f5;
+
+    padding: 10px 25px;
+
+    border-radius: 20px;
+
+    font-weight: bold;
+
+    color: #555;
+}
+
+.top-tabs .active {
+    background: #08a6c7;
+    color: white;
+}
+
+
+/* ================= MAIN ================= */
+
+main {
+    max-width: 900px;
+    margin: auto;
+
+    padding: 15px;
+}
+
+
+/* ================= RANK ================= */
+
+.rank-box {
+
+    background: linear-gradient(
+        110deg,
+        #e6003d,
+        #c500a5
+    );
+
+    color: white;
+
+    border-radius: 18px;
+
+    padding: 25px;
+
+    text-align: center;
+
+    margin-bottom: 18px;
+
+    box-shadow: 0 4px 12px #0002;
+}
+
+.rank-icon {
+    font-size: 35px;
+    margin-bottom: 8px;
+}
+
+.rank-box h1 {
+    font-size: 24px;
+}
+
+
+/* ================= QUICK MENU ================= */
+
+.quick-menu {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 12px;
+
+    margin-bottom: 25px;
+}
+
+.quick-card {
+
+    background: white;
+
+    border-radius: 14px;
+
+    padding: 20px 8px;
+
+    text-align: center;
+
+    font-size: 30px;
+
+    box-shadow: 0 2px 8px #0001;
+
+    transition: 0.2s;
+}
+
+.quick-card:active {
+    transform: scale(0.96);
+}
+
+.quick-card span {
+
+    display: block;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    margin-top: 8px;
+
+    color: #333;
+}
+
+
+/* ================= COURSES ================= */
+
+.course-title {
+
+    font-size: 22px;
+
+    margin-bottom: 15px;
+}
+
+
+#courses {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 18px;
+}
+
+
+.course-card {
+
+    background: white;
+
+    border-radius: 15px;
+
+    overflow: hidden;
+
+    box-shadow: 0 3px 12px #0002;
+
+    padding-bottom: 15px;
+}
+
+
+.course-image {
+
+    height: 150px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #101d35,
+            #27527e
+        );
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    padding: 10px;
+}
+
+.course-image.maths {
+
+    background:
+        linear-gradient(
+            135deg,
+            #631d19,
+            #b55b25
+        );
+}
+
+
+.course-card h3 {
+
+    padding: 12px 14px 5px;
+
+    font-size: 17px;
+}
+
+
+.course-card p {
+
+    padding: 0 14px;
+
+    color: #666;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+
+.view-course {
+
+    margin: 12px 14px 0;
+
+    padding: 10px 16px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #08a6c7;
+
+    color: white;
+
+    font-weight: bold;
+}
+
+
+/* ================= BOTTOM NAV ================= */
+
+.bottom-nav {
+
+    position: fixed;
+
+    bottom: 0;
+
+    left: 0;
+
+    right: 0;
+
+    height: 68px;
+
+    background: white;
+
+    border-top: 1px solid #ddd;
+
+    display: flex;
+
+    justify-content: space-around;
+
+    align-items: center;
+
+    z-index: 100;
+}
+
+
+.bottom-nav button {
+
+    border: none;
+
+    background: transparent;
+
+    color: #777;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 4px;
+
+    font-size: 20px;
+}
+
+
+.bottom-nav button span {
+
+    font-size: 11px;
+}
+
+
+.bottom-nav .selected {
+
+    color: #08a6c7;
+
+    font-weight: bold;
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 600px) {
+
+    main {
+        padding: 12px;
+    }
+
+    .quick-menu {
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        gap: 8px;
+    }
+
+    .quick-card {
+
+        padding: 15px 4px;
+
+        font-size: 24px;
+    }
+
+    .quick-card span {
+
+        font-size: 11px;
+    }
+
+    #courses {
+
+        grid-template-columns: 1fr;
+    }
+
+    .course-image {
+
+        height: 160px;
+    }
+
+}
+
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 380px) {
+
+    .app-name {
+        font-size: 17px;
+    }
+
+    .quick-menu {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+/* ================= ADMIN BUTTON ================= */
+
+.header-icons button {
+    cursor: pointer;
+}
+
+.admin-panel h2 {
+    color: #08a6c7;
+    margin-bottom: 15px;
+}
+/* THE HUB copyright footer */
+.the-hub-copyright{
+  width:100%;
+  box-sizing:border-box;
+  margin-top:24px;
+  padding:16px 12px;
+  text-align:center;
+  font-size:12px;
+  line-height:1.5;
+  color:#666;
+  background:transparent;
+}
+

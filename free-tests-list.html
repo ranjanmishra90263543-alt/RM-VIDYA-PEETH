@@ -1,0 +1,1697 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0"
+>
+
+<title>RM Vidya Peeth - Free Tests</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+.page{
+    max-width:1000px;
+    margin:auto;
+    padding:18px 14px 80px;
+}
+
+.header{
+    background:#1e293b;
+    border:1px solid #334155;
+    border-radius:16px;
+    padding:22px;
+    margin-bottom:18px;
+}
+
+.header h1{
+    margin:0 0 8px;
+}
+
+.header p{
+    margin:0;
+    color:#cbd5e1;
+    line-height:1.6;
+}
+
+.brand-tagline{
+    margin:0 0 8px;
+    color:#60a5fa;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.student{
+    margin-top:14px;
+    padding:11px 14px;
+    background:#0f172a;
+    border-radius:10px;
+    color:#cbd5e1;
+}
+
+.back{
+    padding:10px 17px;
+    border:0;
+    border-radius:8px;
+    background:#334155;
+    color:#fff;
+    cursor:pointer;
+    margin-bottom:18px;
+    font-size:15px;
+}
+
+.category-box{
+    background:#172554;
+    color:#bfdbfe;
+    padding:13px 15px;
+    border-radius:10px;
+    margin-bottom:18px;
+}
+
+.test-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.test-card{
+    background:#1e293b;
+    border:1px solid #334155;
+    border-radius:14px;
+    padding:18px;
+}
+
+.test-top{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+}
+
+.serial{
+    min-width:52px;
+    height:52px;
+    border-radius:10px;
+    background:#2563eb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    font-size:18px;
+}
+
+.test-content{
+    flex:1;
+}
+
+.test-content h3{
+    margin:0 0 8px;
+}
+
+.info{
+    color:#cbd5e1;
+    font-size:14px;
+    line-height:1.8;
+}
+
+.start{
+    margin-top:13px;
+    width:100%;
+    padding:11px;
+    border:0;
+    border-radius:8px;
+    background:#16a34a;
+    color:#fff;
+    font-weight:bold;
+    font-size:15px;
+    cursor:pointer;
+}
+
+.start:hover{
+    background:#15803d;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:6px;
+    background:#16a34a;
+    font-size:12px;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.loading,
+.empty,
+.error{
+    background:#1e293b;
+    padding:25px;
+    border-radius:12px;
+    text-align:center;
+    color:#cbd5e1;
+}
+
+.error{
+    background:#450a0a;
+    border:1px solid #991b1b;
+    color:#fecaca;
+}
+
+footer{
+    text-align:center;
+    padding:20px;
+    color:#94a3b8;
+    font-size:13px;
+}
+
+.footer-brand{
+    color:#60a5fa;
+    font-size:15px;
+    font-weight:bold;
+    margin-bottom:4px;
+}
+
+.footer-tagline{
+    color:#cbd5e1;
+    font-size:12px;
+    margin-bottom:5px;
+}
+
+@media(max-width:600px){
+
+    .test-top{
+        align-items:flex-start;
+    }
+
+    .serial{
+        min-width:45px;
+        height:45px;
+        font-size:16px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+    <div class="header">
+
+        <h1 id="title">
+            📝 Free Tests
+        </h1>
+
+        <div class="brand-tagline">
+            By Ranjan Mishra Sir
+        </div>
+
+        <p id="description">
+            Available tests
+        </p>
+
+        <div
+            id="studentInfo"
+            class="student"
+        >
+            👤 Student
+        </div>
+
+    </div>
+
+
+    <button
+        class="back"
+        type="button"
+        onclick="goBack()"
+    >
+        ← Free Mock Tests
+    </button>
+
+
+    <div
+        id="categoryBox"
+        class="category-box"
+    >
+        🔥 Tests loading...
+    </div>
+
+
+    <div
+        id="testList"
+        class="test-list"
+    >
+
+        <div class="loading">
+            🔥 Firebase से tests loading...
+        </div>
+
+    </div>
+
+</div>
+
+
+<footer>
+
+    <div class="footer-brand">
+        RM Vidya Peeth
+    </div>
+
+    <div class="footer-tagline">
+        By Ranjan Mishra Sir
+    </div>
+
+    © 2026 RM Vidya Peeth. All Rights Reserved.
+
+</footer>
+
+
+<script type="module">
+
+import {
+    db
+}
+from "./firebase-config.js";
+
+
+import {
+    collection,
+    getDocs
+}
+from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+let tests = [];
+
+let questions = [];
+
+let currentCategory = "";
+
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+
+/* =====================================================
+   NORMALIZE
+===================================================== */
+
+function normalize(value){
+
+    return String(
+        value ?? ""
+    )
+    .trim()
+    .toLowerCase()
+    .replace(
+        /\s+/g,
+        " "
+    );
+
+}
+
+
+
+/* =====================================================
+   STUDENT
+===================================================== */
+
+function getStudent(){
+
+    try{
+
+        const logged =
+            localStorage.getItem(
+                "studentLoggedIn"
+            );
+
+
+        const raw =
+            localStorage.getItem(
+                "studentUser"
+            );
+
+
+        if(
+            logged !== "true" ||
+            !raw
+        ){
+
+            return null;
+
+        }
+
+
+        return JSON.parse(
+            raw
+        );
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Student Read Error:",
+            error
+        );
+
+        return null;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   SHOW STUDENT
+===================================================== */
+
+function showStudent(){
+
+    const student =
+        getStudent();
+
+
+    if(!student){
+
+        window.location.replace(
+            "login.html"
+        );
+
+        return false;
+
+    }
+
+
+    const name =
+        student.displayName ||
+        student.fullName ||
+        student.name ||
+        "Student";
+
+
+    const email =
+        student.email ||
+        student.username ||
+        "";
+
+
+    const element =
+        document.getElementById(
+            "studentInfo"
+        );
+
+
+    if(element){
+
+        element.innerHTML =
+
+            "👤 Welcome, <b>" +
+
+            escapeHTML(
+                name
+            ) +
+
+            "</b>" +
+
+            (
+                email
+                ?
+                " · 📧 " +
+                escapeHTML(
+                    email
+                )
+                :
+                ""
+            );
+
+    }
+
+
+    return true;
+
+}
+
+
+
+/* =====================================================
+   GET CATEGORY
+===================================================== */
+
+function getCategory(){
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    return normalize(
+        params.get("type")
+    );
+
+}
+
+
+
+/* =====================================================
+   CATEGORY DETAILS
+===================================================== */
+
+function categoryDetails(type){
+
+    const data = {
+
+        chapter:{
+            title:"📖 Chapter Tests",
+            description:
+                "Chapter-wise Free Tests — Test serial-wise practice करें।"
+        },
+
+        sectional:{
+            title:"📚 Sectional Tests",
+            description:
+                "Subject / Section-wise Free Tests।"
+        },
+
+        full:{
+            title:"📝 Full Tests",
+            description:
+                "Complete exam pattern पर Free Full Tests।"
+        },
+
+        pyq:{
+            title:"🏆 PYQ Practice Mock Tests",
+            description:
+                "Previous Year Questions पर आधारित Free Practice Mock Tests।"
+        }
+
+    };
+
+
+    return data[type] || null;
+
+}
+
+
+
+/* =====================================================
+   LOAD TESTS
+===================================================== */
+
+async function loadTests(){
+
+    const container =
+        document.getElementById(
+            "testList"
+        );
+
+
+    try{
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "mockTests"
+                )
+            );
+
+
+        tests =
+            snapshot.docs.map(
+                function(docSnap){
+
+                    const data =
+                        docSnap.data();
+
+
+                    return {
+
+                        id:
+                            docSnap.id,
+
+                        ...data,
+
+                        testId:
+                            data.testId ||
+                            data.testID ||
+                            data.test_id ||
+                            docSnap.id,
+
+                        testName:
+                            data.testName ||
+                            data.name ||
+                            data.title ||
+                            "Mock Test",
+
+                        testNumber:
+                            data.testNumber ??
+                            data.number ??
+                            data.serial ??
+                            "",
+
+                        testType:
+                            normalize(
+                                data.testType ||
+                                data.type ||
+                                "mock"
+                            ),
+
+                        courseId:
+                            data.courseId ||
+                            data.courseID ||
+                            "",
+
+                        courseName:
+                            data.courseName ||
+                            data.course ||
+                            "",
+
+                        examName:
+                            data.examName ||
+                            data.exam ||
+                            "SSC",
+
+                        subject:
+                            data.subject ||
+                            "",
+
+                        chapter:
+                            data.chapter ||
+                            "",
+
+                        testTime:
+                            Number(
+                                data.testTime ||
+                                data.duration ||
+                                data.time ||
+                                0
+                            ),
+
+                        questionCount:
+                            Number(
+                                data.questionCount ||
+                                data.questionsCount ||
+                                data.totalQuestions ||
+                                0
+                            ),
+
+                        accessType:
+                            normalize(
+                                data.accessType
+                            ),
+
+                        isPaid:
+                            data.isPaid === true ||
+                            data.paid === true,
+
+                        price:
+                            Number(
+                                data.price ||
+                                0
+                            )
+
+                    };
+
+                }
+            );
+
+
+        await loadQuestions();
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Mock Tests Error:",
+            error
+        );
+
+
+        if(container){
+
+            container.innerHTML = `
+
+                <div class="error">
+
+                    ❌ Firebase से Mock Tests load नहीं हो पाए।
+
+                    <br><br>
+
+                    Firestore rules और
+                    <b>mockTests</b> collection check करें।
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+}
+
+
+
+/* =====================================================
+   LOAD QUESTIONS
+===================================================== */
+
+async function loadQuestions(){
+
+    try{
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "mockQuestions"
+                )
+            );
+
+
+        questions =
+            snapshot.docs.map(
+                function(docSnap){
+
+                    const data =
+                        docSnap.data();
+
+
+                    return {
+
+                        id:
+                            docSnap.id,
+
+                        ...data,
+
+                        testId:
+                            data.testId ||
+                            data.testID ||
+                            data.test_id ||
+                            data.mockTestId ||
+                            data.mockTestID ||
+                            "",
+
+                        testName:
+                            data.testName ||
+                            data.name ||
+                            "",
+
+                        testType:
+                            normalize(
+                                data.testType ||
+                                data.type ||
+                                ""
+                            )
+
+                    };
+
+                }
+            );
+
+
+        renderTests();
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Mock Questions Error:",
+            error
+        );
+
+
+        document.getElementById(
+            "testList"
+        ).innerHTML = `
+
+            <div class="error">
+
+                ❌ mockQuestions collection load नहीं हुई।
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   FREE TEST CHECK
+===================================================== */
+
+function isFree(test){
+
+    const access =
+        normalize(
+            test.accessType
+        );
+
+
+    return (
+
+        test.isPaid !== true &&
+
+        (
+            access === "" ||
+            access === "free" ||
+            access === "free test" ||
+            access === "free_mock" ||
+            access === "free-test"
+        ) &&
+
+        Number(
+            test.price || 0
+        ) === 0
+
+    );
+
+}
+
+
+
+/* =====================================================
+   GET UNIQUE QUESTIONS
+===================================================== */
+
+function getUniqueQuestions(
+    inputQuestions
+){
+
+    const unique = [];
+
+    const seenIds =
+        new Set();
+
+    const seenTexts =
+        new Set();
+
+
+    inputQuestions.forEach(
+        function(question){
+
+            if(!question){
+
+                return;
+
+            }
+
+
+            const id =
+                String(
+                    question.id ||
+                    question.questionId ||
+                    question.uid ||
+                    ""
+                )
+                .trim();
+
+
+            const text =
+                normalize(
+                    question.question ||
+                    question.questionText ||
+                    question.text ||
+                    question.q ||
+                    question.questionHindi ||
+                    ""
+                );
+
+
+            if(
+                id &&
+                seenIds.has(id)
+            ){
+
+                return;
+
+            }
+
+
+            if(
+                text &&
+                seenTexts.has(text)
+            ){
+
+                return;
+
+            }
+
+
+            if(id){
+
+                seenIds.add(
+                    id
+                );
+
+            }
+
+
+            if(text){
+
+                seenTexts.add(
+                    text
+                );
+
+            }
+
+
+            unique.push(
+                question
+            );
+
+        }
+    );
+
+
+    return unique;
+
+}
+
+
+
+/* =====================================================
+   GET QUESTION COUNT
+===================================================== */
+
+function getQuestionCount(test){
+
+    const id =
+        String(
+            test.testId ||
+            test.id ||
+            ""
+        )
+        .trim();
+
+
+    const found =
+        questions.filter(
+            function(question){
+
+                return (
+
+                    String(
+                        question.testId ||
+                        ""
+                    )
+                    .trim() === id
+
+                );
+
+            }
+        );
+
+
+    const unique =
+        getUniqueQuestions(
+            found
+        );
+
+
+    if(unique.length){
+
+        return unique.length;
+
+    }
+
+
+    return Number(
+        test.questionCount ||
+        0
+    );
+
+}
+
+
+
+/* =====================================================
+   MATCH CATEGORY
+===================================================== */
+
+function matchesCategory(test){
+
+    const type =
+        normalize(
+            test.testType
+        );
+
+
+    if(
+        currentCategory ===
+        "chapter"
+    ){
+
+        return [
+            "chapter",
+            "chapter test",
+            "chapter_test"
+        ].includes(
+            type
+        );
+
+    }
+
+
+    if(
+        currentCategory ===
+        "sectional"
+    ){
+
+        return [
+            "sectional",
+            "sectional test",
+            "sectional_test"
+        ].includes(
+            type
+        );
+
+    }
+
+
+    if(
+        currentCategory ===
+        "full"
+    ){
+
+        return [
+            "full",
+            "full test",
+            "full_test"
+        ].includes(
+            type
+        );
+
+    }
+
+
+    if(
+        currentCategory ===
+        "pyq"
+    ){
+
+        return [
+            "pyq",
+            "pyq test",
+            "pyq_test",
+            "practice",
+            "practice mock",
+            "practice_mock"
+        ].includes(
+            type
+        );
+
+    }
+
+
+    return false;
+
+}
+
+
+
+/* =====================================================
+   SORT
+===================================================== */
+
+function sortTests(a,b){
+
+    const aNum =
+        Number(
+            a.testNumber
+        );
+
+
+    const bNum =
+        Number(
+            b.testNumber
+        );
+
+
+    if(
+        !Number.isNaN(aNum) &&
+        !Number.isNaN(bNum) &&
+        aNum !== bNum
+    ){
+
+        return aNum - bNum;
+
+    }
+
+
+    return String(
+        a.testName || ""
+    )
+    .localeCompare(
+        String(
+            b.testName || ""
+        ),
+        undefined,
+        {
+            numeric:true,
+            sensitivity:"base"
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   RENDER TESTS
+===================================================== */
+
+function renderTests(){
+
+    const container =
+        document.getElementById(
+            "testList"
+        );
+
+
+    let filtered =
+        tests.filter(
+            function(test){
+
+                return (
+
+                    matchesCategory(
+                        test
+                    ) &&
+
+                    isFree(
+                        test
+                    )
+
+                );
+
+            }
+        );
+
+
+    filtered.sort(
+        sortTests
+    );
+
+
+    if(
+        !filtered.length
+    ){
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                😔 अभी इस category में कोई Free Test available नहीं है।
+
+                <br><br>
+
+                Admin में Test Type और accessType check करें।
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+
+        filtered.map(
+            function(test,index){
+
+                const count =
+                    getQuestionCount(
+                        test
+                    );
+
+
+                return `
+
+                    <div class="test-card">
+
+                        <div class="test-top">
+
+                            <div class="serial">
+
+                                ${
+                                    test.testNumber !== ""
+                                    ?
+                                    escapeHTML(
+                                        test.testNumber
+                                    )
+                                    :
+                                    index + 1
+                                }
+
+                            </div>
+
+
+                            <div class="test-content">
+
+                                <span class="badge">
+                                    🆓 FREE
+                                </span>
+
+
+                                <h3>
+
+                                    ${escapeHTML(
+                                        test.testName
+                                    )}
+
+                                </h3>
+
+
+                                <div class="info">
+
+                                    ${
+                                        test.courseName
+                                        ?
+                                        `
+                                        📚 Course:
+                                        <b>
+                                            ${escapeHTML(
+                                                test.courseName
+                                            )}
+                                        </b>
+                                        <br>
+                                        `
+                                        :
+                                        ""
+                                    }
+
+
+                                    ${
+                                        test.subject
+                                        ?
+                                        `
+                                        📘 Subject:
+                                        <b>
+                                            ${escapeHTML(
+                                                test.subject
+                                            )}
+                                        </b>
+                                        <br>
+                                        `
+                                        :
+                                        ""
+                                    }
+
+
+                                    ${
+                                        test.chapter
+                                        ?
+                                        `
+                                        📖 Chapter:
+                                        <b>
+                                            ${escapeHTML(
+                                                test.chapter
+                                            )}
+                                        </b>
+                                        <br>
+                                        `
+                                        :
+                                        ""
+                                    }
+
+
+                                    ❓ Questions:
+                                    <b>
+                                        ${count}
+                                    </b>
+
+
+                                    ${
+                                        test.testTime > 0
+                                        ?
+                                        `
+                                        <br>
+
+                                        ⏱️ Time:
+                                        <b>
+                                            ${test.testTime}
+                                            Minutes
+                                        </b>
+                                        `
+                                        :
+                                        ""
+                                    }
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            class="start"
+                            type="button"
+                            onclick="startTest('${escapeHTML(test.id)}')"
+                        >
+
+                            🚀 Start Test
+
+                        </button>
+
+                    </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+
+/* =====================================================
+   START TEST
+===================================================== */
+
+function startTest(id){
+
+    const test =
+        tests.find(
+            function(item){
+
+                return (
+                    String(
+                        item.id
+                    ) ===
+                    String(
+                        id
+                    )
+                );
+
+            }
+        );
+
+
+    if(!test){
+
+        alert(
+            "❌ Test नहीं मिला।"
+        );
+
+        return;
+
+    }
+
+
+    const testId =
+        String(
+            test.testId ||
+            test.id ||
+            ""
+        )
+        .trim();
+
+
+    let testQuestions =
+        questions.filter(
+            function(question){
+
+                return (
+
+                    String(
+                        question.testId ||
+                        ""
+                    )
+                    .trim() ===
+                    testId
+
+                );
+
+            }
+        );
+
+
+    if(
+        !testQuestions.length
+    ){
+
+        testQuestions =
+            questions.filter(
+                function(question){
+
+                    return (
+
+                        normalize(
+                            question.testName
+                        ) ===
+                        normalize(
+                            test.testName
+                        )
+
+                    );
+
+                }
+            );
+
+    }
+
+
+    testQuestions =
+        getUniqueQuestions(
+            testQuestions
+        );
+
+
+    if(
+        !testQuestions.length
+    ){
+
+        alert(
+            "❌ इस Test के questions नहीं मिले।"
+        );
+
+        return;
+
+    }
+
+
+    const configuredCount =
+        Number(
+            test.questionCount ||
+            0
+        );
+
+
+    if(
+        configuredCount > 0 &&
+        testQuestions.length >
+        configuredCount
+    ){
+
+        testQuestions =
+            testQuestions.slice(
+                0,
+                configuredCount
+            );
+
+    }
+
+
+    const selectedTest = {
+
+        id:
+            test.id,
+
+        testId:
+            testId,
+
+        testName:
+            test.testName,
+
+        testNumber:
+            test.testNumber,
+
+        testType:
+            test.testType,
+
+        courseId:
+            test.courseId ||
+            "",
+
+        courseName:
+            test.courseName ||
+            "",
+
+        examName:
+            test.examName ||
+            "SSC",
+
+        subject:
+            test.subject ||
+            "",
+
+        chapter:
+            test.chapter ||
+            "",
+
+        testTime:
+            Number(
+                test.testTime ||
+                0
+            ),
+
+        questionCount:
+            testQuestions.length,
+
+        accessType:
+            "free",
+
+        isPaid:
+            false,
+
+        price:
+            0,
+
+        questions:
+            testQuestions
+
+    };
+
+
+    localStorage.removeItem(
+        "selectedDynamicTest"
+    );
+
+
+    localStorage.setItem(
+        "selectedDynamicTest",
+        JSON.stringify(
+            selectedTest
+        )
+    );
+
+
+    localStorage.setItem(
+        "selectedTestType",
+        test.testType
+    );
+
+
+    localStorage.setItem(
+        "selectedTestAccessType",
+        "free"
+    );
+
+
+    localStorage.setItem(
+        "selectedTestTime",
+        String(
+            test.testTime ||
+            0
+        )
+    );
+
+
+    console.log(
+        "RM Vidya Peeth - Test ID:",
+        testId
+    );
+
+
+    console.log(
+        "RM Vidya Peeth - Original Questions:",
+        questions.filter(
+            q =>
+                String(
+                    q.testId || ""
+                ).trim() === testId
+        ).length
+    );
+
+
+    console.log(
+        "RM Vidya Peeth - Unique Questions:",
+        testQuestions.length
+    );
+
+
+    window.location.href =
+        "free-test.html";
+
+}
+
+
+
+/* =====================================================
+   BACK
+===================================================== */
+
+function goBack(){
+
+    window.location.href =
+        "free-mock.html";
+
+}
+
+
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+window.startTest =
+    startTest;
+
+
+window.goBack =
+    goBack;
+
+
+
+/* =====================================================
+   DOM READY
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function(){
+
+        if(
+            !showStudent()
+        ){
+
+            return;
+
+        }
+
+
+        currentCategory =
+            getCategory();
+
+
+        const details =
+            categoryDetails(
+                currentCategory
+            );
+
+
+        if(!details){
+
+            document.getElementById(
+                "testList"
+            ).innerHTML = `
+
+                <div class="error">
+
+                    ❌ Invalid Test Category.
+
+                    <br><br>
+
+                    वापस जाकर सही category चुनें।
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        document.getElementById(
+            "title"
+        ).textContent =
+            details.title;
+
+
+        document.getElementById(
+            "description"
+        ).textContent =
+            details.description;
+
+
+        document.getElementById(
+            "categoryBox"
+        ).innerHTML =
+
+            "🆓 <b>" +
+
+            escapeHTML(
+                details.title
+            ) +
+
+            "</b> — Test serial-wise";
+
+
+        await loadTests();
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>

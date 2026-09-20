@@ -1,0 +1,10 @@
+plugins { id 'com.android.application' }
+
+android { namespace 'com.thehub.app'; compileSdk 35
+    defaultConfig { applicationId 'com.thehub.app'; minSdk 23; targetSdk 35; versionCode 16; versionName '16.0' }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.webkit:webkit:1.12.1'
+}

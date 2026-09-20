@@ -1,0 +1,3882 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,initial-scale=1.0">
+
+<title>THE HUB - Admin Test</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+.page{
+    width:100%;
+    max-width:1150px;
+    margin:auto;
+    padding:15px 12px 80px;
+}
+
+.header{
+    background:#1e293b;
+    border:1px solid #334155;
+    border-radius:18px;
+    padding:20px;
+    margin-bottom:18px;
+}
+
+.header h1{
+    margin:0;
+    font-size:28px;
+}
+
+.header p{
+    color:#cbd5e1;
+    margin:8px 0 0;
+}
+
+.card{
+    background:#1e293b;
+    border:1px solid #334155;
+    border-radius:18px;
+    padding:20px;
+    margin-bottom:18px;
+}
+
+.card-title{
+    margin:0 0 18px;
+    color:#93c5fd;
+    font-size:23px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.full{
+    grid-column:1/-1;
+}
+
+label{
+    display:block;
+    font-weight:bold;
+    color:#e2e8f0;
+    margin-bottom:7px;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:13px;
+    border-radius:10px;
+    border:2px solid #64748b;
+    background:#fff;
+    color:#0f172a;
+    font-size:16px;
+    outline:none;
+}
+
+textarea{
+    min-height:130px;
+    resize:vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#60a5fa;
+}
+
+.help{
+    color:#94a3b8;
+    font-size:13px;
+    margin-top:6px;
+    line-height:1.5;
+}
+
+.btn{
+    border:0;
+    border-radius:10px;
+    padding:12px 17px;
+    color:#fff;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.btn:hover{
+    opacity:.9;
+}
+
+.blue{background:#2563eb;}
+.green{background:#16a34a;}
+.red{background:#dc2626;}
+.orange{background:#ea580c;}
+.purple{background:#9333ea;}
+.gray{background:#475569;}
+.cyan{background:#0891b2;}
+
+.dark{
+    background:#020617;
+    border:1px solid #475569;
+}
+
+.button-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.status{
+    display:none;
+    padding:13px;
+    border-radius:10px;
+    margin-bottom:15px;
+    font-weight:bold;
+    line-height:1.5;
+}
+
+.status.show{
+    display:block;
+}
+
+.status.success{
+    background:#14532d;
+    color:#bbf7d0;
+}
+
+.status.error{
+    background:#7f1d1d;
+    color:#fecaca;
+}
+
+.status.info{
+    background:#164e63;
+    color:#cffafe;
+}
+
+.question-box{
+    background:#0f172a;
+    border:1px solid #334155;
+    border-radius:14px;
+    padding:16px;
+    margin-bottom:12px;
+}
+
+.question-number{
+    color:#60a5fa;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.question-text{
+    margin-top:10px;
+    line-height:1.6;
+}
+
+.option{
+    margin-top:7px;
+    color:#cbd5e1;
+    line-height:1.5;
+}
+
+.correct{
+    color:#22c55e;
+    font-weight:bold;
+}
+
+.meta{
+    margin-top:10px;
+    color:#94a3b8;
+    font-size:14px;
+    line-height:1.6;
+}
+
+.small-buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+    margin-top:13px;
+}
+
+.small-btn{
+    border:0;
+    border-radius:8px;
+    padding:8px 11px;
+    color:#fff;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.counter{
+    background:#0f172a;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:15px;
+    margin-bottom:15px;
+    font-size:18px;
+}
+
+.counter span{
+    color:#22c55e;
+    font-weight:bold;
+}
+
+.format{
+    background:#020617;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:15px;
+    margin-bottom:15px;
+    line-height:1.7;
+}
+
+.format pre{
+    white-space:pre-wrap;
+    color:#e2e8f0;
+    background:#0f172a;
+    padding:12px;
+    border-radius:9px;
+    overflow:auto;
+}
+
+.test-item{
+    background:#0f172a;
+    border:1px solid #334155;
+    border-radius:14px;
+    padding:15px;
+    margin-bottom:12px;
+}
+
+.test-title{
+    color:#93c5fd;
+    font-size:19px;
+    font-weight:bold;
+}
+
+.test-meta{
+    color:#cbd5e1;
+    line-height:1.7;
+    margin-top:8px;
+}
+
+.empty{
+    text-align:center;
+    color:#94a3b8;
+    padding:20px;
+}
+
+.danger-box{
+    background:#450a0a;
+    border:1px solid #991b1b;
+    border-radius:14px;
+    padding:16px;
+}
+
+.danger-box h3{
+    margin-top:0;
+    color:#fecaca;
+}
+
+.auth-box{
+    background:#172554;
+    border:1px solid #3b82f6;
+    border-radius:16px;
+    padding:18px;
+    margin-bottom:18px;
+}
+
+.auth-box h2{
+    margin-top:0;
+    color:#93c5fd;
+}
+
+.user-info{
+    background:#052e16;
+    border:1px solid #16a34a;
+    border-radius:12px;
+    padding:12px;
+    margin-bottom:15px;
+    color:#bbf7d0;
+}
+
+.hidden{
+    display:none!important;
+}
+
+.access-free{
+    color:#22c55e;
+    font-weight:bold;
+}
+
+.access-paid{
+    color:#fbbf24;
+    font-weight:bold;
+}
+
+.reattempt-box{
+    background:#082f49;
+    border:1px solid #0891b2;
+    border-radius:12px;
+    padding:14px;
+    color:#cffafe;
+    line-height:1.6;
+}
+
+.session-box{
+    background:#312e81;
+    border:1px solid #6366f1;
+    border-radius:12px;
+    padding:14px;
+    margin-bottom:15px;
+    line-height:1.7;
+}
+
+.session-box b{
+    color:#c7d2fe;
+}
+
+@media(max-width:700px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .full{
+        grid-column:auto;
+    }
+
+    .button-row{
+        flex-direction:column;
+    }
+
+    .button-row .btn{
+        width:100%;
+    }
+
+    .header h1{
+        font-size:24px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+<h1>📝 THE HUB - Admin Test</h1>
+
+<p>
+Firestore आधारित Question और Test Management
+</p>
+
+</div>
+
+
+<!-- STATUS -->
+
+<div id="status" class="status"></div>
+
+
+<!-- FIREBASE AUTH -->
+
+<div id="authBox" class="auth-box hidden">
+
+<h2>🔐 Firebase Admin Login</h2>
+
+<p>
+Firestore data देखने और बदलने के लिए Firebase Authentication जरूरी है।
+</p>
+
+<div class="grid">
+
+<div>
+
+<label>📧 Admin Email</label>
+
+<input
+id="authEmail"
+type="email"
+placeholder="Admin Firebase Email"
+>
+
+</div>
+
+
+<div>
+
+<label>🔑 Password</label>
+
+<input
+id="authPassword"
+type="password"
+placeholder="Password"
+>
+
+</div>
+
+</div>
+
+<br>
+
+<button
+class="btn blue"
+onclick="firebaseAdminLogin()"
+>
+🔐 Firebase Admin Login
+</button>
+
+</div>
+
+
+<!-- LOGGED USER -->
+
+<div id="userBox"
+     class="user-info hidden">
+
+<div>
+👤 Firebase Admin:
+<span id="userEmail"></span>
+</div>
+
+<br>
+
+<button
+class="btn red"
+onclick="firebaseAdminLogout()"
+>
+🚪 Logout
+</button>
+
+</div>
+
+
+<div id="appContent" class="hidden">
+
+
+<!-- =====================================================
+     CURRENT TEST SESSION
+===================================================== -->
+
+<div class="session-box">
+
+<b>🟢 Current Test Session</b>
+
+<br>
+
+इस page पर पहले Test की सारी जानकारी भरें और फिर उसी Test के
+questions Add या Bulk Upload करें।
+
+<br>
+
+Question को manually select करने की जरूरत नहीं है।
+
+<br>
+
+<b>🔐 Session ID:</b>
+
+<span id="sessionIdText">-</span>
+
+</div>
+
+
+<!-- =====================================================
+     TEST INFORMATION
+===================================================== -->
+
+<div class="card">
+
+<h2 class="card-title">
+📋 Test Information
+</h2>
+
+<div class="grid">
+
+
+<div>
+
+<label>📝 Test Type</label>
+
+<select id="testType">
+
+<option value="Chapter">
+📖 Chapter Test
+</option>
+
+<option value="Sectional">
+📚 Sectional Test
+</option>
+
+<option value="Full PYQ">
+📜 Full PYQ
+</option>
+
+<option value="Full Mock">
+📝 Full Mock Test
+</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>💳 Test Access</label>
+
+<select id="access">
+
+<option value="free">
+🆓 Free
+</option>
+
+<option value="paid">
+💳 Paid
+</option>
+
+</select>
+
+<div class="help">
+
+🆓 Free = कोई payment नहीं।
+
+<br>
+
+💳 Paid = Student को payment/access verification के बाद test मिलेगा।
+
+<br><br>
+
+<b>
+⚠️ Individual Test Price इस page पर नहीं होगा।
+</b>
+
+</div>
+
+</div>
+
+
+<div>
+
+<label>📘 Course</label>
+
+<input
+id="course"
+placeholder="जैसे SSC CGL"
+>
+
+</div>
+
+
+<div>
+
+<label>🏛️ Exam Name</label>
+
+<input
+id="examName"
+placeholder="जैसे SSC CGL 2026"
+>
+
+</div>
+
+
+<div>
+
+<label>📁 Category</label>
+
+<input
+id="category"
+placeholder="जैसे SSC"
+>
+
+</div>
+
+
+<div>
+
+<label>📘 Subject</label>
+
+<input
+id="subject"
+placeholder="जैसे Mathematics"
+>
+
+</div>
+
+
+<div>
+
+<label>📖 Chapter</label>
+
+<input
+id="chapter"
+placeholder="Chapter"
+>
+
+</div>
+
+
+<div>
+
+<label>📚 Section / Topic</label>
+
+<input
+id="section"
+placeholder="Section / Topic"
+>
+
+</div>
+
+
+<div>
+
+<label>🔢 Test Number</label>
+
+<input
+id="testNumber"
+type="number"
+min="1"
+value="1"
+>
+
+</div>
+
+
+<div>
+
+<label>📋 Test Name</label>
+
+<input
+id="testName"
+placeholder="जैसे Mathematics Test - 1"
+>
+
+</div>
+
+
+<div>
+
+<label>⏱️ Test Time (Minutes)</label>
+
+<input
+id="testTime"
+type="number"
+min="1"
+value="30"
+>
+
+</div>
+
+
+<div>
+
+<label>🎯 Marks Per Question</label>
+
+<input
+id="marksPerQuestion"
+type="number"
+step="0.01"
+value="1"
+>
+
+</div>
+
+
+<div>
+
+<label>➖ Negative Marks</label>
+
+<input
+id="negativeMarks"
+type="number"
+step="0.01"
+value="0"
+>
+
+</div>
+
+
+<div class="full">
+
+<div class="reattempt-box">
+
+<b>🔄 Reattempt System</b>
+
+<br>
+
+इस Test को Student एक से अधिक बार attempt कर सकेगा।
+
+<br>
+
+हर attempt का अलग score Firestore में save किया जाएगा।
+
+<br>
+
+पुराना score delete या overwrite नहीं होगा।
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     ADD QUESTION
+===================================================== -->
+
+<div class="card">
+
+<h2 class="card-title">
+❓ Add Question
+</h2>
+
+<div class="counter">
+
+Current Test Questions:
+<span id="questionCount">0</span>
+
+</div>
+
+
+<div class="grid">
+
+
+<div class="full">
+
+<label>
+📁 Question File Name
+</label>
+
+<input
+id="fileName"
+placeholder="जैसे mathematics-chapter-1.txt"
+>
+
+<div class="help">
+
+यह File Name Question के साथ Firestore में save होगा।
+
+</div>
+
+</div>
+
+
+<div class="full">
+
+<label>
+❓ Question
+</label>
+
+<textarea
+id="question"
+placeholder="पूरा question लिखें..."
+></textarea>
+
+</div>
+
+
+<div>
+
+<label>A. Option</label>
+
+<input
+id="optionA"
+placeholder="Option A"
+>
+
+</div>
+
+
+<div>
+
+<label>B. Option</label>
+
+<input
+id="optionB"
+placeholder="Option B"
+>
+
+</div>
+
+
+<div>
+
+<label>C. Option</label>
+
+<input
+id="optionC"
+placeholder="Option C"
+>
+
+</div>
+
+
+<div>
+
+<label>D. Option</label>
+
+<input
+id="optionD"
+placeholder="Option D"
+>
+
+</div>
+
+
+<div>
+
+<label>✅ Correct Answer</label>
+
+<select id="correctAnswer">
+
+<option value="">
+-- Select --
+</option>
+
+<option value="0">A</option>
+
+<option value="1">B</option>
+
+<option value="2">C</option>
+
+<option value="3">D</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>🎯 Marks</label>
+
+<input
+id="questionMarks"
+type="number"
+step="0.01"
+value="1"
+>
+
+</div>
+
+
+<div class="full">
+
+<label>
+💡 Solution / Explanation
+</label>
+
+<textarea
+id="solution"
+placeholder="Question का solution / explanation..."
+></textarea>
+
+</div>
+
+</div>
+
+
+<br>
+
+<div class="button-row">
+
+<button
+class="btn green"
+onclick="addQuestion()"
+>
+➕ Add Question
+</button>
+
+<button
+class="btn gray"
+onclick="clearQuestionForm()"
+>
+🧹 Clear
+</button>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     BULK
+===================================================== -->
+
+<div class="card">
+
+<h2 class="card-title">
+📥 Bulk Question Upload
+</h2>
+
+
+<div class="format">
+
+<b style="color:#60a5fa;">
+📌 TXT Format
+</b>
+
+<p>
+हर question के बीच <b>---</b> लगाएँ।
+</p>
+
+<pre>FileName: mathematics-chapter-1.txt
+Question: 2 + 2 = ?
+A: 2
+B: 3
+C: 4
+D: 5
+Answer: C
+Solution: 2 और 2 का योग 4 होता है।
+
+---
+
+FileName: mathematics-chapter-1.txt
+Question: 5 × 5 = ?
+A: 10
+B: 20
+C: 25
+D: 30
+Answer: C
+Solution: 5 × 5 = 25.</pre>
+
+</div>
+
+
+<label>
+📄 Select Question File
+</label>
+
+<input
+id="questionFile"
+type="file"
+accept=".txt,.csv"
+>
+
+<br><br>
+
+
+<label>
+📥 या Questions Paste करें
+</label>
+
+<textarea
+id="bulkText"
+style="min-height:300px"
+placeholder="ऊपर दिए format में questions paste करें..."
+></textarea>
+
+<br>
+
+<div class="button-row">
+
+<button
+class="btn purple"
+onclick="uploadBulkQuestions()"
+>
+📥 Upload Questions to Current Test
+</button>
+
+<button
+class="btn gray"
+onclick="clearBulk()"
+>
+🧹 Clear
+</button>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     CURRENT TEST QUESTIONS
+===================================================== -->
+
+<div class="card">
+
+<h2 class="card-title">
+📋 Current Test Questions
+</h2>
+
+<div class="counter">
+
+इस Test के Questions:
+<span id="firestoreQuestionCount">0</span>
+
+</div>
+
+<div id="questionList">
+
+<div class="empty">
+Questions load हो रहे हैं...
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     SAVE TEST
+===================================================== -->
+
+<div class="card">
+
+<h2 class="card-title">
+💾 Save Test
+</h2>
+
+<div class="help"
+     style="margin-bottom:15px">
+
+<b>Important:</b>
+
+Question Bank से manually question select करने की जरूरत नहीं है।
+
+<br><br>
+
+इस current Test Session में Add/Bulk Upload किए गए सभी questions
+automatically इसी Test में जुड़ेंगे।
+
+<br><br>
+
+पुराने Test के questions इस Test में नहीं आएंगे।
+
+<br><br>
+
+<b>🔄 Reattempt:</b>
+
+Student test को unlimited बार attempt कर सकेगा।
+
+</div>
+
+<div class="button-row">
+
+<button
+class="btn green"
+onclick="saveTest()"
+>
+💾 Save Test to Firestore
+</button>
+
+<button
+class="btn blue"
+onclick="loadCurrentTestQuestions()"
+>
+🔄 Refresh Questions
+</button>
+
+<button
+class="btn orange"
+onclick="newTest()"
+>
+➕ New Test
+</button>
+
+<button
+class="btn dark"
+onclick="goBack()"
+>
+⬅️ Admin Dashboard
+</button>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     TESTS
+===================================================== -->
+
+<div class="card">
+
+<h2 class="card-title">
+📚 Firestore Tests
+</h2>
+
+<div id="testList">
+
+<div class="empty">
+Tests load हो रहे हैं...
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     DELETE
+===================================================== -->
+
+<div class="card">
+
+<div class="danger-box">
+
+<h3>
+⚠️ Danger Zone
+</h3>
+
+<p>
+यह button <b>mockQuestions</b> collection के सभी questions permanently
+delete करेगा।
+</p>
+
+<button
+class="btn red"
+onclick="deleteAllQuestions()"
+>
+🗑️ Delete All Firestore Questions
+</button>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<footer style="
+text-align:center;
+color:#64748b;
+padding:20px;
+">
+
+© 2026 THE HUB. All Rights Reserved.
+
+</footer>
+
+
+<script type="module">
+
+
+/* =====================================================
+   FIREBASE
+===================================================== */
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged,
+    signInWithEmailAndPassword,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    doc,
+    updateDoc,
+    deleteDoc,
+    writeBatch,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyAqsesw3BWaHK7G1Y1jw0K9kr9suZ1pPV4",
+
+    authDomain:
+        "ssc-courses.firebaseapp.com",
+
+    projectId:
+        "ssc-courses",
+
+    storageBucket:
+        "ssc-courses.firebasestorage.app",
+
+    messagingSenderId:
+        "886294132394",
+
+    appId:
+        "1:886294132394:web:58b82a2a49f9cd1e0f02d3",
+
+    measurementId:
+        "G-9QSCEVYSE5"
+
+};
+
+
+const app =
+    initializeApp(firebaseConfig);
+
+const auth =
+    getAuth(app);
+
+const db =
+    getFirestore(app);
+
+
+/* =====================================================
+   COLLECTIONS
+===================================================== */
+
+const QUESTIONS =
+    "mockQuestions";
+
+const TESTS =
+    "mockTests";
+
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+let questions = [];
+
+let editingQuestionId = null;
+
+let editingTestId = null;
+
+let firebaseUser = null;
+
+
+/* =====================================================
+   CURRENT TEST SESSION
+===================================================== */
+
+let currentTestSessionId =
+    localStorage.getItem(
+        "THE_HUB_CURRENT_TEST_SESSION"
+    );
+
+
+function createTestSessionId(){
+
+    return "TEST_" +
+        Date.now() +
+        "_" +
+        Math.random()
+        .toString(36)
+        .substring(2,10);
+
+}
+
+
+function ensureTestSession(){
+
+    if(!currentTestSessionId){
+
+        currentTestSessionId =
+            createTestSessionId();
+
+        localStorage.setItem(
+            "THE_HUB_CURRENT_TEST_SESSION",
+            currentTestSessionId
+        );
+
+    }
+
+    updateSessionDisplay();
+
+    return currentTestSessionId;
+
+}
+
+
+function updateSessionDisplay(){
+
+    const box =
+        document.getElementById(
+            "sessionIdText"
+        );
+
+    if(box){
+
+        box.textContent =
+            currentTestSessionId || "-";
+
+    }
+
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+function showStatus(
+    message,
+    type="success"
+){
+
+    const box =
+        document.getElementById(
+            "status"
+        );
+
+    box.className =
+        "status show " + type;
+
+    box.textContent =
+        message;
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+    setTimeout(()=>{
+
+        box.className="status";
+
+    },7000);
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   FIREBASE LOGIN
+===================================================== */
+
+window.firebaseAdminLogin =
+async function(){
+
+    const email =
+        document.getElementById(
+            "authEmail"
+        )
+        .value
+        .trim();
+
+    const password =
+        document.getElementById(
+            "authPassword"
+        )
+        .value;
+
+
+    if(!email){
+
+        showStatus(
+            "Admin Email भरें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!password){
+
+        showStatus(
+            "Password भरें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+        showStatus(
+            "✅ Firebase Admin Login successful."
+        );
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        showStatus(
+            "Firebase Login failed: " +
+            error.message,
+            "error"
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+window.firebaseAdminLogout =
+async function(){
+
+    try{
+
+        await signOut(auth);
+
+        showStatus(
+            "Firebase Admin logout हो गया।",
+            "info"
+        );
+
+    }
+    catch(error){
+
+        showStatus(
+            "Logout failed: " +
+            error.message,
+            "error"
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   AUTH STATE
+===================================================== */
+
+onAuthStateChanged(
+    auth,
+    async user => {
+
+        firebaseUser = user;
+
+        const authBox =
+            document.getElementById(
+                "authBox"
+            );
+
+        const userBox =
+            document.getElementById(
+                "userBox"
+            );
+
+        const appContent =
+            document.getElementById(
+                "appContent"
+            );
+
+
+        if(!user){
+
+            authBox.classList.remove(
+                "hidden"
+            );
+
+            userBox.classList.add(
+                "hidden"
+            );
+
+            appContent.classList.add(
+                "hidden"
+            );
+
+            return;
+
+        }
+
+
+        authBox.classList.add(
+            "hidden"
+        );
+
+        userBox.classList.remove(
+            "hidden"
+        );
+
+        appContent.classList.remove(
+            "hidden"
+        );
+
+
+        document.getElementById(
+            "userEmail"
+        ).textContent =
+            user.email || user.uid;
+
+
+        ensureTestSession();
+
+
+        try{
+
+            await loadCurrentTestQuestions();
+
+            await loadTests();
+
+        }
+        catch(error){
+
+            console.error(error);
+
+            showStatus(
+                "Firestore load error: " +
+                error.message,
+                "error"
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   ADD QUESTION
+===================================================== */
+
+window.addQuestion =
+async function(){
+
+    if(!firebaseUser){
+
+        showStatus(
+            "पहले Firebase Admin Login करें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const testSessionId =
+        ensureTestSession();
+
+
+    const fileName =
+        document.getElementById(
+            "fileName"
+        )
+        .value
+        .trim();
+
+
+    const question =
+        document.getElementById(
+            "question"
+        )
+        .value
+        .trim();
+
+
+    const A =
+        document.getElementById(
+            "optionA"
+        )
+        .value
+        .trim();
+
+
+    const B =
+        document.getElementById(
+            "optionB"
+        )
+        .value
+        .trim();
+
+
+    const C =
+        document.getElementById(
+            "optionC"
+        )
+        .value
+        .trim();
+
+
+    const D =
+        document.getElementById(
+            "optionD"
+        )
+        .value
+        .trim();
+
+
+    const correctAnswer =
+        document.getElementById(
+            "correctAnswer"
+        )
+        .value;
+
+
+    const solution =
+        document.getElementById(
+            "solution"
+        )
+        .value
+        .trim();
+
+
+    const marks =
+        Number(
+            document.getElementById(
+                "questionMarks"
+            ).value
+        ) || 1;
+
+
+    const testName =
+        document.getElementById(
+            "testName"
+        )
+        .value
+        .trim();
+
+
+    if(!testName){
+
+        showStatus(
+            "पहले Test Name भरें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!fileName){
+
+        showStatus(
+            "Question File Name भरें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!question){
+
+        showStatus(
+            "Question लिखें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!A || !B || !C || !D){
+
+        showStatus(
+            "चारों options भरना जरूरी है।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(correctAnswer===""){
+
+        showStatus(
+            "Correct Answer select करें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        const data = {
+
+            testSessionId,
+
+            fileName,
+
+            question,
+
+            options:[
+                A,
+                B,
+                C,
+                D
+            ],
+
+            correctAnswer:
+                Number(correctAnswer),
+
+            solution,
+
+            explanation:
+                solution,
+
+            marks,
+
+            testType:
+                document.getElementById(
+                    "testType"
+                ).value,
+
+            course:
+                document.getElementById(
+                    "course"
+                ).value
+                .trim(),
+
+            examName:
+                document.getElementById(
+                    "examName"
+                ).value
+                .trim(),
+
+            category:
+                document.getElementById(
+                    "category"
+                ).value
+                .trim(),
+
+            subject:
+                document.getElementById(
+                    "subject"
+                ).value
+                .trim(),
+
+            chapter:
+                document.getElementById(
+                    "chapter"
+                ).value
+                .trim(),
+
+            section:
+                document.getElementById(
+                    "section"
+                ).value
+                .trim(),
+
+            testName,
+
+            testNumber:
+                Number(
+                    document.getElementById(
+                        "testNumber"
+                    ).value
+                ) || 1,
+
+            testTime:
+                Number(
+                    document.getElementById(
+                        "testTime"
+                    ).value
+                ) || 30,
+
+            createdBy:
+                firebaseUser.uid,
+
+            createdAt:
+                serverTimestamp(),
+
+            updatedAt:
+                serverTimestamp()
+
+        };
+
+
+        if(editingQuestionId){
+
+            await updateDoc(
+                doc(
+                    db,
+                    QUESTIONS,
+                    editingQuestionId
+                ),
+                data
+            );
+
+
+            showStatus(
+                "✅ Question update हो गया।"
+            );
+
+        }
+        else{
+
+            await addDoc(
+                collection(
+                    db,
+                    QUESTIONS
+                ),
+                data
+            );
+
+
+            showStatus(
+                "✅ Question current Test में save हो गया।"
+            );
+
+        }
+
+
+        clearQuestionForm();
+
+        await loadCurrentTestQuestions();
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        showStatus(
+            "Question save नहीं हुआ: " +
+            error.message,
+            "error"
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   LOAD CURRENT TEST QUESTIONS
+===================================================== */
+
+window.loadCurrentTestQuestions =
+async function(){
+
+    if(!firebaseUser){
+
+        return;
+
+    }
+
+
+    const sessionId =
+        ensureTestSession();
+
+
+    try{
+
+        const snap =
+            await getDocs(
+                collection(
+                    db,
+                    QUESTIONS
+                )
+            );
+
+
+        questions=[];
+
+
+        snap.forEach(item=>{
+
+            const data =
+                item.data();
+
+
+            if(
+                data.testSessionId ===
+                sessionId
+            ){
+
+                questions.push({
+
+                    id:item.id,
+
+                    ...data
+
+                });
+
+            }
+
+        });
+
+
+        renderQuestions();
+
+    }
+    catch(error){
+
+        console.error(
+            "QUESTION LOAD ERROR:",
+            error
+        );
+
+
+        showStatus(
+            "Questions load नहीं हुए: " +
+            error.message,
+            "error"
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   RENDER QUESTIONS
+===================================================== */
+
+function renderQuestions(){
+
+    const box =
+        document.getElementById(
+            "questionList"
+        );
+
+
+    document.getElementById(
+        "questionCount"
+    ).textContent =
+        questions.length;
+
+
+    document.getElementById(
+        "firestoreQuestionCount"
+    ).textContent =
+        questions.length;
+
+
+    if(!questions.length){
+
+        box.innerHTML = `
+
+            <div class="empty">
+
+                इस Current Test में अभी कोई question नहीं है।
+
+                <br><br>
+
+                ऊपर से Add Question या Bulk Upload करें।
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    box.innerHTML =
+        questions.map(
+            (q,index)=>{
+
+
+            const options =
+                Array.isArray(
+                    q.options
+                )
+                ? q.options
+                : [
+                    q.A || "",
+                    q.B || "",
+                    q.C || "",
+                    q.D || ""
+                ];
+
+
+            const correct =
+                Number(
+                    q.correctAnswer
+                );
+
+
+            const answerLetter =
+                ["A","B","C","D"][
+                    correct
+                ]
+                ||
+                q.correctAnswer
+                ||
+                "-";
+
+
+            const explanation =
+                q.solution ||
+                q.explanation ||
+                "";
+
+
+            return `
+
+                <div class="question-box">
+
+                    <div class="question-number">
+
+                        Question ${index+1}
+
+                    </div>
+
+
+                    <div class="question-text">
+
+                        ${escapeHTML(
+                            q.question || "-"
+                        )}
+
+                    </div>
+
+
+                    <div class="option">
+
+                        A.
+                        ${escapeHTML(
+                            options[0] || ""
+                        )}
+
+                    </div>
+
+
+                    <div class="option">
+
+                        B.
+                        ${escapeHTML(
+                            options[1] || ""
+                        )}
+
+                    </div>
+
+
+                    <div class="option">
+
+                        C.
+                        ${escapeHTML(
+                            options[2] || ""
+                        )}
+
+                    </div>
+
+
+                    <div class="option">
+
+                        D.
+                        ${escapeHTML(
+                            options[3] || ""
+                        )}
+
+                    </div>
+
+
+                    <div class="option correct">
+
+                        ✅ Correct:
+                        ${escapeHTML(
+                            answerLetter
+                        )}
+
+                    </div>
+
+
+                    <div class="meta">
+
+                        📁 File:
+                        ${escapeHTML(
+                            q.fileName || "-"
+                        )}
+
+                        <br>
+
+                        📘 Subject:
+                        ${escapeHTML(
+                            q.subject || "-"
+                        )}
+
+                        <br>
+
+                        📖 Chapter:
+                        ${escapeHTML(
+                            q.chapter || "-"
+                        )}
+
+                        <br>
+
+                        📝 Test:
+                        ${escapeHTML(
+                            q.testName || "-"
+                        )}
+
+                        <br>
+
+                        🔐 Session:
+                        ${escapeHTML(
+                            q.testSessionId || "-"
+                        )}
+
+                        ${
+                            explanation
+                            ?
+                            `
+                            <br>
+                            💡 Solution:
+                            ${escapeHTML(
+                                explanation
+                            )}
+                            `
+                            :
+                            ""
+                        }
+
+                    </div>
+
+
+                    <div class="small-buttons">
+
+                        <button
+                            class="small-btn blue"
+                            onclick="editQuestion('${q.id}')"
+                        >
+                            ✏️ Edit
+                        </button>
+
+
+                        <button
+                            class="small-btn red"
+                            onclick="deleteQuestion('${q.id}')"
+                        >
+                            🗑️ Delete
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        })
+        .join("");
+
+}
+
+
+/* =====================================================
+   EDIT QUESTION
+===================================================== */
+
+window.editQuestion =
+function(id){
+
+    const q =
+        questions.find(
+            x => x.id === id
+        );
+
+
+    if(!q){
+
+        showStatus(
+            "Question नहीं मिला।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    editingQuestionId =
+        id;
+
+
+    const options =
+        Array.isArray(
+            q.options
+        )
+        ?
+        q.options
+        :
+        [
+            q.A || "",
+            q.B || "",
+            q.C || "",
+            q.D || ""
+        ];
+
+
+    document.getElementById(
+        "fileName"
+    ).value =
+        q.fileName || "";
+
+
+    document.getElementById(
+        "question"
+    ).value =
+        q.question || "";
+
+
+    document.getElementById(
+        "optionA"
+    ).value =
+        options[0] || "";
+
+
+    document.getElementById(
+        "optionB"
+    ).value =
+        options[1] || "";
+
+
+    document.getElementById(
+        "optionC"
+    ).value =
+        options[2] || "";
+
+
+    document.getElementById(
+        "optionD"
+    ).value =
+        options[3] || "";
+
+
+    document.getElementById(
+        "correctAnswer"
+    ).value =
+        String(
+            q.correctAnswer ?? ""
+        );
+
+
+    document.getElementById(
+        "solution"
+    ).value =
+        q.solution ||
+        q.explanation ||
+        "";
+
+
+    document.getElementById(
+        "questionMarks"
+    ).value =
+        q.marks || 1;
+
+
+    document.getElementById(
+        "testType"
+    ).value =
+        q.testType || "Chapter";
+
+
+    document.getElementById(
+        "course"
+    ).value =
+        q.course || "";
+
+
+    document.getElementById(
+        "examName"
+    ).value =
+        q.examName || "";
+
+
+    document.getElementById(
+        "category"
+    ).value =
+        q.category || "";
+
+
+    document.getElementById(
+        "subject"
+    ).value =
+        q.subject || "";
+
+
+    document.getElementById(
+        "chapter"
+    ).value =
+        q.chapter || "";
+
+
+    document.getElementById(
+        "section"
+    ).value =
+        q.section || "";
+
+
+    document.getElementById(
+        "testName"
+    ).value =
+        q.testName || "";
+
+
+    document.getElementById(
+        "testNumber"
+    ).value =
+        q.testNumber || 1;
+
+
+    document.getElementById(
+        "testTime"
+    ).value =
+        q.testTime || 30;
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+
+    showStatus(
+        "✏️ Question edit mode में है।"
+    );
+
+};
+
+
+/* =====================================================
+   DELETE QUESTION
+===================================================== */
+
+window.deleteQuestion =
+async function(id){
+
+    if(!confirm(
+        "क्या यह question permanently delete करना है?"
+    )) return;
+
+
+    try{
+
+        await deleteDoc(
+            doc(
+                db,
+                QUESTIONS,
+                id
+            )
+        );
+
+
+        showStatus(
+            "✅ Question delete हो गया।"
+        );
+
+
+        await loadCurrentTestQuestions();
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        showStatus(
+            "Question delete नहीं हुआ: " +
+            error.message,
+            "error"
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   DELETE ALL QUESTIONS
+===================================================== */
+
+window.deleteAllQuestions =
+async function(){
+
+    if(!confirm(
+        "⚠️ mockQuestions के सभी questions delete होंगे.\n\nContinue?"
+    )) return;
+
+
+    if(!confirm(
+        "FINAL CONFIRMATION\n\nसभी questions permanently delete करें?"
+    )) return;
+
+
+    try{
+
+        const snap =
+            await getDocs(
+                collection(
+                    db,
+                    QUESTIONS
+                )
+            );
+
+
+        if(snap.empty){
+
+            showStatus(
+                "mockQuestions पहले से खाली है।",
+                "info"
+            );
+
+            return;
+
+        }
+
+
+        let batch =
+            writeBatch(db);
+
+        let batchCount=0;
+
+        let total=0;
+
+
+        for(
+            const item
+            of snap.docs
+        ){
+
+            batch.delete(
+                item.ref
+            );
+
+            batchCount++;
+
+            total++;
+
+
+            if(
+                batchCount >= 400
+            ){
+
+                await batch.commit();
+
+                batch =
+                    writeBatch(db);
+
+                batchCount=0;
+
+            }
+
+        }
+
+
+        if(batchCount > 0){
+
+            await batch.commit();
+
+        }
+
+
+        questions=[];
+
+        renderQuestions();
+
+
+        showStatus(
+            `✅ ${total} questions permanently delete हो गए।`
+        );
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        showStatus(
+            "Delete failed: " +
+            error.message,
+            "error"
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   BULK PARSER
+===================================================== */
+
+function parseBulkText(text){
+
+    const blocks =
+        text
+        .split(
+            /\n\s*---+\s*\n/g
+        )
+        .map(
+            x => x.trim()
+        )
+        .filter(Boolean);
+
+
+    const result=[];
+
+
+    blocks.forEach(
+        block => {
+
+        const lines =
+            block
+            .split(/\r?\n/)
+            .map(
+                x => x.trim()
+            )
+            .filter(Boolean);
+
+
+        let fileName="";
+
+        let question="";
+
+        let A="";
+
+        let B="";
+
+        let C="";
+
+        let D="";
+
+        let answer="";
+
+        let solution="";
+
+
+        lines.forEach(
+            line => {
+
+            const lower =
+                line.toLowerCase();
+
+
+            if(
+                lower.startsWith(
+                    "filename:"
+                )
+            ){
+
+                fileName =
+                    line.substring(
+                        line.indexOf(":")+1
+                    )
+                    .trim();
+
+            }
+
+            else if(
+                lower.startsWith(
+                    "question:"
+                )
+            ){
+
+                question =
+                    line.substring(
+                        line.indexOf(":")+1
+                    )
+                    .trim();
+
+            }
+
+            else if(
+                lower.startsWith("a:")
+            ){
+
+                A =
+                    line.substring(
+                        line.indexOf(":")+1
+                    )
+                    .trim();
+
+            }
+
+            else if(
+                lower.startsWith("b:")
+            ){
+
+                B =
+                    line.substring(
+                        line.indexOf(":")+1
+                    )
+                    .trim();
+
+            }
+
+            else if(
+                lower.startsWith("c:")
+            ){
+
+                C =
+                    line.substring(
+                        line.indexOf(":")+1
+                    )
+                    .trim();
+
+            }
+
+            else if(
+                lower.startsWith("d:")
+            ){
+
+                D =
+                    line.substring(
+                        line.indexOf(":")+1
+                    )
+                    .trim();
+
+            }
+
+            else if(
+                lower.startsWith(
+                    "answer:"
+                )
+            ){
+
+                answer =
+                    line.substring(
+                        line.indexOf(":")+1
+                    )
+                    .trim()
+                    .toUpperCase();
+
+            }
+
+            else if(
+                lower.startsWith(
+                    "solution:"
+                )
+            ){
+
+                solution =
+                    line.substring(
+                        line.indexOf(":")+1
+                    )
+                    .trim();
+
+            }
+
+        });
+
+
+        if(
+
+            fileName &&
+
+            question &&
+
+            A &&
+
+            B &&
+
+            C &&
+
+            D &&
+
+            [
+                "A",
+                "B",
+                "C",
+                "D"
+            ].includes(answer)
+
+        ){
+
+            result.push({
+
+                fileName,
+
+                question,
+
+                options:[
+                    A,
+                    B,
+                    C,
+                    D
+                ],
+
+                correctAnswer:
+                    [
+                        "A",
+                        "B",
+                        "C",
+                        "D"
+                    ]
+                    .indexOf(answer),
+
+                solution,
+
+                explanation:
+                    solution,
+
+                marks:
+                    Number(
+                        document.getElementById(
+                            "marksPerQuestion"
+                        ).value
+                    ) || 1
+
+            });
+
+        }
+
+    });
+
+
+    return result;
+
+}
+
+
+/* =====================================================
+   BULK UPLOAD
+===================================================== */
+
+window.uploadBulkQuestions =
+async function(){
+
+    if(!firebaseUser){
+
+        showStatus(
+            "पहले Firebase Admin Login करें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const testSessionId =
+        ensureTestSession();
+
+
+    const testName =
+        document.getElementById(
+            "testName"
+        )
+        .value
+        .trim();
+
+
+    if(!testName){
+
+        showStatus(
+            "Bulk questions upload करने से पहले Test Name भरें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    let text =
+        document.getElementById(
+            "bulkText"
+        )
+        .value
+        .trim();
+
+
+    const file =
+        document.getElementById(
+            "questionFile"
+        )
+        .files[0];
+
+
+    if(!text && file){
+
+        try{
+
+            text =
+                await file.text();
+
+        }
+        catch(error){
+
+            showStatus(
+                "File read नहीं हो सकी।",
+                "error"
+            );
+
+            return;
+
+        }
+
+    }
+
+
+    if(!text){
+
+        showStatus(
+            "Question file select करें या questions paste करें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const parsed =
+        parseBulkText(text);
+
+
+    if(!parsed.length){
+
+        showStatus(
+            "एक भी valid question नहीं मिला। Format check करें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        let batch =
+            writeBatch(db);
+
+        let batchCount=0;
+
+        let count=0;
+
+
+        for(
+            const q
+            of parsed
+        ){
+
+            const ref =
+                doc(
+                    collection(
+                        db,
+                        QUESTIONS
+                    )
+                );
+
+
+            batch.set(
+                ref,
+                {
+
+                    testSessionId,
+
+                    ...q,
+
+                    testType:
+                        document.getElementById(
+                            "testType"
+                        ).value,
+
+                    course:
+                        document.getElementById(
+                            "course"
+                        ).value
+                        .trim(),
+
+                    examName:
+                        document.getElementById(
+                            "examName"
+                        ).value
+                        .trim(),
+
+                    category:
+                        document.getElementById(
+                            "category"
+                        ).value
+                        .trim(),
+
+                    subject:
+                        document.getElementById(
+                            "subject"
+                        ).value
+                        .trim(),
+
+                    chapter:
+                        document.getElementById(
+                            "chapter"
+                        ).value
+                        .trim(),
+
+                    section:
+                        document.getElementById(
+                            "section"
+                        ).value
+                        .trim(),
+
+                    testName,
+
+                    testNumber:
+                        Number(
+                            document.getElementById(
+                                "testNumber"
+                            ).value
+                        ) || 1,
+
+                    testTime:
+                        Number(
+                            document.getElementById(
+                                "testTime"
+                            ).value
+                        ) || 30,
+
+                    createdBy:
+                        firebaseUser.uid,
+
+                    createdAt:
+                        serverTimestamp(),
+
+                    updatedAt:
+                        serverTimestamp()
+
+                }
+            );
+
+
+            count++;
+
+            batchCount++;
+
+
+            if(
+                batchCount >= 400
+            ){
+
+                await batch.commit();
+
+                batch =
+                    writeBatch(db);
+
+                batchCount=0;
+
+            }
+
+        }
+
+
+        if(
+            batchCount > 0
+        ){
+
+            await batch.commit();
+
+        }
+
+
+        document.getElementById(
+            "bulkText"
+        ).value="";
+
+
+        document.getElementById(
+            "questionFile"
+        ).value="";
+
+
+        showStatus(
+            `✅ ${count} questions इसी Current Test में upload हो गए।`
+        );
+
+
+        await loadCurrentTestQuestions();
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        showStatus(
+            "Bulk upload failed: " +
+            error.message,
+            "error"
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   SAVE TEST
+===================================================== */
+
+window.saveTest =
+async function(){
+
+    if(!firebaseUser){
+
+        showStatus(
+            "पहले Firebase Admin Login करें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const testSessionId =
+        ensureTestSession();
+
+
+    const testType =
+        document.getElementById(
+            "testType"
+        ).value;
+
+
+    const access =
+        document.getElementById(
+            "access"
+        ).value;
+
+
+    const course =
+        document.getElementById(
+            "course"
+        ).value
+        .trim();
+
+
+    const examName =
+        document.getElementById(
+            "examName"
+        ).value
+        .trim();
+
+
+    const category =
+        document.getElementById(
+            "category"
+        ).value
+        .trim();
+
+
+    const subject =
+        document.getElementById(
+            "subject"
+        ).value
+        .trim();
+
+
+    const chapter =
+        document.getElementById(
+            "chapter"
+        ).value
+        .trim();
+
+
+    const section =
+        document.getElementById(
+            "section"
+        ).value
+        .trim();
+
+
+    const testNumber =
+        Number(
+            document.getElementById(
+                "testNumber"
+            ).value
+        ) || 1;
+
+
+    const testName =
+        document.getElementById(
+            "testName"
+        ).value
+        .trim();
+
+
+    const testTime =
+        Number(
+            document.getElementById(
+                "testTime"
+            ).value
+        ) || 30;
+
+
+    const marksPerQuestion =
+        Number(
+            document.getElementById(
+                "marksPerQuestion"
+            ).value
+        ) || 1;
+
+
+    const negativeMarks =
+        Number(
+            document.getElementById(
+                "negativeMarks"
+            ).value
+        ) || 0;
+
+
+    if(!course){
+
+        showStatus(
+            "Course भरें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!examName){
+
+        showStatus(
+            "Exam Name भरें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!subject){
+
+        showStatus(
+            "Subject भरें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!testName){
+
+        showStatus(
+            "Test Name भरें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    /*
+    =====================================================
+    IMPORTANT
+    केवल CURRENT TEST SESSION के questions आएंगे।
+    Test Name matching नहीं होगा।
+    =====================================================
+    */
+
+    await loadCurrentTestQuestions();
+
+
+    const selectedQuestions =
+        questions.filter(
+            q =>
+                q.testSessionId ===
+                testSessionId
+        );
+
+
+    if(!selectedQuestions.length){
+
+        showStatus(
+            "इस Test में अभी कोई question नहीं है। पहले Add Question या Bulk Upload करें।",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        const questionIds =
+            selectedQuestions.map(
+                q => q.id
+            );
+
+
+        const testData = {
+
+            testSessionId,
+
+            testType,
+
+            course,
+
+            examName,
+
+            category,
+
+            subject,
+
+            chapter,
+
+            section,
+
+            testNumber,
+
+            testName,
+
+            access,
+
+            isPaid:
+                access === "paid",
+
+            isFree:
+                access === "free",
+
+            testTime,
+
+            marksPerQuestion,
+
+            negativeMarks,
+
+            questionIds,
+
+            totalQuestions:
+                questionIds.length,
+
+            totalMarks:
+                questionIds.length *
+                marksPerQuestion,
+
+            allowReattempt:
+                true,
+
+            maxAttempts:
+                null,
+
+            attemptsAllowed:
+                "unlimited",
+
+            updatedAt:
+                serverTimestamp(),
+
+            updatedBy:
+                firebaseUser.uid
+
+        };
+
+
+        if(editingTestId){
+
+            await updateDoc(
+                doc(
+                    db,
+                    TESTS,
+                    editingTestId
+                ),
+                testData
+            );
+
+
+            showStatus(
+                `✅ Test update हो गया। ${questionIds.length} questions जुड़े हैं।`
+            );
+
+        }
+        else{
+
+            testData.createdAt =
+                serverTimestamp();
+
+            testData.createdBy =
+                firebaseUser.uid;
+
+
+            const ref =
+                await addDoc(
+                    collection(
+                        db,
+                        TESTS
+                    ),
+                    testData
+                );
+
+
+            editingTestId =
+                ref.id;
+
+
+            showStatus(
+                `✅ Test successfully save हो गया। ${questionIds.length} questions जुड़े हैं।`
+            );
+
+        }
+
+
+        await loadTests();
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        showStatus(
+            "Test save नहीं हुआ: " +
+            error.message,
+            "error"
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   LOAD TESTS
+===================================================== */
+
+async function loadTests(){
+
+    try{
+
+        const snap =
+            await getDocs(
+                collection(
+                    db,
+                    TESTS
+                )
+            );
+
+
+        const box =
+            document.getElementById(
+                "testList"
+            );
+
+
+        if(snap.empty){
+
+            box.innerHTML = `
+
+                <div class="empty">
+
+                    Firestore में अभी कोई test नहीं है।
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        const list=[];
+
+
+        snap.forEach(
+            item => {
+
+            list.push({
+
+                id:item.id,
+
+                ...item.data()
+
+            });
+
+        });
+
+
+        list.reverse();
+
+
+        box.innerHTML =
+            list.map(
+                test => {
+
+
+                const paid =
+                    test.access === "paid";
+
+
+                return `
+
+                <div class="test-item">
+
+                    <div class="test-title">
+
+                        ${escapeHTML(
+                            test.testName ||
+                            "Unnamed Test"
+                        )}
+
+                    </div>
+
+
+                    <div class="test-meta">
+
+                        📝 Type:
+                        ${escapeHTML(
+                            test.testType || "-"
+                        )}
+
+                        <br>
+
+                        ${
+                            paid
+                            ?
+                            `
+                            <span class="access-paid">
+
+                                💳 Access: PAID
+
+                            </span>
+                            `
+                            :
+                            `
+                            <span class="access-free">
+
+                                🆓 Access: FREE
+
+                            </span>
+                            `
+                        }
+
+                        <br>
+
+                        📘 Course:
+                        ${escapeHTML(
+                            test.course || "-"
+                        )}
+
+                        <br>
+
+                        🏛️ Exam:
+                        ${escapeHTML(
+                            test.examName || "-"
+                        )}
+
+                        <br>
+
+                        📘 Subject:
+                        ${escapeHTML(
+                            test.subject || "-"
+                        )}
+
+                        <br>
+
+                        📖 Chapter:
+                        ${escapeHTML(
+                            test.chapter || "-"
+                        )}
+
+                        <br>
+
+                        ❓ Questions:
+                        ${Number(
+                            test.totalQuestions || 0
+                        )}
+
+                        <br>
+
+                        🎯 Total Marks:
+                        ${Number(
+                            test.totalMarks || 0
+                        )}
+
+                        <br>
+
+                        ⏱️ Time:
+                        ${Number(
+                            test.testTime || 0
+                        )}
+                        Minutes
+
+                        <br>
+
+                        🔄 Reattempt:
+                        ${
+                            test.allowReattempt !== false
+                            ?
+                            "Allowed"
+                            :
+                            "Not Allowed"
+                        }
+
+                        <br>
+
+                        🔁 Attempts:
+                        ${
+                            test.attemptsAllowed ||
+                            "unlimited"
+                        }
+
+                        <br>
+
+                        🔐 Session:
+                        ${escapeHTML(
+                            test.testSessionId || "-"
+                        )}
+
+                    </div>
+
+
+                    <div class="small-buttons">
+
+                        <button
+                            class="small-btn red"
+                            onclick="deleteTest('${test.id}')"
+                        >
+
+                            🗑️ Delete Test
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                `;
+
+            })
+            .join("");
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        showStatus(
+            "Tests load नहीं हुए: " +
+            error.message,
+            "error"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   DELETE TEST
+===================================================== */
+
+window.deleteTest =
+async function(id){
+
+    if(!confirm(
+        "क्या यह test permanently delete करना है?"
+    )) return;
+
+
+    try{
+
+        await deleteDoc(
+            doc(
+                db,
+                TESTS,
+                id
+            )
+        );
+
+
+        showStatus(
+            "✅ Test delete हो गया।"
+        );
+
+
+        await loadTests();
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        showStatus(
+            "Test delete नहीं हुआ: " +
+            error.message,
+            "error"
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   CLEAR QUESTION
+===================================================== */
+
+window.clearQuestionForm =
+function(){
+
+    editingQuestionId=null;
+
+
+    document.getElementById(
+        "fileName"
+    ).value="";
+
+
+    document.getElementById(
+        "question"
+    ).value="";
+
+
+    document.getElementById(
+        "optionA"
+    ).value="";
+
+
+    document.getElementById(
+        "optionB"
+    ).value="";
+
+
+    document.getElementById(
+        "optionC"
+    ).value="";
+
+
+    document.getElementById(
+        "optionD"
+    ).value="";
+
+
+    document.getElementById(
+        "correctAnswer"
+    ).value="";
+
+
+    document.getElementById(
+        "solution"
+    ).value="";
+
+
+    document.getElementById(
+        "questionMarks"
+    ).value="1";
+
+};
+
+
+/* =====================================================
+   CLEAR BULK
+===================================================== */
+
+window.clearBulk =
+function(){
+
+    document.getElementById(
+        "bulkText"
+    ).value="";
+
+
+    document.getElementById(
+        "questionFile"
+    ).value="";
+
+};
+
+
+/* =====================================================
+   NEW TEST
+===================================================== */
+
+window.newTest =
+function(){
+
+    if(
+        questions.length > 0
+    ){
+
+        const proceed =
+            confirm(
+                "Current Test में questions मौजूद हैं।\n\nNew Test बनाने पर नया Test Session बनेगा।\n\nContinue?"
+            );
+
+
+        if(!proceed){
+
+            return;
+
+        }
+
+    }
+
+
+    editingTestId=null;
+
+
+    /*
+    =====================================================
+    NEW UNIQUE TEST SESSION
+    =====================================================
+    */
+
+    currentTestSessionId =
+        createTestSessionId();
+
+
+    localStorage.setItem(
+        "THE_HUB_CURRENT_TEST_SESSION",
+        currentTestSessionId
+    );
+
+
+    updateSessionDisplay();
+
+
+    questions=[];
+
+    renderQuestions();
+
+
+    document.getElementById(
+        "testType"
+    ).value="Chapter";
+
+
+    document.getElementById(
+        "access"
+    ).value="free";
+
+
+    document.getElementById(
+        "course"
+    ).value="";
+
+
+    document.getElementById(
+        "examName"
+    ).value="";
+
+
+    document.getElementById(
+        "category"
+    ).value="";
+
+
+    document.getElementById(
+        "subject"
+    ).value="";
+
+
+    document.getElementById(
+        "chapter"
+    ).value="";
+
+
+    document.getElementById(
+        "section"
+    ).value="";
+
+
+    document.getElementById(
+        "testNumber"
+    ).value="1";
+
+
+    document.getElementById(
+        "testName"
+    ).value="";
+
+
+    document.getElementById(
+        "testTime"
+    ).value="30";
+
+
+    document.getElementById(
+        "marksPerQuestion"
+    ).value="1";
+
+
+    document.getElementById(
+        "negativeMarks"
+    ).value="0";
+
+
+    clearQuestionForm();
+
+    clearBulk();
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+
+    showStatus(
+        "➕ New Test तैयार है। अब Test details भरें और questions upload करें।"
+    );
+
+};
+
+
+/* =====================================================
+   BACK
+===================================================== */
+
+window.goBack =
+function(){
+
+    window.location.href =
+        "admin-dashboard.html";
+
+};
+
+
+/* =====================================================
+   INITIAL DISPLAY
+===================================================== */
+
+updateSessionDisplay();
+
+
+</script>
+
+</body>
+
+</html>

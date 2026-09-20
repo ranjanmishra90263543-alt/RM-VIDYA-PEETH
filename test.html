@@ -1,0 +1,3738 @@
+<!DOCTYPE html><html lang="hi"><head><meta charset="UTF-8"><meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>RM Vidya Peeth - Free Test</title><style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+.page{
+    max-width:900px;
+    margin:auto;
+    padding:15px 12px 80px;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+    background:#1e293b;
+    border:1px solid #334155;
+    border-radius:16px;
+    padding:18px;
+    margin-bottom:15px;
+}
+
+.header h1{
+    margin:0 0 8px;
+    font-size:23px;
+}
+
+.header p{
+    margin:0;
+    color:#cbd5e1;
+    line-height:1.6;
+}
+
+.student{
+    margin-top:12px;
+    background:#0f172a;
+    padding:10px 12px;
+    border-radius:9px;
+    color:#cbd5e1;
+    font-size:14px;
+}
+
+/* =========================
+   TOP BAR
+========================= */
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.question-count,
+.timer{
+    background:#1e293b;
+    border:1px solid #334155;
+    padding:10px 14px;
+    border-radius:9px;
+    font-weight:bold;
+}
+
+.timer{
+    background:#14532d;
+    border-color:#22c55e;
+    min-width:105px;
+    text-align:center;
+}
+
+.timer.warning{
+    background:#78350f;
+    border-color:#f59e0b;
+}
+
+.timer.danger{
+    background:#7f1d1d;
+    border-color:#ef4444;
+}
+
+/* =========================
+   MENU BUTTON
+========================= */
+
+.menu-btn{
+    position:fixed;
+    right:14px;
+    top:14px;
+    z-index:10001;
+
+    width:46px;
+    height:46px;
+
+    border:none;
+    border-radius:12px;
+
+    background:#2563eb;
+    color:#fff;
+
+    font-size:23px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:0 5px 20px #0006;
+}
+
+/* =========================
+   SIDE MENU
+========================= */
+
+.side-overlay{
+    position:fixed;
+    inset:0;
+
+    background:rgba(0,0,0,.55);
+
+    display:none;
+
+    z-index:10000;
+}
+
+.side-overlay.show{
+    display:block;
+}
+
+.side-menu{
+    position:fixed;
+
+    top:0;
+    right:-330px;
+
+    width:310px;
+    max-width:85vw;
+    height:100vh;
+
+    background:#1e293b;
+
+    border-left:1px solid #475569;
+
+    z-index:10002;
+
+    padding:20px;
+
+    overflow-y:auto;
+
+    transition:.25s;
+}
+
+.side-menu.show{
+    right:0;
+}
+
+.side-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    margin-bottom:18px;
+
+    padding-bottom:15px;
+
+    border-bottom:1px solid #475569;
+}
+
+.side-header h3{
+    margin:0;
+    font-size:18px;
+}
+
+.close-menu{
+    width:38px;
+    height:38px;
+
+    border:none;
+    border-radius:8px;
+
+    background:#475569;
+    color:#fff;
+
+    font-size:20px;
+
+    cursor:pointer;
+}
+
+.side-info{
+    color:#cbd5e1;
+    font-size:14px;
+    margin-bottom:15px;
+}
+
+.side-palette{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:8px;
+}
+
+.side-palette button{
+    height:42px;
+
+    border:none;
+    border-radius:8px;
+
+    background:#475569;
+    color:#fff;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.side-palette button.current{
+    outline:2px solid #60a5fa;
+}
+
+.side-palette button.answered{
+    background:#16a34a;
+}
+
+.side-palette button.current.answered{
+    background:#15803d;
+}
+
+/* =========================
+   SIDE SUBMIT
+========================= */
+
+.side-submit{
+    width:100%;
+
+    margin-top:25px;
+
+    padding:14px;
+
+    border:none;
+    border-radius:10px;
+
+    background:#16a34a;
+    color:#fff;
+
+    font-size:15px;
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.side-submit:hover{
+    background:#15803d;
+}
+
+/* =========================
+   PROGRESS
+========================= */
+
+.progress-box{
+    background:#1e293b;
+    border:1px solid #334155;
+
+    padding:10px;
+
+    border-radius:10px;
+
+    margin-bottom:15px;
+}
+
+.progress-bar{
+    width:100%;
+    height:8px;
+
+    background:#334155;
+
+    border-radius:20px;
+
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    width:0%;
+
+    background:#2563eb;
+
+    transition:.25s;
+}
+
+/* =========================
+   QUESTION
+========================= */
+
+.question-card{
+    background:#1e293b;
+    border:1px solid #334155;
+
+    border-radius:16px;
+
+    padding:20px;
+}
+
+.question-number{
+    color:#60a5fa;
+
+    font-weight:bold;
+
+    margin-bottom:12px;
+}
+
+.question-text{
+    font-size:18px;
+
+    line-height:1.7;
+
+    margin-bottom:18px;
+
+    white-space:pre-wrap;
+}
+
+.options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.option{
+    background:#0f172a;
+
+    border:1px solid #475569;
+
+    border-radius:10px;
+
+    padding:13px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+    line-height:1.5;
+}
+
+.option:hover{
+    border-color:#60a5fa;
+}
+
+.option.selected{
+    background:#172554;
+
+    border-color:#2563eb;
+}
+
+.option input{
+    margin-right:9px;
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.navigation{
+    display:flex;
+
+    gap:10px;
+
+    margin-top:18px;
+}
+
+.nav-btn{
+    flex:1;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:9px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+    font-size:15px;
+}
+
+.previous{
+    background:#475569;
+    color:#fff;
+}
+
+.next{
+    background:#2563eb;
+    color:#fff;
+}
+
+.submit{
+    background:#16a34a;
+    color:#fff;
+}
+
+.nav-btn:disabled{
+    opacity:.45;
+    cursor:not-allowed;
+}
+
+/* =========================
+   RESULT
+========================= */
+
+.result{
+    display:none;
+}
+
+.result-card{
+    background:#1e293b;
+
+    border:1px solid #334155;
+
+    border-radius:16px;
+
+    padding:22px;
+
+    text-align:center;
+}
+
+.result-card h2{
+    margin-top:0;
+}
+
+.score{
+    font-size:42px;
+
+    font-weight:bold;
+
+    margin:15px 0;
+}
+
+.result-row{
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:10px;
+
+    margin-top:20px;
+}
+
+.result-item{
+    background:#0f172a;
+
+    border-radius:10px;
+
+    padding:15px 8px;
+}
+
+.result-item strong{
+    display:block;
+
+    font-size:22px;
+
+    margin-bottom:5px;
+}
+
+.result-actions{
+    display:flex;
+
+    gap:10px;
+
+    margin-top:20px;
+}
+
+.result-actions button{
+    flex:1;
+
+    min-height:44px;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:9px;
+
+    color:#fff;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.home-btn{
+    background:#475569;
+}
+
+.retry-btn{
+    background:#2563eb;
+}
+
+.analysis-btn{
+    background:#7c3aed;
+}
+
+/* =========================
+   ANALYSIS
+========================= */
+
+.analysis{
+    display:none;
+
+    margin-top:18px;
+
+    text-align:left;
+}
+
+.analysis-title{
+    background:#0f172a;
+
+    border:1px solid #334155;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    margin-bottom:12px;
+}
+
+.analysis-card{
+    background:#0f172a;
+
+    border:1px solid #334155;
+
+    border-radius:12px;
+
+    padding:16px;
+
+    margin-bottom:12px;
+}
+
+.analysis-q{
+    color:#60a5fa;
+
+    font-weight:bold;
+
+    margin-bottom:10px;
+}
+
+.analysis-question{
+    line-height:1.7;
+
+    margin-bottom:12px;
+}
+
+.answer-box{
+    padding:10px;
+
+    border-radius:8px;
+
+    margin-top:8px;
+
+    line-height:1.5;
+}
+
+.correct-box{
+    background:#052e16;
+
+    border:1px solid #166534;
+
+    color:#bbf7d0;
+}
+
+.wrong-box{
+    background:#450a0a;
+
+    border:1px solid #991b1b;
+
+    color:#fecaca;
+}
+
+.unanswered-box{
+    background:#422006;
+
+    border:1px solid #92400e;
+
+    color:#fed7aa;
+}
+
+.explanation{
+    margin-top:12px;
+
+    padding:12px;
+
+    background:#1e293b;
+
+    border-radius:8px;
+
+    color:#cbd5e1;
+
+    line-height:1.7;
+}
+
+.time-box{
+    margin-top:10px;
+
+    color:#94a3b8;
+
+    font-size:13px;
+}
+
+/* =========================
+   PAUSE
+========================= */
+
+.pause-overlay{
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.78);
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    z-index:99999;
+
+    padding:20px;
+}
+
+.pause-box{
+    width:100%;
+
+    max-width:380px;
+
+    background:#1e293b;
+
+    border:1px solid #475569;
+
+    border-radius:18px;
+
+    padding:25px;
+
+    text-align:center;
+
+    box-shadow:0 20px 60px #0008;
+}
+
+.pause-icon{
+    font-size:45px;
+
+    margin-bottom:10px;
+}
+
+.pause-box h2{
+    margin:0 0 10px;
+}
+
+.pause-box p{
+    color:#cbd5e1;
+
+    line-height:1.6;
+}
+
+.resume-btn,
+.exit-btn{
+    width:100%;
+
+    padding:13px;
+
+    margin-top:12px;
+
+    border:none;
+
+    border-radius:9px;
+
+    color:#fff;
+
+    font-weight:bold;
+
+    font-size:15px;
+
+    cursor:pointer;
+}
+
+.resume-btn{
+    background:#16a34a;
+}
+
+.exit-btn{
+    background:#dc2626;
+}
+
+.loading,
+.error{
+    background:#1e293b;
+
+    border-radius:12px;
+
+    padding:25px;
+
+    text-align:center;
+
+    color:#cbd5e1;
+
+    line-height:1.7;
+}
+
+.error{
+    background:#450a0a;
+
+    border:1px solid #991b1b;
+
+    color:#fecaca;
+}
+
+footer{
+    text-align:center;
+
+    color:#94a3b8;
+
+    font-size:13px;
+
+    padding:20px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px){
+
+    .page{
+        padding:10px 9px 60px;
+    }
+
+    .header h1{
+        font-size:20px;
+    }
+
+    .question-card{
+        padding:16px;
+    }
+
+    .question-text{
+        font-size:17px;
+    }
+
+    .topbar{
+        padding-right:55px;
+    }
+
+    .question-count,
+    .timer{
+        flex:1;
+    }
+
+    .result-row{
+        grid-template-columns:1fr;
+    }
+
+    .navigation{
+        flex-wrap:wrap;
+    }
+
+    .nav-btn{
+        min-width:45%;
+    }
+
+    .result-actions{
+        flex-direction:column;
+    }
+
+}
+
+</style></head><body><!-- MENU BUTTON --><button
+id="menuBtn"
+class="menu-btn"
+type="button"
+onclick="openQuestionMenu()">
+
+☰
+
+</button><!-- SIDE OVERLAY --><div
+    id="sideOverlay"
+    class="side-overlay"
+    onclick="closeQuestionMenu()">
+</div><!-- SIDE MENU --><div
+    id="sideMenu"
+    class="side-menu"><div class="side-header">
+
+    <h3>
+        📋 Questions
+    </h3>
+
+    <button
+        class="close-menu"
+        type="button"
+        onclick="closeQuestionMenu()">
+
+        ×
+
+    </button>
+
+</div>
+
+
+<div
+    id="sideInfo"
+    class="side-info">
+
+    Question Navigation
+
+</div>
+
+
+<div
+    id="sidePalette"
+    class="side-palette">
+</div>
+
+
+<!-- SUBMIT ONLY INSIDE MENU -->
+
+<button
+    id="sideSubmitBtn"
+    class="side-submit"
+    type="button"
+    onclick="confirmSubmit()">
+
+    ✅ Submit Test
+
+</button>
+
+</div><div class="page"><!-- HEADER --><div class="header"><h1 id="testTitle">
+
+    🆓 RM Vidya Peeth - Free Test
+
+</h1>
+
+
+<p id="testDescription">
+
+    <strong>By Ranjan Mishra Sir</strong><br>
+    Test शुरू हो रहा है...
+
+</p>
+
+
+<div
+    id="studentInfo"
+    class="student">
+
+    👤 Student
+
+</div>
+
+</div><!-- =========================
+     TEST AREA
+========================= --><div id="testArea"><div class="topbar">
+
+
+    <div
+        id="questionCount"
+        class="question-count">
+
+        Question 0 / 0
+
+    </div>
+
+
+    <div
+        id="timer"
+        class="timer">
+
+        ⏱️ Loading...
+
+    </div>
+
+
+</div>
+
+
+<div class="progress-box">
+
+    <div class="progress-bar">
+
+        <div
+            id="progressFill"
+            class="progress-fill">
+        </div>
+
+    </div>
+
+</div>
+
+
+<div
+    id="questionCard"
+    class="question-card">
+
+    <div class="loading">
+
+        🔥 Question loading...
+
+    </div>
+
+</div>
+
+
+<!-- FRONT NAVIGATION -->
+
+<div class="navigation">
+
+
+    <button
+        id="previousBtn"
+        class="nav-btn previous"
+        type="button"
+        onclick="previousQuestion()">
+
+        ← Previous
+
+    </button>
+
+
+    <button
+        id="nextBtn"
+        class="nav-btn next"
+        type="button"
+        onclick="nextQuestion()">
+
+        Next →
+
+    </button>
+
+
+    <!-- LAST QUESTION ONLY -->
+
+    <button
+        id="frontSubmitBtn"
+        class="nav-btn submit"
+        type="button"
+        onclick="confirmSubmit()"
+        style="display:none">
+
+        ✅ Submit Test
+
+    </button>
+
+</div>
+
+</div><!-- =========================
+     RESULT
+========================= --><div
+    id="result"
+    class="result"><div class="result-card">
+
+
+    <h2>
+
+        🎉 Test Completed
+
+    </h2>
+
+
+    <div id="resultTestName">
+
+        Free Test
+
+    </div>
+
+
+    <div
+        id="score"
+        class="score">
+
+        0 / 0
+
+    </div>
+
+
+    <div class="result-row">
+
+
+        <div class="result-item">
+
+            <strong id="correctCount">
+                0
+            </strong>
+
+            Correct
+
+        </div>
+
+
+        <div class="result-item">
+
+            <strong id="wrongCount">
+                0
+            </strong>
+
+            Wrong
+
+        </div>
+
+
+        <div class="result-item">
+
+            <strong id="unansweredCount">
+                0
+            </strong>
+
+            Unanswered
+
+        </div>
+
+
+    </div>
+
+
+    <div
+        id="percentage"
+        style="margin-top:18px;color:#cbd5e1">
+
+        Percentage: 0%
+
+    </div>
+
+
+    <div class="result-actions">
+
+
+        <button
+            class="home-btn"
+            type="button"
+            onclick="goBackToFreeTests()">
+
+            ← Free Tests
+
+        </button>
+
+
+        <button
+            class="retry-btn"
+            type="button"
+            onclick="retryTest()">
+
+            🔄 Retry Test
+
+        </button>
+
+
+        <button
+            id="analysisBtn"
+            class="analysis-btn"
+            type="button"
+            onclick="toggleAnalysis()">
+
+            📊 Answer & Analysis
+
+        </button>
+
+
+    </div>
+
+
+    <!-- ANALYSIS -->
+
+    <div
+        id="analysis"
+        class="analysis">
+
+
+        <div class="analysis-title">
+
+            📊 Answer & Question Analysis
+
+        </div>
+
+
+        <div
+            id="analysisList">
+        </div>
+
+
+    </div>
+
+
+</div>
+
+</div></div><footer><div style="font-weight:bold;color:#cbd5e1;">
+    RM Vidya Peeth
+</div>
+
+<div style="margin-top:5px;">
+    By Ranjan Mishra Sir
+</div>
+
+<div style="margin-top:5px;">
+    © 2026 RM Vidya Peeth. All Rights Reserved.
+</div>
+
+</footer><!-- =========================
+     PAUSE MODAL
+========================= --><div
+    id="pauseOverlay"
+    class="pause-overlay"><div class="pause-box">
+
+
+    <div class="pause-icon">
+
+        ⏸️
+
+    </div>
+
+
+    <h2>
+
+        Test Paused
+
+    </h2>
+
+
+    <p>
+
+        आपने Test से Back जाने की कोशिश की है।
+
+        <br>
+
+        Test अभी pause है।
+
+    </p>
+
+
+    <button
+        class="resume-btn"
+        type="button"
+        onclick="resumeTest()">
+
+        ▶️ Resume Test
+
+    </button>
+
+
+    <button
+        class="exit-btn"
+        type="button"
+        onclick="exitTest()">
+
+        🚪 Exit Test
+
+    </button>
+
+
+</div>
+
+</div><script type="module">
+
+
+import { db } from "./firebase-config.js";
+
+
+import {
+
+    collection,
+    getDocs,
+    addDoc,
+    serverTimestamp
+
+}
+from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let selectedTest = null;
+
+let questions = [];
+
+let currentQuestion = 0;
+
+let answers = [];
+
+let submitted = false;
+
+let timerSeconds = 0;
+
+let timerInterval = null;
+
+let currentStudent = null;
+
+let paused = false;
+
+let questionStartTime = 0;
+
+let questionTimes = [];
+
+let testStartedAt = 0;
+
+
+/* =====================================================
+   ESCAPE
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   NORMALIZE
+===================================================== */
+
+function normalize(value){
+
+    return String(value ?? "")
+        .trim()
+        .toLowerCase()
+        .replace(/[_-]+/g," ")
+        .replace(/\s+/g," ");
+
+}
+
+
+/* =====================================================
+   STUDENT
+===================================================== */
+
+function getStudent(){
+
+    const logged =
+        localStorage.getItem(
+            "studentLoggedIn"
+        );
+
+    const raw =
+        localStorage.getItem(
+            "studentUser"
+        );
+
+    if(
+        logged !== "true" ||
+        !raw
+    ){
+
+        return null;
+
+    }
+
+    try{
+
+        return JSON.parse(raw);
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        return null;
+
+    }
+
+}
+
+
+/* =====================================================
+   SHOW STUDENT
+===================================================== */
+
+function showStudent(){
+
+    currentStudent =
+        getStudent();
+
+    if(!currentStudent){
+
+        window.location.replace(
+            "login.html"
+        );
+
+        return false;
+
+    }
+
+    const name =
+        currentStudent.displayName ||
+        currentStudent.fullName ||
+        currentStudent.name ||
+        currentStudent.username ||
+        "Student";
+
+    const email =
+        currentStudent.email ||
+        currentStudent.username ||
+        "";
+
+    document.getElementById(
+        "studentInfo"
+    ).innerHTML =
+
+        "👤 Welcome, <b>" +
+        escapeHTML(name) +
+        "</b>" +
+
+        (
+            email
+            ?
+            " · 📧 " +
+            escapeHTML(email)
+            :
+            ""
+        );
+
+    return true;
+
+}
+
+
+/* =====================================================
+   URL TEST ID
+===================================================== */
+
+function getTestIdFromURL(){
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    return String(
+        params.get("testId") || ""
+    ).trim();
+
+}
+
+
+/* =====================================================
+   LOAD TEST
+===================================================== */
+
+async function loadSelectedTestFromFirestore(){
+
+    const testId =
+        getTestIdFromURL();
+
+    if(!testId){
+
+        return null;
+
+    }
+
+    const snapshot =
+        await getDocs(
+            collection(
+                db,
+                "mockTests"
+            )
+        );
+
+    let found = null;
+
+    snapshot.forEach(
+        function(docSnap){
+
+            const data =
+                docSnap.data();
+
+            const firestoreTestId =
+                String(
+                    data.testId ||
+                    data.testID ||
+                    data.test_id ||
+                    docSnap.id ||
+                    ""
+                ).trim();
+
+            if(
+                normalize(
+                    firestoreTestId
+                ) ===
+                normalize(testId) &&
+                !found
+            ){
+
+                found = {
+
+                    id:
+                        docSnap.id,
+
+                    ...data,
+
+                    testId:
+                        firestoreTestId,
+
+                    testName:
+                        data.testName ||
+                        data.name ||
+                        data.title ||
+                        "Free Test",
+
+                    testType:
+                        data.testType ||
+                        data.type ||
+                        data.category ||
+                        "",
+
+                    examName:
+                        data.examName ||
+                        data.exam ||
+                        "SSC",
+
+                    testTime:
+                        Number(
+                            data.testTime ||
+                            data.duration ||
+                            data.time ||
+                            0
+                        ),
+
+                    isPaid:
+                        data.isPaid === true ||
+                        data.paid === true,
+
+                    accessType:
+                        data.accessType ||
+                        "",
+
+                    price:
+                        Number(
+                            data.price || 0
+                        )
+
+                };
+
+            }
+
+        }
+    );
+
+    return found;
+
+}
+
+
+/* =====================================================
+   LOAD QUESTIONS
+===================================================== */
+
+async function loadQuestionsFromFirestore(test){
+
+    const testId =
+        normalize(
+            test.testId ||
+            test.id ||
+            ""
+        );
+
+    const snapshot =
+        await getDocs(
+            collection(
+                db,
+                "mockQuestions"
+            )
+        );
+
+    const result = [];
+
+    snapshot.forEach(
+        function(docSnap){
+
+            const data =
+                docSnap.data();
+
+            const questionTestId =
+                normalize(
+                    data.testId ||
+                    data.testID ||
+                    data.test_id ||
+                    data.mockTestId ||
+                    data.mockTestID ||
+                    ""
+                );
+
+            if(
+                questionTestId === testId
+            ){
+
+                result.push({
+
+                    id:
+                        docSnap.id,
+
+                    ...data
+
+                });
+
+            }
+
+        }
+    );
+
+    return result;
+
+}
+
+
+/* =====================================================
+   NORMALIZE QUESTION
+===================================================== */
+
+function normalizeQuestion(
+    question,
+    index
+){
+
+    const q =
+        question || {};
+
+    let options = [];
+
+
+    if(
+        Array.isArray(q.options)
+    ){
+
+        options =
+            q.options.slice(0,10);
+
+    }
+
+
+    if(
+        !options.length &&
+        q.options &&
+        typeof q.options === "object"
+    ){
+
+        options = [
+
+            q.options.A ??
+            q.options.a ??
+            "",
+
+            q.options.B ??
+            q.options.b ??
+            "",
+
+            q.options.C ??
+            q.options.c ??
+            "",
+
+            q.options.D ??
+            q.options.d ??
+            ""
+
+        ];
+
+    }
+
+
+    if(!options.length){
+
+        options = [
+
+            q.optionA,
+            q.optionB,
+            q.optionC,
+            q.optionD
+
+        ];
+
+    }
+
+
+    if(
+        !options.some(
+            value =>
+                String(
+                    value ?? ""
+                ).trim()
+        )
+    ){
+
+        options = [
+
+            q.option1,
+            q.option2,
+            q.option3,
+            q.option4
+
+        ];
+
+    }
+
+
+    const correct =
+        q.correctAnswer ??
+        q.answer ??
+        q.correct ??
+        q.correctOption ??
+        q.rightAnswer ??
+        "";
+
+
+    return {
+
+        id:
+            q.id ||
+            "question-" + index,
+
+        question:
+            q.question ||
+            q.questionText ||
+            q.text ||
+            q.que ||
+            "",
+
+        options:
+            options.map(
+                value =>
+                    String(
+                        value ?? ""
+                    )
+            ),
+
+        correctAnswer:
+            correct,
+
+        explanation:
+            q.explanation ||
+            q.solution ||
+            "",
+
+        subject:
+            q.subject ||
+            "",
+
+        chapter:
+            q.chapter ||
+            ""
+
+    };
+
+}
+
+
+/* =====================================================
+   CORRECT INDEX
+===================================================== */
+
+function getCorrectIndex(question){
+
+    const value =
+        normalize(
+            question.correctAnswer
+        );
+
+    if(!value){
+
+        return -1;
+
+    }
+
+    const letters = [
+        "a","b","c","d","e","f"
+    ];
+
+    const letterIndex =
+        letters.indexOf(value);
+
+    if(
+        letterIndex >= 0 &&
+        letterIndex <
+        question.options.length
+    ){
+
+        return letterIndex;
+
+    }
+
+    const number =
+        Number(value);
+
+    if(
+        Number.isInteger(number) &&
+        number >= 1 &&
+        number <= question.options.length
+    ){
+
+        return number - 1;
+
+    }
+
+    return question.options.findIndex(
+        option =>
+            normalize(option) === value
+    );
+
+}
+
+
+/* =====================================================
+   QUESTION TIME
+===================================================== */
+
+function startQuestionTimer(){
+
+    questionStartTime =
+        Date.now();
+
+}
+
+
+function saveCurrentQuestionTime(){
+
+    if(
+        submitted ||
+        !questions.length ||
+        !questionStartTime
+    ){
+
+        return;
+
+    }
+
+    const now =
+        Date.now();
+
+    const spent =
+        Math.max(
+            0,
+            Math.round(
+                (
+                    now -
+                    questionStartTime
+                ) / 1000
+            )
+        );
+
+
+    if(
+        !questionTimes[currentQuestion]
+    ){
+
+        questionTimes[currentQuestion] = {
+
+            questionNo:
+                currentQuestion + 1,
+
+            questionId:
+                questions[currentQuestion].id ||
+                "",
+
+            timeSpentSeconds:
+                0
+
+        };
+
+    }
+
+
+    questionTimes[currentQuestion]
+        .timeSpentSeconds += spent;
+
+
+    questionStartTime =
+        now;
+
+}
+
+
+/* =====================================================
+   TIMER
+===================================================== */
+
+function startTimer(){
+
+    clearInterval(timerInterval);
+
+    const minutes =
+        Number(
+            selectedTest.testTime || 0
+        );
+
+    if(
+        !minutes ||
+        minutes <= 0
+    ){
+
+        document.getElementById(
+            "timer"
+        ).textContent =
+            "⏱️ No Limit";
+
+        return;
+
+    }
+
+    timerSeconds =
+        Math.round(
+            minutes * 60
+        );
+
+    updateTimer();
+
+    timerInterval =
+        setInterval(
+            function(){
+
+                if(
+                    submitted ||
+                    paused
+                ){
+
+                    return;
+
+                }
+
+                timerSeconds--;
+
+                updateTimer();
+
+                if(
+                    timerSeconds <= 0
+                ){
+
+                    clearInterval(
+                        timerInterval
+                    );
+
+                    saveCurrentQuestionTime();
+
+                    alert(
+                        "⏰ Test का समय समाप्त हो गया।"
+                    );
+
+                    submitTest(true);
+
+                }
+
+            },
+            1000
+        );
+
+}
+
+
+/* =====================================================
+   UPDATE TIMER
+===================================================== */
+
+function updateTimer(){
+
+    const timer =
+        document.getElementById(
+            "timer"
+        );
+
+    if(
+        !timerSeconds &&
+        Number(selectedTest?.testTime || 0) <= 0
+    ){
+
+        timer.textContent =
+            "⏱️ No Limit";
+
+        return;
+
+    }
+
+
+    const minutes =
+        Math.floor(
+            timerSeconds / 60
+        );
+
+    const seconds =
+        timerSeconds % 60;
+
+
+    timer.textContent =
+        "⏱️ " +
+        String(minutes).padStart(2,"0") +
+        ":" +
+        String(seconds).padStart(2,"0");
+
+
+    timer.classList.remove(
+        "warning",
+        "danger"
+    );
+
+
+    if(
+        timerSeconds <= 60
+    ){
+
+        timer.classList.add(
+            "danger"
+        );
+
+    }
+    else if(
+        timerSeconds <= 300
+    ){
+
+        timer.classList.add(
+            "warning"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   RENDER QUESTION
+===================================================== */
+
+function renderQuestion(){
+
+    if(
+        submitted ||
+        !questions.length
+    ){
+
+        return;
+
+    }
+
+
+    const question =
+        questions[currentQuestion];
+
+    const selected =
+        answers[currentQuestion];
+
+
+    const card =
+        document.getElementById(
+            "questionCard"
+        );
+
+
+    card.innerHTML = `
+
+        <div class="question-number">
+
+            Question
+            ${currentQuestion + 1}
+            /
+            ${questions.length}
+
+        </div>
+
+
+        <div class="question-text">
+
+            ${escapeHTML(
+                question.question
+            )}
+
+        </div>
+
+
+        <div class="options">
+
+            ${
+                question.options
+                .map(
+                    function(option,index){
+
+                        const checked =
+                            selected === index;
+
+                        const letter =
+                            String.fromCharCode(
+                                65 + index
+                            );
+
+                        return `
+
+                        <div
+                            class="option ${
+                                checked
+                                ?
+                                "selected"
+                                :
+                                ""
+                            }"
+                            onclick="
+                                selectAnswer(${index})
+                            "
+                        >
+
+                            <input
+                                type="radio"
+                                name="answer"
+                                ${
+                                    checked
+                                    ?
+                                    "checked"
+                                    :
+                                    ""
+                                }
+                                onclick="
+                                    event.stopPropagation();
+                                    selectAnswer(${index})
+                                "
+                            >
+
+                            <b>
+                                ${letter}.
+                            </b>
+
+                            ${escapeHTML(
+                                option
+                            )}
+
+                        </div>
+
+                        `;
+
+                    }
+                )
+                .join("")
+            }
+
+        </div>
+
+    `;
+
+
+    updateNavigation();
+
+    updateProgress();
+
+    renderSidePalette();
+
+}
+
+
+/* =====================================================
+   SELECT ANSWER
+===================================================== */
+
+function selectAnswer(index){
+
+    if(
+        submitted ||
+        paused
+    ){
+
+        return;
+
+    }
+
+    answers[currentQuestion] =
+        Number(index);
+
+    renderQuestion();
+
+}
+
+
+/* =====================================================
+   NEXT
+===================================================== */
+
+function nextQuestion(){
+
+    if(
+        submitted ||
+        paused
+    ){
+
+        return;
+
+    }
+
+
+    if(
+        currentQuestion <
+        questions.length - 1
+    ){
+
+        saveCurrentQuestionTime();
+
+        currentQuestion++;
+
+        renderQuestion();
+
+        startQuestionTimer();
+
+    }
+
+}
+
+
+/* =====================================================
+   PREVIOUS
+===================================================== */
+
+function previousQuestion(){
+
+    if(
+        submitted ||
+        paused
+    ){
+
+        return;
+
+    }
+
+
+    if(
+        currentQuestion > 0
+    ){
+
+        saveCurrentQuestionTime();
+
+        currentQuestion--;
+
+        renderQuestion();
+
+        startQuestionTimer();
+
+    }
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function updateNavigation(){
+
+    const previous =
+        document.getElementById(
+            "previousBtn"
+        );
+
+    const next =
+        document.getElementById(
+            "nextBtn"
+        );
+
+    const frontSubmit =
+        document.getElementById(
+            "frontSubmitBtn"
+        );
+
+
+    previous.disabled =
+        currentQuestion === 0;
+
+
+    if(
+        currentQuestion ===
+        questions.length - 1
+    ){
+
+        next.style.display =
+            "none";
+
+        frontSubmit.style.display =
+            "block";
+
+    }
+    else{
+
+        next.style.display =
+            "block";
+
+        frontSubmit.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+function updateProgress(){
+
+    const total =
+        questions.length;
+
+
+    const percent =
+        total
+        ?
+        (
+            (
+                currentQuestion + 1
+            )
+            /
+            total
+        ) * 100
+        :
+        0;
+
+
+    document.getElementById(
+        "progressFill"
+    ).style.width =
+        percent + "%";
+
+
+    document.getElementById(
+        "questionCount"
+    ).textContent =
+
+        "Question " +
+        (
+            currentQuestion + 1
+        ) +
+        " / " +
+        total;
+
+}
+
+
+/* =====================================================
+   SIDE MENU
+===================================================== */
+
+function openQuestionMenu(){
+
+    if(submitted){
+
+        return;
+
+    }
+
+    renderSidePalette();
+
+    document.getElementById(
+        "sideMenu"
+    ).classList.add("show");
+
+    document.getElementById(
+        "sideOverlay"
+    ).classList.add("show");
+
+}
+
+
+function closeQuestionMenu(){
+
+    document.getElementById(
+        "sideMenu"
+    ).classList.remove("show");
+
+    document.getElementById(
+        "sideOverlay"
+    ).classList.remove("show");
+
+}
+
+
+/* =====================================================
+   SIDE PALETTE
+===================================================== */
+
+function renderSidePalette(){
+
+    const palette =
+        document.getElementById(
+            "sidePalette"
+        );
+
+    if(!palette){
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "sideInfo"
+    ).textContent =
+
+        "Question " +
+        (currentQuestion + 1) +
+        " / " +
+        questions.length;
+
+
+    palette.innerHTML =
+        questions
+        .map(
+            function(question,index){
+
+                const answered =
+                    answers[index] !== null &&
+                    answers[index] !== undefined;
+
+
+                const current =
+                    index === currentQuestion;
+
+
+                return `
+
+                    <button
+                        type="button"
+                        class="${
+                            current
+                            ? "current "
+                            : ""
+                        }${
+                            answered
+                            ? "answered"
+                            : ""
+                        }"
+                        onclick="
+                            goToQuestionFromMenu(${index})
+                        "
+                    >
+
+                        ${index + 1}
+
+                    </button>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* =====================================================
+   GO QUESTION FROM MENU
+===================================================== */
+
+function goToQuestionFromMenu(index){
+
+    if(
+        submitted ||
+        paused
+    ){
+
+        return;
+
+    }
+
+
+    if(
+        index < 0 ||
+        index >= questions.length
+    ){
+
+        return;
+
+    }
+
+
+    saveCurrentQuestionTime();
+
+
+    currentQuestion =
+        Number(index);
+
+
+    renderQuestion();
+
+
+    startQuestionTimer();
+
+
+    closeQuestionMenu();
+
+}
+
+
+/* =====================================================
+   CONFIRM SUBMIT
+===================================================== */
+
+function confirmSubmit(){
+
+    if(
+        submitted ||
+        paused
+    ){
+
+        return;
+
+    }
+
+
+    saveCurrentQuestionTime();
+
+
+    const answered =
+        answers.filter(
+            value =>
+                value !== null &&
+                value !== undefined
+        ).length;
+
+
+    const unanswered =
+        questions.length -
+        answered;
+
+
+    const message =
+
+        "क्या आप Test Submit करना चाहते हैं?\n\n" +
+
+        "कुल Questions: " +
+        questions.length +
+
+        "\nAttempted: " +
+        answered +
+
+        "\nUnanswered: " +
+        unanswered;
+
+
+    if(
+        confirm(message)
+    ){
+
+        closeQuestionMenu();
+
+        submitTest(false);
+
+    }
+
+}
+
+
+/* =====================================================
+   SAVE RESULT
+===================================================== */
+
+async function saveResult(
+    correct,
+    wrong,
+    unanswered,
+    percentage,
+    autoSubmit
+){
+
+    if(!currentStudent){
+
+        return;
+
+    }
+
+
+    try{
+
+        const cleanQuestionTimes =
+            questionTimes.map(
+                function(item,index){
+
+                    return {
+
+                        questionNo:
+                            item?.questionNo ||
+                            index + 1,
+
+                        questionId:
+                            item?.questionId ||
+                            questions[index]?.id ||
+                            "",
+
+                        timeSpentSeconds:
+                            Number(
+                                item?.timeSpentSeconds ||
+                                0
+                            )
+
+                    };
+
+                }
+            );
+
+
+        const totalTimeSpent =
+            cleanQuestionTimes.reduce(
+                function(total,item){
+
+                    return total +
+                        Number(
+                            item.timeSpentSeconds ||
+                            0
+                        );
+
+                },
+                0
+            );
+
+
+        const result = {
+
+            testId:
+                selectedTest.testId ||
+                selectedTest.id ||
+                "",
+
+            testName:
+                selectedTest.testName ||
+                "Free Test",
+
+            testType:
+                selectedTest.testType ||
+                "",
+
+            examName:
+                selectedTest.examName ||
+                "",
+
+            totalQuestions:
+                questions.length,
+
+            correct:
+                correct,
+
+            wrong:
+                wrong,
+
+            unanswered:
+                unanswered,
+
+            percentage:
+                Number(
+                    percentage.toFixed(2)
+                ),
+
+            autoSubmitted:
+                autoSubmit === true,
+
+            studentUid:
+                currentStudent.uid ||
+                "",
+
+            studentName:
+                currentStudent.displayName ||
+                currentStudent.fullName ||
+                currentStudent.name ||
+                "",
+
+            studentEmail:
+                currentStudent.email ||
+                "",
+
+            testStartedAt:
+                testStartedAt
+                ?
+                new Date(
+                    testStartedAt
+                )
+                :
+                null,
+
+            totalTimeSpentSeconds:
+                totalTimeSpent,
+
+            questionTimes:
+                cleanQuestionTimes,
+
+            completedAt:
+                serverTimestamp()
+
+        };
+
+
+        await addDoc(
+            collection(
+                db,
+                "testResults"
+            ),
+            result
+        );
+
+
+        console.log(
+            "✅ Result + question timing saved"
+        );
+
+    }
+    catch(error){
+
+        console.error(
+            "❌ Result save error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   SUBMIT TEST
+===================================================== */
+
+async function submitTest(autoSubmit){
+
+    if(submitted){
+
+        return;
+
+    }
+
+
+    saveCurrentQuestionTime();
+
+
+    submitted = true;
+
+
+    clearInterval(
+        timerInterval
+    );
+
+
+    let correct = 0;
+
+    let wrong = 0;
+
+    let unanswered = 0;
+
+
+    questions.forEach(
+        function(question,index){
+
+            const selected =
+                answers[index];
+
+
+            if(
+                selected === null ||
+                selected === undefined
+            ){
+
+                unanswered++;
+
+                return;
+
+            }
+
+
+            const correctIndex =
+                getCorrectIndex(
+                    question
+                );
+
+
+            if(
+                correctIndex >= 0 &&
+                selected === correctIndex
+            ){
+
+                correct++;
+
+            }
+            else{
+
+                wrong++;
+
+            }
+
+        }
+    );
+
+
+    const total =
+        questions.length;
+
+
+    const percentage =
+        total
+        ?
+        (
+            correct /
+            total
+        ) * 100
+        :
+        0;
+
+
+    document.getElementById(
+        "testArea"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "result"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "resultTestName"
+    ).textContent =
+        selectedTest.testName ||
+        "Free Test";
+
+
+    document.getElementById(
+        "score"
+    ).textContent =
+        correct +
+        " / " +
+        total;
+
+
+    document.getElementById(
+        "correctCount"
+    ).textContent =
+        correct;
+
+
+    document.getElementById(
+        "wrongCount"
+    ).textContent =
+        wrong;
+
+
+    document.getElementById(
+        "unansweredCount"
+    ).textContent =
+        unanswered;
+
+
+    document.getElementById(
+        "percentage"
+    ).textContent =
+        "Percentage: " +
+        percentage.toFixed(2) +
+        "%";
+
+
+    await saveResult(
+        correct,
+        wrong,
+        unanswered,
+        percentage,
+        autoSubmit
+    );
+
+}
+
+
+/* =====================================================
+   ANSWER + ANALYSIS
+===================================================== */
+
+function toggleAnalysis(){
+
+    if(!submitted){
+
+        return;
+
+    }
+
+
+    const analysis =
+        document.getElementById(
+            "analysis"
+        );
+
+
+    if(
+        analysis.style.display ===
+        "block"
+    ){
+
+        analysis.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    renderAnalysis();
+
+
+    analysis.style.display =
+        "block";
+
+
+    setTimeout(
+        function(){
+
+            analysis.scrollIntoView({
+                behavior:"smooth",
+                block:"start"
+            });
+
+        },
+        50
+    );
+
+}
+
+
+/* =====================================================
+   RENDER ANALYSIS
+===================================================== */
+
+function renderAnalysis(){
+
+    const list =
+        document.getElementById(
+            "analysisList"
+        );
+
+
+    list.innerHTML =
+        questions
+        .map(
+            function(question,index){
+
+                const selected =
+                    answers[index];
+
+
+                const correctIndex =
+                    getCorrectIndex(
+                        question
+                    );
+
+
+                const isUnanswered =
+                    selected === null ||
+                    selected === undefined;
+
+
+                const isCorrect =
+                    !isUnanswered &&
+                    correctIndex >= 0 &&
+                    selected === correctIndex;
+
+
+                let statusHTML = "";
+
+
+                if(
+                    isUnanswered
+                ){
+
+                    statusHTML = `
+
+                        <div class="
+                            answer-box
+                            unanswered-box
+                        ">
+
+                            ⚠️
+                            <b>
+                                Not Attempted
+                            </b>
+
+                            <br>
+
+                            सही उत्तर:
+                            ${
+                                correctIndex >= 0
+                                ?
+                                escapeHTML(
+                                    getOptionLabel(
+                                        question,
+                                        correctIndex
+                                    )
+                                )
+                                :
+                                "Not Available"
+                            }
+
+                        </div>
+
+                    `;
+
+                }
+                else if(
+                    isCorrect
+                ){
+
+                    statusHTML = `
+
+                        <div class="
+                            answer-box
+                            correct-box
+                        ">
+
+                            ✅
+                            <b>
+                                Correct Answer
+                            </b>
+
+                            <br>
+
+                            आपका उत्तर:
+                            ${escapeHTML(
+                                getOptionLabel(
+                                    question,
+                                    selected
+                                )
+                            )}
+
+                        </div>
+
+                    `;
+
+                }
+                else{
+
+                    statusHTML = `
+
+                        <div class="
+                            answer-box
+                            wrong-box
+                        ">
+
+                            ❌
+                            <b>
+                                Wrong Answer
+                            </b>
+
+                            <br>
+
+                            आपका उत्तर:
+                            ${
+                                selected >= 0
+                                ?
+                                escapeHTML(
+                                    getOptionLabel(
+                                        question,
+                                        selected
+                                    )
+                                )
+                                :
+                                "-"
+                            }
+
+                            <br>
+
+                            सही उत्तर:
+                            ${
+                                correctIndex >= 0
+                                ?
+                                escapeHTML(
+                                    getOptionLabel(
+                                        question,
+                                        correctIndex
+                                    )
+                                )
+                                :
+                                "Not Available"
+                            }
+
+                        </div>
+
+                    `;
+
+                }
+
+
+                const time =
+                    Number(
+                        questionTimes[index]
+                        ?.timeSpentSeconds ||
+                        0
+                    );
+
+
+                return `
+
+                    <div class="analysis-card">
+
+                        <div class="analysis-q">
+
+                            Question
+                            ${index + 1}
+
+                        </div>
+
+
+                        <div class="analysis-question">
+
+                            ${escapeHTML(
+                                question.question
+                            )}
+
+                        </div>
+
+
+                        ${statusHTML}
+
+
+                        ${
+                            question.explanation
+                            ?
+
+                            `
+
+                            <div class="explanation">
+
+                                💡 <b>Explanation:</b>
+
+                                <br><br>
+
+                                ${escapeHTML(
+                                    question.explanation
+                                )}
+
+                            </div>
+
+                            `
+
+                            :
+
+                            `
+
+                            <div class="explanation">
+
+                                💡 Explanation उपलब्ध नहीं है।
+
+                            </div>
+
+                            `
+                        }
+
+
+                        <div class="time-box">
+
+                            ⏱️ इस Question पर समय:
+
+                            <b>
+                                ${formatSeconds(time)}
+                            </b>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* =====================================================
+   OPTION LABEL
+===================================================== */
+
+function getOptionLabel(
+    question,
+    index
+){
+
+    if(
+        index === null ||
+        index === undefined ||
+        index < 0
+    ){
+
+        return "-";
+
+    }
+
+
+    const letter =
+        String.fromCharCode(
+            65 + index
+        );
+
+
+    const option =
+        question.options[index] ||
+        "";
+
+
+    return (
+        letter +
+        ". " +
+        option
+    );
+
+}
+
+
+/* =====================================================
+   FORMAT SECONDS
+===================================================== */
+
+function formatSeconds(seconds){
+
+    seconds =
+        Math.max(
+            0,
+            Number(seconds || 0)
+        );
+
+
+    const minutes =
+        Math.floor(
+            seconds / 60
+        );
+
+
+    const sec =
+        seconds % 60;
+
+
+    if(
+        minutes > 0
+    ){
+
+        return (
+            minutes +
+            " min " +
+            sec +
+            " sec"
+        );
+
+    }
+
+
+    return sec + " sec";
+
+}
+
+
+/* =====================================================
+   RETRY
+===================================================== */
+
+function retryTest(){
+
+    const testId =
+        getTestIdFromURL();
+
+
+    if(!testId){
+
+        window.location.href =
+            "free-mock.html";
+
+        return;
+
+    }
+
+
+    window.location.href =
+        "test.html?testId=" +
+        encodeURIComponent(
+            testId
+        );
+
+}
+
+
+/* =====================================================
+   BACK TO FREE TESTS
+===================================================== */
+
+function goBackToFreeTests(){
+
+    window.location.href =
+        "free-mock.html";
+
+}
+
+
+/* =====================================================
+   PAUSE
+===================================================== */
+
+function showPause(){
+
+    if(
+        submitted ||
+        paused
+    ){
+
+        return;
+
+    }
+
+
+    saveCurrentQuestionTime();
+
+
+    paused = true;
+
+
+    document.getElementById(
+        "pauseOverlay"
+    ).style.display =
+        "flex";
+
+
+    document.body.style.overflow =
+        "hidden";
+
+}
+
+
+/* =====================================================
+   RESUME
+===================================================== */
+
+function resumeTest(){
+
+    if(
+        submitted
+    ){
+
+        return;
+
+    }
+
+
+    paused = false;
+
+
+    document.getElementById(
+        "pauseOverlay"
+    ).style.display =
+        "none";
+
+
+    document.body.style.overflow =
+        "";
+
+
+    startQuestionTimer();
+
+}
+
+
+/* =====================================================
+   EXIT
+===================================================== */
+
+function exitTest(){
+
+    paused = false;
+
+
+    clearInterval(
+        timerInterval
+    );
+
+
+    window.location.href =
+        "free-mock.html";
+
+}
+
+
+/* =====================================================
+   BACK PROTECTION
+===================================================== */
+
+function setupBackProtection(){
+
+    history.pushState(
+        {
+            testPage:true
+        },
+        "",
+        window.location.href
+    );
+
+
+    window.addEventListener(
+        "popstate",
+        function(){
+
+            if(
+                submitted
+            ){
+
+                return;
+
+            }
+
+
+            history.pushState(
+                {
+                    testPage:true
+                },
+                "",
+                window.location.href
+            );
+
+
+            showPause();
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   VISIBILITY
+===================================================== */
+
+document.addEventListener(
+    "visibilitychange",
+    function(){
+
+        if(
+            document.hidden &&
+            !submitted &&
+            !paused
+        ){
+
+            showPause();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   INIT
+===================================================== */
+
+async function init(){
+
+    if(
+        !showStudent()
+    ){
+
+        return;
+
+    }
+
+
+    setupBackProtection();
+
+
+    try{
+
+        selectedTest =
+            await loadSelectedTestFromFirestore();
+
+
+        if(!selectedTest){
+
+            document.getElementById(
+                "testArea"
+            ).innerHTML = `
+
+                <div class="error">
+
+                    ❌ Selected Test नहीं मिला।
+
+                    <br><br>
+
+                    Free Mock Tests से
+                    Test दोबारा select करें।
+
+                    <br><br>
+
+                    <button
+                        class="nav-btn previous"
+                        type="button"
+                        onclick="
+                            goBackToFreeTests()
+                        "
+                    >
+
+                        ← Free Tests
+
+                    </button>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        /* ==========================
+           FREE SECURITY
+        ========================== */
+
+        const access =
+            normalize(
+                selectedTest.accessType
+            );
+
+
+        const paid =
+            selectedTest.isPaid === true ||
+            access === "paid" ||
+            access === "paid test" ||
+            access === "paid mock" ||
+            Number(
+                selectedTest.price || 0
+            ) > 0;
+
+
+        if(paid){
+
+            document.getElementById(
+                "testArea"
+            ).innerHTML = `
+
+                <div class="error">
+
+                    🔒 यह Free Test नहीं है।
+
+                    <br><br>
+
+                    Paid Test को Free Test
+                    page से open नहीं किया जा सकता।
+
+                    <br><br>
+
+                    <button
+                        class="nav-btn previous"
+                        type="button"
+                        onclick="
+                            goBackToFreeTests()
+                        "
+                    >
+
+                        ← Free Tests
+
+                    </button>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        /* ==========================
+           HEADER
+        ========================== */
+
+        document.getElementById(
+            "testTitle"
+        ).textContent =
+            "🆓 " +
+            (
+                selectedTest.testName ||
+                "Free Test"
+            );
+
+
+        document.getElementById(
+            "testDescription"
+        ).innerHTML =
+
+            "<strong>By Ranjan Mishra Sir</strong><br>" +
+
+            (
+                selectedTest.examName
+                ?
+                selectedTest.examName +
+                " · "
+                :
+                ""
+            ) +
+
+            (
+                selectedTest.testType ||
+                "Free Mock Test"
+            );
+
+
+        /* ==========================
+           QUESTIONS
+        ========================== */
+
+        const rawQuestions =
+            await loadQuestionsFromFirestore(
+                selectedTest
+            );
+
+
+        questions =
+            rawQuestions.map(
+                normalizeQuestion
+            );
+
+
+        if(!questions.length){
+
+            document.getElementById(
+                "testArea"
+            ).innerHTML = `
+
+                <div class="error">
+
+                    ❌ इस Test में कोई Question नहीं मिला।
+
+                    <br><br>
+
+                    Firestore में
+                    <b>mockQuestions</b>
+                    collection check करें।
+
+                    <br><br>
+
+                    Test ID:
+                    <b>
+                        ${escapeHTML(
+                            selectedTest.testId
+                        )}
+                    </b>
+
+                    <br><br>
+
+                    <button
+                        class="nav-btn previous"
+                        type="button"
+                        onclick="
+                            goBackToFreeTests()
+                        "
+                    >
+
+                        ← Free Tests
+
+                    </button>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        answers =
+            new Array(
+                questions.length
+            ).fill(null);
+
+
+        questionTimes =
+            questions.map(
+                function(question,index){
+
+                    return {
+
+                        questionNo:
+                            index + 1,
+
+                        questionId:
+                            question.id ||
+                            "",
+
+                        timeSpentSeconds:
+                            0
+
+                    };
+
+                }
+            );
+
+
+        currentQuestion = 0;
+
+
+        testStartedAt =
+            Date.now();
+
+
+        renderQuestion();
+
+
+        startQuestionTimer();
+
+
+        startTimer();
+
+
+        console.log(
+            "✅ RM Vidya Peeth Test:",
+            selectedTest.testName
+        );
+
+
+        console.log(
+            "✅ Questions:",
+            questions.length
+        );
+
+    }
+    catch(error){
+
+        console.error(
+            "TEST LOAD ERROR:",
+            error
+        );
+
+
+        document.getElementById(
+            "testArea"
+        ).innerHTML = `
+
+            <div class="error">
+
+                ❌ Test load नहीं हो सका।
+
+                <br><br>
+
+                ${escapeHTML(
+                    error.message ||
+                    error
+                )}
+
+                <br><br>
+
+                Firebase / Firestore connection
+                या Rules check करें।
+
+                <br><br>
+
+                <button
+                    class="nav-btn previous"
+                    type="button"
+                    onclick="
+                        goBackToFreeTests()
+                    "
+                >
+
+                    ← Free Tests
+
+                </button>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   GLOBAL FUNCTIONS
+===================================================== */
+
+window.selectAnswer =
+    selectAnswer;
+
+window.nextQuestion =
+    nextQuestion;
+
+window.previousQuestion =
+    previousQuestion;
+
+window.confirmSubmit =
+    confirmSubmit;
+
+window.submitTest =
+    submitTest;
+
+window.retryTest =
+    retryTest;
+
+window.goBackToFreeTests =
+    goBackToFreeTests;
+
+window.toggleAnalysis =
+    toggleAnalysis;
+
+window.resumeTest =
+    resumeTest;
+
+window.exitTest =
+    exitTest;
+
+window.openQuestionMenu =
+    openQuestionMenu;
+
+window.closeQuestionMenu =
+    closeQuestionMenu;
+
+window.goToQuestionFromMenu =
+    goToQuestionFromMenu;
+
+
+/* =====================================================
+   START
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    init
+);
+
+</script></body></html>

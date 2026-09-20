@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0"
+>
+
+<title>RM Vidya Peeth - Course Subjects</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial,sans-serif;
+}
+
+.page{
+    max-width:900px;
+    margin:auto;
+    padding:20px 15px 70px;
+}
+
+
+/* =====================================================
+   BACK BUTTON
+===================================================== */
+
+.back-btn{
+    width:100%;
+    padding:12px;
+    border:0;
+    border-radius:9px;
+    background:#334155;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+    margin-bottom:18px;
+}
+
+.back-btn:hover{
+    background:#475569;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header{
+    background:#1e293b;
+    border-radius:16px;
+    padding:22px;
+}
+
+.brand-title{
+    margin:0 0 4px;
+    color:#60a5fa;
+    font-size:25px;
+    font-weight:800;
+}
+
+.brand-tagline{
+    margin:0 0 16px;
+    color:#cbd5e1;
+    font-size:13px;
+}
+
+.header h1{
+    margin:0 0 8px;
+    font-size:26px;
+}
+
+.header p{
+    margin:0;
+    color:#94a3b8;
+}
+
+
+/* =====================================================
+   SUBJECT LIST
+===================================================== */
+
+.subject-list{
+    margin-top:18px;
+}
+
+
+/* =====================================================
+   SUBJECT CARD
+===================================================== */
+
+.subject{
+    background:#1e293b;
+
+    border:1px solid #334155;
+
+    border-radius:14px;
+
+    padding:18px;
+
+    margin-top:12px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.subject:hover{
+    border-color:#2563eb;
+    transform:translateY(-2px);
+}
+
+.subject:active{
+    transform:scale(.99);
+}
+
+
+/* =====================================================
+   SUBJECT CONTENT
+===================================================== */
+
+.subject-content{
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:12px;
+}
+
+
+.subject-left{
+    min-width:0;
+
+    flex:1;
+}
+
+
+.subject-name{
+    font-size:19px;
+
+    font-weight:bold;
+
+    color:#93c5fd;
+
+    word-break:break-word;
+}
+
+
+.subject-info{
+    color:#94a3b8;
+
+    font-size:14px;
+
+    margin-top:6px;
+}
+
+
+/* =====================================================
+   OPEN BUTTON
+===================================================== */
+
+.open-btn{
+    flex-shrink:0;
+
+    border:0;
+
+    border-radius:8px;
+
+    padding:10px 14px;
+
+    background:#2563eb;
+
+    color:#fff;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.open-btn:hover{
+    background:#1d4ed8;
+}
+
+
+/* =====================================================
+   EMPTY
+===================================================== */
+
+.empty{
+    background:#1e293b;
+
+    text-align:center;
+
+    padding:25px;
+
+    border-radius:12px;
+
+    color:#cbd5e1;
+
+    margin-top:18px;
+}
+
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+.error{
+    background:#450a0a;
+
+    color:#fecaca;
+
+    padding:20px;
+
+    border-radius:12px;
+
+    text-align:center;
+
+    margin-top:18px;
+
+    line-height:1.6;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer{
+    text-align:center;
+
+    color:#94a3b8;
+
+    font-size:13px;
+
+    padding:20px;
+}
+
+.footer-brand{
+    color:#60a5fa;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    margin-bottom:4px;
+}
+
+.footer-tagline{
+    color:#cbd5e1;
+
+    font-size:13px;
+
+    margin-bottom:7px;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:500px){
+
+    .page{
+        padding:15px 10px 60px;
+    }
+
+    .header{
+        padding:18px;
+    }
+
+    .brand-title{
+        font-size:21px;
+    }
+
+    .header h1{
+        font-size:22px;
+    }
+
+    .subject{
+        padding:15px;
+    }
+
+    .subject-name{
+        font-size:17px;
+    }
+
+    .open-btn{
+        padding:9px 11px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+<!-- =====================================================
+     BACK
+===================================================== -->
+
+<button
+    class="back-btn"
+    type="button"
+    onclick="goBack()"
+>
+
+    ← Back to Course
+
+</button>
+
+
+<!-- =====================================================
+     CONTAINER
+===================================================== -->
+
+<div id="container">
+
+    <div class="header">
+
+        <div class="brand-title">
+            RM Vidya Peeth
+        </div>
+
+        <div class="brand-tagline">
+            By Ranjan Mishra Sir
+        </div>
+
+        📚 Subjects loading...
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+<footer>
+
+    <div class="footer-brand">
+        RM Vidya Peeth
+    </div>
+
+    <div class="footer-tagline">
+        By Ranjan Mishra Sir
+    </div>
+
+    © 2026 RM Vidya Peeth. All Rights Reserved.
+
+</footer>
+
+
+
+<script type="module">
+
+
+/* =====================================================
+   FIREBASE
+===================================================== */
+
+import {
+    db
+}
+from "./firebase-config.js";
+
+
+import {
+    collection,
+    getDocs
+}
+from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+
+/* =====================================================
+   URL PARAMETERS
+===================================================== */
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+/* =====================================================
+   COURSE ID
+===================================================== */
+
+const courseId =
+    String(
+        params.get("courseId") ||
+        localStorage.getItem(
+            "selectedCourseId"
+        ) ||
+        ""
+    ).trim();
+
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+function checkLogin(){
+
+    const newLogged =
+        localStorage.getItem(
+            "studentLoggedIn"
+        );
+
+
+    const studentUser =
+        localStorage.getItem(
+            "studentUser"
+        );
+
+
+    const oldLogged =
+        localStorage.getItem(
+            "ssc_logged_in"
+        );
+
+
+    const oldType =
+        localStorage.getItem(
+            "ssc_login_type"
+        );
+
+
+    if(
+        newLogged === "true" &&
+        studentUser
+    ){
+
+        return true;
+
+    }
+
+
+    if(
+        oldLogged === "true" &&
+        oldType === "student"
+    ){
+
+        return true;
+
+    }
+
+
+    window.location.href =
+        "login.html";
+
+
+    return false;
+
+}
+
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+
+/* =====================================================
+   FIND COURSE
+===================================================== */
+
+async function findCourse(){
+
+    const snapshot =
+        await getDocs(
+            collection(
+                db,
+                "courses"
+            )
+        );
+
+
+    let result = null;
+
+
+    snapshot.forEach(
+        function(docItem){
+
+            const data =
+                docItem.data();
+
+
+            /*
+               Course ID can be stored as:
+
+               data.id
+               data.courseId
+               OR Firestore document ID
+            */
+
+            const id =
+                String(
+                    data.id ||
+                    data.courseId ||
+                    docItem.id
+                ).trim();
+
+
+            if(
+                id === courseId
+            ){
+
+                result = {
+
+                    ...data,
+
+                    id:id
+
+                };
+
+            }
+
+        }
+    );
+
+
+    return result;
+
+}
+
+
+
+/* =====================================================
+   GET SUBJECT NAME
+===================================================== */
+
+function getSubjectName(subject){
+
+    if(
+        typeof subject === "string"
+    ){
+
+        return subject.trim();
+
+    }
+
+
+    if(
+        subject &&
+        typeof subject === "object"
+    ){
+
+        return String(
+            subject.name ||
+            subject.subjectName ||
+            subject.title ||
+            "Subject"
+        ).trim();
+
+    }
+
+
+    return "Subject";
+
+}
+
+
+
+/* =====================================================
+   OPEN SUBJECT
+===================================================== */
+
+function openSubject(subjectName){
+
+    const cleanSubject =
+        String(
+            subjectName ?? ""
+        ).trim();
+
+
+    console.log(
+        "RM Vidya Peeth - Open Subject"
+    );
+
+
+    console.log(
+        "Course ID:",
+        courseId
+    );
+
+
+    console.log(
+        "Subject:",
+        cleanSubject
+    );
+
+
+    /* =================================================
+       COURSE CHECK
+    ================================================= */
+
+    if(!courseId){
+
+        alert(
+            "❌ Course ID नहीं मिला।"
+        );
+
+        return;
+
+    }
+
+
+    /* =================================================
+       SUBJECT CHECK
+    ================================================= */
+
+    if(!cleanSubject){
+
+        alert(
+            "❌ Subject नहीं मिला।"
+        );
+
+        return;
+
+    }
+
+
+    /* =================================================
+       SAVE SELECTION
+    ================================================= */
+
+    localStorage.setItem(
+        "selectedCourseId",
+        courseId
+    );
+
+
+    localStorage.setItem(
+        "selectedSubject",
+        cleanSubject
+    );
+
+
+    /* =================================================
+       CREATE CHAPTER URL
+    ================================================= */
+
+    const targetURL =
+        "chapters.html" +
+        "?courseId=" +
+        encodeURIComponent(
+            courseId
+        ) +
+        "&subject=" +
+        encodeURIComponent(
+            cleanSubject
+        );
+
+
+    console.log(
+        "RM Vidya Peeth - Opening:",
+        targetURL
+    );
+
+
+    /* =================================================
+       OPEN CHAPTERS
+    ================================================= */
+
+    window.location.assign(
+        targetURL
+    );
+
+}
+
+
+
+/* =====================================================
+   RENDER COURSE
+===================================================== */
+
+function renderCourse(course){
+
+    const container =
+        document.getElementById(
+            "container"
+        );
+
+
+    if(!container){
+
+        return;
+
+    }
+
+
+    /* =================================================
+       COURSE NAME
+    ================================================= */
+
+    const courseName =
+        course.name ||
+        course.courseName ||
+        course.title ||
+        "Course";
+
+
+    /* =================================================
+       SUBJECTS
+    ================================================= */
+
+    const subjects =
+        Array.isArray(
+            course.subjects
+        )
+        ?
+        course.subjects
+        :
+        [];
+
+
+    let html = `
+
+        <div class="header">
+
+            <div class="brand-title">
+                RM Vidya Peeth
+            </div>
+
+            <div class="brand-tagline">
+                By Ranjan Mishra Sir
+            </div>
+
+            <h1>
+
+                📚
+                ${escapeHTML(
+                    courseName
+                )}
+
+            </h1>
+
+            <p>
+
+                नीचे से अपना Subject चुनें।
+
+            </p>
+
+        </div>
+
+    `;
+
+
+    /* =================================================
+       NO SUBJECT
+    ================================================= */
+
+    if(
+        subjects.length === 0
+    ){
+
+        html += `
+
+            <div class="empty">
+
+                📚 इस Course में अभी कोई Subject उपलब्ध नहीं है।
+
+            </div>
+
+        `;
+
+
+        container.innerHTML =
+            html;
+
+
+        return;
+
+    }
+
+
+    /* =================================================
+       SUBJECT LIST
+    ================================================= */
+
+    html += `
+
+        <div class="subject-list">
+
+    `;
+
+
+    subjects.forEach(
+        function(subject){
+
+            const subjectName =
+                getSubjectName(
+                    subject
+                );
+
+
+            let chapters = [];
+
+
+            if(
+                subject &&
+                typeof subject === "object" &&
+                Array.isArray(
+                    subject.chapters
+                )
+            ){
+
+                chapters =
+                    subject.chapters;
+
+            }
+
+
+            /*
+               Escape subject name for
+               display only.
+            */
+
+            const safeName =
+                escapeHTML(
+                    subjectName
+                );
+
+
+            /*
+               Store subject safely in
+               data attribute.
+
+               This avoids problems with
+               quotes in onclick.
+            */
+
+            const encodedSubject =
+                encodeURIComponent(
+                    subjectName
+                );
+
+
+            html += `
+
+                <div
+                    class="subject"
+                    data-subject="${encodedSubject}"
+                    onclick="openSubjectFromCard(this)"
+                >
+
+                    <div class="subject-content">
+
+                        <div class="subject-left">
+
+                            <div class="subject-name">
+
+                                📘
+                                ${safeName}
+
+                            </div>
+
+
+                            <div class="subject-info">
+
+                                ${chapters.length}
+
+                                Chapter
+
+                                ${
+                                    chapters.length === 1
+                                    ? ""
+                                    : "s"
+                                }
+
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            class="open-btn"
+                            type="button"
+                            onclick="
+                                event.stopPropagation();
+                                openSubjectFromCard(this.parentElement.parentElement);
+                            "
+                        >
+
+                            Open →
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    html += `
+
+        </div>
+
+    `;
+
+
+    container.innerHTML =
+        html;
+
+}
+
+
+
+/* =====================================================
+   OPEN SUBJECT FROM CARD
+===================================================== */
+
+function openSubjectFromCard(card){
+
+    if(!card){
+
+        alert(
+            "❌ Subject card नहीं मिला।"
+        );
+
+        return;
+
+    }
+
+
+    const encodedSubject =
+        card.getAttribute(
+            "data-subject"
+        );
+
+
+    if(!encodedSubject){
+
+        alert(
+            "❌ Subject information नहीं मिली।"
+        );
+
+        return;
+
+    }
+
+
+    let subjectName = "";
+
+
+    try{
+
+        subjectName =
+            decodeURIComponent(
+                encodedSubject
+            );
+
+    }
+    catch(error){
+
+        console.error(
+            error
+        );
+
+        alert(
+            "❌ Subject information पढ़ी नहीं जा सकी।"
+        );
+
+        return;
+
+    }
+
+
+    openSubject(
+        subjectName
+    );
+
+}
+
+
+
+/* =====================================================
+   BACK
+===================================================== */
+
+function goBack(){
+
+    if(!courseId){
+
+        window.location.href =
+            "index.html";
+
+        return;
+
+    }
+
+
+    window.location.href =
+        "course-detail.html?courseId=" +
+        encodeURIComponent(
+            courseId
+        );
+
+}
+
+
+
+/* =====================================================
+   GLOBAL FUNCTIONS
+===================================================== */
+
+window.openSubject =
+    openSubject;
+
+
+window.openSubjectFromCard =
+    openSubjectFromCard;
+
+
+window.goBack =
+    goBack;
+
+
+
+/* =====================================================
+   START
+===================================================== */
+
+async function start(){
+
+    /* =================================================
+       LOGIN
+    ================================================= */
+
+    if(!checkLogin()){
+
+        return;
+
+    }
+
+
+    const container =
+        document.getElementById(
+            "container"
+        );
+
+
+    /* =================================================
+       COURSE ID CHECK
+    ================================================= */
+
+    if(!courseId){
+
+        if(container){
+
+            container.innerHTML = `
+
+                <div class="error">
+
+                    ❌ Course ID नहीं मिला।
+
+                    <br><br>
+
+                    कृपया वापस जाकर Course फिर से खोलें।
+
+                </div>
+
+            `;
+
+        }
+
+
+        return;
+
+    }
+
+
+    /* =================================================
+       LOAD COURSE
+    ================================================= */
+
+    try{
+
+        const course =
+            await findCourse();
+
+
+        if(!course){
+
+            throw new Error(
+                "Course नहीं मिला।"
+            );
+
+        }
+
+
+        /* =================================================
+           SAVE COURSE
+        ================================================= */
+
+        localStorage.setItem(
+            "selectedCourseId",
+            courseId
+        );
+
+
+        localStorage.setItem(
+            "selectedCourse",
+            JSON.stringify(
+                course
+            )
+        );
+
+
+        /* =================================================
+           RENDER
+        ================================================= */
+
+        renderCourse(
+            course
+        );
+
+    }
+    catch(error){
+
+        console.error(
+            "RM Vidya Peeth Course Subjects Error:",
+            error
+        );
+
+
+        if(container){
+
+            container.innerHTML = `
+
+                <div class="error">
+
+                    ❌ Subjects load नहीं हो पाए।
+
+                    <br><br>
+
+                    ${escapeHTML(
+                        error?.message ||
+                        "Unknown error"
+                    )}
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+}
+
+
+
+/* =====================================================
+   RUN
+===================================================== */
+
+start();
+
+</script>
+
+
+</body>
+
+</html>

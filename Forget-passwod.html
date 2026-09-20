@@ -1,0 +1,158 @@
+<!DOCTYPE html><html lang="hi"><head><meta charset="UTF-8"><meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+
+«»
+
+<title>RM Vidya Peeth - Forgot Password</title><link
+    rel="stylesheet"
+    href="style.css"
+><style>
+
+.app-name-wrap{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    line-height:1.1;
+}
+
+.app-name{
+    font-weight:800;
+    font-size:17px;
+}
+
+.app-tagline{
+    font-size:10px;
+    margin-top:3px;
+    opacity:.9;
+}
+
+.brand-footer{
+    text-align:center;
+    padding:20px 10px;
+    color:#64748b;
+    font-size:12px;
+}
+
+.brand-footer strong{
+    display:block;
+    color:#0b8fd3;
+    font-size:15px;
+    margin-bottom:4px;
+}
+
+.brand-footer span{
+    display:block;
+    margin-bottom:5px;
+    color:#94a3b8;
+}
+
+</style></head><body><header class="top-header"><div
+    class="menu"
+    onclick="
+        location.href='login.html'
+    "
+>
+    ←
+</div>
+
+
+<div class="app-name-wrap">
+
+    <div class="app-name">
+        RM Vidya Peeth
+    </div>
+
+    <div class="app-tagline">
+        By Ranjan Mishra Sir
+    </div>
+
+</div>
+
+</header><main><div
+    class="admin-box"
+    style="
+        max-width:450px;
+        margin:40px auto;
+    "
+><h2>
+    🔑 Reset Password
+</h2><p>
+    अपना registered Email डालकर नया Password बनाएं।
+</p><input
+id="forgotEmail"
+type="email"
+placeholder="Registered Email"
+style="
+width:100%;
+box-sizing:border-box;
+margin-top:15px;
+padding:12px;
+"
+
+«»
+
+<input
+id="newPassword"
+type="password"
+placeholder="New Password"
+style="
+width:100%;
+box-sizing:border-box;
+margin-top:12px;
+padding:12px;
+"
+
+«»
+
+<input
+id="confirmNewPassword"
+type="password"
+placeholder="Confirm New Password"
+style="
+width:100%;
+box-sizing:border-box;
+margin-top:12px;
+padding:12px;
+"
+
+«»
+
+<button
+onclick="resetStudentPassword()"
+style="
+width:100%;
+margin-top:15px;
+"
+
+«»
+
+🔐 Change Password
+
+</button><button
+onclick="
+location.href='login.html'
+"
+style="
+width:100%;
+margin-top:12px;
+"
+
+«»
+
+← Back to Login
+
+</button></div></main><footer
+    class="brand-footer"
+    aria-label="Copyright"
+><strong>
+    RM Vidya Peeth
+</strong>
+
+<span>
+    By Ranjan Mishra Sir
+</span>
+
+© 2026 RM Vidya Peeth. All Rights Reserved.
+
+</footer><script src="auth.js"></script></body></html>

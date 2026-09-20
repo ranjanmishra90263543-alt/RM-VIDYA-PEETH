@@ -1,0 +1,11 @@
+Payment setup v9:
+- UPI ID: 9958522950@upi
+- QR image: assets/upi-qr.png
+- payment.html shows QR + UPI ID + amount + UTR submission.
+- admin-payments.html shows pending payment requests for local testing.
+- Course pages expose window.buyPaidCourse(course) for paid checkout.
+
+IMPORTANT:
+This version is a UI/manual-verification flow. For production, payment requests,
+screenshots and enrollment approvals should be stored in Firestore under the
+authenticated student's UID, and admin approval should grant the course entitlement.

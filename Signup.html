@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>RM Vidya Peeth - Signup</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<header class="top-header">
+
+    <div
+        class="menu"
+        onclick="location.href='login.html'"
+    >
+        ←
+    </div>
+
+    <div class="app-name">
+        RM Vidya Peeth
+    </div>
+
+</header>
+
+
+
+<main>
+
+<div
+    class="admin-box"
+    style="
+        max-width:450px;
+        margin:40px auto;
+    "
+>
+
+
+<h2 style="text-align:center;">
+
+    📝 Create Student Account
+
+</h2>
+
+
+<p
+    style="
+        text-align:center;
+        color:#64748b;
+        font-weight:bold;
+        margin-top:8px;
+    "
+>
+    By Ranjan Mishra Sir
+</p>
+
+
+
+<input
+    id="signupName"
+    type="text"
+    placeholder="Full Name"
+    autocomplete="name"
+    style="
+        width:100%;
+        box-sizing:border-box;
+        margin-top:15px;
+        padding:12px;
+    "
+>
+
+
+<input
+    id="signupEmail"
+    type="email"
+    placeholder="Email"
+    autocomplete="email"
+    style="
+        width:100%;
+        box-sizing:border-box;
+        margin-top:12px;
+        padding:12px;
+    "
+>
+
+
+<input
+    id="signupMobile"
+    type="tel"
+    placeholder="Mobile Number"
+    autocomplete="tel"
+    style="
+        width:100%;
+        box-sizing:border-box;
+        margin-top:12px;
+        padding:12px;
+    "
+>
+
+
+<input
+    id="signupPassword"
+    type="password"
+    placeholder="Password"
+    autocomplete="new-password"
+    style="
+        width:100%;
+        box-sizing:border-box;
+        margin-top:12px;
+        padding:12px;
+    "
+>
+
+
+<input
+    id="signupConfirmPassword"
+    type="password"
+    placeholder="Confirm Password"
+    autocomplete="new-password"
+    style="
+        width:100%;
+        box-sizing:border-box;
+        margin-top:12px;
+        padding:12px;
+    "
+>
+
+
+<button
+    id="signupButton"
+    type="button"
+    style="
+        width:100%;
+        margin-top:15px;
+        background:#2e7d32;
+        color:white;
+        padding:12px;
+        border:0;
+        border-radius:8px;
+        font-weight:bold;
+        cursor:pointer;
+    "
+>
+    ✅ Create Account
+</button>
+
+
+<p
+    id="signupMessage"
+    style="
+        text-align:center;
+        margin-top:15px;
+        font-weight:bold;
+        line-height:1.5;
+        min-height:24px;
+    "
+></p>
+
+
+<button
+    type="button"
+    onclick="location.href='login.html'"
+    style="
+        width:100%;
+        margin-top:12px;
+    "
+>
+    🔐 Already have an account? Login
+</button>
+
+
+</div>
+
+</main>
+
+
+
+<script type="module">
+
+// =====================================================
+// RM VIDYA PEETH - STUDENT SIGNUP
+// FIREBASE AUTH + FIRESTORE
+// =====================================================
+
+
+import {
+    auth,
+    db
+} from "./firebase-config.js";
+
+
+import {
+    createUserWithEmailAndPassword,
+    updateProfile
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+
+import {
+    doc,
+    setDoc,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+
+// =====================================================
+// ELEMENTS
+// =====================================================
+
+
+const nameInput =
+    document.getElementById("signupName");
+
+
+const emailInput =
+    document.getElementById("signupEmail");
+
+
+const mobileInput =
+    document.getElementById("signupMobile");
+
+
+const passwordInput =
+    document.getElementById("signupPassword");
+
+
+const confirmPasswordInput =
+    document.getElementById("signupConfirmPassword");
+
+
+const button =
+    document.getElementById("signupButton");
+
+
+const message =
+    document.getElementById("signupMessage");
+
+
+
+// =====================================================
+// MESSAGE
+// =====================================================
+
+
+function showMessage(
+    text,
+    color = "#d32f2f"
+){
+
+    message.textContent =
+        text;
+
+    message.style.color =
+        color;
+
+}
+
+
+
+// =====================================================
+// SIGNUP
+// =====================================================
+
+
+async function studentSignup(){
+
+    console.log(
+        "🟢 Signup button clicked"
+    );
+
+
+    const name =
+        nameInput.value.trim();
+
+
+    const email =
+        emailInput.value
+        .trim()
+        .toLowerCase();
+
+
+    const mobile =
+        mobileInput.value.trim();
+
+
+    const password =
+        passwordInput.value;
+
+
+    const confirmPassword =
+        confirmPasswordInput.value;
+
+
+    showMessage("");
+
+
+
+    // =================================================
+    // VALIDATION
+    // =================================================
+
+
+    if(!name){
+
+        showMessage(
+            "❌ अपना नाम लिखें।"
+        );
+
+        nameInput.focus();
+
+        return;
+
+    }
+
+
+
+    if(!email){
+
+        showMessage(
+            "❌ Email लिखें।"
+        );
+
+        emailInput.focus();
+
+        return;
+
+    }
+
+
+
+    if(password.length < 6){
+
+        showMessage(
+            "❌ Password कम से कम 6 characters का होना चाहिए।"
+        );
+
+        passwordInput.focus();
+
+        return;
+
+    }
+
+
+
+    if(password !== confirmPassword){
+
+        showMessage(
+            "❌ Password और Confirm Password अलग हैं।"
+        );
+
+        confirmPasswordInput.focus();
+
+        return;
+
+    }
+
+
+
+    // =================================================
+    // LOCK BUTTON
+    // =================================================
+
+
+    button.disabled =
+        true;
+
+
+    button.style.opacity =
+        "0.7";
+
+
+    button.textContent =
+        "⏳ Creating Account...";
+
+
+
+    try{
+
+
+        // =================================================
+        // STEP 1 - FIREBASE AUTH
+        // =================================================
+
+
+        showMessage(
+            "⏳ Firebase account create हो रहा है...",
+            "#1565c0"
+        );
+
+
+        const credential =
+            await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+
+
+        const user =
+            credential.user;
+
+
+        console.log(
+            "✅ AUTH SUCCESS:",
+            user.uid
+        );
+
+
+
+        // =================================================
+        // STEP 2 - UPDATE PROFILE
+        // =================================================
+
+
+        try{
+
+            await updateProfile(
+                user,
+                {
+                    displayName:name
+                }
+            );
+
+        }
+
+        catch(profileError){
+
+            console.warn(
+                "Profile update warning:",
+                profileError
+            );
+
+        }
+
+
+
+        // =================================================
+        // STEP 3 - FIRESTORE DATA
+        // =================================================
+
+
+        showMessage(
+            "⏳ Student data Firestore में save हो रहा है...",
+            "#1565c0"
+        );
+
+
+        const studentData = {
+
+            uid:
+                user.uid,
+
+            name:
+                name,
+
+            fullName:
+                name,
+
+            displayName:
+                name,
+
+            email:
+                email,
+
+            username:
+                email,
+
+            mobile:
+                mobile,
+
+            phone:
+                mobile,
+
+            role:
+                "student",
+
+            status:
+                "active",
+
+            createdAt:
+                serverTimestamp(),
+
+            updatedAt:
+                serverTimestamp()
+
+        };
+
+
+
+        // students/{AUTH_UID}
+
+
+        await setDoc(
+
+            doc(
+                db,
+                "students",
+                user.uid
+            ),
+
+            studentData
+
+        );
+
+
+
+        console.log(
+            "✅ FIRESTORE SUCCESS:",
+            user.uid
+        );
+
+
+
+        // =================================================
+        // LOCAL CACHE
+        // =================================================
+
+
+        localStorage.setItem(
+
+            "studentUser",
+
+            JSON.stringify({
+
+                uid:
+                    user.uid,
+
+                name:
+                    name,
+
+                fullName:
+                    name,
+
+                displayName:
+                    name,
+
+                email:
+                    email,
+
+                username:
+                    email,
+
+                mobile:
+                    mobile,
+
+                phone:
+                    mobile,
+
+                role:
+                    "student",
+
+                status:
+                    "active"
+
+            })
+
+        );
+
+
+
+        // =================================================
+        // SUCCESS
+        // =================================================
+
+
+        showMessage(
+            "✅ Account successfully created! Login page पर जा रहे हैं...",
+            "#2e7d32"
+        );
+
+
+        button.textContent =
+            "✅ Account Created";
+
+
+        setTimeout(
+
+            () => {
+
+                window.location.href =
+                    "login.html";
+
+            },
+
+            1500
+
+        );
+
+    }
+
+
+
+    catch(error){
+
+        console.error(
+            "🔥 SIGNUP ERROR:",
+            error
+        );
+
+
+        console.error(
+            "ERROR CODE:",
+            error?.code
+        );
+
+
+        console.error(
+            "ERROR MESSAGE:",
+            error?.message
+        );
+
+
+        let text =
+            "❌ Signup failed";
+
+
+
+        // =================================================
+        // AUTH ERRORS
+        // =================================================
+
+
+        switch(error?.code){
+
+
+            case "auth/email-already-in-use":
+
+                text =
+                    "❌ यह Email पहले से registered है।";
+
+                break;
+
+
+
+            case "auth/invalid-email":
+
+                text =
+                    "❌ Email सही नहीं है।";
+
+                break;
+
+
+
+            case "auth/weak-password":
+
+                text =
+                    "❌ Password बहुत कमजोर है।";
+
+                break;
+
+
+
+            case "auth/operation-not-allowed":
+
+                text =
+                    "❌ Firebase Email/Password Authentication enabled नहीं है।";
+
+                break;
+
+
+
+            case "auth/network-request-failed":
+
+                text =
+                    "❌ Firebase network connection failed।";
+
+                break;
+
+
+
+            case "permission-denied":
+
+                text =
+                    "❌ Firestore permission denied है।";
+
+                break;
+
+
+
+            case "unavailable":
+
+                text =
+                    "❌ Firestore temporarily unavailable है।";
+
+                break;
+
+
+
+            default:
+
+                text =
+                    "❌ " +
+                    (
+                        error?.code ||
+                        "unknown-error"
+                    ) +
+                    " : " +
+                    (
+                        error?.message ||
+                        "Unknown Firebase error"
+                    );
+
+        }
+
+
+
+        showMessage(
+            text
+        );
+
+
+        button.disabled =
+            false;
+
+
+        button.style.opacity =
+            "1";
+
+
+        button.textContent =
+            "✅ Create Account";
+
+    }
+
+}
+
+
+
+// =====================================================
+// BUTTON EVENT
+// =====================================================
+
+
+button.addEventListener(
+    "click",
+    studentSignup
+);
+
+
+
+// =====================================================
+// GLOBAL
+// =====================================================
+
+
+window.studentSignup =
+    studentSignup;
+
+
+console.log(
+    "✅ RM Vidya Peeth Signup JS Loaded Successfully"
+);
+
+</script>
+
+
+
+<footer
+    class="the-hub-copyright"
+    aria-label="Copyright"
+>
+
+    <div style="font-weight:bold;">
+        RM Vidya Peeth
+    </div>
+
+    <div style="margin-top:5px;">
+        By Ranjan Mishra Sir
+    </div>
+
+    <div style="margin-top:5px;">
+        © 2026 RM Vidya Peeth. All Rights Reserved.
+    </div>
+
+</footer>
+
+
+</body>
+</html>

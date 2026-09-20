@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>RM Vidya Peeth - PDF Viewer</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+html,
+body{
+    margin:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#0f172a;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.viewer-header{
+
+    height:60px;
+
+    width:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:8px 10px;
+
+    background:#1e293b;
+
+    border-bottom:1px solid #334155;
+
+}
+
+.back-btn{
+
+    border:0;
+
+    background:#2563eb;
+
+    color:#fff;
+
+    padding:10px 14px;
+
+    border-radius:8px;
+
+    font-weight:bold;
+
+    font-size:14px;
+
+    cursor:pointer;
+
+    white-space:nowrap;
+
+}
+
+.back-btn:active{
+
+    transform:scale(.97);
+
+}
+
+.logo{
+
+    width:36px;
+
+    height:36px;
+
+    object-fit:contain;
+
+    border-radius:8px;
+
+}
+
+.title{
+
+    flex:1;
+
+    color:#fff;
+
+    font-size:15px;
+
+    font-weight:bold;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+}
+
+
+/* =========================================
+   VIEWER
+========================================= */
+
+.viewer-area{
+
+    position:absolute;
+
+    top:60px;
+
+    left:0;
+
+    right:0;
+
+    bottom:0;
+
+    background:#525659;
+
+    overflow:hidden;
+
+}
+
+#pdfCanvas{
+
+    display:block;
+
+    margin:0 auto;
+
+    background:#fff;
+
+    box-shadow:0 0 10px rgba(0,0,0,.35);
+
+}
+
+#pdfContainer{
+
+    width:100%;
+
+    height:100%;
+
+    overflow:auto;
+
+    padding:12px;
+
+}
+
+
+/* =========================================
+   LOADING
+========================================= */
+
+#loading{
+
+    position:absolute;
+
+    inset:60px 0 0 0;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-direction:column;
+
+    gap:12px;
+
+    background:#0f172a;
+
+    color:#fff;
+
+    z-index:20;
+
+}
+
+.loader{
+
+    width:42px;
+
+    height:42px;
+
+    border:4px solid #475569;
+
+    border-top-color:#2563eb;
+
+    border-radius:50%;
+
+    animation:spin 1s linear infinite;
+
+}
+
+@keyframes spin{
+
+    to{
+        transform:rotate(360deg);
+    }
+
+}
+
+
+/* =========================================
+   ERROR
+========================================= */
+
+#errorBox{
+
+    display:none;
+
+    position:absolute;
+
+    inset:60px 0 0 0;
+
+    padding:25px;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-direction:column;
+
+    text-align:center;
+
+    background:#0f172a;
+
+    color:#fff;
+
+    z-index:30;
+
+}
+
+.error-title{
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    margin-bottom:10px;
+
+}
+
+.error-text{
+
+    color:#cbd5e1;
+
+    line-height:1.6;
+
+    max-width:600px;
+
+}
+
+.retry-btn{
+
+    margin-top:18px;
+
+    padding:11px 18px;
+
+    border:0;
+
+    border-radius:8px;
+
+    background:#2563eb;
+
+    color:#fff;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media(max-width:600px){
+
+    .viewer-header{
+
+        height:56px;
+
+        padding:7px;
+
+    }
+
+    .viewer-area{
+
+        top:56px;
+
+    }
+
+    #loading{
+
+        inset:56px 0 0 0;
+
+    }
+
+    #errorBox{
+
+        inset:56px 0 0 0;
+
+    }
+
+    .back-btn{
+
+        padding:9px 11px;
+
+        font-size:13px;
+
+    }
+
+    .logo{
+
+        width:32px;
+
+        height:32px;
+
+    }
+
+    .title{
+
+        font-size:14px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<header class="viewer-header">
+
+    <button
+        class="back-btn"
+        type="button"
+        onclick="goBack()"
+    >
+        ← Back
+    </button>
+
+
+    <!--
+        Agar project me logo.png hai
+        to yahi automatically logo show karega.
+    -->
+
+    <img
+        class="logo"
+        src="logo.png"
+        alt="RM Vidya Peeth"
+        onerror="this.style.display='none'"
+    >
+
+
+    <div
+        id="pdfTitle"
+        class="title"
+    >
+        📖 RM Vidya Peeth - PDF Viewer
+    </div>
+
+</header>
+
+
+<!-- =========================================
+     LOADING
+========================================= -->
+
+<div id="loading">
+
+    <div class="loader"></div>
+
+    <div>
+        ⏳ PDF loading...
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     ERROR
+========================================= -->
+
+<div id="errorBox">
+
+    <div class="error-title">
+        ❌ PDF Open नहीं हो सकी
+    </div>
+
+    <div
+        id="errorText"
+        class="error-text"
+    >
+        PDF load करने में समस्या हुई।
+    </div>
+
+
+    <button
+        class="retry-btn"
+        type="button"
+        onclick="loadPDF()"
+    >
+        🔄 Retry
+    </button>
+
+</div>
+
+
+<!-- =========================================
+     PDF AREA
+========================================= -->
+
+<div class="viewer-area">
+
+    <div id="pdfContainer"></div>
+
+</div>
+
+
+<!-- =========================================
+     PDF.JS
+========================================= -->
+
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs"
+    type="module"
+></script>
+
+
+<script type="module">
+
+/* =========================================
+   PDF.JS IMPORT
+========================================= */
+
+import {
+    getDocument,
+    GlobalWorkerOptions
+}
+from
+"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
+
+
+GlobalWorkerOptions.workerSrc =
+"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
+
+
+/* =========================================
+   URL PARAMETERS
+========================================= */
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+const pdfURL =
+    params.get("url");
+
+
+const pdfTitle =
+    params.get("title") ||
+    "PDF Viewer";
+
+
+/* =========================================
+   ELEMENTS
+========================================= */
+
+const titleElement =
+    document.getElementById(
+        "pdfTitle"
+    );
+
+
+const loadingElement =
+    document.getElementById(
+        "loading"
+    );
+
+
+const errorBox =
+    document.getElementById(
+        "errorBox"
+    );
+
+
+const errorText =
+    document.getElementById(
+        "errorText"
+    );
+
+
+const container =
+    document.getElementById(
+        "pdfContainer"
+    );
+
+
+/* =========================================
+   TITLE
+========================================= */
+
+titleElement.textContent =
+    "📖 " + pdfTitle;
+
+
+/* =========================================
+   LOAD PDF
+========================================= */
+
+async function loadPDF(){
+
+    errorBox.style.display =
+        "none";
+
+
+    loadingElement.style.display =
+        "flex";
+
+
+    container.innerHTML =
+        "";
+
+
+    if(!pdfURL){
+
+        showError(
+            "PDF URL नहीं मिली।"
+        );
+
+        return;
+    }
+
+
+    try{
+
+        /*
+         * PDF.js Cloudinary URL को directly
+         * fetch करके page को canvas पर render करेगा.
+         */
+
+        const loadingTask =
+            getDocument({
+                url:pdfURL,
+
+                /*
+                 * Credentials की जरूरत नहीं है
+                 * क्योंकि Cloudinary PDF public है.
+                 */
+
+                withCredentials:false
+            });
+
+
+        const pdf =
+            await loadingTask.promise;
+
+
+        console.log(
+            "PDF loaded:",
+            pdf.numPages,
+            "pages"
+        );
+
+
+        /*
+         * सभी pages render करें
+         */
+
+        for(
+            let pageNumber = 1;
+            pageNumber <= pdf.numPages;
+            pageNumber++
+        ){
+
+            await renderPage(
+                pdf,
+                pageNumber
+            );
+
+        }
+
+
+        loadingElement.style.display =
+            "none";
+
+    }
+    catch(error){
+
+        console.error(
+            "PDF Viewer Error:",
+            error
+        );
+
+
+        showError(
+            error?.message ||
+            "PDF load नहीं हो सकी।"
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   RENDER PAGE
+========================================= */
+
+async function renderPage(
+    pdf,
+    pageNumber
+){
+
+    const page =
+        await pdf.getPage(
+            pageNumber
+        );
+
+
+    /*
+     * Mobile friendly scale
+     */
+
+    const viewport =
+        page.getViewport({
+            scale:1
+        });
+
+
+    const containerWidth =
+        Math.max(
+            container.clientWidth - 24,
+            300
+        );
+
+
+    const scale =
+        containerWidth /
+        viewport.width;
+
+
+    const finalViewport =
+        page.getViewport({
+            scale:Math.max(
+                scale,
+                0.8
+            )
+        });
+
+
+    const canvas =
+        document.createElement(
+            "canvas"
+        );
+
+
+    canvas.id =
+        "pdf-page-" +
+        pageNumber;
+
+
+    canvas.style.display =
+        "block";
+
+
+    canvas.style.margin =
+        "0 auto 14px";
+
+
+    canvas.style.background =
+        "#fff";
+
+
+    canvas.style.boxShadow =
+        "0 1px 6px rgba(0,0,0,.35)";
+
+
+    const context =
+        canvas.getContext(
+            "2d"
+        );
+
+
+    canvas.width =
+        finalViewport.width;
+
+
+    canvas.height =
+        finalViewport.height;
+
+
+    container.appendChild(
+        canvas
+    );
+
+
+    await page.render({
+
+        canvasContext:
+            context,
+
+        viewport:
+            finalViewport
+
+    }).promise;
+
+}
+
+
+/* =========================================
+   ERROR
+========================================= */
+
+function showError(message){
+
+    loadingElement.style.display =
+        "none";
+
+
+    errorText.textContent =
+        "PDF load error: " +
+        message;
+
+
+    errorBox.style.display =
+        "flex";
+
+}
+
+
+/* =========================================
+   BACK
+========================================= */
+
+function goBack(){
+
+    /*
+     * Browser history में pdfs.html
+     * available हो तो वापस जाएँ.
+     */
+
+    if(
+        window.history.length > 1
+    ){
+
+        window.history.back();
+
+    }
+    else{
+
+        window.location.href =
+            "pdfs.html";
+
+    }
+
+}
+
+
+window.goBack =
+    goBack;
+
+
+window.loadPDF =
+    loadPDF;
+
+
+/* =========================================
+   START
+========================================= */
+
+loadPDF();
+
+</script>
+
+</body>
+
+</html>

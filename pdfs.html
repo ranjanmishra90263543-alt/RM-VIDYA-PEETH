@@ -1,0 +1,1934 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>RM Vidya Peeth - PDF Management</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+.page{
+    max-width:1000px;
+    margin:auto;
+    padding:20px 15px 70px;
+}
+
+.header,
+.box{
+    background:#1e293b;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:18px;
+}
+
+.header{
+    text-align:center;
+}
+
+.header-logo{
+    width:70px;
+    height:70px;
+    object-fit:contain;
+    border-radius:15px;
+    margin-bottom:10px;
+}
+
+.header h1{
+    margin:0 0 8px;
+}
+
+.header p{
+    margin:0;
+    color:#cbd5e1;
+}
+
+.back-btn,
+.action-btn{
+    width:100%;
+    padding:12px;
+    border:0;
+    border-radius:8px;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.back-btn{
+    background:#334155;
+    margin-bottom:18px;
+}
+
+.action-btn{
+    background:#2563eb;
+    margin-top:15px;
+}
+
+.action-btn:hover{
+    background:#1d4ed8;
+}
+
+.action-btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+.delete-btn{
+    background:#dc2626;
+    padding:10px 14px;
+    border:0;
+    border-radius:7px;
+    color:#fff;
+    cursor:pointer;
+    margin-top:10px;
+    font-weight:bold;
+}
+
+.delete-btn:hover{
+    background:#b91c1c;
+}
+
+label{
+    display:block;
+    margin-top:13px;
+    margin-bottom:6px;
+    font-weight:bold;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #475569;
+    background:#fff;
+    color:#111827;
+    font-size:15px;
+}
+
+select:disabled{
+    background:#cbd5e1;
+    color:#64748b;
+}
+
+textarea{
+    min-height:90px;
+    resize:vertical;
+}
+
+.help{
+    margin-top:7px;
+    color:#94a3b8;
+    font-size:13px;
+    line-height:1.5;
+}
+
+.file-name{
+    margin-top:8px;
+    color:#94a3b8;
+    font-size:14px;
+    word-break:break-word;
+}
+
+.status{
+    margin-top:12px;
+    padding:11px;
+    border-radius:8px;
+    background:#334155;
+    color:#cbd5e1;
+    line-height:1.5;
+}
+
+.success{
+    background:#064e3b;
+    color:#a7f3d0;
+}
+
+.error{
+    background:#450a0a;
+    color:#fecaca;
+    padding:15px;
+    border-radius:9px;
+    line-height:1.5;
+}
+
+.pdf-card{
+    background:#fff;
+    color:#111827;
+    padding:16px;
+    border-radius:10px;
+    margin-top:12px;
+}
+
+.pdf-card h3{
+    margin:0 0 9px;
+}
+
+.pdf-info{
+    color:#475569;
+    line-height:1.7;
+}
+
+.pdf-link{
+    display:block;
+    width:100%;
+    margin-top:12px;
+    padding:11px;
+    background:#2563eb;
+    color:#fff;
+    border:0;
+    border-radius:7px;
+    text-align:center;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:15px;
+}
+
+.pdf-link:hover{
+    background:#1d4ed8;
+}
+
+.empty,
+.loading{
+    text-align:center;
+    color:#cbd5e1;
+    padding:20px;
+}
+
+footer{
+    text-align:center;
+    color:#94a3b8;
+    font-size:13px;
+    padding:20px;
+}
+
+@media(max-width:600px){
+
+    .page{
+        padding:15px 10px 50px;
+    }
+
+    .header-logo{
+        width:60px;
+        height:60px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<div class="header">
+
+    <img
+        src="logo.png"
+        alt="RM Vidya Peeth"
+        class="header-logo"
+        onerror="this.style.display='none'"
+    >
+
+    <h1>
+        📄 RM Vidya Peeth - PDF Management
+    </h1>
+
+    <p>
+        <strong>By Ranjan Mishra Sir</strong><br>
+        Course → Subject → Chapter के अनुसार PDF manage करें।
+    </p>
+
+</div>
+
+
+<!-- =========================================
+     BACK
+========================================= -->
+
+<button
+    class="back-btn"
+    type="button"
+    onclick="goAdmin()"
+>
+    ← Back to Admin Dashboard
+</button>
+
+
+<!-- =========================================
+     ADD PDF
+========================================= -->
+
+<div class="box">
+
+<h2>
+    ➕ Add New PDF
+</h2>
+
+
+<label>
+    🏛️ Exam Category
+</label>
+
+<select id="pdfCategory">
+
+    <option value="">
+        Select Category
+    </option>
+
+    <option value="SSC">
+        SSC
+    </option>
+
+    <option value="Railway">
+        Railway
+    </option>
+
+    <option value="Banking">
+        Banking
+    </option>
+
+    <option value="State Exams">
+        State Exams
+    </option>
+
+    <option value="Other">
+        Other
+    </option>
+
+</select>
+
+
+<label>
+    📚 Course
+</label>
+
+<select id="pdfCourse">
+
+    <option value="">
+        ⏳ Courses loading...
+    </option>
+
+</select>
+
+
+<label>
+    📘 Subject
+</label>
+
+<select
+    id="pdfSubject"
+    disabled
+>
+
+    <option value="">
+        पहले Course select करें
+    </option>
+
+</select>
+
+
+<label>
+    📖 Chapter
+</label>
+
+<select
+    id="pdfChapter"
+    disabled
+>
+
+    <option value="">
+        पहले Subject select करें
+    </option>
+
+</select>
+
+
+<label>
+    📄 PDF Title
+</label>
+
+<input
+    type="text"
+    id="pdfTitle"
+    placeholder="Example: Percentage Notes"
+>
+
+
+<label>
+    📤 PDF File Select करें
+</label>
+
+<input
+    type="file"
+    id="pdfFile"
+    accept="application/pdf,.pdf"
+>
+
+
+<div
+    id="fileName"
+    class="file-name"
+>
+    कोई PDF file select नहीं की गई है।
+</div>
+
+
+<div class="help">
+
+    PDF Cloudinary में upload होगी और उसका URL
+    Firestore में save होगा।
+
+</div>
+
+
+<label>
+    📝 Description
+</label>
+
+<textarea
+    id="pdfDescription"
+    placeholder="PDF के बारे में जानकारी"
+></textarea>
+
+
+<button
+    id="addPdfBtn"
+    class="action-btn"
+    type="button"
+    onclick="addPDF()"
+>
+    ☁️ Upload & Add PDF
+</button>
+
+
+<div
+    id="status"
+    class="status"
+>
+    Course, Subject, Chapter और PDF select करें।
+</div>
+
+</div>
+
+
+<!-- =========================================
+     PDF LIST
+========================================= -->
+
+<div class="box">
+
+<h2>
+    📚 Added PDFs
+</h2>
+
+<div id="pdfList">
+
+    <div class="loading">
+        ⏳ PDFs loading...
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- =========================================
+     BACK
+========================================= -->
+
+<button
+    class="back-btn"
+    type="button"
+    onclick="goAdmin()"
+>
+    ← Back to Admin Dashboard
+</button>
+
+
+</div>
+
+
+<footer>
+
+    <div style="font-weight:bold;color:#cbd5e1;">
+        RM Vidya Peeth
+    </div>
+
+    <div style="margin-top:5px;">
+        By Ranjan Mishra Sir
+    </div>
+
+    <div style="margin-top:5px;">
+        © 2026 RM Vidya Peeth. All Rights Reserved.
+    </div>
+
+</footer>
+
+
+<script type="module">
+
+
+/* =====================================================
+   FIREBASE
+===================================================== */
+
+import {
+    db
+}
+from "./firebase-config.js";
+
+
+import {
+    collection,
+    getDocs,
+    addDoc,
+    deleteDoc,
+    doc,
+    serverTimestamp
+}
+from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+/* =====================================================
+   CLOUDINARY
+===================================================== */
+
+const CLOUDINARY_CLOUD_NAME =
+    "zrsjwwno";
+
+const CLOUDINARY_UPLOAD_PRESET =
+    "thehub_pdfs";
+
+const CLOUDINARY_UPLOAD_URL =
+    `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/upload`;
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let courses = [];
+
+let selectedCourse = null;
+
+
+/* =====================================================
+   ADMIN ACCESS
+===================================================== */
+
+function checkAdminAccess(){
+
+    const oldLoggedIn =
+        localStorage.getItem(
+            "adminLoggedIn"
+        );
+
+    const oldType =
+        localStorage.getItem(
+            "adminType"
+        );
+
+    const newLoggedIn =
+        localStorage.getItem(
+            "ssc_logged_in"
+        );
+
+    const newType =
+        localStorage.getItem(
+            "ssc_login_type"
+        );
+
+
+    const validOld =
+        oldLoggedIn === "true" &&
+        (
+            oldType === "master" ||
+            oldType === "normal"
+        );
+
+
+    const validNew =
+        newLoggedIn === "true" &&
+        (
+            newType === "master_admin" ||
+            newType === "admin"
+        );
+
+
+    if(
+        !validOld &&
+        !validNew
+    ){
+
+        window.location.href =
+            "admin-login.html";
+
+        return false;
+    }
+
+
+    return true;
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+
+/* =====================================================
+   NORMALIZE
+===================================================== */
+
+function normalize(value){
+
+    return String(value ?? "")
+        .trim()
+        .toLowerCase();
+}
+
+
+/* =====================================================
+   LOAD COURSES
+===================================================== */
+
+async function loadCourses(){
+
+    const courseSelect =
+        document.getElementById(
+            "pdfCourse"
+        );
+
+
+    courseSelect.innerHTML = `
+        <option value="">
+            ⏳ Courses loading...
+        </option>
+    `;
+
+
+    try{
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "courses"
+                )
+            );
+
+
+        courses = [];
+
+
+        snapshot.forEach(
+            function(docItem){
+
+                const data =
+                    docItem.data();
+
+
+                const id =
+                    String(
+                        data.id ||
+                        data.courseId ||
+                        docItem.id
+                    ).trim();
+
+
+                courses.push({
+
+                    ...data,
+
+                    id
+
+                });
+
+            }
+        );
+
+
+        if(
+            courses.length === 0
+        ){
+
+            courseSelect.innerHTML = `
+                <option value="">
+                    ❌ कोई Course नहीं मिला
+                </option>
+            `;
+
+            return;
+        }
+
+
+        courseSelect.innerHTML = `
+            <option value="">
+                Select Course
+            </option>
+        `;
+
+
+        courses.forEach(
+            function(course){
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    course.id;
+
+
+                option.textContent =
+                    course.name ||
+                    course.courseName ||
+                    course.title ||
+                    course.id;
+
+
+                courseSelect.appendChild(
+                    option
+                );
+
+            }
+        );
+
+    }
+    catch(error){
+
+        console.error(
+            "Course loading error:",
+            error
+        );
+
+
+        courseSelect.innerHTML = `
+            <option value="">
+                ❌ Course load failed
+            </option>
+        `;
+
+
+        alert(
+            "Course load नहीं हो पाया:\n\n" +
+            (
+                error?.message ||
+                error
+            )
+        );
+
+    }
+}
+
+
+/* =====================================================
+   COURSE CHANGE
+===================================================== */
+
+function courseChanged(){
+
+    const courseId =
+        document.getElementById(
+            "pdfCourse"
+        ).value;
+
+
+    const subjectSelect =
+        document.getElementById(
+            "pdfSubject"
+        );
+
+
+    const chapterSelect =
+        document.getElementById(
+            "pdfChapter"
+        );
+
+
+    selectedCourse =
+        courses.find(
+            function(course){
+
+                return String(
+                    course.id
+                ) === String(
+                    courseId
+                );
+
+            }
+        ) || null;
+
+
+    subjectSelect.innerHTML = `
+        <option value="">
+            Select Subject
+        </option>
+    `;
+
+
+    chapterSelect.innerHTML = `
+        <option value="">
+            पहले Subject select करें
+        </option>
+    `;
+
+
+    chapterSelect.disabled =
+        true;
+
+
+    if(!selectedCourse){
+
+        subjectSelect.disabled =
+            true;
+
+        return;
+    }
+
+
+    const subjects =
+        Array.isArray(
+            selectedCourse.subjects
+        )
+        ? selectedCourse.subjects
+        : [];
+
+
+    if(
+        subjects.length === 0
+    ){
+
+        subjectSelect.innerHTML = `
+            <option value="">
+                ❌ कोई Subject नहीं मिला
+            </option>
+        `;
+
+
+        subjectSelect.disabled =
+            true;
+
+        return;
+    }
+
+
+    subjects.forEach(
+        function(
+            subject,
+            index
+        ){
+
+            const name =
+                subject?.name ||
+                subject?.subjectName ||
+                `Subject ${index + 1}`;
+
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                name;
+
+
+            option.textContent =
+                name;
+
+
+            subjectSelect.appendChild(
+                option
+            );
+
+        }
+    );
+
+
+    subjectSelect.disabled =
+        false;
+}
+
+
+/* =====================================================
+   SUBJECT CHANGE
+===================================================== */
+
+function subjectChanged(){
+
+    const subjectName =
+        document.getElementById(
+            "pdfSubject"
+        ).value;
+
+
+    const chapterSelect =
+        document.getElementById(
+            "pdfChapter"
+        );
+
+
+    chapterSelect.innerHTML = `
+        <option value="">
+            Select Chapter
+        </option>
+    `;
+
+
+    chapterSelect.disabled =
+        true;
+
+
+    if(
+        !selectedCourse ||
+        !subjectName
+    ){
+
+        return;
+    }
+
+
+    const subjects =
+        Array.isArray(
+            selectedCourse.subjects
+        )
+        ? selectedCourse.subjects
+        : [];
+
+
+    const subjectData =
+        subjects.find(
+            function(subject){
+
+                return normalize(
+                    subject?.name ||
+                    subject?.subjectName
+                ) ===
+                normalize(
+                    subjectName
+                );
+
+            }
+        );
+
+
+    const chapters =
+        Array.isArray(
+            subjectData?.chapters
+        )
+        ? subjectData.chapters
+        : [];
+
+
+    if(
+        chapters.length === 0
+    ){
+
+        chapterSelect.innerHTML = `
+            <option value="">
+                ❌ इस Subject में Chapter नहीं है
+            </option>
+        `;
+
+        return;
+    }
+
+
+    chapters.forEach(
+        function(
+            chapter,
+            index
+        ){
+
+            const name =
+                chapter?.name ||
+                chapter?.chapterName ||
+                `Chapter ${index + 1}`;
+
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                name;
+
+
+            option.textContent =
+                name;
+
+
+            chapterSelect.appendChild(
+                option
+            );
+
+        }
+    );
+
+
+    chapterSelect.disabled =
+        false;
+}
+
+
+/* =====================================================
+   CLOUDINARY UPLOAD
+===================================================== */
+
+async function uploadToCloudinary(file){
+
+    const formData =
+        new FormData();
+
+
+    formData.append(
+        "file",
+        file
+    );
+
+
+    formData.append(
+        "upload_preset",
+        CLOUDINARY_UPLOAD_PRESET
+    );
+
+
+    formData.append(
+        "folder",
+        "thehub/pdfs"
+    );
+
+
+    const response =
+        await fetch(
+            CLOUDINARY_UPLOAD_URL,
+            {
+                method:"POST",
+                body:formData
+            }
+        );
+
+
+    const data =
+        await response.json();
+
+
+    if(!response.ok){
+
+        throw new Error(
+            data?.error?.message ||
+            "Cloudinary upload failed."
+        );
+    }
+
+
+    if(!data.secure_url){
+
+        throw new Error(
+            "Cloudinary ने PDF URL नहीं दिया।"
+        );
+    }
+
+
+    return data;
+}
+
+
+/* =====================================================
+   ADD PDF
+===================================================== */
+
+async function addPDF(){
+
+    const category =
+        document.getElementById(
+            "pdfCategory"
+        ).value.trim();
+
+
+    const courseId =
+        document.getElementById(
+            "pdfCourse"
+        ).value;
+
+
+    const subject =
+        document.getElementById(
+            "pdfSubject"
+        ).value;
+
+
+    const chapter =
+        document.getElementById(
+            "pdfChapter"
+        ).value;
+
+
+    const title =
+        document.getElementById(
+            "pdfTitle"
+        ).value.trim();
+
+
+    const fileInput =
+        document.getElementById(
+            "pdfFile"
+        );
+
+
+    const file =
+        fileInput.files[0];
+
+
+    const description =
+        document.getElementById(
+            "pdfDescription"
+        ).value.trim();
+
+
+    const status =
+        document.getElementById(
+            "status"
+        );
+
+
+    const button =
+        document.getElementById(
+            "addPdfBtn"
+        );
+
+
+    if(!category){
+
+        alert(
+            "Exam Category select करें।"
+        );
+
+        return;
+    }
+
+
+    if(!courseId){
+
+        alert(
+            "Course select करें।"
+        );
+
+        return;
+    }
+
+
+    if(!subject){
+
+        alert(
+            "Subject select करें।"
+        );
+
+        return;
+    }
+
+
+    if(!chapter){
+
+        alert(
+            "Chapter select करें।"
+        );
+
+        return;
+    }
+
+
+    if(!title){
+
+        alert(
+            "PDF Title डालें।"
+        );
+
+        return;
+    }
+
+
+    if(!file){
+
+        alert(
+            "PDF file select करें।"
+        );
+
+        return;
+    }
+
+
+    const isPDF =
+        file.type === "application/pdf" ||
+        file.name
+            .toLowerCase()
+            .endsWith(".pdf");
+
+
+    if(!isPDF){
+
+        alert(
+            "❌ केवल PDF file select करें।"
+        );
+
+        return;
+    }
+
+
+    button.disabled =
+        true;
+
+
+    status.className =
+        "status";
+
+
+    status.textContent =
+        "⏳ PDF Cloudinary पर upload हो रही है...";
+
+
+    try{
+
+        const courseName =
+            selectedCourse?.name ||
+            selectedCourse?.courseName ||
+            selectedCourse?.title ||
+            "";
+
+
+        /* =============================================
+           CLOUDINARY
+        ============================================= */
+
+        const cloudinaryData =
+            await uploadToCloudinary(
+                file
+            );
+
+
+        status.textContent =
+            "⏳ Upload complete. Firestore में save हो रहा है...";
+
+
+        /* =============================================
+           FIRESTORE
+        ============================================= */
+
+        const pdfData = {
+
+            courseId:
+                courseId,
+
+            courseName:
+                courseName,
+
+            category:
+                category,
+
+            subject:
+                subject,
+
+            chapter:
+                chapter,
+
+            title:
+                title,
+
+            url:
+                cloudinaryData.secure_url,
+
+            secureUrl:
+                cloudinaryData.secure_url,
+
+            publicId:
+                cloudinaryData.public_id ||
+                "",
+
+            resourceType:
+                cloudinaryData.resource_type ||
+                "raw",
+
+            format:
+                cloudinaryData.format ||
+                "pdf",
+
+            fileName:
+                file.name,
+
+            fileSize:
+                file.size,
+
+            storage:
+                "cloudinary",
+
+            cloudName:
+                CLOUDINARY_CLOUD_NAME,
+
+            uploadPreset:
+                CLOUDINARY_UPLOAD_PRESET,
+
+            description:
+                description,
+
+            createdAt:
+                serverTimestamp()
+
+        };
+
+
+        await addDoc(
+            collection(
+                db,
+                "pdfs"
+            ),
+            pdfData
+        );
+
+
+        /* =============================================
+           CLEAR
+        ============================================= */
+
+        document.getElementById(
+            "pdfTitle"
+        ).value = "";
+
+
+        document.getElementById(
+            "pdfDescription"
+        ).value = "";
+
+
+        fileInput.value =
+            "";
+
+
+        document.getElementById(
+            "fileName"
+        ).textContent =
+            "कोई PDF file select नहीं की गई है।";
+
+
+        status.className =
+            "status success";
+
+
+        status.textContent =
+            "✅ PDF successfully save हो गई।";
+
+
+        await loadPDFs();
+
+    }
+    catch(error){
+
+        console.error(
+            "PDF upload error:",
+            error
+        );
+
+
+        status.className =
+            "error";
+
+
+        status.textContent =
+            "❌ PDF save नहीं हो सकी।";
+
+
+        alert(
+            "❌ PDF save error:\n\n" +
+            (
+                error?.message ||
+                error
+            )
+        );
+
+    }
+    finally{
+
+        button.disabled =
+            false;
+
+    }
+}
+
+
+/* =====================================================
+   OPEN PDF IN PDF-VIEWER.HTML
+===================================================== */
+
+function openPDFInApp(button){
+
+    const url =
+        button.dataset.url;
+
+
+    const title =
+        button.dataset.title ||
+        "PDF Viewer";
+
+
+    if(!url){
+
+        alert(
+            "PDF URL उपलब्ध नहीं है।"
+        );
+
+        return;
+    }
+
+
+    /*
+     * Direct Cloudinary URL open नहीं करेंगे.
+     * PDF को pdf-viewer.html में भेजेंगे.
+     */
+
+    const viewerUrl =
+        "pdf-viewer.html?url=" +
+        encodeURIComponent(
+            url
+        ) +
+        "&title=" +
+        encodeURIComponent(
+            title
+        );
+
+
+    window.location.href =
+        viewerUrl;
+}
+
+
+window.openPDFInApp =
+    openPDFInApp;
+
+
+/* =====================================================
+   LOAD PDFS
+===================================================== */
+
+async function loadPDFs(){
+
+    const container =
+        document.getElementById(
+            "pdfList"
+        );
+
+
+    container.innerHTML = `
+        <div class="loading">
+            ⏳ PDFs loading...
+        </div>
+    `;
+
+
+    try{
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "pdfs"
+                )
+            );
+
+
+        const pdfs = [];
+
+
+        snapshot.forEach(
+            function(docItem){
+
+                const data =
+                    docItem.data();
+
+
+                pdfs.push({
+
+                    id:
+                        docItem.id,
+
+                    ...data
+
+                });
+
+            }
+        );
+
+
+        if(
+            pdfs.length === 0
+        ){
+
+            container.innerHTML = `
+                <div class="empty">
+                    📄 अभी कोई PDF add नहीं किया गया है।
+                </div>
+            `;
+
+            return;
+        }
+
+
+        /*
+         * Newest first
+         */
+
+        pdfs.reverse();
+
+
+        container.innerHTML =
+            pdfs.map(
+                function(pdf){
+
+                    return `
+
+                    <div class="pdf-card">
+
+                        <h3>
+                            📄
+                            ${escapeHTML(
+                                pdf.title ||
+                                "PDF"
+                            )}
+                        </h3>
+
+
+                        <div class="pdf-info">
+
+                            🏛️ Category:
+                            <b>
+                                ${escapeHTML(
+                                    pdf.category ||
+                                    ""
+                                )}
+                            </b>
+
+                            <br>
+
+
+                            📚 Course:
+                            <b>
+                                ${escapeHTML(
+                                    pdf.courseName ||
+                                    ""
+                                )}
+                            </b>
+
+                            <br>
+
+
+                            📘 Subject:
+                            <b>
+                                ${escapeHTML(
+                                    pdf.subject ||
+                                    ""
+                                )}
+                            </b>
+
+                            <br>
+
+
+                            📖 Chapter:
+                            <b>
+                                ${escapeHTML(
+                                    pdf.chapter ||
+                                    ""
+                                )}
+                            </b>
+
+
+                            ${
+                                pdf.fileName
+                                ? `
+                                    <br>
+
+                                    📁 File:
+                                    <b>
+                                        ${escapeHTML(
+                                            pdf.fileName
+                                        )}
+                                    </b>
+                                `
+                                : ""
+                            }
+
+
+                            ${
+                                pdf.description
+                                ? `
+                                    <br>
+
+                                    📝
+                                    ${escapeHTML(
+                                        pdf.description
+                                    )}
+                                `
+                                : ""
+                            }
+
+                        </div>
+
+
+                        ${
+                            pdf.url
+
+                            ? `
+
+                                <button
+                                    class="pdf-link"
+                                    type="button"
+
+                                    data-url="${escapeHTML(
+                                        pdf.url
+                                    )}"
+
+                                    data-title="${escapeHTML(
+                                        pdf.title ||
+                                        "PDF Viewer"
+                                    )}"
+
+                                    onclick="openPDFInApp(this)"
+                                >
+
+                                    📖 Open PDF
+
+                                </button>
+
+                            `
+
+                            : `
+
+                                <div class="empty">
+
+                                    ❌ PDF URL उपलब्ध नहीं है।
+
+                                </div>
+
+                            `
+                        }
+
+
+                        <button
+                            class="delete-btn"
+                            type="button"
+
+                            data-id="${escapeHTML(
+                                pdf.id
+                            )}"
+
+                            onclick="deletePDFFromButton(this)"
+                        >
+
+                            🗑️ Delete PDF
+
+                        </button>
+
+                    </div>
+
+                    `;
+
+                }
+            ).join("");
+
+    }
+    catch(error){
+
+        console.error(
+            "PDF load error:",
+            error
+        );
+
+
+        container.innerHTML = `
+
+            <div class="error">
+
+                ❌ PDFs load नहीं हो पाए।
+
+                <br><br>
+
+                ${escapeHTML(
+                    error?.message ||
+                    error
+                )}
+
+            </div>
+
+        `;
+
+    }
+}
+
+
+/* =====================================================
+   DELETE PDF
+===================================================== */
+
+async function deletePDFFromButton(
+    button
+){
+
+    const firestoreId =
+        button.dataset.id;
+
+
+    if(!firestoreId){
+
+        alert(
+            "PDF ID नहीं मिला।"
+        );
+
+        return;
+    }
+
+
+    const confirmDelete =
+        confirm(
+            "क्या आप यह PDF delete करना चाहते हैं?\n\nFirestore record delete होगा।"
+        );
+
+
+    if(!confirmDelete){
+
+        return;
+    }
+
+
+    try{
+
+        await deleteDoc(
+            doc(
+                db,
+                "pdfs",
+                firestoreId
+            )
+        );
+
+
+        alert(
+            "✅ PDF record delete हो गया।"
+        );
+
+
+        await loadPDFs();
+
+    }
+    catch(error){
+
+        console.error(
+            "Delete PDF error:",
+            error
+        );
+
+
+        alert(
+            "❌ PDF delete नहीं हो सकी:\n\n" +
+            (
+                error?.message ||
+                error
+            )
+        );
+
+    }
+}
+
+
+window.deletePDFFromButton =
+    deletePDFFromButton;
+
+
+/* =====================================================
+   FILE SELECT
+===================================================== */
+
+document
+    .getElementById(
+        "pdfFile"
+    )
+    .addEventListener(
+        "change",
+        function(){
+
+            const file =
+                this.files[0];
+
+
+            const fileName =
+                document.getElementById(
+                    "fileName"
+                );
+
+
+            if(!file){
+
+                fileName.textContent =
+                    "कोई PDF file select नहीं की गई है।";
+
+                return;
+            }
+
+
+            const isPDF =
+                file.type === "application/pdf" ||
+                file.name
+                    .toLowerCase()
+                    .endsWith(".pdf");
+
+
+            if(!isPDF){
+
+                alert(
+                    "❌ केवल PDF file select करें।"
+                );
+
+
+                this.value =
+                    "";
+
+
+                fileName.textContent =
+                    "कोई PDF file select नहीं की गई है।";
+
+
+                return;
+            }
+
+
+            const sizeMB =
+                (
+                    file.size /
+                    (1024 * 1024)
+                ).toFixed(2);
+
+
+            fileName.textContent =
+                "📄 Selected: " +
+                file.name +
+                " (" +
+                sizeMB +
+                " MB)";
+
+        }
+    );
+
+
+/* =====================================================
+   DROPDOWN EVENTS
+===================================================== */
+
+document
+    .getElementById(
+        "pdfCourse"
+    )
+    .addEventListener(
+        "change",
+        courseChanged
+    );
+
+
+document
+    .getElementById(
+        "pdfSubject"
+    )
+    .addEventListener(
+        "change",
+        subjectChanged
+    );
+
+
+/* =====================================================
+   BACK
+===================================================== */
+
+function goAdmin(){
+
+    window.location.href =
+        "admin.html";
+}
+
+
+window.goAdmin =
+    goAdmin;
+
+
+window.addPDF =
+    addPDF;
+
+
+/* =====================================================
+   START
+===================================================== */
+
+async function start(){
+
+    if(
+        !checkAdminAccess()
+    ){
+
+        return;
+    }
+
+
+    await loadCourses();
+
+
+    await loadPDFs();
+
+}
+
+
+start();
+
+</script>
+
+</body>
+
+</html>

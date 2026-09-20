@@ -1,0 +1,2906 @@
+<!doctype html>
+<html lang="hi">
+
+<head>
+
+<meta charset="utf-8">
+
+<meta name="viewport"
+      content="width=device-width,initial-scale=1">
+
+<meta name="theme-color"
+      content="#0f172a">
+
+<title>RM Vidya Peeth - Admin Payments</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#f5f8fb;
+    color:#243447;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+.wrap{
+    width:100%;
+    max-width:900px;
+    margin:auto;
+    padding:20px 15px 70px;
+}
+
+h2{
+    margin:0 0 15px;
+    color:#0f172a;
+    text-align:center;
+}
+
+.top-info{
+    background:#e0f2fe;
+    color:#075985;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:15px;
+    font-size:14px;
+    line-height:1.7;
+}
+
+.message{
+    padding:13px;
+    border-radius:10px;
+    margin-bottom:15px;
+    display:none;
+    line-height:1.6;
+}
+
+.success{
+    background:#d1e7dd;
+    color:#0f5132;
+}
+
+.error{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.card{
+    background:#fff;
+    padding:20px;
+    border-radius:16px;
+    margin:15px 0;
+    box-shadow:0 2px 14px #0001;
+    border:1px solid #e5e7eb;
+}
+
+.title{
+    font-size:23px;
+    font-weight:700;
+    margin-bottom:15px;
+    color:#0f172a;
+}
+
+.student{
+    background:#f1f5f9;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:15px;
+    line-height:1.8;
+    font-size:15px;
+    word-break:break-word;
+}
+
+.info{
+    line-height:1.9;
+    font-size:15px;
+    word-break:break-word;
+}
+
+.badge{
+    display:inline-block;
+    padding:7px 12px;
+    border-radius:7px;
+    font-size:13px;
+    font-weight:700;
+    margin-top:12px;
+}
+
+.pending{
+    background:#fff3cd;
+    color:#856404;
+}
+
+.approved{
+    background:#d1e7dd;
+    color:#0f5132;
+}
+
+.rejected{
+    background:#f8d7da;
+    color:#842029;
+}
+
+.test-pass{
+    display:inline-block;
+    background:#ede9fe;
+    color:#6d28d9;
+    padding:7px 12px;
+    border-radius:7px;
+    font-size:13px;
+    font-weight:700;
+    margin-top:10px;
+}
+
+.series-box{
+    background:#f5f3ff;
+    border:1px solid #ddd6fe;
+    color:#5b21b6;
+    padding:13px;
+    border-radius:10px;
+    margin-top:12px;
+    line-height:1.8;
+}
+
+.validity-box{
+    background:#ecfeff;
+    border:1px solid #a5f3fc;
+    color:#155e75;
+    padding:13px;
+    border-radius:10px;
+    margin-top:12px;
+    line-height:1.8;
+    font-size:14px;
+}
+
+.validity-unlimited{
+    background:#ecfeff;
+    border-color:#a5f3fc;
+    color:#155e75;
+}
+
+.validity-days{
+    background:#eff6ff;
+    border-color:#bfdbfe;
+    color:#1d4ed8;
+}
+
+.validity-date{
+    background:#f0fdf4;
+    border-color:#bbf7d0;
+    color:#166534;
+}
+
+.validity-upcoming{
+    background:#fff7ed;
+    border-color:#fed7aa;
+    color:#9a3412;
+}
+
+.validity-expired{
+    background:#fef2f2;
+    border-color:#fecaca;
+    color:#991b1b;
+}
+
+.buttons{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:15px;
+}
+
+.btn{
+    border:0;
+    border-radius:9px;
+    padding:12px 18px;
+    color:#fff;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+.approve-btn{
+    background:#0b8fd3;
+}
+
+.reject-btn{
+    background:#dc3545;
+}
+
+.muted{
+    color:#71808d;
+    font-size:13px;
+    margin-top:10px;
+    line-height:1.6;
+}
+
+.loading{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+}
+
+.empty{
+    background:#fff;
+    padding:35px 20px;
+    border-radius:14px;
+    text-align:center;
+    color:#71808d;
+}
+
+footer{
+    text-align:center;
+    color:#71808d;
+    font-size:13px;
+    padding:25px;
+}
+
+.brand{
+    text-align:center;
+    font-size:14px;
+    color:#64748b;
+    margin-top:-8px;
+    margin-bottom:18px;
+    font-weight:bold;
+}
+
+@media(max-width:600px){
+
+    .wrap{
+        padding:15px 12px 60px;
+    }
+
+    .card{
+        padding:16px;
+    }
+
+    .title{
+        font-size:21px;
+    }
+
+    .buttons{
+        flex-direction:column;
+    }
+
+    .btn{
+        width:100%;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="wrap">
+
+<h2>
+💳 RM Vidya Peeth - Admin Payments
+</h2>
+
+<div class="brand">
+    By Ranjan Mishra Sir
+</div>
+
+<div class="top-info">
+
+<b>🚀 RM Vidya Peeth Payment System</b>
+
+<br>
+
+Student द्वारा submit की गई सभी payment requests
+यहाँ दिखाई देंगी।
+
+<br>
+
+✅ Course payment approve करने पर course enrollment बनेगा।
+
+<br>
+
+🎟️ Test Pass payment approve करने पर Test Series enrollment बनेगा।
+
+<br>
+
+⏳ Course / Test Series बनाते समय जो validity निर्धारित की गई है,
+वही यहाँ automatically दिखाई जाएगी।
+
+<br>
+
+♾️ अगर validity निर्धारित नहीं है, तो उसे Unlimited माना जाएगा।
+
+</div>
+
+<div id="successMessage"
+     class="message success">
+</div>
+
+<div id="errorMessage"
+     class="message error">
+</div>
+
+<div id="list">
+
+    <div class="loading">
+        ⏳ Payment requests loading...
+    </div>
+
+</div>
+
+</div>
+
+
+<footer>
+
+© 2026 RM Vidya Peeth. All Rights Reserved.
+
+<br>
+
+By Ranjan Mishra Sir
+
+</footer>
+
+
+<script type="module">
+
+// =====================================================
+// FIREBASE
+// =====================================================
+
+import {
+    auth,
+    db
+} from "./firebase-config.js";
+
+import {
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+import {
+    collection,
+    getDocs,
+    doc,
+    getDoc,
+    writeBatch,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+// =====================================================
+// VARIABLES
+// =====================================================
+
+let paymentRequests = [];
+
+
+// =====================================================
+// DEFAULT VALIDITY
+// =====================================================
+
+function getDefaultValidity(){
+
+    return {
+
+        validityType:
+            "unlimited",
+
+        validityDays:
+            null,
+
+        startDate:
+            "",
+
+        expiryDate:
+            ""
+
+    };
+
+}
+
+
+// =====================================================
+// AUTH
+// =====================================================
+
+onAuthStateChanged(
+    auth,
+    async function(user){
+
+        if(!user){
+
+            showError(
+                "❌ Admin login required."
+            );
+
+            return;
+
+        }
+
+        console.log(
+            "ADMIN LOGGED IN:",
+            user.uid
+        );
+
+        await loadPayments();
+
+    }
+);
+
+
+// =====================================================
+// LOAD PAYMENTS
+// =====================================================
+
+async function loadPayments(){
+
+    const list =
+        document.getElementById("list");
+
+    list.innerHTML = `
+        <div class="loading">
+            ⏳ Payment requests loading...
+        </div>
+    `;
+
+    try{
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "paymentRequests"
+                )
+            );
+
+        paymentRequests = [];
+
+        snapshot.forEach(
+            function(paymentDoc){
+
+                paymentRequests.push({
+
+                    id:
+                        paymentDoc.id,
+
+                    ...paymentDoc.data()
+
+                });
+
+            }
+        );
+
+
+        paymentRequests.sort(
+            function(a,b){
+
+                const aStatus =
+                    String(
+                        a.status ||
+                        "pending"
+                    ).toLowerCase();
+
+                const bStatus =
+                    String(
+                        b.status ||
+                        "pending"
+                    ).toLowerCase();
+
+
+                if(
+                    aStatus === "pending" &&
+                    bStatus !== "pending"
+                ){
+
+                    return -1;
+
+                }
+
+
+                if(
+                    aStatus !== "pending" &&
+                    bStatus === "pending"
+                ){
+
+                    return 1;
+
+                }
+
+
+                return (
+                    getTime(b.submittedAt)
+                    -
+                    getTime(a.submittedAt)
+                );
+
+            }
+        );
+
+
+        await loadSourceValidity();
+
+        renderPayments();
+
+    }
+    catch(error){
+
+        console.error(
+            "LOAD PAYMENT ERROR:",
+            error
+        );
+
+        list.innerHTML = `
+            <div class="message error"
+                 style="display:block">
+
+                ❌ Payment requests load नहीं हुईं।
+
+                <br><br>
+
+                <b>Error:</b>
+
+                <br>
+
+                ${escapeHTML(
+                    error.message
+                )}
+
+            </div>
+        `;
+
+    }
+
+}
+
+
+// =====================================================
+// LOAD COURSE / SERIES VALIDITY
+// =====================================================
+
+async function loadSourceValidity(){
+
+    const cache = {};
+
+
+    for(
+        const payment of paymentRequests
+    ){
+
+        try{
+
+            const testPass =
+                isTestPass(payment);
+
+
+            // =============================================
+            // TEST SERIES
+            // =============================================
+
+            if(testPass){
+
+                const seriesId =
+                    String(
+                        payment.seriesId ||
+                        payment.testSeriesId ||
+                        ""
+                    ).trim();
+
+
+                if(!seriesId){
+
+                    payment.sourceValidity =
+                        getDefaultValidity();
+
+                    continue;
+
+                }
+
+
+                const cacheKey =
+                    "series_" +
+                    seriesId;
+
+
+                if(
+                    cache[cacheKey]
+                ){
+
+                    payment.sourceValidity =
+                        cache[cacheKey];
+
+                    continue;
+
+                }
+
+
+                const seriesRef =
+                    doc(
+                        db,
+                        "mockSeries",
+                        seriesId
+                    );
+
+
+                const seriesSnap =
+                    await getDoc(
+                        seriesRef
+                    );
+
+
+                if(seriesSnap.exists()){
+
+                    const data =
+                        seriesSnap.data();
+
+
+                    const validity =
+                        extractValidity(
+                            data
+                        );
+
+
+                    cache[cacheKey] =
+                        validity;
+
+
+                    payment.sourceValidity =
+                        validity;
+
+                }
+                else{
+
+                    // Missing series = Unlimited
+
+                    const validity =
+                        getDefaultValidity();
+
+
+                    cache[cacheKey] =
+                        validity;
+
+
+                    payment.sourceValidity =
+                        validity;
+
+                }
+
+            }
+
+
+            // =============================================
+            // COURSE
+            // =============================================
+
+            else{
+
+                const courseId =
+                    String(
+                        payment.courseId ||
+                        ""
+                    ).trim();
+
+
+                if(!courseId){
+
+                    payment.sourceValidity =
+                        getDefaultValidity();
+
+                    continue;
+
+                }
+
+
+                const cacheKey =
+                    "course_" +
+                    courseId;
+
+
+                if(
+                    cache[cacheKey]
+                ){
+
+                    payment.sourceValidity =
+                        cache[cacheKey];
+
+                    continue;
+
+                }
+
+
+                const courseRef =
+                    doc(
+                        db,
+                        "courses",
+                        courseId
+                    );
+
+
+                const courseSnap =
+                    await getDoc(
+                        courseRef
+                    );
+
+
+                if(courseSnap.exists()){
+
+                    const data =
+                        courseSnap.data();
+
+
+                    const validity =
+                        extractValidity(
+                            data
+                        );
+
+
+                    cache[cacheKey] =
+                        validity;
+
+
+                    payment.sourceValidity =
+                        validity;
+
+                }
+                else{
+
+                    // Missing course = Unlimited
+
+                    const validity =
+                        getDefaultValidity();
+
+
+                    cache[cacheKey] =
+                        validity;
+
+
+                    payment.sourceValidity =
+                        validity;
+
+                }
+
+            }
+
+        }
+        catch(error){
+
+            console.error(
+                "VALIDITY LOAD ERROR:",
+                error
+            );
+
+
+            // Any missing/error validity
+            // will be treated as Unlimited
+
+            payment.sourceValidity =
+                getDefaultValidity();
+
+        }
+
+    }
+
+}
+
+
+// =====================================================
+// EXTRACT VALIDITY
+// =====================================================
+
+function extractValidity(data){
+
+    if(!data){
+
+        return getDefaultValidity();
+
+    }
+
+
+    const rawType =
+        String(
+            data.validityType ||
+            ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    const type =
+        rawType === "days"
+        ?
+        "days"
+        :
+        rawType === "date-range"
+        ?
+        "date-range"
+        :
+        "unlimited";
+
+
+    return {
+
+        validityType:
+            type,
+
+        validityDays:
+            type === "days"
+            ?
+            Number(
+                data.validityDays ||
+                0
+            )
+            :
+            null,
+
+        startDate:
+            type === "date-range"
+            ?
+            (
+                data.startDate ||
+                ""
+            )
+            :
+            "",
+
+        expiryDate:
+            type === "date-range"
+            ?
+            (
+                data.expiryDate ||
+                ""
+            )
+            :
+            ""
+
+    };
+
+}
+
+
+// =====================================================
+// VALIDITY HTML
+// =====================================================
+
+function getValidityHTML(validity){
+
+    if(!validity){
+
+        validity =
+            getDefaultValidity();
+
+    }
+
+
+    const type =
+        String(
+            validity.validityType ||
+            "unlimited"
+        )
+        .trim()
+        .toLowerCase();
+
+
+    // =============================================
+    // UNLIMITED
+    // =============================================
+
+    if(type === "unlimited"){
+
+        return `
+            <div class="validity-box validity-unlimited">
+
+                ♾️ <b>Validity:</b>
+                Unlimited
+
+            </div>
+        `;
+
+    }
+
+
+    // =============================================
+    // DAYS
+    // =============================================
+
+    if(type === "days"){
+
+        const days =
+            Number(
+                validity.validityDays ||
+                0
+            );
+
+
+        return `
+            <div class="validity-box validity-days">
+
+                ⏳ <b>Validity:</b>
+                ${days} Days
+
+            </div>
+        `;
+
+    }
+
+
+    // =============================================
+    // DATE RANGE
+    // =============================================
+
+    if(
+        type === "date-range"
+    ){
+
+        const start =
+            validity.startDate ||
+            "-";
+
+
+        const expiry =
+            validity.expiryDate ||
+            "-";
+
+
+        const today =
+            new Date()
+            .toISOString()
+            .slice(
+                0,
+                10
+            );
+
+
+        let boxClass =
+            "validity-date";
+
+
+        let statusText =
+            "🟢 Active";
+
+
+        if(
+            start !== "-" &&
+            today < start
+        ){
+
+            boxClass =
+                "validity-upcoming";
+
+
+            statusText =
+                "🟡 Upcoming";
+
+        }
+
+
+        if(
+            expiry !== "-" &&
+            today > expiry
+        ){
+
+            boxClass =
+                "validity-expired";
+
+
+            statusText =
+                "🔴 Expired";
+
+        }
+
+
+        return `
+            <div class="validity-box ${boxClass}">
+
+                📅 <b>Validity:</b>
+
+                ${statusText}
+
+                <br>
+
+                📆 <b>Start:</b>
+                ${escapeHTML(start)}
+
+                <br>
+
+                ⏰ <b>Expiry:</b>
+                ${escapeHTML(expiry)}
+
+            </div>
+        `;
+
+    }
+
+
+    // Unknown type = Unlimited
+
+    return `
+        <div class="validity-box validity-unlimited">
+
+            ♾️ <b>Validity:</b>
+            Unlimited
+
+        </div>
+    `;
+
+}
+
+
+// =====================================================
+// VALIDITY DATA FOR ENROLLMENT
+// =====================================================
+
+function getValidityData(validity){
+
+    if(!validity){
+
+        return getDefaultValidity();
+
+    }
+
+
+    const type =
+        String(
+            validity.validityType ||
+            "unlimited"
+        )
+        .trim()
+        .toLowerCase();
+
+
+    if(
+        type !== "days" &&
+        type !== "date-range"
+    ){
+
+        return getDefaultValidity();
+
+    }
+
+
+    return {
+
+        validityType:
+            type,
+
+        validityDays:
+            type === "days"
+            ?
+            Number(
+                validity.validityDays ||
+                0
+            )
+            :
+            null,
+
+        startDate:
+            type === "date-range"
+            ?
+            (
+                validity.startDate ||
+                ""
+            )
+            :
+            "",
+
+        expiryDate:
+            type === "date-range"
+            ?
+            (
+                validity.expiryDate ||
+                ""
+            )
+            :
+            ""
+
+    };
+
+}
+
+
+// =====================================================
+// RENDER
+// =====================================================
+
+function renderPayments(){
+
+    const list =
+        document.getElementById("list");
+
+
+    if(
+        paymentRequests.length === 0
+    ){
+
+        list.innerHTML = `
+            <div class="empty">
+
+                📭 अभी कोई payment request नहीं मिली।
+
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        paymentRequests
+        .map(createPaymentCard)
+        .join("");
+
+}
+
+
+// =====================================================
+// CREATE CARD
+// =====================================================
+
+function createPaymentCard(payment){
+
+    const status =
+        String(
+            payment.status ||
+            "pending"
+        ).toLowerCase();
+
+
+    let badgeClass =
+        "pending";
+
+
+    if(status === "approved"){
+
+        badgeClass =
+            "approved";
+
+    }
+
+
+    if(status === "rejected"){
+
+        badgeClass =
+            "rejected";
+
+    }
+
+
+    const testPass =
+        isTestPass(payment);
+
+
+    const courseName =
+        payment.courseName ||
+        payment.title ||
+        "Paid Course";
+
+
+    const seriesName =
+        payment.seriesName ||
+        payment.testSeriesName ||
+        payment.title ||
+        "Test Pass";
+
+
+    const amount =
+        Number(
+            payment.amount ||
+            payment.price ||
+            0
+        );
+
+
+    const courseId =
+        payment.courseId ||
+        "-";
+
+
+    const seriesId =
+        payment.seriesId ||
+        payment.testSeriesId ||
+        "-";
+
+
+    const studentUid =
+        payment.studentUid ||
+        "-";
+
+
+    const studentName =
+        payment.studentName ||
+        "Student";
+
+
+    const email =
+        payment.studentEmail ||
+        "-";
+
+
+    const utr =
+        payment.utr ||
+        "-";
+
+
+    const submitted =
+        formatDate(
+            payment.submittedAt
+        );
+
+
+    const displayTitle =
+        testPass
+        ?
+        seriesName
+        :
+        courseName;
+
+
+    return `
+
+        <div class="card">
+
+            <div class="title">
+
+                ${
+                    testPass
+                    ?
+                    "🎟️ "
+                    :
+                    "💳 "
+                }
+
+                ${escapeHTML(
+                    displayTitle
+                )}
+
+            </div>
+
+
+            <div class="student">
+
+                👤 <b>Student:</b>
+
+                ${escapeHTML(
+                    studentName
+                )}
+
+                <br>
+
+                📧 <b>Email:</b>
+
+                ${escapeHTML(
+                    email
+                )}
+
+                <br>
+
+                🆔 <b>UID:</b>
+
+                ${escapeHTML(
+                    studentUid
+                )}
+
+            </div>
+
+
+            <div class="info">
+
+                ${
+                    testPass
+                    ?
+                    `
+                    🎟️ <b>Request:</b>
+                    Test Pass
+
+                    <br>
+
+                    🆔 <b>Series ID:</b>
+                    ${escapeHTML(seriesId)}
+
+                    <br>
+
+                    📚 <b>Series:</b>
+                    ${escapeHTML(seriesName)}
+                    `
+                    :
+                    `
+                    📚 <b>Course ID:</b>
+                    ${escapeHTML(courseId)}
+
+                    <br>
+
+                    📚 <b>Course:</b>
+                    ${escapeHTML(courseName)}
+                    `
+                }
+
+                <br>
+
+                💰 <b>Amount:</b>
+
+                ₹${amount}
+
+                <br>
+
+                🧾 <b>UTR:</b>
+
+                ${escapeHTML(utr)}
+
+                <br>
+
+                📅 <b>Submitted:</b>
+
+                ${escapeHTML(submitted)}
+
+            </div>
+
+
+            ${
+                testPass
+                ?
+                `
+                <div class="test-pass">
+
+                    🎟️ TEST PASS PAYMENT
+
+                </div>
+
+                <div class="series-box">
+
+                    <b>🎯 Test Series</b>
+
+                    <br>
+
+                    ${escapeHTML(seriesName)}
+
+                    <br>
+
+                    <b>Series ID:</b>
+                    ${escapeHTML(seriesId)}
+
+                </div>
+
+                ${getValidityHTML(
+                    payment.sourceValidity
+                )}
+
+                `
+                :
+                `
+                ${getValidityHTML(
+                    payment.sourceValidity
+                )}
+                `
+            }
+
+
+            <div>
+
+                <span class="badge ${badgeClass}">
+
+                    ${escapeHTML(
+                        status.toUpperCase()
+                    )}
+
+                </span>
+
+            </div>
+
+
+            ${
+                status === "pending"
+                ?
+                `
+
+                <div class="buttons">
+
+                    <button
+                        class="btn approve-btn"
+                        id="approve-${safeId(payment.id)}"
+                        onclick="approvePayment('${safeJS(payment.id)}')"
+                    >
+
+                        ${
+                            testPass
+                            ?
+                            "🎟️ Approve Test Pass"
+                            :
+                            "✅ Approve Course"
+                        }
+
+                    </button>
+
+
+                    <button
+                        class="btn reject-btn"
+                        id="reject-${safeId(payment.id)}"
+                        onclick="rejectPayment('${safeJS(payment.id)}')"
+                    >
+
+                        ❌ Reject
+
+                    </button>
+
+                </div>
+
+                `
+                :
+                ""
+            }
+
+
+            ${
+                status === "approved"
+                ?
+                `
+
+                <div class="muted">
+
+                    ${
+                        testPass
+                        ?
+                        `
+                        🎟️ Test Pass payment approved।
+
+                        <br>
+
+                        🎯 Series:
+                        ${escapeHTML(seriesName)}
+
+                        <br>
+
+                        🆔 Series ID:
+                        ${escapeHTML(seriesId)}
+
+                        <br>
+
+                        🎓 Enrollment ID:
+                        ${escapeHTML(
+                            payment.enrollmentId ||
+                            (
+                                payment.studentUid &&
+                                seriesId &&
+                                payment.studentUid +
+                                "_" +
+                                seriesId
+                            ) ||
+                            "-"
+                        )}
+
+                        <br>
+
+                        ${getValidityHTML(
+                            payment.sourceValidity
+                        )}
+
+                        `
+                        :
+                        `
+                        ✅ Course payment approved।
+
+                        <br>
+
+                        🎓 Enrollment ID:
+                        ${escapeHTML(
+                            payment.enrollmentId ||
+                            (
+                                payment.studentUid &&
+                                payment.courseId
+                                ?
+                                payment.studentUid +
+                                "_" +
+                                payment.courseId
+                                :
+                                "-"
+                            )
+                        )}
+
+                        <br>
+
+                        ${getValidityHTML(
+                            payment.sourceValidity
+                        )}
+
+                        `
+                    }
+
+                </div>
+
+                `
+                :
+                ""
+            }
+
+
+            ${
+                status === "rejected"
+                ?
+                `
+
+                <div class="muted">
+
+                    ❌ यह payment rejected है।
+
+                </div>
+
+                `
+                :
+                ""
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+// =====================================================
+// APPROVE PAYMENT
+// =====================================================
+
+window.approvePayment =
+async function(paymentId){
+
+    console.log(
+        "APPROVE CLICK:",
+        paymentId
+    );
+
+
+    const payment =
+        paymentRequests.find(
+            function(item){
+
+                return (
+                    item.id ===
+                    paymentId
+                );
+
+            }
+        );
+
+
+    if(!payment){
+
+        showError(
+            "❌ Payment request नहीं मिली।"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        isTestPass(payment)
+    ){
+
+        await approveTestPass(
+            payment
+        );
+
+        return;
+
+    }
+
+
+    await approveCourse(
+        payment
+    );
+
+};
+
+
+// =====================================================
+// APPROVE COURSE
+// =====================================================
+
+async function approveCourse(payment){
+
+    const paymentId =
+        payment.id;
+
+
+    const studentUid =
+        String(
+            payment.studentUid ||
+            ""
+        ).trim();
+
+
+    const courseId =
+        String(
+            payment.courseId ||
+            ""
+        ).trim();
+
+
+    const courseName =
+        payment.courseName ||
+        payment.title ||
+        "Paid Course";
+
+
+    const amount =
+        Number(
+            payment.amount ||
+            payment.price ||
+            0
+        );
+
+
+    if(!studentUid){
+
+        showError(
+            "❌ Student UID missing है।"
+        );
+
+        return;
+
+    }
+
+
+    if(!courseId){
+
+        showError(
+            "❌ Course ID missing है।"
+        );
+
+        return;
+
+    }
+
+
+    if(!amount || amount <= 0){
+
+        showError(
+            "❌ Course amount गलत है।"
+        );
+
+        return;
+
+    }
+
+
+    const confirmed =
+        confirm(
+
+            "क्या आप Course payment APPROVE करना चाहते हैं?\n\n" +
+
+            "Student: " +
+            (
+                payment.studentName ||
+                "Student"
+            ) +
+
+            "\n\nCourse: " +
+            courseName +
+
+            "\n\nAmount: ₹" +
+            amount +
+
+            "\n\nValidity: " +
+            getValidityText(
+                payment.sourceValidity
+            )
+
+        );
+
+
+    if(!confirmed){
+
+        return;
+
+    }
+
+
+    setButtonsDisabled(
+        paymentId,
+        true
+    );
+
+
+    try{
+
+        const enrollmentId =
+            studentUid +
+            "_" +
+            courseId;
+
+
+        const paymentRef =
+            doc(
+                db,
+                "paymentRequests",
+                paymentId
+            );
+
+
+        const enrollmentRef =
+            doc(
+                db,
+                "enrollments",
+                enrollmentId
+            );
+
+
+        const existingEnrollment =
+            await getDoc(
+                enrollmentRef
+            );
+
+
+        const batch =
+            writeBatch(db);
+
+
+        const validity =
+            getValidityData(
+                payment.sourceValidity
+            );
+
+
+        const enrollmentData = {
+
+            id:
+                enrollmentId,
+
+            enrollmentId:
+                enrollmentId,
+
+            studentUid:
+                studentUid,
+
+            studentName:
+                payment.studentName ||
+                "",
+
+            studentEmail:
+                payment.studentEmail ||
+                "",
+
+            courseId:
+                courseId,
+
+            courseName:
+                courseName,
+
+            amount:
+                amount,
+
+            paymentId:
+                paymentId,
+
+            utr:
+                payment.utr ||
+                "",
+
+            status:
+                "active",
+
+            access:
+                true,
+
+            enrolled:
+                true,
+
+            isPaid:
+                true,
+
+            paid:
+                true,
+
+            validityType:
+                validity.validityType,
+
+            validityDays:
+                validity.validityDays,
+
+            startDate:
+                validity.startDate,
+
+            expiryDate:
+                validity.expiryDate,
+
+            updatedAt:
+                serverTimestamp()
+
+        };
+
+
+        if(
+            !existingEnrollment.exists()
+        ){
+
+            enrollmentData.enrolledAt =
+                serverTimestamp();
+
+        }
+
+
+        batch.set(
+            enrollmentRef,
+            enrollmentData,
+            {
+                merge:true
+            }
+        );
+
+
+        batch.update(
+            paymentRef,
+            {
+
+                status:
+                    "approved",
+
+                enrollmentId:
+                    enrollmentId,
+
+                validityType:
+                    validity.validityType,
+
+                validityDays:
+                    validity.validityDays,
+
+                startDate:
+                    validity.startDate,
+
+                expiryDate:
+                    validity.expiryDate,
+
+                approvedAt:
+                    serverTimestamp(),
+
+                approvedBy:
+                    auth.currentUser
+                    ?
+                    auth.currentUser.uid
+                    :
+                    "admin",
+
+                updatedAt:
+                    serverTimestamp()
+
+            }
+        );
+
+
+        await batch.commit();
+
+
+        showSuccess(
+            "✅ Course Payment Approved! Course की saved validity के साथ access activate हो गया।"
+        );
+
+
+        await loadPayments();
+
+    }
+    catch(error){
+
+        console.error(
+            "COURSE APPROVAL ERROR:",
+            error
+        );
+
+
+        showError(
+            "❌ Course approval failed: " +
+            error.message
+        );
+
+
+        setButtonsDisabled(
+            paymentId,
+            false
+        );
+
+    }
+
+}
+
+
+// =====================================================
+// APPROVE TEST PASS
+// =====================================================
+
+async function approveTestPass(payment){
+
+    const paymentId =
+        payment.id;
+
+
+    const studentUid =
+        String(
+            payment.studentUid ||
+            ""
+        ).trim();
+
+
+    const seriesId =
+        String(
+            payment.seriesId ||
+            payment.testSeriesId ||
+            ""
+        ).trim();
+
+
+    const seriesName =
+        payment.seriesName ||
+        payment.testSeriesName ||
+        payment.title ||
+        "Test Pass";
+
+
+    const amount =
+        Number(
+            payment.amount ||
+            payment.price ||
+            0
+        );
+
+
+    if(!studentUid){
+
+        showError(
+            "❌ Test Pass में Student UID missing है।"
+        );
+
+        return;
+
+    }
+
+
+    if(!seriesId){
+
+        showError(
+            "❌ Test Pass में Series ID missing है।"
+        );
+
+        return;
+
+    }
+
+
+    if(!amount || amount <= 0){
+
+        showError(
+            "❌ Test Pass amount गलत है।"
+        );
+
+        return;
+
+    }
+
+
+    const confirmed =
+        confirm(
+
+            "क्या आप TEST PASS payment APPROVE करना चाहते हैं?\n\n" +
+
+            "Student: " +
+            (
+                payment.studentName ||
+                "Student"
+            ) +
+
+            "\n\nTest Series: " +
+            seriesName +
+
+            "\n\nSeries ID: " +
+            seriesId +
+
+            "\n\nAmount: ₹" +
+            amount +
+
+            "\n\nValidity: " +
+            getValidityText(
+                payment.sourceValidity
+            )
+
+        );
+
+
+    if(!confirmed){
+
+        return;
+
+    }
+
+
+    setButtonsDisabled(
+        paymentId,
+        true
+    );
+
+
+    try{
+
+        const enrollmentId =
+            studentUid +
+            "_" +
+            seriesId;
+
+
+        const paymentRef =
+            doc(
+                db,
+                "paymentRequests",
+                paymentId
+            );
+
+
+        const enrollmentRef =
+            doc(
+                db,
+                "testSeriesEnrollments",
+                enrollmentId
+            );
+
+
+        const existingEnrollment =
+            await getDoc(
+                enrollmentRef
+            );
+
+
+        const batch =
+            writeBatch(db);
+
+
+        const validity =
+            getValidityData(
+                payment.sourceValidity
+            );
+
+
+        const enrollmentData = {
+
+            id:
+                enrollmentId,
+
+            enrollmentId:
+                enrollmentId,
+
+            studentUid:
+                studentUid,
+
+            studentKey:
+                payment.studentKey ||
+                studentUid,
+
+            studentName:
+                payment.studentName ||
+                "",
+
+            studentEmail:
+                payment.studentEmail ||
+                "",
+
+            seriesId:
+                seriesId,
+
+            seriesName:
+                seriesName,
+
+            testSeriesId:
+                seriesId,
+
+            testSeriesName:
+                seriesName,
+
+            amount:
+                amount,
+
+            paymentId:
+                paymentId,
+
+            utr:
+                payment.utr ||
+                "",
+
+            status:
+                "enrolled",
+
+            access:
+                true,
+
+            enrolled:
+                true,
+
+            isPaid:
+                true,
+
+            paid:
+                true,
+
+            type:
+                "test-pass",
+
+            paymentType:
+                "test-pass",
+
+            courseType:
+                "test-pass",
+
+            isTestPass:
+                true,
+
+            validityType:
+                validity.validityType,
+
+            validityDays:
+                validity.validityDays,
+
+            startDate:
+                validity.startDate,
+
+            expiryDate:
+                validity.expiryDate,
+
+            updatedAt:
+                serverTimestamp()
+
+        };
+
+
+        if(
+            !existingEnrollment.exists()
+        ){
+
+            enrollmentData.enrolledAt =
+                serverTimestamp();
+
+        }
+
+
+        batch.set(
+            enrollmentRef,
+            enrollmentData,
+            {
+                merge:true
+            }
+        );
+
+
+        batch.update(
+            paymentRef,
+            {
+
+                status:
+                    "approved",
+
+                enrollmentId:
+                    enrollmentId,
+
+                seriesId:
+                    seriesId,
+
+                seriesName:
+                    seriesName,
+
+                testSeriesId:
+                    seriesId,
+
+                testSeriesName:
+                    seriesName,
+
+                validityType:
+                    validity.validityType,
+
+                validityDays:
+                    validity.validityDays,
+
+                startDate:
+                    validity.startDate,
+
+                expiryDate:
+                    validity.expiryDate,
+
+                approvedAt:
+                    serverTimestamp(),
+
+                approvedBy:
+                    auth.currentUser
+                    ?
+                    auth.currentUser.uid
+                    :
+                    "admin",
+
+                updatedAt:
+                    serverTimestamp()
+
+            }
+        );
+
+
+        await batch.commit();
+
+
+        showSuccess(
+            "🎟️ Test Pass Approved! Test Series की saved validity के साथ access मिल गया।"
+        );
+
+
+        await loadPayments();
+
+    }
+    catch(error){
+
+        console.error(
+            "TEST PASS APPROVAL ERROR:",
+            error
+        );
+
+
+        let msg =
+            error.message ||
+            "Unknown error";
+
+
+        if(
+            error.code ===
+            "permission-denied"
+        ){
+
+            msg =
+                "Firestore permission denied. Firebase Console में Rules Publish करें।";
+
+        }
+
+
+        showError(
+            "❌ Test Pass approval failed: " +
+            msg
+        );
+
+
+        setButtonsDisabled(
+            paymentId,
+            false
+        );
+
+    }
+
+}
+
+
+// =====================================================
+// REJECT
+// =====================================================
+
+window.rejectPayment =
+async function(paymentId){
+
+    const payment =
+        paymentRequests.find(
+            function(item){
+
+                return (
+                    item.id ===
+                    paymentId
+                );
+
+            }
+        );
+
+
+    if(!payment){
+
+        showError(
+            "❌ Payment request नहीं मिली।"
+        );
+
+        return;
+
+    }
+
+
+    const confirmed =
+        confirm(
+            "क्या आप इस payment को REJECT करना चाहते हैं?"
+        );
+
+
+    if(!confirmed){
+
+        return;
+
+    }
+
+
+    setButtonsDisabled(
+        paymentId,
+        true
+    );
+
+
+    try{
+
+        const paymentRef =
+            doc(
+                db,
+                "paymentRequests",
+                paymentId
+            );
+
+
+        const batch =
+            writeBatch(db);
+
+
+        batch.update(
+            paymentRef,
+            {
+
+                status:
+                    "rejected",
+
+                rejectedAt:
+                    serverTimestamp(),
+
+                rejectedBy:
+                    auth.currentUser
+                    ?
+                    auth.currentUser.uid
+                    :
+                    "admin",
+
+                updatedAt:
+                    serverTimestamp()
+
+            }
+        );
+
+
+        await batch.commit();
+
+
+        showSuccess(
+            "❌ Payment rejected successfully।"
+        );
+
+
+        await loadPayments();
+
+    }
+    catch(error){
+
+        console.error(
+            "REJECT ERROR:",
+            error
+        );
+
+
+        showError(
+            "❌ Reject failed: " +
+            error.message
+        );
+
+
+        setButtonsDisabled(
+            paymentId,
+            false
+        );
+
+    }
+
+};
+
+
+// =====================================================
+// BUTTON DISABLE
+// =====================================================
+
+function setButtonsDisabled(
+    paymentId,
+    disabled
+){
+
+    const approve =
+        document.getElementById(
+            "approve-" +
+            safeId(paymentId)
+        );
+
+
+    const reject =
+        document.getElementById(
+            "reject-" +
+            safeId(paymentId)
+        );
+
+
+    if(approve){
+
+        approve.disabled =
+            disabled;
+
+        approve.textContent =
+            disabled
+            ?
+            "⏳ Processing..."
+            :
+            "✅ Approve";
+
+    }
+
+
+    if(reject){
+
+        reject.disabled =
+            disabled;
+
+        reject.textContent =
+            disabled
+            ?
+            "⏳ Processing..."
+            :
+            "❌ Reject";
+
+    }
+
+}
+
+
+// =====================================================
+// TEST PASS DETECTION
+// =====================================================
+
+function isTestPass(payment){
+
+    const type =
+        String(
+            payment.type ||
+            ""
+        )
+        .toLowerCase()
+        .trim();
+
+
+    const paymentType =
+        String(
+            payment.paymentType ||
+            ""
+        )
+        .toLowerCase()
+        .trim();
+
+
+    const courseType =
+        String(
+            payment.courseType ||
+            ""
+        )
+        .toLowerCase()
+        .trim();
+
+
+    const accessType =
+        String(
+            payment.accessType ||
+            ""
+        )
+        .toLowerCase()
+        .trim();
+
+
+    const title =
+        String(
+            payment.seriesName ||
+            payment.testSeriesName ||
+            payment.courseName ||
+            payment.title ||
+            ""
+        )
+        .toLowerCase();
+
+
+    return (
+
+        payment.isTestPass === true
+
+        ||
+
+        type === "test-pass"
+
+        ||
+
+        type === "testpass"
+
+        ||
+
+        paymentType === "test-pass"
+
+        ||
+
+        paymentType === "testpass"
+
+        ||
+
+        courseType === "test-pass"
+
+        ||
+
+        courseType === "testpass"
+
+        ||
+
+        accessType === "test-pass"
+
+        ||
+
+        accessType === "testpass"
+
+        ||
+
+        title.includes("test pass")
+
+        ||
+
+        title.includes("test-pass")
+
+    );
+
+}
+
+
+// =====================================================
+// VALIDITY TEXT
+// =====================================================
+
+function getValidityText(validity){
+
+    if(!validity){
+
+        return "Unlimited";
+
+    }
+
+
+    const type =
+        String(
+            validity.validityType ||
+            "unlimited"
+        )
+        .trim()
+        .toLowerCase();
+
+
+    if(type === "unlimited"){
+
+        return "Unlimited";
+
+    }
+
+
+    if(type === "days"){
+
+        return (
+            Number(
+                validity.validityDays ||
+                0
+            ) +
+            " Days"
+        );
+
+    }
+
+
+    if(type === "date-range"){
+
+        return (
+            (validity.startDate || "-") +
+            " → " +
+            (validity.expiryDate || "-")
+        );
+
+    }
+
+
+    return "Unlimited";
+
+}
+
+
+// =====================================================
+// DATE
+// =====================================================
+
+function getTime(value){
+
+    try{
+
+        if(
+            value &&
+            typeof value.toMillis ===
+            "function"
+        ){
+
+            return value.toMillis();
+
+        }
+
+
+        if(
+            value &&
+            typeof value.toDate ===
+            "function"
+        ){
+
+            return value
+                .toDate()
+                .getTime();
+
+        }
+
+
+        if(
+            typeof value ===
+            "number"
+        ){
+
+            return value;
+
+        }
+
+
+        return 0;
+
+    }
+    catch(e){
+
+        return 0;
+
+    }
+
+}
+
+
+function formatDate(value){
+
+    if(!value){
+
+        return "-";
+
+    }
+
+
+    try{
+
+        let date = null;
+
+
+        if(
+            value &&
+            typeof value.toDate ===
+            "function"
+        ){
+
+            date =
+                value.toDate();
+
+        }
+        else if(
+            value instanceof Date
+        ){
+
+            date =
+                value;
+
+        }
+
+
+        if(date){
+
+            return date.toLocaleString(
+                "en-IN",
+                {
+                    dateStyle:"medium",
+                    timeStyle:"medium"
+                }
+            );
+
+        }
+
+
+        return String(value);
+
+    }
+    catch(e){
+
+        return "-";
+
+    }
+
+}
+
+
+// =====================================================
+// SUCCESS
+// =====================================================
+
+function showSuccess(message){
+
+    const success =
+        document.getElementById(
+            "successMessage"
+        );
+
+
+    const error =
+        document.getElementById(
+            "errorMessage"
+        );
+
+
+    error.style.display =
+        "none";
+
+
+    success.textContent =
+        message;
+
+
+    success.style.display =
+        "block";
+
+
+    window.scrollTo(
+        {
+            top:0,
+            behavior:"smooth"
+        }
+    );
+
+
+    setTimeout(
+        function(){
+
+            success.style.display =
+                "none";
+
+        },
+        5000
+    );
+
+}
+
+
+// =====================================================
+// ERROR
+// =====================================================
+
+function showError(message){
+
+    const error =
+        document.getElementById(
+            "errorMessage"
+        );
+
+
+    const success =
+        document.getElementById(
+            "successMessage"
+        );
+
+
+    success.style.display =
+        "none";
+
+
+    error.textContent =
+        message;
+
+
+    error.style.display =
+        "block";
+
+
+    window.scrollTo(
+        {
+            top:0,
+            behavior:"smooth"
+        }
+    );
+
+}
+
+
+// =====================================================
+// HTML ESCAPE
+// =====================================================
+
+function escapeHTML(value){
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+// =====================================================
+// SAFE ID
+// =====================================================
+
+function safeId(value){
+
+    return String(
+        value || ""
+    )
+    .replace(
+        /[^a-zA-Z0-9_-]/g,
+        "_"
+    );
+
+}
+
+
+// =====================================================
+// SAFE JS
+// =====================================================
+
+function safeJS(value){
+
+    return String(
+        value || ""
+    )
+    .replace(
+        /\\/g,
+        "\\\\"
+    )
+    .replace(
+        /'/g,
+        "\\'"
+    )
+    .replace(
+        /\n/g,
+        "\\n"
+    )
+    .replace(
+        /\r/g,
+        "\\r"
+    );
+
+}
+
+</script>
+
+</body>
+
+</html>

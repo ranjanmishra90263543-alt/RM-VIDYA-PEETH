@@ -1,0 +1,3186 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0"
+>
+
+<title>RM Vidya Peeth - Courses</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial,sans-serif;
+}
+
+.courses-page{
+    max-width:1100px;
+    margin:auto;
+    padding:20px 15px 80px;
+}
+
+.header{
+    background:linear-gradient(
+        135deg,
+        #2563eb,
+        #0891b2
+    );
+    padding:24px;
+    border-radius:18px;
+    margin-bottom:18px;
+}
+
+.header h1{
+    margin:0 0 5px;
+    font-size:28px;
+}
+
+.header .tagline{
+    margin:0 0 8px;
+    color:#dbeafe;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.header p{
+    margin:0;
+    color:#e0f2fe;
+}
+
+.student-box{
+    background:#172554;
+    border:1px solid #1d4ed8;
+    padding:14px 16px;
+    border-radius:12px;
+    margin-bottom:18px;
+}
+
+.back-btn{
+    padding:10px 18px;
+    margin-bottom:18px;
+    border:0;
+    border-radius:9px;
+    background:#334155;
+    color:#fff;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.back-btn:hover{
+    background:#475569;
+}
+
+.filter-box{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.filter-btn{
+    border:1px solid #475569;
+    background:#1e293b;
+    color:#cbd5e1;
+    padding:10px 15px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:bold;
+    font-size:14px;
+}
+
+.filter-btn:hover{
+    background:#334155;
+}
+
+.filter-btn.active{
+    background:#2563eb;
+    border-color:#3b82f6;
+    color:#fff;
+}
+
+.course-count{
+    color:#94a3b8;
+    font-size:14px;
+    margin-bottom:14px;
+}
+
+.course-grid{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(250px,1fr));
+    gap:16px;
+}
+
+.course-card{
+    background:#1e293b;
+    border:1px solid #334155;
+    border-radius:16px;
+    padding:20px;
+    transition:.2s;
+}
+
+.course-card:hover{
+    transform:translateY(-3px);
+    background:#263449;
+}
+
+.course-icon{
+    font-size:42px;
+    margin-bottom:8px;
+}
+
+.course-card h3{
+    margin:0 0 8px;
+    line-height:1.4;
+}
+
+.course-card p{
+    color:#cbd5e1;
+    min-height:42px;
+    line-height:1.5;
+}
+
+.badge-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+    margin:10px 0;
+}
+
+.badge{
+    display:inline-block;
+    padding:6px 9px;
+    border-radius:7px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.badge-free{
+    background:#14532d;
+    color:#86efac;
+}
+
+.badge-paid{
+    background:#78350f;
+    color:#fde68a;
+}
+
+.badge-test{
+    background:#164e63;
+    color:#67e8f9;
+}
+
+.price-paid{
+    color:#fbbf24;
+    font-size:20px;
+    font-weight:bold;
+    margin:12px 0;
+}
+
+.price-free{
+    color:#4ade80;
+    font-size:18px;
+    font-weight:bold;
+    margin:12px 0;
+}
+
+.course-btn{
+    width:100%;
+    padding:12px;
+    border:0;
+    border-radius:9px;
+    background:#2563eb;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:15px;
+}
+
+.course-btn:hover{
+    background:#1d4ed8;
+}
+
+.course-btn.paid-btn{
+    background:#d97706;
+}
+
+.course-btn.paid-btn:hover{
+    background:#b45309;
+}
+
+.course-btn.test-btn{
+    background:#0891b2;
+}
+
+.course-btn.test-btn:hover{
+    background:#0e7490;
+}
+
+.course-btn.green-btn{
+    background:#16a34a;
+}
+
+.course-btn.green-btn:hover{
+    background:#15803d;
+}
+
+.course-btn.gray-btn{
+    background:#475569;
+    cursor:not-allowed;
+}
+
+.course-id{
+    color:#64748b;
+    font-size:11px;
+    margin-top:10px;
+    word-break:break-all;
+}
+
+.loading,
+.empty,
+.error{
+    background:#1e293b;
+    border:1px solid #334155;
+    padding:30px;
+    border-radius:12px;
+    text-align:center;
+    color:#cbd5e1;
+}
+
+.error{
+    background:#450a0a;
+    color:#fecaca;
+}
+
+.retry-btn{
+    margin-top:15px;
+    padding:10px 18px;
+    border:0;
+    border-radius:8px;
+    background:#2563eb;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.series-info{
+    color:#94a3b8;
+    font-size:13px;
+    line-height:1.6;
+    margin-top:8px;
+}
+
+.status-box{
+    margin-top:12px;
+    padding:9px;
+    border-radius:8px;
+    font-size:13px;
+    line-height:1.5;
+}
+
+.status-pending{
+    background:#451a03;
+    color:#fde68a;
+}
+
+.status-approved{
+    background:#052e16;
+    color:#86efac;
+}
+
+.status-enrolled{
+    background:#083344;
+    color:#67e8f9;
+}
+
+footer{
+    text-align:center;
+    padding:20px;
+    color:#94a3b8;
+    font-size:13px;
+}
+
+.footer-brand{
+    color:#60a5fa;
+    font-size:17px;
+    font-weight:800;
+    margin-bottom:4px;
+}
+
+.footer-tagline{
+    color:#cbd5e1;
+    font-size:12px;
+    margin-bottom:5px;
+}
+
+@media(max-width:600px){
+
+    .courses-page{
+        padding:15px 10px 70px;
+    }
+
+    .header{
+        padding:20px;
+    }
+
+    .filter-btn{
+        flex:1;
+        min-width:100px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="courses-page">
+
+    <div class="header">
+
+        <h1 id="pageTitle">
+            📚 RM Vidya Peeth Courses
+        </h1>
+
+        <div class="tagline">
+            By Ranjan Mishra Sir
+        </div>
+
+        <p id="pageSubtitle">
+            अपने सभी courses यहाँ देखें।
+        </p>
+
+    </div>
+
+    <div
+        id="studentInfo"
+        class="student-box"
+    >
+        👤 Student account loading...
+    </div>
+
+    <button
+        class="back-btn"
+        type="button"
+        onclick="goDashboard()"
+    >
+        ← Student Dashboard
+    </button>
+
+    <div class="filter-box">
+
+        <button
+            id="filterAll"
+            class="filter-btn active"
+            type="button"
+            onclick="setFilter('all')"
+        >
+            📚 All
+        </button>
+
+        <button
+            id="filterFree"
+            class="filter-btn"
+            type="button"
+            onclick="setFilter('free')"
+        >
+            🆓 Free
+        </button>
+
+        <button
+            id="filterPaid"
+            class="filter-btn"
+            type="button"
+            onclick="setFilter('paid')"
+        >
+            💳 Paid
+        </button>
+
+        <button
+            id="filterTest"
+            class="filter-btn"
+            type="button"
+            onclick="setFilter('test-pass')"
+        >
+            🎟️ Test Pass
+        </button>
+
+    </div>
+
+    <div id="coursesContainer">
+
+        <div class="loading">
+            📚 Loading...
+        </div>
+
+    </div>
+
+</div>
+
+<footer>
+
+    <div class="footer-brand">
+        RM Vidya Peeth
+    </div>
+
+    <div class="footer-tagline">
+        By Ranjan Mishra Sir
+    </div>
+
+    © 2026 RM Vidya Peeth. All Rights Reserved.
+
+</footer>
+
+
+<script type="module">
+
+/* =====================================================
+   FIREBASE
+===================================================== */
+
+import {
+    db,
+    auth
+}
+from "./firebase-config.js";
+
+import {
+    collection,
+    getDocs,
+    getDoc,
+    doc,
+    setDoc,
+    query,
+    where,
+    serverTimestamp
+}
+from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let allCourses = [];
+
+let allTestSeries = [];
+
+let currentFilter = "all";
+
+let enrollmentStatus = {};
+
+let purchaseStatus = {};
+
+let firebaseStudent = null;
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   CURRENT STUDENT
+===================================================== */
+
+function getCurrentStudent(){
+
+    const keys = [
+        "studentUser",
+        "currentUser",
+        "user"
+    ];
+
+    for(const key of keys){
+
+        const raw =
+            localStorage.getItem(key);
+
+        if(!raw){
+            continue;
+        }
+
+        try{
+
+            const user =
+                JSON.parse(raw);
+
+            if(
+                user &&
+                typeof user === "object"
+            ){
+
+                return user;
+
+            }
+
+        }
+        catch(error){
+
+            console.warn(
+                "Invalid user:",
+                error
+            );
+
+        }
+
+    }
+
+    return {
+
+        name:
+            localStorage.getItem(
+                "ssc_student_name"
+            )
+            ||
+            localStorage.getItem(
+                "studentName"
+            )
+            ||
+            "Student",
+
+        email:
+            localStorage.getItem(
+                "studentEmail"
+            )
+            ||
+            ""
+
+    };
+
+}
+
+
+/* =====================================================
+   STUDENT IDENTITY
+===================================================== */
+
+function getStudentIdentity(){
+
+    const student =
+        getCurrentStudent();
+
+    const authUid =
+        firebaseStudent &&
+        firebaseStudent.uid
+        ?
+        String(
+            firebaseStudent.uid
+        ).trim()
+        :
+        "";
+
+    const uid =
+        authUid
+        ||
+        student.uid
+        ||
+        student.userId
+        ||
+        student.studentUid
+        ||
+        student.id
+        ||
+        "";
+
+    const email =
+        String(
+            (
+                firebaseStudent &&
+                firebaseStudent.email
+            )
+            ||
+            student.email
+            ||
+            student.emailAddress
+            ||
+            ""
+        )
+        .trim()
+        .toLowerCase();
+
+    const phone =
+        String(
+            student.phone
+            ||
+            student.mobile
+            ||
+            ""
+        ).trim();
+
+    if(uid){
+
+        return {
+            key:String(uid),
+            uid:String(uid),
+            email:email,
+            phone:phone
+        };
+
+    }
+
+    if(email){
+
+        return {
+            key:email,
+            uid:"",
+            email:email,
+            phone:phone
+        };
+
+    }
+
+    if(phone){
+
+        return {
+            key:phone,
+            uid:"",
+            email:"",
+            phone:phone
+        };
+
+    }
+
+    return {
+        key:"guest",
+        uid:"",
+        email:"",
+        phone:""
+    };
+
+}
+
+
+/* =====================================================
+   STUDENT INFO
+===================================================== */
+
+function loadStudentInfo(){
+
+    const student =
+        getCurrentStudent();
+
+    const name =
+        (
+            firebaseStudent &&
+            firebaseStudent.displayName
+        )
+        ||
+        student.name
+        ||
+        student.fullName
+        ||
+        student.displayName
+        ||
+        student.email
+        ||
+        student.username
+        ||
+        "Student";
+
+    const box =
+        document.getElementById(
+            "studentInfo"
+        );
+
+    if(box){
+
+        box.innerHTML =
+            "👤 Welcome, <b>" +
+            escapeHTML(name) +
+            "</b>";
+
+    }
+
+}
+
+
+/* =====================================================
+   URL FILTER
+===================================================== */
+
+function getURLFilter(){
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const type =
+        String(
+            params.get("type") || ""
+        )
+        .trim()
+        .toLowerCase();
+
+    if(type === "test-pass"){
+        return "test-pass";
+    }
+
+    if(type === "free"){
+        return "free";
+    }
+
+    if(type === "paid"){
+        return "paid";
+    }
+
+    return "all";
+
+}
+
+
+/* =====================================================
+   FIREBASE NORMAL COURSES
+===================================================== */
+
+async function getFirebaseCourses(){
+
+    const snapshot =
+        await getDocs(
+            collection(
+                db,
+                "courses"
+            )
+        );
+
+    const courses = [];
+
+    snapshot.forEach(function(item){
+
+        const data =
+            item.data() || {};
+
+        courses.push({
+
+            ...data,
+
+            id:
+                data.id
+                ||
+                data.courseId
+                ||
+                data.courseID
+                ||
+                item.id
+
+        });
+
+    });
+
+    return courses;
+
+}
+
+
+/* =====================================================
+   FIREBASE TEST SERIES
+   ONLY mockSeries
+===================================================== */
+
+async function getFirebaseTestSeries(){
+
+    console.log(
+        "🔥 Reading Firestore: mockSeries"
+    );
+
+    const snapshot =
+        await getDocs(
+            collection(
+                db,
+                "mockSeries"
+            )
+        );
+
+    const series = [];
+
+    console.log(
+        "🔥 mockSeries documents:",
+        snapshot.size
+    );
+
+    snapshot.forEach(function(item){
+
+        const data =
+            item.data() || {};
+
+        console.log(
+            "📦 mockSeries:",
+            item.id,
+            data
+        );
+
+        const seriesId =
+            String(
+                data.seriesId
+                ||
+                data.id
+                ||
+                data.seriesID
+                ||
+                item.id
+            ).trim();
+
+        if(!seriesId){
+            return;
+        }
+
+        const name =
+            String(
+                data.seriesName
+                ||
+                data.name
+                ||
+                data.title
+                ||
+                data.mockSeriesName
+                ||
+                data.seriesTitle
+                ||
+                ""
+            ).trim();
+
+        if(!name){
+            return;
+        }
+
+        const access =
+            String(
+                data.access
+                ||
+                data.seriesAccess
+                ||
+                data.accessType
+                ||
+                data.paymentType
+                ||
+                "free"
+            )
+            .trim()
+            .toLowerCase();
+
+        const rawPrice =
+            Number(
+                data.price
+                ??
+                data.seriesPrice
+                ??
+                data.amount
+                ??
+                0
+            );
+
+        const totalTests =
+            Number(
+                data.totalTests
+                ??
+                data.testCount
+                ??
+                data.testsCount
+                ??
+                0
+            );
+
+        const normalizedSeries = {
+
+            ...data,
+
+            id:seriesId,
+
+            seriesId:seriesId,
+
+            name:name,
+
+            seriesName:name,
+
+            access:
+                access === "paid"
+                ? "paid"
+                : "free",
+
+            seriesAccess:
+                access === "paid"
+                ? "paid"
+                : "free",
+
+            price:
+                Number.isFinite(rawPrice)
+                ? rawPrice
+                : 0,
+
+            seriesPrice:
+                Number.isFinite(rawPrice)
+                ? rawPrice
+                : 0,
+
+            totalTests:
+                Number.isFinite(totalTests)
+                ? totalTests
+                : 0,
+
+            isTestPass:true,
+
+            type:"test-pass",
+
+            paymentType:"test-pass"
+
+        };
+
+        series.push(
+            normalizedSeries
+        );
+
+    });
+
+    console.log(
+        "🔥 FINAL mockSeries:",
+        series
+    );
+
+    return series;
+
+}
+
+
+/* =====================================================
+   LOAD ONLY TEST SERIES
+===================================================== */
+
+async function loadOnlyTestSeries(){
+
+    allTestSeries =
+        await getFirebaseTestSeries();
+
+}
+
+
+/* =====================================================
+   NORMALIZE COURSES
+===================================================== */
+
+function normalizeCourses(courses){
+
+    return courses.map(function(course){
+
+        const access =
+            String(
+                course.accessType || ""
+            )
+            .trim()
+            .toLowerCase();
+
+        const type =
+            String(
+                course.type || ""
+            )
+            .trim()
+            .toLowerCase();
+
+        const courseType =
+            String(
+                course.courseType || ""
+            )
+            .trim()
+            .toLowerCase();
+
+        const paid =
+            course.isPaid === true
+            ||
+            course.paid === true
+            ||
+            access === "paid"
+            ||
+            type === "paid"
+            ||
+            courseType === "paid";
+
+        const rawPrice =
+            Number(
+                course.price
+                ??
+                course.amount
+                ??
+                0
+            );
+
+        return {
+
+            ...course,
+
+            id:
+                String(
+                    course.id
+                    ||
+                    course.courseId
+                    ||
+                    course.courseID
+                    ||
+                    ""
+                ).trim(),
+
+            name:
+                course.name
+                ||
+                course.courseName
+                ||
+                course.title
+                ||
+                "Course",
+
+            exam:
+                course.exam
+                ||
+                course.courseExam
+                ||
+                course.examName
+                ||
+                "RM Vidya Peeth",
+
+            isPaid:paid,
+
+            paid:paid,
+
+            accessType:
+                paid
+                ? "paid"
+                : "free",
+
+            price:
+                Number.isFinite(rawPrice)
+                ? rawPrice
+                : 0
+
+        };
+
+    });
+
+}
+
+
+/* =====================================================
+   LOAD DATA
+===================================================== */
+
+async function loadCourses(){
+
+    const container =
+        document.getElementById(
+            "coursesContainer"
+        );
+
+    if(!container){
+        return;
+    }
+
+    container.innerHTML = `
+
+        <div class="loading">
+            ⏳ Data loading...
+        </div>
+
+    `;
+
+    currentFilter =
+        getURLFilter();
+
+    if(
+        currentFilter === "test-pass"
+    ){
+
+        try{
+
+            await loadOnlyTestSeries();
+
+            await loadTestSeriesStatus();
+
+            renderCourses();
+
+        }
+        catch(error){
+
+            console.error(
+                "❌ Test Pass error:",
+                error
+            );
+
+            container.innerHTML = `
+
+                <div class="error">
+
+                    ❌ Test Pass load नहीं हो सका।
+
+                    <br><br>
+
+                    <small>
+                        Firestore →
+                        <b>mockSeries</b>
+                    </small>
+
+                    <br><br>
+
+                    <small>
+                        ${escapeHTML(
+                            error.message ||
+                            "Unknown error"
+                        )}
+                    </small>
+
+                    <br>
+
+                    <button
+                        class="retry-btn"
+                        type="button"
+                        onclick="loadCoursesAgain()"
+                    >
+                        🔄 Retry
+                    </button>
+
+                </div>
+
+            `;
+
+        }
+
+        return;
+
+    }
+
+    try{
+
+        let courses = [];
+
+        try{
+
+            courses =
+                await getFirebaseCourses();
+
+        }
+        catch(error){
+
+            console.error(
+                "Firebase courses error:",
+                error
+            );
+
+            courses =
+                getLocalCourses();
+
+        }
+
+        allCourses =
+            normalizeCourses(
+                courses
+            );
+
+        try{
+
+            localStorage.setItem(
+                "ssc_courses",
+                JSON.stringify(
+                    allCourses
+                )
+            );
+
+        }
+        catch(error){}
+
+        renderCourses();
+
+    }
+    catch(error){
+
+        console.error(
+            "Loading error:",
+            error
+        );
+
+        container.innerHTML = `
+
+            <div class="error">
+
+                ❌ Courses load नहीं हो सके।
+
+                <br><br>
+
+                <small>
+                    ${escapeHTML(
+                        error.message ||
+                        "Unknown error"
+                    )}
+                </small>
+
+                <br>
+
+                <button
+                    class="retry-btn"
+                    type="button"
+                    onclick="loadCoursesAgain()"
+                >
+                    🔄 Retry
+                </button>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   LOCAL COURSES
+===================================================== */
+
+function getLocalCourses(){
+
+    try{
+
+        const raw =
+            localStorage.getItem(
+                "ssc_courses"
+            );
+
+        if(!raw){
+            return [];
+        }
+
+        const data =
+            JSON.parse(raw);
+
+        return Array.isArray(data)
+            ? data
+            : [];
+
+    }
+    catch(error){
+
+        return [];
+
+    }
+
+}
+
+
+/* =====================================================
+   LOAD TEST SERIES STATUS
+===================================================== */
+
+async function loadTestSeriesStatus(){
+
+    enrollmentStatus = {};
+
+    purchaseStatus = {};
+
+    const identity =
+        getStudentIdentity();
+
+    if(
+        identity.key === "guest"
+    ){
+
+        console.log(
+            "⚠️ Student identity not found."
+        );
+
+        return;
+
+    }
+
+    try{
+
+        const q =
+            query(
+
+                collection(
+                    db,
+                    "testSeriesEnrollments"
+                ),
+
+                where(
+                    "studentKey",
+                    "==",
+                    identity.key
+                )
+
+            );
+
+        const snapshot =
+            await getDocs(q);
+
+        snapshot.forEach(function(item){
+
+            const data =
+                item.data() || {};
+
+            const id =
+                String(
+                    data.seriesId || ""
+                ).trim();
+
+            if(!id){
+                return;
+            }
+
+            const status =
+                String(
+                    data.status ||
+                    "enrolled"
+                )
+                .trim()
+                .toLowerCase();
+
+            if(
+                status === "enrolled"
+                ||
+                status === "approved"
+            ){
+
+                enrollmentStatus[id] =
+                    status;
+
+            }
+
+        });
+
+    }
+    catch(error){
+
+        console.warn(
+            "Enrollment status error:",
+            error
+        );
+
+    }
+
+    try{
+
+        const q =
+            query(
+
+                collection(
+                    db,
+                    "paymentRequests"
+                ),
+
+                where(
+                    "studentKey",
+                    "==",
+                    identity.key
+                )
+
+            );
+
+        const snapshot =
+            await getDocs(q);
+
+        snapshot.forEach(function(item){
+
+            const data =
+                item.data() || {};
+
+            const type =
+                String(
+                    data.type || ""
+                )
+                .trim()
+                .toLowerCase();
+
+            const paymentType =
+                String(
+                    data.paymentType || ""
+                )
+                .trim()
+                .toLowerCase();
+
+            const isTestPass =
+                data.isTestPass === true
+                ||
+                type === "test-pass"
+                ||
+                paymentType === "test-pass";
+
+            if(!isTestPass){
+                return;
+            }
+
+            const id =
+                String(
+                    data.seriesId
+                    ||
+                    data.testSeriesId
+                    ||
+                    ""
+                ).trim();
+
+            if(id){
+
+                purchaseStatus[id] =
+                    String(
+                        data.status ||
+                        "pending"
+                    )
+                    .trim()
+                    .toLowerCase();
+
+            }
+
+        });
+
+    }
+    catch(error){
+
+        console.warn(
+            "Payment status error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   FILTER
+===================================================== */
+
+window.setFilter =
+async function(filter){
+
+    currentFilter =
+        filter || "all";
+
+    const url =
+        new URL(
+            window.location.href
+        );
+
+    if(
+        currentFilter === "all"
+    ){
+
+        url.searchParams.delete(
+            "type"
+        );
+
+    }
+    else{
+
+        url.searchParams.set(
+            "type",
+            currentFilter
+        );
+
+    }
+
+    window.history.replaceState(
+        {},
+        "",
+        url
+    );
+
+    if(
+        currentFilter === "test-pass"
+    ){
+
+        try{
+
+            await loadOnlyTestSeries();
+
+            await loadTestSeriesStatus();
+
+            renderCourses();
+
+        }
+        catch(error){
+
+            console.error(
+                error
+            );
+
+        }
+
+        return;
+
+    }
+
+    renderCourses();
+
+};
+
+
+/* =====================================================
+   FILTERED NORMAL COURSES
+===================================================== */
+
+function getFilteredNormalCourses(){
+
+    if(
+        currentFilter === "test-pass"
+    ){
+
+        return [];
+
+    }
+
+    if(
+        currentFilter === "free"
+    ){
+
+        return allCourses.filter(
+            function(course){
+
+                return !isPaidCourse(
+                    course
+                );
+
+            }
+        );
+
+    }
+
+    if(
+        currentFilter === "paid"
+    ){
+
+        return allCourses.filter(
+            function(course){
+
+                return isPaidCourse(
+                    course
+                );
+
+            }
+        );
+
+    }
+
+    return allCourses;
+
+}
+
+
+/* =====================================================
+   PAID COURSE
+===================================================== */
+
+function isPaidCourse(course){
+
+    return (
+
+        course.isPaid === true
+        ||
+        course.paid === true
+        ||
+        String(
+            course.accessType || ""
+        )
+        .toLowerCase()
+        .trim()
+        ===
+        "paid"
+        ||
+        String(
+            course.type || ""
+        )
+        .toLowerCase()
+        .trim()
+        ===
+        "paid"
+        ||
+        String(
+            course.courseType || ""
+        )
+        .toLowerCase()
+        .trim()
+        ===
+        "paid"
+
+    );
+
+}
+
+
+/* =====================================================
+   COURSE PRICE
+===================================================== */
+
+function getPrice(course){
+
+    const price =
+        Number(
+            course.price
+            ??
+            course.amount
+            ??
+            0
+        );
+
+    return (
+        Number.isFinite(price)
+        &&
+        price > 0
+    )
+    ? price
+    : 0;
+
+}
+
+
+/* =====================================================
+   SERIES PRICE
+===================================================== */
+
+function getSeriesPrice(series){
+
+    const price =
+        Number(
+            series.price
+            ??
+            series.seriesPrice
+            ??
+            series.amount
+            ??
+            0
+        );
+
+    return (
+        Number.isFinite(price)
+        &&
+        price > 0
+    )
+    ? price
+    : 0;
+
+}
+
+
+/* =====================================================
+   SERIES ACCESS
+===================================================== */
+
+function isPaidSeries(series){
+
+    return (
+
+        String(
+            series.access
+            ||
+            series.seriesAccess
+            ||
+            series.accessType
+            ||
+            series.paymentType
+            ||
+            ""
+        )
+        .toLowerCase()
+        .trim()
+        ===
+        "paid"
+
+    );
+
+}
+
+
+/* =====================================================
+   SERIES ID
+===================================================== */
+
+function getSeriesId(series){
+
+    return String(
+        series.seriesId
+        ||
+        series.id
+        ||
+        series.seriesID
+        ||
+        ""
+    ).trim();
+
+}
+
+
+/* =====================================================
+   SERIES NAME
+===================================================== */
+
+function getSeriesName(series){
+
+    return (
+
+        series.seriesName
+        ||
+        series.name
+        ||
+        series.title
+        ||
+        series.mockSeriesName
+        ||
+        series.seriesTitle
+        ||
+        "Test Series"
+
+    );
+
+}
+
+
+/* =====================================================
+   SERIES EXAM
+===================================================== */
+
+function getSeriesExam(series){
+
+    return (
+
+        series.examName
+        ||
+        series.exam
+        ||
+        series.course
+        ||
+        series.courseName
+        ||
+        "SSC Exams"
+
+    );
+
+}
+
+
+/* =====================================================
+   TITLE
+===================================================== */
+
+function updateTitle(){
+
+    const title =
+        document.getElementById(
+            "pageTitle"
+        );
+
+    const subtitle =
+        document.getElementById(
+            "pageSubtitle"
+        );
+
+    if(
+        currentFilter === "test-pass"
+    ){
+
+        title.textContent =
+            "🎟️ Test Pass";
+
+        subtitle.textContent =
+            "Free और Paid Test Series यहाँ देखें।";
+
+        return;
+
+    }
+
+    if(
+        currentFilter === "free"
+    ){
+
+        title.textContent =
+            "🆓 Free Courses";
+
+        subtitle.textContent =
+            "सभी Free Courses यहाँ उपलब्ध हैं।";
+
+        return;
+
+    }
+
+    if(
+        currentFilter === "paid"
+    ){
+
+        title.textContent =
+            "💳 Paid Courses";
+
+        subtitle.textContent =
+            "सभी Paid Courses यहाँ देखें।";
+
+        return;
+
+    }
+
+    title.textContent =
+        "📚 RM Vidya Peeth Courses";
+
+    subtitle.textContent =
+        "अपने सभी Courses यहाँ देखें।";
+
+}
+
+
+/* =====================================================
+   FILTER BUTTON
+===================================================== */
+
+function updateFilterButtons(){
+
+    document
+        .querySelectorAll(
+            ".filter-btn"
+        )
+        .forEach(function(button){
+
+            button.classList.remove(
+                "active"
+            );
+
+        });
+
+    let id =
+        "filterAll";
+
+    if(
+        currentFilter === "free"
+    ){
+
+        id =
+            "filterFree";
+
+    }
+    else if(
+        currentFilter === "paid"
+    ){
+
+        id =
+            "filterPaid";
+
+    }
+    else if(
+        currentFilter === "test-pass"
+    ){
+
+        id =
+            "filterTest";
+
+    }
+
+    const button =
+        document.getElementById(
+            id
+        );
+
+    if(button){
+
+        button.classList.add(
+            "active"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   RENDER
+===================================================== */
+
+function renderCourses(){
+
+    updateTitle();
+
+    updateFilterButtons();
+
+    const container =
+        document.getElementById(
+            "coursesContainer"
+        );
+
+    if(!container){
+        return;
+    }
+
+    if(
+        currentFilter === "test-pass"
+    ){
+
+        renderTestSeries();
+
+        return;
+
+    }
+
+    const courses =
+        getFilteredNormalCourses();
+
+    if(!courses.length){
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                📚 इस category में कोई Course
+                उपलब्ध नहीं है।
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+    container.innerHTML = `
+
+        <div class="course-count">
+
+            📚 ${courses.length}
+
+            ${
+                courses.length === 1
+                ? "Course"
+                : "Courses"
+            }
+
+        </div>
+
+        <div class="course-grid">
+
+            ${
+                courses
+                .map(function(course,index){
+
+                    return renderCourse(
+                        course,
+                        index
+                    );
+
+                })
+                .join("")
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   RENDER COURSE
+===================================================== */
+
+function renderCourse(course,index){
+
+    const name =
+        course.name ||
+        "Course";
+
+    const exam =
+        course.exam ||
+        "RM Vidya Peeth";
+
+    const paid =
+        isPaidCourse(
+            course
+        );
+
+    const price =
+        getPrice(
+            course
+        );
+
+    const id =
+        getCourseId(
+            course
+        );
+
+    return `
+
+        <div class="course-card">
+
+            <div class="course-icon">
+                📚
+            </div>
+
+            <div class="badge-row">
+
+                <span class="badge ${
+                    paid
+                    ? "badge-paid"
+                    : "badge-free"
+                }">
+
+                    ${
+                        paid
+                        ? "💳 PAID"
+                        : "🆓 FREE"
+                    }
+
+                </span>
+
+            </div>
+
+            <h3>
+                ${escapeHTML(name)}
+            </h3>
+
+            <p>
+                ${escapeHTML(exam)}
+            </p>
+
+            ${
+                paid
+                ?
+                `
+                <div class="price-paid">
+                    💳 ₹${price}
+                </div>
+                `
+                :
+                `
+                <div class="price-free">
+                    🆓 Free
+                </div>
+                `
+            }
+
+            <button
+                class="course-btn ${
+                    paid
+                    ? "paid-btn"
+                    : ""
+                }"
+                type="button"
+                onclick="openCourse(${index})"
+            >
+
+                ${
+                    paid
+                    ? "💳 Buy / Pay Now"
+                    : "🚀 Open Course"
+                }
+
+            </button>
+
+            ${
+                id
+                ?
+                `
+                <div class="course-id">
+                    ID:
+                    ${escapeHTML(id)}
+                </div>
+                `
+                :
+                ""
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   RENDER TEST SERIES
+===================================================== */
+
+function renderTestSeries(){
+
+    const container =
+        document.getElementById(
+            "coursesContainer"
+        );
+
+    if(
+        !allTestSeries.length
+    ){
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                🎟️ अभी कोई Test Pass उपलब्ध नहीं है।
+
+                <br><br>
+
+                <small>
+                    Firestore → mockSeries में
+                    कोई Test Series नहीं मिली।
+                </small>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+    container.innerHTML = `
+
+        <div class="course-count">
+
+            🎟️ ${allTestSeries.length}
+            Test Series
+
+        </div>
+
+        <div class="course-grid">
+
+            ${
+                allTestSeries
+                .map(function(series,index){
+
+                    return renderSeriesCard(
+                        series,
+                        index
+                    );
+
+                })
+                .join("")
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   SERIES CARD
+===================================================== */
+
+function renderSeriesCard(series,index){
+
+    const name =
+        getSeriesName(
+            series
+        );
+
+    const exam =
+        getSeriesExam(
+            series
+        );
+
+    const seriesId =
+        getSeriesId(
+            series
+        );
+
+    const paid =
+        isPaidSeries(
+            series
+        );
+
+    const price =
+        getSeriesPrice(
+            series
+        );
+
+    const status =
+        paid
+        ?
+        (
+            purchaseStatus[
+                seriesId
+            ]
+            ||
+            ""
+        )
+        :
+        (
+            enrollmentStatus[
+                seriesId
+            ]
+            ||
+            ""
+        );
+
+    const totalTests =
+        Number(
+            series.totalTests
+            ??
+            series.testCount
+            ??
+            series.testsCount
+            ??
+            0
+        );
+
+    let buttonHTML = "";
+
+    if(paid){
+
+        if(
+            status === "approved"
+        ){
+
+            buttonHTML = `
+
+                <button
+                    class="course-btn green-btn"
+                    type="button"
+                    onclick="openTestSeries(${index})"
+                >
+
+                    🚀 Open Test Series
+
+                </button>
+
+                <div class="status-box status-approved">
+
+                    ✅ Payment Approved
+
+                    <br>
+
+                    Test Pass Active है।
+
+                </div>
+
+            `;
+
+        }
+
+        else if(
+            status === "pending"
+        ){
+
+            buttonHTML = `
+
+                <button
+                    class="course-btn gray-btn"
+                    type="button"
+                    disabled
+                >
+
+                    ⏳ Approval Pending
+
+                </button>
+
+                <div class="status-box status-pending">
+
+                    ⏳ Payment request Admin
+                    verification में है।
+
+                </div>
+
+            `;
+
+        }
+
+        else{
+
+            buttonHTML = `
+
+                <button
+                    class="course-btn paid-btn"
+                    type="button"
+                    onclick="buyTestSeries(${index})"
+                >
+
+                    💳 Buy Test Pass
+
+                </button>
+
+            `;
+
+        }
+
+    }
+
+    else{
+
+        if(
+            status === "enrolled"
+            ||
+            status === "approved"
+        ){
+
+            buttonHTML = `
+
+                <button
+                    class="course-btn green-btn"
+                    type="button"
+                    onclick="openTestSeries(${index})"
+                >
+
+                    🚀 Open Test Series
+
+                </button>
+
+                <div class="status-box status-enrolled">
+
+                    ✅ Enrolled
+
+                </div>
+
+            `;
+
+        }
+
+        else{
+
+            buttonHTML = `
+
+                <button
+                    class="course-btn test-btn"
+                    type="button"
+                    onclick="enrollTestSeries(${index})"
+                >
+
+                    📝 Enroll Now
+
+                </button>
+
+            `;
+
+        }
+
+    }
+
+    return `
+
+        <div class="course-card">
+
+            <div class="course-icon">
+                🎟️
+            </div>
+
+            <div class="badge-row">
+
+                <span class="badge ${
+                    paid
+                    ? "badge-paid"
+                    : "badge-free"
+                }">
+
+                    ${
+                        paid
+                        ? "💳 PAID"
+                        : "🆓 FREE"
+                    }
+
+                </span>
+
+                <span class="badge badge-test">
+
+                    🎟️ TEST PASS
+
+                </span>
+
+            </div>
+
+            <h3>
+                ${escapeHTML(name)}
+            </h3>
+
+            <p>
+                ${escapeHTML(exam)}
+            </p>
+
+            ${
+                totalTests > 0
+                ?
+                `
+                <div class="series-info">
+
+                    📝 Total Tests:
+                    <b>${totalTests}</b>
+
+                </div>
+                `
+                :
+                ""
+            }
+
+            ${
+                paid
+                ?
+                `
+                <div class="price-paid">
+                    💳 ₹${price}
+                </div>
+                `
+                :
+                `
+                <div class="price-free">
+                    🆓 Free
+                </div>
+                `
+            }
+
+            ${buttonHTML}
+
+            ${
+                seriesId
+                ?
+                `
+                <div class="course-id">
+
+                    Series ID:
+                    ${escapeHTML(seriesId)}
+
+                </div>
+                `
+                :
+                ""
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   COURSE ID
+===================================================== */
+
+function getCourseId(course){
+
+    return String(
+        course.id
+        ||
+        course.courseId
+        ||
+        course.courseID
+        ||
+        ""
+    ).trim();
+
+}
+
+
+/* =====================================================
+   OPEN COURSE
+===================================================== */
+
+window.openCourse =
+function(index){
+
+    const courses =
+        getFilteredNormalCourses();
+
+    const course =
+        courses[
+            Number(index)
+        ];
+
+    if(!course){
+
+        alert(
+            "❌ Course नहीं मिला।"
+        );
+
+        return;
+
+    }
+
+    const courseId =
+        getCourseId(
+            course
+        );
+
+    if(!courseId){
+
+        alert(
+            "❌ इस Course का ID नहीं मिला।"
+        );
+
+        return;
+
+    }
+
+    try{
+
+        localStorage.setItem(
+            "selectedCourseId",
+            courseId
+        );
+
+        localStorage.setItem(
+            "selectedCourse",
+            JSON.stringify(
+                course
+            )
+        );
+
+        localStorage.setItem(
+            "paymentCourse",
+            JSON.stringify(
+                course
+            )
+        );
+
+    }
+    catch(error){}
+
+    if(
+        isPaidCourse(
+            course
+        )
+    ){
+
+        const price =
+            getPrice(
+                course
+            );
+
+        if(price <= 0){
+
+            alert(
+                "❌ Course price सही नहीं है।"
+            );
+
+            return;
+
+        }
+
+        const title =
+            course.name
+            ||
+            course.courseName
+            ||
+            course.title
+            ||
+            "Course";
+
+        window.location.href =
+            "payment.html?" +
+            "courseId=" +
+            encodeURIComponent(
+                courseId
+            ) +
+            "&title=" +
+            encodeURIComponent(
+                title
+            ) +
+            "&price=" +
+            encodeURIComponent(
+                price
+            );
+
+        return;
+
+    }
+
+    window.location.href =
+        "course-detail.html?courseId=" +
+        encodeURIComponent(
+            courseId
+        );
+
+};
+
+
+/* =====================================================
+   BUY TEST SERIES
+===================================================== */
+
+window.buyTestSeries =
+function(index){
+
+    const series =
+        allTestSeries[
+            Number(index)
+        ];
+
+    if(!series){
+
+        alert(
+            "❌ Test Series नहीं मिली।"
+        );
+
+        return;
+
+    }
+
+    const seriesId =
+        getSeriesId(
+            series
+        );
+
+    const price =
+        getSeriesPrice(
+            series
+        );
+
+    const title =
+        getSeriesName(
+            series
+        );
+
+    if(!seriesId){
+
+        alert(
+            "❌ Test Series ID नहीं मिली।"
+        );
+
+        return;
+
+    }
+
+    if(price <= 0){
+
+        alert(
+            "❌ Test Series price सही नहीं है।"
+        );
+
+        return;
+
+    }
+
+    const paymentData = {
+
+        id:seriesId,
+
+        seriesId:seriesId,
+
+        name:title,
+
+        seriesName:title,
+
+        title:title,
+
+        exam:
+            getSeriesExam(
+                series
+            ),
+
+        price:price,
+
+        amount:price,
+
+        type:"test-pass",
+
+        paymentType:"test-pass",
+
+        isTestPass:true
+
+    };
+
+    try{
+
+        localStorage.setItem(
+            "paymentCourse",
+            JSON.stringify(
+                paymentData
+            )
+        );
+
+        localStorage.setItem(
+            "paymentTestSeries",
+            JSON.stringify(
+                paymentData
+            )
+        );
+
+    }
+    catch(error){}
+
+    window.location.href =
+        "payment.html?" +
+        "type=test-pass" +
+        "&seriesId=" +
+        encodeURIComponent(
+            seriesId
+        ) +
+        "&title=" +
+        encodeURIComponent(
+            title
+        ) +
+        "&price=" +
+        encodeURIComponent(
+            price
+        );
+
+};
+
+
+/* =====================================================
+   FREE TEST SERIES ENROLLMENT
+===================================================== */
+
+window.enrollTestSeries =
+async function(index){
+
+    const series =
+        allTestSeries[
+            Number(index)
+        ];
+
+    if(!series){
+
+        alert(
+            "❌ Test Series नहीं मिली।"
+        );
+
+        return;
+
+    }
+
+    const seriesId =
+        getSeriesId(
+            series
+        );
+
+    if(!seriesId){
+
+        alert(
+            "❌ Test Series ID नहीं मिली।"
+        );
+
+        return;
+
+    }
+
+    const identity =
+        getStudentIdentity();
+
+    if(
+        identity.key === "guest"
+    ){
+
+        alert(
+            "❌ पहले Student Dashboard से login करें।"
+        );
+
+        return;
+
+    }
+
+    if(
+        enrollmentStatus[
+            seriesId
+        ]
+    ){
+
+        alert(
+            "ℹ️ आप इस Test Series में पहले से enrolled हैं।"
+        );
+
+        return;
+
+    }
+
+    const student =
+        getCurrentStudent();
+
+    const seriesName =
+        getSeriesName(
+            series
+        );
+
+    try{
+
+        const checkQuery =
+            query(
+
+                collection(
+                    db,
+                    "testSeriesEnrollments"
+                ),
+
+                where(
+                    "studentKey",
+                    "==",
+                    identity.key
+                ),
+
+                where(
+                    "seriesId",
+                    "==",
+                    seriesId
+                )
+
+            );
+
+        const existing =
+            await getDocs(
+                checkQuery
+            );
+
+        if(
+            !existing.empty
+        ){
+
+            enrollmentStatus[
+                seriesId
+            ] =
+                "enrolled";
+
+            renderCourses();
+
+            alert(
+                "ℹ️ आप पहले से enrolled हैं।"
+            );
+
+            return;
+
+        }
+
+        const safeStudentKey =
+            encodeURIComponent(
+                identity.key
+            );
+
+        const safeSeriesId =
+            encodeURIComponent(
+                seriesId
+            );
+
+        const enrollmentId =
+            safeStudentKey +
+            "_" +
+            safeSeriesId;
+
+        console.log(
+            "🔥 Enrollment document ID:",
+            enrollmentId
+        );
+
+        await setDoc(
+
+            doc(
+                db,
+                "testSeriesEnrollments",
+                enrollmentId
+            ),
+
+            {
+
+                studentKey:
+                    identity.key,
+
+                studentUid:
+                    identity.uid,
+
+                studentEmail:
+                    identity.email,
+
+                studentName:
+                    student.name
+                    ||
+                    student.fullName
+                    ||
+                    student.displayName
+                    ||
+                    (
+                        firebaseStudent &&
+                        firebaseStudent.displayName
+                    )
+                    ||
+                    "Student",
+
+                seriesId:
+                    seriesId,
+
+                seriesName:
+                    seriesName,
+
+                status:
+                    "enrolled",
+
+                access:
+                    "free",
+
+                type:
+                    "test-pass",
+
+                paymentType:
+                    "test-pass",
+
+                isTestPass:
+                    true,
+
+                enrolledAt:
+                    serverTimestamp(),
+
+                updatedAt:
+                    serverTimestamp()
+
+            },
+
+            {
+                merge:true
+            }
+
+        );
+
+        enrollmentStatus[
+            seriesId
+        ] =
+            "enrolled";
+
+        renderCourses();
+
+        alert(
+            "✅ Test Series में Enrollment सफल हो गया।"
+        );
+
+    }
+    catch(error){
+
+        console.error(
+            "❌ Enrollment error:",
+            error
+        );
+
+        let message =
+            error.message ||
+            "Unknown error";
+
+        if(
+            error.code ===
+            "permission-denied"
+        ){
+
+            message =
+                "Firestore Permission Denied.\n\n" +
+                "Collection: testSeriesEnrollments\n" +
+                "Firebase Project: ssc-courses\n\n" +
+                "Firestore Rules को Publish करके फिर try करें.";
+
+        }
+
+        alert(
+            "❌ Enrollment नहीं हो सका।\n\n" +
+            message
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   OPEN TEST SERIES
+===================================================== */
+
+window.openTestSeries =
+function(index){
+
+    const series =
+        allTestSeries[
+            Number(index)
+        ];
+
+    if(!series){
+
+        alert(
+            "❌ Test Series नहीं मिली।"
+        );
+
+        return;
+
+    }
+
+    const seriesId =
+        getSeriesId(
+            series
+        );
+
+    if(!seriesId){
+
+        alert(
+            "❌ Test Series ID नहीं मिली।"
+        );
+
+        return;
+
+    }
+
+    const paid =
+        isPaidSeries(
+            series
+        );
+
+    const status =
+        paid
+        ?
+        purchaseStatus[
+            seriesId
+        ]
+        :
+        enrollmentStatus[
+            seriesId
+        ];
+
+    if(
+        paid &&
+        status !== "approved"
+    ){
+
+        alert(
+            "❌ यह Paid Test Pass अभी approved नहीं है।"
+        );
+
+        return;
+
+    }
+
+    if(
+        !paid &&
+        status !== "enrolled" &&
+        status !== "approved"
+    ){
+
+        alert(
+            "❌ पहले इस Free Test Series में Enroll करें।"
+        );
+
+        return;
+
+    }
+
+    try{
+
+        localStorage.setItem(
+            "selectedTestSeries",
+            JSON.stringify(
+                series
+            )
+        );
+
+        localStorage.setItem(
+            "selectedTestSeriesId",
+            seriesId
+        );
+
+    }
+    catch(error){}
+
+    window.location.href =
+        "mock-test.html?" +
+        "seriesId=" +
+        encodeURIComponent(
+            seriesId
+        );
+
+};
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+window.goDashboard =
+function(){
+
+    window.location.href =
+        "dashboard.html";
+
+};
+
+
+/* =====================================================
+   RETRY
+===================================================== */
+
+window.loadCoursesAgain =
+function(){
+
+    loadCourses();
+
+};
+
+
+/* =====================================================
+   FIREBASE AUTH
+===================================================== */
+
+auth.onAuthStateChanged(
+    async function(user){
+
+        firebaseStudent =
+            user || null;
+
+        console.log(
+            "🔥 Firebase Auth Student:",
+            user
+        );
+
+        loadStudentInfo();
+
+        if(
+            getURLFilter() ===
+            "test-pass"
+        ){
+
+            try{
+
+                await loadOnlyTestSeries();
+
+                await loadTestSeriesStatus();
+
+                renderCourses();
+
+            }
+            catch(error){
+
+                console.error(
+                    "Auth reload error:",
+                    error
+                );
+
+            }
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function(){
+
+        loadStudentInfo();
+
+        currentFilter =
+            getURLFilter();
+
+        await loadCourses();
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>

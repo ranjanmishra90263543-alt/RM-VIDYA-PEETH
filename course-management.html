@@ -1,0 +1,2973 @@
+<!DOCTYPE html><html lang="hi"><head><meta charset="UTF-8"><meta
+name="viewport"
+content="width=device-width,initial-scale=1.0"
+
+«»
+
+<title>RM Vidya Peeth - Course Management</title><style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+.wrap{
+    max-width:1100px;
+    margin:auto;
+    padding:18px;
+}
+
+.head,
+.card{
+    background:#1e293b;
+    border:1px solid #334155;
+    border-radius:15px;
+    padding:18px;
+    margin-bottom:16px;
+}
+
+.head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+}
+
+.brand-title{
+    margin:0 0 4px;
+    color:#60a5fa;
+    font-size:25px;
+    font-weight:800;
+}
+
+.brand-tagline{
+    color:#cbd5e1;
+    font-size:13px;
+    margin-bottom:12px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+}
+
+.field{
+    margin:10px 0;
+}
+
+label{
+    display:block;
+    color:#cbd5e1;
+    margin-bottom:6px;
+    font-weight:bold;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #475569;
+    background:#0f172a;
+    color:#fff;
+    font-size:15px;
+}
+
+button{
+    border:0;
+    border-radius:8px;
+    padding:11px 14px;
+    color:#fff;
+    background:#2563eb;
+    font-weight:bold;
+    cursor:pointer;
+    margin:4px;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+button:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+}
+
+button.danger{
+    background:#dc2626;
+}
+
+button.secondary{
+    background:#475569;
+}
+
+button.success{
+    background:#16a34a;
+}
+
+button.warning{
+    background:#d97706;
+}
+
+button.mock{
+    background:#7c3aed;
+}
+
+.row{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    align-items:center;
+}
+
+.list{
+    margin-top:15px;
+}
+
+.item{
+    background:#0f172a;
+    border:1px solid #334155;
+    border-radius:10px;
+    padding:14px;
+    margin:8px 0;
+}
+
+.muted{
+    color:#94a3b8;
+}
+
+.small{
+    font-size:13px;
+}
+
+.hidden{
+    display:none !important;
+}
+
+.tabs button.active{
+    background:#0891b2;
+}
+
+.price-box{
+    background:#172554;
+    border:1px solid #1d4ed8;
+    border-radius:10px;
+    padding:14px;
+    margin-top:10px;
+}
+
+.status{
+    background:#334155;
+    padding:12px;
+    border-radius:9px;
+    margin-top:12px;
+    white-space:pre-wrap;
+    line-height:1.5;
+}
+
+.status.ok{
+    background:#14532d;
+    color:#bbf7d0;
+}
+
+.status.error{
+    background:#7f1d1d;
+    color:#fecaca;
+}
+
+.badge{
+    display:inline-block;
+    padding:4px 8px;
+    border-radius:6px;
+    font-size:12px;
+    font-weight:bold;
+    margin:2px;
+}
+
+.badge-free{
+    background:#14532d;
+    color:#86efac;
+}
+
+.badge-paid{
+    background:#78350f;
+    color:#fde68a;
+}
+
+.badge-test{
+    background:#164e63;
+    color:#67e8f9;
+}
+
+.badge-normal{
+    background:#312e81;
+    color:#c4b5fd;
+}
+
+.info{
+    background:#0c4a6e;
+    border:1px solid #0369a1;
+    color:#bae6fd;
+    padding:12px;
+    border-radius:9px;
+    margin-top:10px;
+    line-height:1.6;
+}
+
+.firebase-info{
+    background:#172554;
+    border:1px solid #2563eb;
+    padding:12px;
+    border-radius:9px;
+    margin-top:12px;
+    line-height:1.6;
+}
+
+.empty{
+    padding:18px;
+    text-align:center;
+    color:#94a3b8;
+    border:1px dashed #475569;
+    border-radius:10px;
+}
+
+footer{
+    text-align:center;
+    padding:20px;
+    color:#94a3b8;
+    font-size:13px;
+}
+
+.footer-brand{
+    color:#60a5fa;
+    font-size:17px;
+    font-weight:800;
+    margin-bottom:4px;
+}
+
+.footer-tagline{
+    color:#cbd5e1;
+    font-size:12px;
+    margin-bottom:8px;
+}
+
+@media(max-width:750px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .head{
+        display:block;
+    }
+
+}
+
+</style></head><body><div class="wrap"><div class="head"><div>
+
+    <div class="brand-title">
+        RM Vidya Peeth
+    </div>
+
+    <div class="brand-tagline">
+        By Ranjan Mishra Sir
+    </div>
+
+    <h1>📚 Course Management</h1>
+
+    <div class="muted">
+        Courses, Subjects, Chapters और Test Series manage करें।
+    </div>
+
+</div>
+
+<div class="row">
+
+    <button
+        class="mock"
+        onclick="openMockManagement()"
+    >
+        📝 Mock Management
+    </button>
+
+    <button
+        class="secondary"
+        onclick="goAdminDashboard()"
+    >
+        ← Admin Dashboard
+    </button>
+
+</div>
+
+</div><div
+    id="firebaseConnectionStatus"
+    class="firebase-info"
+>
+    ⏳ Firebase connection check हो रहा है...
+</div><div class="tabs row"><button
+    class="active"
+    onclick="showTab('courses',this)"
+>
+    📚 Courses
+</button>
+
+<button
+    onclick="showTab('subjects',this)"
+>
+    📘 Subjects
+</button>
+
+<button
+    onclick="showTab('chapters',this)"
+>
+    📖 Chapters
+</button>
+
+</div><section
+    id="courses"
+    class="card"
+><h2>📚 Add / Edit Course</h2><input
+type="hidden"
+id="courseId"
+
+«»
+
+<div class="grid"><div class="field"><label>
+Course / Test Series Name
+</label><input
+id="courseName"
+placeholder="SSC Foundation / SSC Test Series"
+
+«»
+
+</div><div class="field"><label>
+Exam
+</label><input
+id="courseExam"
+placeholder="SSC"
+
+«»
+
+</div><div class="field"><label>
+Access
+</label><select id="coursePriceType"><option value="free">
+🆓 Free
+</option><option value="paid">
+💳 Paid
+</option></select></div><div
+    class="field"
+    id="coursePriceWrap"
+    style="display:none"
+><label>
+Course / Test Series Price ₹
+</label><input
+id="coursePrice"
+type="number"
+min="0"
+step="1"
+placeholder="499"
+
+«»
+
+</div><div class="field"><label>
+Course Type
+</label><select id="courseType"><option value="course">
+📚 Normal Course
+</option><option value="test-pass">
+🎟️ Test Series
+</option></select></div></div><div class="info"><b>💡 Pricing System</b>
+
+<br><br>
+
+📚 <b>Normal Course:</b>
+इस पूरे course का अपना individual price होगा।
+
+<br>🎟️ <b>Test Series:</b>
+पूरी test series का सिर्फ एक price होगा।
+
+<br>📝 Test Series के अंदर के सभी tests included रहेंगे।
+
+<br>🔓 Student ने Test Series purchase की तो सभी tests access होंगे।
+
+<br>🆓 Free चुनने पर price ₹0 रहेगा।
+
+</div><div class="price-box"><div class="small"><b>Example:</b>
+
+<br><br>
+
+📚 SSC Foundation → ₹499
+
+<br>📚 Maths Course → ₹299
+
+<br>🎟️ SSC Test Series → ₹199
+
+<br>  ↳ Test 1 → Included
+
+<br>  ↳ Test 2 → Included
+
+<br>  ↳ Test 3 → Included
+
+</div></div><div class="row"><button
+id="saveCourseBtn"
+class="success"
+onclick="saveCourse()"
+
+«»
+
+💾 Save Course
+</button>
+
+<button
+class="secondary"
+onclick="clearCourse()"
+
+«»
+
+Cancel
+</button>
+
+<button
+class="warning"
+onclick="syncLocalCourses()"
+
+«»
+
+☁️ Local Courses Firebase में Sync
+</button>
+
+</div><div
+    id="courseStatus"
+    class="status"
+>
+Firebase courses loading...
+</div><div
+    id="courseList"
+    class="list"
+></div></section><section
+    id="subjects"
+    class="card hidden"
+><h2>📘 Add / Edit Subject</h2><input
+type="hidden"
+id="subjectIndex"
+
+«»
+
+<div class="field"><label>
+Course
+</label><select id="subjectCourse"></select>
+
+</div><div class="field"><label>
+Subject Name
+</label><input
+id="subjectName"
+placeholder="Mathematics"
+
+«»
+
+</div><div class="row"><button
+class="success"
+onclick="saveSubject()"
+
+«»
+
+💾 Save Subject
+</button>
+
+<button
+class="secondary"
+onclick="clearSubject()"
+
+«»
+
+Cancel
+</button>
+
+</div><div
+    id="subjectList"
+    class="list"
+></div></section><section
+    id="chapters"
+    class="card hidden"
+><h2>📖 Add / Edit Chapter</h2><input
+type="hidden"
+id="chapterIndex"
+
+«»
+
+<div class="grid"><div class="field"><label>
+Course
+</label><select id="chapterCourse"></select>
+
+</div><div class="field"><label>
+Subject
+</label><select id="chapterSubject"></select>
+
+</div></div><div class="field"><label>
+Chapter Name
+</label><input
+id="chapterName"
+placeholder="Percentage"
+
+«»
+
+</div><div class="row"><button
+class="success"
+onclick="saveChapter()"
+
+«»
+
+💾 Save Chapter
+</button>
+
+<button
+class="secondary"
+onclick="clearChapter()"
+
+«»
+
+Cancel
+</button>
+
+</div><div
+    id="chapterList"
+    class="list"
+></div></section></div><footer><div class="footer-brand">
+    RM Vidya Peeth
+</div>
+
+<div class="footer-tagline">
+    By Ranjan Mishra Sir
+</div>
+
+© 2026 RM Vidya Peeth. All Rights Reserved.
+
+</footer><script type="module">
+
+
+/* =====================================================
+   FIREBASE
+===================================================== */
+
+import { db } from "./firebase-config.js";
+
+import {
+    collection,
+    getDocs,
+    doc,
+    setDoc,
+    deleteDoc,
+    writeBatch
+}
+from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+/* =====================================================
+   CONSTANTS
+===================================================== */
+
+const LOCAL_KEY = "ssc_courses";
+
+let courses = [];
+
+let firebaseReady = false;
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const courseId =
+document.getElementById("courseId");
+
+const courseName =
+document.getElementById("courseName");
+
+const courseExam =
+document.getElementById("courseExam");
+
+const coursePriceType =
+document.getElementById("coursePriceType");
+
+const coursePrice =
+document.getElementById("coursePrice");
+
+const courseType =
+document.getElementById("courseType");
+
+const coursePriceWrap =
+document.getElementById("coursePriceWrap");
+
+const courseStatus =
+document.getElementById("courseStatus");
+
+const courseList =
+document.getElementById("courseList");
+
+const saveCourseBtn =
+document.getElementById("saveCourseBtn");
+
+const subjectCourse =
+document.getElementById("subjectCourse");
+
+const subjectName =
+document.getElementById("subjectName");
+
+const subjectIndex =
+document.getElementById("subjectIndex");
+
+const subjectList =
+document.getElementById("subjectList");
+
+const chapterCourse =
+document.getElementById("chapterCourse");
+
+const chapterSubject =
+document.getElementById("chapterSubject");
+
+const chapterName =
+document.getElementById("chapterName");
+
+const chapterIndex =
+document.getElementById("chapterIndex");
+
+const chapterList =
+document.getElementById("chapterList");
+
+const firebaseConnectionStatus =
+document.getElementById(
+    "firebaseConnectionStatus"
+);
+
+
+/* =====================================================
+   ESCAPE
+===================================================== */
+
+function esc(value){
+
+    return String(value ?? "")
+        .replace(/[&<>"']/g,m=>({
+
+            "&":"&amp;",
+            "<":"&lt;",
+            ">":"&gt;",
+            '"':"&quot;",
+            "'":"&#039;"
+
+        }[m]));
+
+}
+
+
+/* =====================================================
+   ADMIN LOGIN
+===================================================== */
+
+function isAdminLoggedIn(){
+
+    const oldLogin =
+        localStorage.getItem(
+            "adminLoggedIn"
+        ) === "true";
+
+    const oldType =
+        localStorage.getItem(
+            "adminType"
+        );
+
+    const oldValid =
+        oldLogin &&
+        (
+            oldType === "master" ||
+            oldType === "normal"
+        );
+
+
+    const newLogin =
+        localStorage.getItem(
+            "ssc_logged_in"
+        ) === "true";
+
+    const newType =
+        localStorage.getItem(
+            "ssc_login_type"
+        );
+
+    const newValid =
+        newLogin &&
+        (
+            newType === "master_admin" ||
+            newType === "admin"
+        );
+
+
+    return (
+        oldValid ||
+        newValid
+    );
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+window.goAdminDashboard =
+function(){
+
+    if(!isAdminLoggedIn()){
+
+        location.href =
+            "admin-login.html";
+
+        return;
+
+    }
+
+    location.href =
+        "admin.html";
+
+};
+
+
+window.openMockManagement =
+function(){
+
+    if(!isAdminLoggedIn()){
+
+        alert(
+            "⚠️ Admin session नहीं मिली।"
+        );
+
+        location.href =
+            "admin-login.html";
+
+        return;
+
+    }
+
+    location.href =
+        "mock-management.html";
+
+};
+
+
+/* =====================================================
+   COURSE ID
+===================================================== */
+
+function makeCourseId(){
+
+    return "course_" +
+        Date.now() +
+        "_" +
+        Math.random()
+        .toString(36)
+        .substring(2,8);
+
+}
+
+
+/* =====================================================
+   LOCAL
+===================================================== */
+
+function saveLocal(){
+
+    try{
+
+        localStorage.setItem(
+            LOCAL_KEY,
+            JSON.stringify(courses)
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+    }
+
+}
+
+
+function loadLocal(){
+
+    try{
+
+        const data =
+            JSON.parse(
+                localStorage.getItem(
+                    LOCAL_KEY
+                ) || "[]"
+            );
+
+        return Array.isArray(data)
+            ? data
+            : [];
+
+    }catch(error){
+
+        return [];
+
+    }
+
+}
+
+
+/* =====================================================
+   NORMALIZE COURSE
+===================================================== */
+
+function normalizeCourse(
+    data,
+    id
+){
+
+    const accessType =
+        data.accessType ||
+        (
+            data.isPaid === true
+            ? "paid"
+            : "free"
+        );
+
+
+    const type =
+        data.type ||
+        data.courseType ||
+        "course";
+
+
+    return {
+
+        id:String(
+            id ||
+            data.id ||
+            makeCourseId()
+        ),
+
+        name:
+            data.name ||
+            data.courseName ||
+            "Course",
+
+        exam:
+            data.exam ||
+            data.examName ||
+            "SSC",
+
+        accessType:
+            accessType === "paid"
+            ? "paid"
+            : "free",
+
+        isPaid:
+            accessType === "paid",
+
+        paid:
+            accessType === "paid",
+
+        price:
+            accessType === "paid"
+            ? Number(data.price || 0)
+            : 0,
+
+        type:type,
+
+        courseType:type,
+
+        testPass:
+            type === "test-pass",
+
+        subjects:
+            Array.isArray(data.subjects)
+            ? data.subjects.map(
+                normalizeSubject
+              )
+            : [],
+
+        updatedAt:
+            data.updatedAt ||
+            new Date().toISOString()
+
+    };
+
+}
+
+
+/* =====================================================
+   NORMALIZE SUBJECT
+===================================================== */
+
+function normalizeSubject(subject){
+
+    if(
+        typeof subject === "string"
+    ){
+
+        return {
+
+            name:subject,
+
+            chapters:[]
+
+        };
+
+    }
+
+
+    if(
+        !subject ||
+        typeof subject !== "object"
+    ){
+
+        return {
+
+            name:"Subject",
+
+            chapters:[]
+
+        };
+
+    }
+
+
+    return {
+
+        ...subject,
+
+        name:
+            subject.name ||
+            subject.subjectName ||
+            subject.title ||
+            "Subject",
+
+        chapters:
+            Array.isArray(
+                subject.chapters
+            )
+            ?
+            subject.chapters.map(
+                normalizeChapter
+            )
+            :
+            []
+
+    };
+
+}
+
+
+/* =====================================================
+   NORMALIZE CHAPTER
+===================================================== */
+
+function normalizeChapter(chapter){
+
+    if(
+        typeof chapter === "string"
+    ){
+
+        return {
+
+            name:chapter,
+
+            contents:[]
+
+        };
+
+    }
+
+
+    if(
+        !chapter ||
+        typeof chapter !== "object"
+    ){
+
+        return {
+
+            name:"Chapter",
+
+            contents:[]
+
+        };
+
+    }
+
+
+    return {
+
+        ...chapter,
+
+        name:
+            chapter.name ||
+            chapter.chapterName ||
+            chapter.title ||
+            "Chapter",
+
+        contents:
+            Array.isArray(
+                chapter.contents
+            )
+            ?
+            chapter.contents
+            :
+            []
+
+    };
+
+}
+
+
+/* =====================================================
+   LOAD FIREBASE
+===================================================== */
+
+async function loadFirebaseCourses(){
+
+    courseStatus.textContent =
+        "⏳ Firebase से courses loading...";
+
+    firebaseConnectionStatus.textContent =
+        "⏳ Firebase Firestore से connection check हो रहा है...";
+
+
+    try{
+
+        const snap =
+            await getDocs(
+                collection(
+                    db,
+                    "courses"
+                )
+            );
+
+
+        firebaseReady = true;
+
+
+        firebaseConnectionStatus.textContent =
+            "✅ Firebase Firestore connected successfully.";
+
+
+        courses = [];
+
+
+        snap.forEach(
+            d=>{
+
+                courses.push(
+                    normalizeCourse(
+                        d.data(),
+                        d.id
+                    )
+                );
+
+            }
+        );
+
+
+        if(!courses.length){
+
+            const local =
+                loadLocal();
+
+
+            if(local.length){
+
+                courses =
+                    local.map(
+                        c=>
+                        normalizeCourse(
+                            c,
+                            c.id
+                        )
+                    );
+
+                courseStatus.textContent =
+                    "ℹ️ Firebase में course नहीं है। Local courses दिखाए जा रहे हैं।";
+
+            }
+
+        }
+
+
+        saveLocal();
+
+        render();
+
+
+        courseStatus.textContent =
+            courses.length
+            ?
+            `✅ ${courses.length} courses loaded successfully.`
+            :
+            "⚠️ कोई course नहीं मिला।";
+
+
+    }catch(error){
+
+        firebaseReady = false;
+
+
+        console.error(
+            "Firebase load error:",
+            error
+        );
+
+
+        firebaseConnectionStatus.textContent =
+            "❌ Firebase Error: " +
+            error.message;
+
+
+        courses =
+            loadLocal()
+            .map(
+                c=>
+                normalizeCourse(
+                    c,
+                    c.id
+                )
+            );
+
+
+        render();
+
+
+        courseStatus.textContent =
+            courses.length
+            ?
+            "⚠️ Firebase load नहीं हुआ। Local courses दिख रहे हैं।"
+            :
+            "❌ Firebase load error: " +
+            error.message;
+
+    }
+
+}
+
+
+/* =====================================================
+   SAVE COURSE
+===================================================== */
+
+window.saveCourse =
+async function(){
+
+    const name =
+        courseName.value.trim();
+
+
+    const exam =
+        courseExam.value.trim() ||
+        "SSC";
+
+
+    const accessType =
+        coursePriceType.value;
+
+
+    const price =
+        accessType === "paid"
+        ?
+        Number(
+            coursePrice.value || 0
+        )
+        :
+        0;
+
+
+    const type =
+        courseType.value;
+
+
+    if(!name){
+
+        alert(
+            "❌ Course / Test Series Name डालो"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        accessType === "paid" &&
+        (
+            !Number.isFinite(price) ||
+            price <= 0
+        )
+    ){
+
+        alert(
+            "❌ Paid course की सही price डालो"
+        );
+
+        return;
+
+    }
+
+
+    let id =
+        courseId.value.trim();
+
+
+    if(!id){
+
+        id =
+            makeCourseId();
+
+    }
+
+
+    const old =
+        courses.find(
+            c=>
+            String(c.id) ===
+            String(id)
+        );
+
+
+    const course = {
+
+        id:id,
+
+        name:name,
+
+        exam:exam,
+
+        accessType:
+            accessType === "paid"
+            ? "paid"
+            : "free",
+
+        isPaid:
+            accessType === "paid",
+
+        paid:
+            accessType === "paid",
+
+        price:price,
+
+        type:type,
+
+        courseType:type,
+
+        testPass:
+            type === "test-pass",
+
+        subjects:
+            Array.isArray(
+                old?.subjects
+            )
+            ?
+            old.subjects
+            :
+            [],
+
+        updatedAt:
+            new Date().toISOString()
+
+    };
+
+
+    try{
+
+        saveCourseBtn.disabled =
+            true;
+
+
+        courseStatus.className =
+            "status";
+
+
+        courseStatus.textContent =
+            "⏳ Firebase में course save हो रहा है...";
+
+
+        await setDoc(
+
+            doc(
+                db,
+                "courses",
+                id
+            ),
+
+            course,
+
+            {
+                merge:true
+            }
+
+        );
+
+
+        const index =
+            courses.findIndex(
+                c=>
+                String(c.id) ===
+                String(id)
+            );
+
+
+        if(index >= 0){
+
+            courses[index] =
+                normalizeCourse(
+                    course,
+                    id
+                );
+
+        }else{
+
+            courses.push(
+                normalizeCourse(
+                    course,
+                    id
+                )
+            );
+
+        }
+
+
+        saveLocal();
+
+        render();
+
+
+        courseStatus.className =
+            "status ok";
+
+
+        courseStatus.textContent =
+            "✅ Course Firebase में successfully save हो गया।";
+
+
+        clearCourse();
+
+
+    }catch(error){
+
+        console.error(error);
+
+
+        courseStatus.className =
+            "status error";
+
+
+        courseStatus.textContent =
+            "❌ Save Error:\n" +
+            error.message;
+
+
+        alert(
+            "❌ Course save नहीं हुआ:\n\n" +
+            error.message
+        );
+
+    }finally{
+
+        saveCourseBtn.disabled =
+            false;
+
+    }
+
+};
+
+
+/* =====================================================
+   EDIT COURSE
+===================================================== */
+
+window.editCourse =
+function(id){
+
+    const c =
+        courses.find(
+            x=>
+            String(x.id) ===
+            String(id)
+        );
+
+
+    if(!c)return;
+
+
+    courseId.value =
+        c.id;
+
+
+    courseName.value =
+        c.name || "";
+
+
+    courseExam.value =
+        c.exam || "SSC";
+
+
+    coursePriceType.value =
+        c.accessType === "paid"
+        ||
+        c.isPaid === true
+        ?
+        "paid"
+        :
+        "free";
+
+
+    coursePrice.value =
+        Number(
+            c.price || 0
+        );
+
+
+    courseType.value =
+        c.type ||
+        c.courseType ||
+        "course";
+
+
+    syncPricing();
+
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+};
+
+
+/* =====================================================
+   DELETE COURSE
+===================================================== */
+
+window.delCourse =
+async function(id){
+
+    const c =
+        courses.find(
+            x=>
+            String(x.id) ===
+            String(id)
+        );
+
+
+    if(!c)return;
+
+
+    const totalSubjects =
+        Array.isArray(c.subjects)
+        ?
+        c.subjects.length
+        :
+        0;
+
+
+    const totalChapters =
+        Array.isArray(c.subjects)
+        ?
+        c.subjects.reduce(
+            (total,s)=>
+                total +
+                (
+                    Array.isArray(
+                        s.chapters
+                    )
+                    ?
+                    s.chapters.length
+                    :
+                    0
+                ),
+            0
+        )
+        :
+        0;
+
+
+    const ok =
+        confirm(
+
+            `⚠️ पूरा Course Delete करना है?\n\n` +
+
+            `Course: ${c.name}\n` +
+
+            `Subjects: ${totalSubjects}\n` +
+
+            `Chapters: ${totalChapters}\n\n` +
+
+            `इससे Firebase में इस course के अंदर का पूरा Subjects + Chapters data भी delete हो जाएगा।\n\n` +
+
+            `यह action वापस नहीं किया जा सकता।`
+
+        );
+
+
+    if(!ok)return;
+
+
+    try{
+
+        courseStatus.className =
+            "status";
+
+
+        courseStatus.textContent =
+            "⏳ पूरा course और उसका data delete हो रहा है...";
+
+
+        await deleteDoc(
+
+            doc(
+                db,
+                "courses",
+                String(id)
+            )
+
+        );
+
+
+        courses =
+            courses.filter(
+                x=>
+                String(x.id) !==
+                String(id)
+            );
+
+
+        saveLocal();
+
+
+        if(
+            localStorage.getItem(
+                "selectedCourseId"
+            ) === String(id)
+        ){
+
+            localStorage.removeItem(
+                "selectedCourseId"
+            );
+
+            localStorage.removeItem(
+                "selectedSubject"
+            );
+
+            localStorage.removeItem(
+                "selectedChapter"
+            );
+
+        }
+
+
+        render();
+
+
+        courseStatus.className =
+            "status ok";
+
+
+        courseStatus.textContent =
+            "✅ Course और उसका पूरा Subjects + Chapters data delete हो गया।";
+
+
+        alert(
+            "✅ पूरा Course delete हो गया!"
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Delete course error:",
+            error
+        );
+
+
+        courseStatus.className =
+            "status error";
+
+
+        courseStatus.textContent =
+            "❌ Delete Error:\n" +
+            error.message;
+
+
+        alert(
+            "❌ Course delete नहीं हुआ:\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   CLEAR COURSE
+===================================================== */
+
+window.clearCourse =
+function(){
+
+    courseId.value =
+        "";
+
+    courseName.value =
+        "";
+
+    courseExam.value =
+        "";
+
+    coursePriceType.value =
+        "free";
+
+    coursePrice.value =
+        "0";
+
+    courseType.value =
+        "course";
+
+
+    syncPricing();
+
+};
+
+
+/* =====================================================
+   PRICE
+===================================================== */
+
+function syncPricing(){
+
+    if(
+        coursePriceType.value ===
+        "paid"
+    ){
+
+        coursePriceWrap.style.display =
+            "block";
+
+    }else{
+
+        coursePriceWrap.style.display =
+            "none";
+
+        coursePrice.value =
+            "0";
+
+    }
+
+}
+
+
+coursePriceType.addEventListener(
+    "change",
+    syncPricing
+);
+
+
+/* =====================================================
+   SAVE FULL COURSE
+===================================================== */
+
+async function saveFullCourse(c){
+
+    const normalized =
+        normalizeCourse(
+            c,
+            c.id
+        );
+
+
+    await setDoc(
+
+        doc(
+            db,
+            "courses",
+            String(
+                normalized.id
+            )
+        ),
+
+        {
+
+            ...normalized,
+
+            updatedAt:
+                new Date().toISOString()
+
+        },
+
+        {
+            merge:true
+        }
+
+    );
+
+
+    const index =
+        courses.findIndex(
+            x=>
+            String(x.id) ===
+            String(normalized.id)
+        );
+
+
+    if(index >= 0){
+
+        courses[index] =
+            normalized;
+
+    }
+
+
+    saveLocal();
+
+}
+
+
+/* =====================================================
+   SAVE SUBJECT
+===================================================== */
+
+window.saveSubject =
+async function(){
+
+    const cid =
+        subjectCourse.value;
+
+
+    const name =
+        subjectName.value.trim();
+
+
+    const idx =
+        subjectIndex.value;
+
+
+    if(!cid){
+
+        alert(
+            "❌ Course चुनें"
+        );
+
+        return;
+
+    }
+
+
+    if(!name){
+
+        alert(
+            "❌ Subject Name डालो"
+        );
+
+        return;
+
+    }
+
+
+    const c =
+        courses.find(
+            x=>
+            String(x.id) ===
+            String(cid)
+        );
+
+
+    if(!c){
+
+        alert(
+            "❌ Course नहीं मिला"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !Array.isArray(
+            c.subjects
+        )
+    ){
+
+        c.subjects = [];
+
+    }
+
+
+    if(idx !== ""){
+
+        const index =
+            Number(idx);
+
+
+        if(c.subjects[index]){
+
+            const oldChapters =
+                Array.isArray(
+                    c.subjects[index].chapters
+                )
+                ?
+                c.subjects[index].chapters
+                :
+                [];
+
+
+            c.subjects[index] = {
+
+                ...c.subjects[index],
+
+                name:name,
+
+                chapters:
+                    oldChapters
+
+            };
+
+        }
+
+    }else{
+
+        c.subjects.push({
+
+            name:name,
+
+            chapters:[]
+
+        });
+
+    }
+
+
+    try{
+
+        await saveFullCourse(c);
+
+        clearSubject();
+
+        render();
+
+
+        alert(
+            "✅ Subject Firebase में save हो गया!"
+        );
+
+
+    }catch(error){
+
+        console.error(error);
+
+
+        alert(
+            "❌ Subject save error:\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   EDIT SUBJECT
+===================================================== */
+
+window.editSubject =
+function(ci,si){
+
+    const c =
+        courses.find(
+            x=>
+            String(x.id) ===
+            String(ci)
+        );
+
+
+    if(
+        !c ||
+        !c.subjects?.[si]
+    )return;
+
+
+    subjectCourse.value =
+        ci;
+
+
+    subjectIndex.value =
+        si;
+
+
+    subjectName.value =
+        c.subjects[si].name || "";
+
+
+    showTab(
+        "subjects",
+        document.querySelector(
+            ".tabs button:nth-child(2)"
+        )
+    );
+
+};
+
+
+/* =====================================================
+   DELETE SUBJECT
+===================================================== */
+
+window.delSubject =
+async function(ci,si){
+
+    if(
+        !confirm(
+            "⚠️ यह Subject और इसके सभी Chapters delete हो जाएंगे। Continue?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    const c =
+        courses.find(
+            x=>
+            String(x.id) ===
+            String(ci)
+        );
+
+
+    if(!c)return;
+
+
+    if(
+        !c.subjects?.[si]
+    ){
+
+        return;
+
+    }
+
+
+    c.subjects.splice(
+        si,
+        1
+    );
+
+
+    try{
+
+        await saveFullCourse(c);
+
+        render();
+
+
+        alert(
+            "✅ Subject और उसके Chapters delete हो गए!"
+        );
+
+
+    }catch(error){
+
+        alert(
+            "❌ Delete failed:\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   CLEAR SUBJECT
+===================================================== */
+
+window.clearSubject =
+function(){
+
+    subjectIndex.value =
+        "";
+
+    subjectName.value =
+        "";
+
+};
+
+
+/* =====================================================
+   LOAD SUBJECTS
+===================================================== */
+
+function loadSubjects(){
+
+    const cid =
+        chapterCourse.value;
+
+
+    const c =
+        courses.find(
+            x=>
+            String(x.id) ===
+            String(cid)
+        );
+
+
+    const subjects =
+        Array.isArray(c?.subjects)
+        ?
+        c.subjects
+        :
+        [];
+
+
+    chapterSubject.innerHTML =
+        subjects
+        .map(
+            (s,i)=>
+            `<option value="${i}">
+                ${esc(s.name)}
+            </option>`
+        )
+        .join("");
+
+
+    if(!subjects.length){
+
+        chapterSubject.innerHTML =
+            `<option value="">
+                पहले Subject बनाएं
+            </option>`;
+
+    }
+
+}
+
+
+/* =====================================================
+   SAVE CHAPTER
+===================================================== */
+
+window.saveChapter =
+async function(){
+
+    const cid =
+        chapterCourse.value;
+
+
+    const si =
+        Number(
+            chapterSubject.value
+        );
+
+
+    const name =
+        chapterName.value.trim();
+
+
+    const idx =
+        chapterIndex.value;
+
+
+    const c =
+        courses.find(
+            x=>
+            String(x.id) ===
+            String(cid)
+        );
+
+
+    if(
+        !c ||
+        !Array.isArray(c.subjects) ||
+        !c.subjects[si]
+    ){
+
+        alert(
+            "❌ Course और Subject चुनें"
+        );
+
+        return;
+
+    }
+
+
+    if(!name){
+
+        alert(
+            "❌ Chapter Name डालो"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !Array.isArray(
+            c.subjects[si].chapters
+        )
+    ){
+
+        c.subjects[si].chapters = [];
+
+    }
+
+
+    const chapters =
+        c.subjects[si].chapters;
+
+
+    if(idx !== ""){
+
+        const index =
+            Number(idx);
+
+
+        if(chapters[index]){
+
+            chapters[index] = {
+
+                ...chapters[index],
+
+                name:name
+
+            };
+
+        }
+
+    }else{
+
+        chapters.push({
+
+            name:name,
+
+            contents:[]
+
+        });
+
+    }
+
+
+    try{
+
+        await saveFullCourse(c);
+
+        clearChapter();
+
+        render();
+
+
+        alert(
+            "✅ Chapter Firebase में save हो गया!"
+        );
+
+
+    }catch(error){
+
+        console.error(error);
+
+
+        alert(
+            "❌ Chapter save error:\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   EDIT CHAPTER
+===================================================== */
+
+window.editChapter =
+function(ci,si,hi){
+
+    const c =
+        courses.find(
+            x=>
+            String(x.id) ===
+            String(ci)
+        );
+
+
+    if(
+        !c ||
+        !c.subjects?.[si] ||
+        !c.subjects[si].chapters?.[hi]
+    ){
+
+        return;
+
+    }
+
+
+    chapterCourse.value =
+        ci;
+
+
+    loadSubjects();
+
+
+    chapterSubject.value =
+        String(si);
+
+
+    chapterIndex.value =
+        String(hi);
+
+
+    chapterName.value =
+        c.subjects[si]
+        .chapters[hi]
+        .name || "";
+
+
+    showTab(
+        "chapters",
+        document.querySelector(
+            ".tabs button:nth-child(3)"
+        )
+    );
+
+};
+
+
+/* =====================================================
+   DELETE CHAPTER
+===================================================== */
+
+window.delChapter =
+async function(ci,si,hi){
+
+    const c =
+        courses.find(
+            x=>
+            String(x.id) ===
+            String(ci)
+        );
+
+
+    if(!c)return;
+
+
+    const chapter =
+        c.subjects?.[si]?.chapters?.[hi];
+
+
+    if(!chapter)return;
+
+
+    const ok =
+        confirm(
+
+            `⚠️ Chapter delete करना है?\n\n` +
+
+            `Chapter: ${chapter.name}\n\n` +
+
+            `इस Chapter का पूरा data delete हो जाएगा।`
+
+        );
+
+
+    if(!ok)return;
+
+
+    try{
+
+        c.subjects[si]
+         .chapters
+         .splice(
+             hi,
+             1
+         );
+
+
+        await saveFullCourse(c);
+
+
+        render();
+
+
+        alert(
+            "✅ Chapter और उसका पूरा data delete हो गया!"
+        );
+
+
+    }catch(error){
+
+        console.error(error);
+
+
+        alert(
+            "❌ Chapter delete failed:\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   CLEAR CHAPTER
+===================================================== */
+
+window.clearChapter =
+function(){
+
+    chapterIndex.value =
+        "";
+
+    chapterName.value =
+        "";
+
+};
+
+
+/* =====================================================
+   SYNC LOCAL
+===================================================== */
+
+window.syncLocalCourses =
+async function(){
+
+    const local =
+        loadLocal();
+
+
+    if(
+        !Array.isArray(local) ||
+        !local.length
+    ){
+
+        alert(
+            "❌ LocalStorage में कोई course नहीं मिला।"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !confirm(
+            `${local.length} local courses Firebase में sync करें?`
+        )
+    ){
+
+        return;
+
+    }
+
+
+    try{
+
+        courseStatus.textContent =
+            "⏳ Local courses Firebase में sync हो रहे हैं...";
+
+
+        const batch =
+            writeBatch(db);
+
+
+        const normalized =
+            local.map(
+                c=>
+                normalizeCourse(
+                    c,
+                    c.id
+                )
+            );
+
+
+        normalized.forEach(
+            c=>{
+
+                const ref =
+                    doc(
+                        db,
+                        "courses",
+                        String(c.id)
+                    );
+
+
+                batch.set(
+
+                    ref,
+
+                    {
+
+                        ...c,
+
+                        updatedAt:
+                            new Date().toISOString()
+
+                    },
+
+                    {
+                        merge:true
+                    }
+
+                );
+
+            }
+        );
+
+
+        await batch.commit();
+
+
+        courses =
+            normalized;
+
+
+        saveLocal();
+
+        render();
+
+
+        firebaseReady = true;
+
+
+        courseStatus.className =
+            "status ok";
+
+
+        courseStatus.textContent =
+            "✅ सभी local courses Firebase में sync हो गए।";
+
+
+        alert(
+            "✅ सभी courses Firebase में successfully sync हो गए!"
+        );
+
+
+    }catch(error){
+
+        console.error(error);
+
+
+        courseStatus.className =
+            "status error";
+
+
+        courseStatus.textContent =
+            "❌ Sync Error:\n" +
+            error.message;
+
+
+        alert(
+            "❌ Firebase sync failed:\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   RENDER
+===================================================== */
+
+function render(){
+
+    fillCourses();
+
+
+    courseList.innerHTML =
+
+        courses.map(
+            c=>{
+
+                const paid =
+                    c.accessType === "paid" ||
+                    c.isPaid === true;
+
+
+                const testSeries =
+                    c.type === "test-pass" ||
+                    c.courseType === "test-pass" ||
+                    c.testPass === true;
+
+
+                const subjectsCount =
+                    Array.isArray(c.subjects)
+                    ?
+                    c.subjects.length
+                    :
+                    0;
+
+
+                const chaptersCount =
+                    Array.isArray(c.subjects)
+                    ?
+                    c.subjects.reduce(
+                        (total,s)=>
+                            total +
+                            (
+                                Array.isArray(
+                                    s.chapters
+                                )
+                                ?
+                                s.chapters.length
+                                :
+                                0
+                            ),
+                        0
+                    )
+                    :
+                    0;
+
+
+                return `
+
+                <div class="item">
+
+                    <b>
+                        ${esc(c.name)}
+                    </b>
+
+                    <span class="muted">
+                        (${esc(c.exam || "SSC")})
+                    </span>
+
+                    <br><br>
+
+                    ${
+                        paid
+
+                        ?
+
+                        `<span class="badge badge-paid">
+                            💳 PAID ₹${Number(c.price || 0)}
+                        </span>`
+
+                        :
+
+                        `<span class="badge badge-free">
+                            🆓 FREE
+                        </span>`
+                    }
+
+
+                    ${
+                        testSeries
+
+                        ?
+
+                        `<span class="badge badge-test">
+                            🎟️ TEST SERIES
+                        </span>`
+
+                        :
+
+                        `<span class="badge badge-normal">
+                            📚 COURSE
+                        </span>`
+                    }
+
+
+                    <div
+                        class="small muted"
+                        style="margin-top:8px"
+                    >
+
+                        📘 Subjects:
+                        ${subjectsCount}
+
+                        &nbsp;&nbsp;
+
+                        📖 Chapters:
+                        ${chaptersCount}
+
+                    </div>
+
+
+                    <div
+                        class="small muted"
+                        style="margin-top:8px"
+                    >
+
+                        ID:
+                        ${esc(c.id)}
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <button
+                            onclick="editCourse('${esc(c.id)}')"
+                        >
+                            ✏️ Edit
+                        </button>
+
+
+                        <button
+                            class="danger"
+                            onclick="delCourse('${esc(c.id)}')"
+                        >
+                            🗑️ Delete Full Course
+                        </button>
+
+                    </div>
+
+                </div>
+
+                `;
+
+            }
+        )
+        .join("")
+
+
+        ||
+
+        `<div class="empty">
+            कोई course नहीं है। नया course बनाएं।
+        </div>`;
+
+
+    subjectList.innerHTML =
+
+        courses.flatMap(
+
+            c=>
+
+            (c.subjects || [])
+            .map(
+
+                (s,i)=>
+
+                `
+
+                <div class="item">
+
+                    <b>
+                        ${esc(s.name)}
+                    </b>
+
+                    <div class="muted small">
+
+                        Course:
+                        ${esc(c.name)}
+
+                    </div>
+
+
+                    <button
+                        onclick="editSubject('${esc(c.id)}',${i})"
+                    >
+                        ✏️ Edit
+                    </button>
+
+
+                    <button
+                        class="danger"
+                        onclick="delSubject('${esc(c.id)}',${i})"
+                    >
+                        🗑️ Delete Subject + Chapters
+                    </button>
+
+                </div>
+
+                `
+
+            )
+
+        )
+        .join("")
+
+
+        ||
+
+        `<div class="empty">
+            No subjects
+        </div>`;
+
+
+    chapterList.innerHTML =
+
+        courses.flatMap(
+
+            c=>
+
+            (c.subjects || []).flatMap(
+
+                (s,si)=>
+
+                (s.chapters || [])
+                .map(
+
+                    (h,hi)=>
+
+                    `
+
+                    <div class="item">
+
+                        <b>
+                            ${esc(h.name)}
+                        </b>
+
+
+                        <div class="muted small">
+
+                            ${esc(c.name)}
+                            →
+                            ${esc(s.name)}
+
+                        </div>
+
+
+                        <button
+                            onclick="editChapter('${esc(c.id)}',${si},${hi})"
+                        >
+                            ✏️ Edit
+                        </button>
+
+
+                        <button
+                            class="danger"
+                            onclick="delChapter('${esc(c.id)}',${si},${hi})"
+                        >
+                            🗑️ Delete Full Chapter
+                        </button>
+
+                    </div>
+
+                    `
+
+                )
+
+            )
+
+        )
+        .join("")
+
+
+        ||
+
+        `<div class="empty">
+            No chapters
+        </div>`;
+
+}
+
+
+/* =====================================================
+   FILL COURSES
+===================================================== */
+
+function fillCourses(){
+
+    const oldSubject =
+        subjectCourse.value;
+
+
+    const oldChapter =
+        chapterCourse.value;
+
+
+    subjectCourse.innerHTML =
+
+        courses.map(
+
+            c=>
+
+            `<option value="${esc(c.id)}">
+                ${esc(c.name)}
+            </option>`
+
+        )
+        .join("");
+
+
+    chapterCourse.innerHTML =
+
+        courses.map(
+
+            c=>
+
+            `<option value="${esc(c.id)}">
+                ${esc(c.name)}
+            </option>`
+
+        )
+        .join("");
+
+
+    if(
+        courses.some(
+            c=>
+            String(c.id) ===
+            String(oldSubject)
+        )
+    ){
+
+        subjectCourse.value =
+            oldSubject;
+
+    }
+
+
+    if(
+        courses.some(
+            c=>
+            String(c.id) ===
+            String(oldChapter)
+        )
+    ){
+
+        chapterCourse.value =
+            oldChapter;
+
+    }
+
+
+    loadSubjects();
+
+}
+
+
+/* =====================================================
+   TABS
+===================================================== */
+
+window.showTab =
+function(id,btn){
+
+    document
+        .querySelectorAll(
+            "section"
+        )
+        .forEach(
+            x=>
+            x.classList.add(
+                "hidden"
+            )
+        );
+
+
+    const section =
+        document.getElementById(
+            id
+        );
+
+
+    if(section){
+
+        section.classList.remove(
+            "hidden"
+        );
+
+    }
+
+
+    document
+        .querySelectorAll(
+            ".tabs button"
+        )
+        .forEach(
+            x=>
+            x.classList.remove(
+                "active"
+            )
+        );
+
+
+    if(btn){
+
+        btn.classList.add(
+            "active"
+        );
+
+    }
+
+
+    render();
+
+};
+
+
+/* =====================================================
+   COURSE CHANGE
+===================================================== */
+
+chapterCourse.addEventListener(
+    "change",
+    function(){
+
+        chapterIndex.value =
+            "";
+
+        loadSubjects();
+
+    }
+);
+
+
+/* =====================================================
+   SUBJECT COURSE CHANGE
+===================================================== */
+
+subjectCourse.addEventListener(
+    "change",
+    function(){
+
+        subjectIndex.value =
+            "";
+
+    }
+);
+
+
+/* =====================================================
+   START
+===================================================== */
+
+if(!isAdminLoggedIn()){
+
+    setTimeout(
+        function(){
+
+            if(!isAdminLoggedIn()){
+
+                location.href =
+                    "admin-login.html";
+
+            }
+
+        },
+        150
+    );
+
+}else{
+
+    syncPricing();
+
+    loadFirebaseCourses();
+
+}
+
+</script></body></html>

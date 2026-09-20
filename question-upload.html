@@ -1,0 +1,1233 @@
+<!doctype html>
+<html lang="hi">
+
+<head>
+
+<meta charset="utf-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+>
+
+<title>RM Vidya Peeth - Question List Upload</title>
+
+<style>
+
+*{
+    box-sizing:border-box
+}
+
+body{
+    margin:0;
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial,sans-serif
+}
+
+.wrap{
+    max-width:1000px;
+    margin:auto;
+    padding:18px 14px 60px
+}
+
+.head,
+.box{
+    background:#1e293b;
+    border-radius:15px;
+    padding:18px;
+    margin-bottom:16px
+}
+
+h1,
+h2,
+h3{
+    margin-top:0
+}
+
+.muted{
+    color:#cbd5e1;
+    line-height:1.5
+}
+
+label{
+    display:block;
+    font-weight:700;
+    margin-top:12px
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:12px;
+    margin-top:7px;
+    border-radius:8px;
+    border:1px solid #475569;
+    background:#fff;
+    color:#111
+}
+
+.btn{
+    width:100%;
+    padding:12px;
+    border:0;
+    border-radius:9px;
+    background:#2563eb;
+    color:#fff;
+    font-weight:700;
+    margin-top:12px;
+    cursor:pointer
+}
+
+.green{
+    background:#16a34a
+}
+
+.gray{
+    background:#475569
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px
+}
+
+@media(max-width:650px){
+
+    .grid{
+        grid-template-columns:1fr
+    }
+
+}
+
+.status{
+    background:#334155;
+    padding:12px;
+    border-radius:9px;
+    margin-top:12px;
+    white-space:pre-wrap
+}
+
+.preview{
+    max-height:320px;
+    overflow:auto;
+    background:#fff;
+    color:#111;
+    border-radius:10px;
+    padding:10px;
+    margin-top:12px
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:12px
+}
+
+th,
+td{
+    border:1px solid #ddd;
+    padding:6px;
+    text-align:left
+}
+
+code{
+    background:#0f172a;
+    padding:2px 5px;
+    border-radius:4px
+}
+
+.the-hub-copyright{
+    text-align:center;
+    color:#94a3b8;
+    padding:18px 10px;
+    font-size:13px;
+    background:#0f172a;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="wrap">
+
+
+    <div class="head">
+
+        <h1>
+            📥 RM Vidya Peeth - Question List Upload
+        </h1>
+
+        <p class="muted">
+
+            <strong>By Ranjan Mishra Sir</strong><br>
+
+            Manual Add Question भी रहेगा और इस page से पूरी list
+            एक साथ Firebase <code>mockQuestions</code> में जाएगी.
+
+        </p>
+
+
+        <button
+            class="btn gray"
+            onclick="location.href='mock-management.html'"
+        >
+            ← Back to Test Management
+        </button>
+
+    </div>
+
+
+
+    <div class="box">
+
+        <h3>
+            1️⃣ Test Details
+        </h3>
+
+
+        <div class="grid">
+
+
+            <div>
+
+                <label>
+                    Exam Category
+                </label>
+
+                <input
+                    id="category"
+                    placeholder="SSC"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Exam Name
+                </label>
+
+                <input
+                    id="examName"
+                    placeholder="SSC CGL"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Test Type
+                </label>
+
+                <select id="testType">
+
+                    <option value="Chapter">
+                        Chapter
+                    </option>
+
+                    <option value="Sectional">
+                        Sectional
+                    </option>
+
+                    <option value="Full">
+                        Full
+                    </option>
+
+                    <option value="PYQ">
+                        PYQ
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Test Name / Number
+                </label>
+
+                <input
+                    id="testName"
+                    placeholder="CGL Full Test 1"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Subject (optional)
+                </label>
+
+                <input
+                    id="subject"
+                    placeholder="Mathematics"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Chapter (optional)
+                </label>
+
+                <input
+                    id="chapter"
+                    placeholder="Percentage"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Test Time (minutes)
+                </label>
+
+                <input
+                    id="testTime"
+                    type="number"
+                    min="1"
+                    value="60"
+                >
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <div class="box">
+
+        <h3>
+            2️⃣ Question List
+        </h3>
+
+
+        <p class="muted">
+
+            CSV columns:
+            <code>
+                question,optionA,optionB,optionC,optionD,correctAnswer,solution
+            </code>
+
+            <br>
+
+            correctAnswer में
+            <code>A/B/C/D</code>
+            या
+            <code>0/1/2/3</code>
+            दे सकते हैं।
+
+            JSON में array of objects भी upload कर सकते हैं।
+
+        </p>
+
+
+        <button
+            class="btn"
+            type="button"
+            onclick="downloadTemplate()"
+        >
+            ⬇️ CSV Template Download
+        </button>
+
+
+        <label>
+            CSV / JSON File
+        </label>
+
+
+        <input
+            id="file"
+            type="file"
+            accept=".csv,.json,text/csv,application/json"
+        >
+
+
+        <label>
+            या List यहाँ Paste करें
+        </label>
+
+
+        <textarea
+            id="paste"
+            rows="8"
+            placeholder="question,optionA,optionB,optionC,optionD,correctAnswer,solution&#10;भारत की राजधानी क्या है?,दिल्ली,मुंबई,पटना,जयपुर,A,दिल्ली भारत की राजधानी है"
+        ></textarea>
+
+
+        <button
+            class="btn"
+            id="previewBtn"
+        >
+            👀 Preview Questions
+        </button>
+
+
+        <div
+            id="preview"
+            class="preview"
+            style="display:none"
+        ></div>
+
+    </div>
+
+
+
+    <div class="box">
+
+        <h3>
+            3️⃣ Firebase में Add
+        </h3>
+
+
+        <button
+            class="btn green"
+            id="uploadBtn"
+            disabled
+        >
+            🚀 Add All Questions to Test
+        </button>
+
+
+        <div
+            id="status"
+            class="status"
+        >
+            पहले file select करें या list paste करके Preview करें।
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<script type="module">
+
+import {
+    db
+}
+from "./firebase-config.js";
+
+
+import {
+    collection,
+    writeBatch,
+    doc
+}
+from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+
+(function(){
+
+    const valid =
+
+        (
+            localStorage.getItem("adminLoggedIn")==="true" &&
+            ["master","normal"].includes(
+                localStorage.getItem("adminType")
+            )
+        )
+
+        ||
+
+        (
+            localStorage.getItem("ssc_logged_in")==="true" &&
+            ["master_admin","admin"].includes(
+                localStorage.getItem("ssc_login_type")
+            )
+        );
+
+
+    if(!valid){
+
+        location.href="admin-login.html";
+
+    }
+
+})();
+
+
+
+let parsed=[];
+
+
+
+function esc(s){
+
+    return String(s??"").replace(
+        /[&<>"']/g,
+
+        m => ({
+            "&":"&amp;",
+            "<":"&lt;",
+            ">":"&gt;",
+            '"':"&quot;",
+            "'":"&#039;"
+        }[m])
+    );
+
+}
+
+
+
+function csvParse(text){
+
+    const rows=[];
+
+    let row=[],
+        cell="",
+        quote=false;
+
+
+    for(
+        let i=0;
+        i<text.length;
+        i++
+    ){
+
+        const c=text[i],
+              n=text[i+1];
+
+
+        if(c==='"'){
+
+            if(
+                quote &&
+                n==='"'
+            ){
+
+                cell+='"';
+                i++;
+
+            }else{
+
+                quote=!quote;
+
+            }
+
+        }
+
+        else if(
+            c===',' &&
+            !quote
+        ){
+
+            row.push(cell);
+            cell="";
+
+        }
+
+        else if(
+            (
+                c==='\n' ||
+                c==='\r'
+            ) &&
+            !quote
+        ){
+
+            if(
+                c==='\r' &&
+                n==='\n'
+            ){
+
+                i++;
+
+            }
+
+
+            row.push(cell);
+            cell="";
+
+
+            if(
+                row.some(
+                    x =>
+                    String(x).trim()!==""
+                )
+            ){
+
+                rows.push(row);
+
+            }
+
+
+            row=[];
+
+        }
+
+        else{
+
+            cell+=c;
+
+        }
+
+    }
+
+
+    if(
+        cell!=="" ||
+        row.length
+    ){
+
+        row.push(cell);
+
+
+        if(
+            row.some(
+                x =>
+                String(x).trim()!==""
+            )
+        ){
+
+            rows.push(row);
+
+        }
+
+    }
+
+
+    if(!rows.length)
+        return [];
+
+
+    const headers =
+        rows[0].map(
+            x =>
+            String(x)
+            .trim()
+            .replace(/^\uFEFF/,"")
+        );
+
+
+    return rows.slice(1).map(r=>{
+
+        const o={};
+
+        headers.forEach(
+            (h,i)=>
+            o[h]=r[i]??""
+        );
+
+        return o;
+
+    });
+
+}
+
+
+
+function normalize(item){
+
+    const get=(...keys)=>{
+
+        for(
+            const k of keys
+        ){
+
+            if(
+                item[k]!==undefined
+            )
+                return item[k];
+
+        }
+
+        return "";
+
+    };
+
+
+    let opts =
+        get("options");
+
+
+    if(
+        typeof opts==="string"
+    ){
+
+        try{
+
+            opts=JSON.parse(opts);
+
+        }catch(_){
+
+            opts=opts.split("|");
+
+        }
+
+    }
+
+
+    if(!Array.isArray(opts)){
+
+        opts=[
+
+            get(
+                "optionA",
+                "A",
+                "a"
+            ),
+
+            get(
+                "optionB",
+                "B",
+                "b"
+            ),
+
+            get(
+                "optionC",
+                "C",
+                "c"
+            ),
+
+            get(
+                "optionD",
+                "D",
+                "d"
+            )
+
+        ];
+
+    }
+
+
+    let ca =
+        String(
+            get(
+                "correctAnswer",
+                "answer",
+                "correct"
+            )
+        )
+        .trim()
+        .toUpperCase();
+
+
+    if(
+        ["A","B","C","D"].includes(ca)
+    ){
+
+        ca =
+            String(
+                "ABCD".indexOf(ca)
+            );
+
+    }
+
+
+    return {
+
+        question:
+            String(
+                get(
+                    "question",
+                    "Question"
+                )
+            ).trim(),
+
+        options:
+            opts.map(
+                x =>
+                String(x??"").trim()
+            ),
+
+        correctAnswer:
+            ca,
+
+        solution:
+            String(
+                get(
+                    "solution",
+                    "explanation",
+                    "analysis"
+                )
+            ).trim()
+
+    };
+
+}
+
+
+
+function addMeta(q){
+
+    return {
+
+        category:
+            document
+            .getElementById("category")
+            .value.trim(),
+
+        examName:
+            document
+            .getElementById("examName")
+            .value.trim(),
+
+        testType:
+            document
+            .getElementById("testType")
+            .value,
+
+        testName:
+            document
+            .getElementById("testName")
+            .value.trim(),
+
+        subject:
+            document
+            .getElementById("subject")
+            .value.trim(),
+
+        chapter:
+            document
+            .getElementById("chapter")
+            .value.trim(),
+
+        testTime:
+            Number(
+                document
+                .getElementById("testTime")
+                .value || 60
+            ),
+
+        question:
+            q.question,
+
+        options:
+            q.options,
+
+        correctAnswer:
+            q.correctAnswer,
+
+        solution:
+            q.solution,
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+
+}
+
+
+
+function showPreview(){
+
+    const box =
+        document.getElementById("preview");
+
+
+    if(!parsed.length){
+
+        box.style.display="block";
+
+        box.innerHTML =
+            "<b>❌ कोई valid question नहीं मिला.</b>";
+
+        document
+            .getElementById("uploadBtn")
+            .disabled=true;
+
+        return;
+
+    }
+
+
+    box.style.display="block";
+
+
+    box.innerHTML=
+
+        "<table>" +
+
+        "<thead>" +
+
+        "<tr>" +
+
+        "<th>#</th>" +
+
+        "<th>Question</th>" +
+
+        "<th>A</th>" +
+
+        "<th>B</th>" +
+
+        "<th>C</th>" +
+
+        "<th>D</th>" +
+
+        "<th>Ans</th>" +
+
+        "</tr>" +
+
+        "</thead>" +
+
+        "<tbody>" +
+
+        parsed
+        .slice(0,100)
+        .map(
+            (q,i)=>`
+
+                <tr>
+
+                    <td>
+                        ${i+1}
+                    </td>
+
+                    <td>
+                        ${esc(q.question)}
+                    </td>
+
+                    ${q.options
+                        .slice(0,4)
+                        .map(
+                            x =>
+                            `<td>${esc(x)}</td>`
+                        )
+                        .join("")
+                    }
+
+                    <td>
+                        ${esc(q.correctAnswer)}
+                    </td>
+
+                </tr>
+
+            `
+        )
+        .join("") +
+
+        "</tbody>" +
+
+        "</table>" +
+
+        (
+            parsed.length>100
+            ?
+            `<p>
+                पहले 100 preview दिखाए गए.
+                Total: ${parsed.length}
+            </p>`
+            :
+            ""
+        );
+
+
+    document
+        .getElementById("uploadBtn")
+        .disabled=false;
+
+
+    document
+        .getElementById("status")
+        .textContent=
+
+        `✅ ${parsed.length} questions ready. Upload button दबाएँ.`;
+
+}
+
+
+
+document
+.getElementById("previewBtn")
+.onclick=async()=>{
+
+    try{
+
+        const file =
+            document
+            .getElementById("file")
+            .files[0];
+
+
+        let raw="";
+
+
+        if(file){
+
+            raw =
+                await file.text();
+
+        }
+
+        else{
+
+            raw =
+                document
+                .getElementById("paste")
+                .value.trim();
+
+        }
+
+
+        if(!raw){
+
+            throw new Error(
+                "File या pasted list दें."
+            );
+
+        }
+
+
+        let data;
+
+
+        if(
+            (
+                file &&
+                file.name
+                .toLowerCase()
+                .endsWith(".json")
+            )
+            ||
+            raw.trim().startsWith("[")
+        ){
+
+            data=JSON.parse(raw);
+
+        }
+
+        else{
+
+            data=csvParse(raw);
+
+        }
+
+
+        if(!Array.isArray(data)){
+
+            throw new Error(
+                "CSV/JSON में questions की list चाहिए."
+            );
+
+        }
+
+
+        parsed =
+            data
+            .map(normalize)
+            .filter(
+                q =>
+                q.question &&
+                q.options.length>=4 &&
+                q.options
+                .slice(0,4)
+                .every(Boolean)
+            );
+
+
+        showPreview();
+
+
+    }catch(e){
+
+        parsed=[];
+
+        document
+            .getElementById("uploadBtn")
+            .disabled=true;
+
+
+        document
+            .getElementById("status")
+            .textContent=
+            "❌ "+e.message;
+
+    }
+
+};
+
+
+
+document
+.getElementById("uploadBtn")
+.onclick=async()=>{
+
+    if(!parsed.length)
+        return;
+
+
+    const btn =
+        document
+        .getElementById("uploadBtn");
+
+
+    btn.disabled=true;
+
+
+    const status =
+        document
+        .getElementById("status");
+
+
+    try{
+
+        const items =
+            parsed.map(addMeta);
+
+
+        let total=0;
+
+
+        for(
+            let start=0;
+            start<items.length;
+            start+=450
+        ){
+
+            const batch =
+                writeBatch(db);
+
+
+            items
+            .slice(
+                start,
+                start+450
+            )
+            .forEach(
+                item =>
+                batch.set(
+                    doc(
+                        collection(
+                            db,
+                            "mockQuestions"
+                        )
+                    ),
+                    item
+                )
+            );
+
+
+            await batch.commit();
+
+
+            total += Math.min(
+                450,
+                items.length-start
+            );
+
+
+            status.textContent =
+                `⏳ ${total}/${items.length} questions Firebase में add हो रहे हैं...`;
+
+        }
+
+
+        status.textContent =
+            `✅ ${total} questions successfully added to mockQuestions. अब Test Management/Student Mock Test में दिखाई देंगे.`;
+
+
+        parsed=[];
+
+
+        document
+            .getElementById("preview")
+            .style.display="none";
+
+
+    }catch(e){
+
+        console.error(e);
+
+
+        status.textContent =
+            "❌ Upload failed: "+e.message;
+
+    }finally{
+
+        btn.disabled=false;
+
+    }
+
+};
+
+
+
+window.downloadTemplate=function(){
+
+    const csv =
+        'question,optionA,optionB,optionC,optionD,correctAnswer,solution\n' +
+        '"2 + 2 कितना है?","3","4","5","6","B","क्योंकि 2 + 2 = 4"';
+
+
+    const a =
+        document.createElement("a");
+
+
+    a.href =
+        URL.createObjectURL(
+            new Blob(
+                [csv],
+                {
+                    type:"text/csv"
+                }
+            )
+        );
+
+
+    a.download =
+        "mock-questions-template.csv";
+
+
+    a.click();
+
+
+    URL.revokeObjectURL(
+        a.href
+    );
+
+};
+
+})();
+
+</script>
+
+
+
+<footer
+    class="the-hub-copyright"
+    aria-label="Copyright"
+>
+
+    <div style="font-weight:bold;">
+        RM Vidya Peeth
+    </div>
+
+    <div style="margin-top:5px;">
+        By Ranjan Mishra Sir
+    </div>
+
+    <div style="margin-top:5px;">
+        © 2026 RM Vidya Peeth. All Rights Reserved.
+    </div>
+
+</footer>
+
+
+</body>
+</html>

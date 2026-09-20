@@ -1,0 +1,673 @@
+<!DOCTYPE html><html lang="hi"><head><meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>RM Vidya Peeth - Downloads</title>
+
+<link
+    rel="stylesheet"
+    href="style.css"
+>
+
+<style>
+
+    body {
+        margin: 0;
+        background: #0f172a;
+        color: white;
+        font-family: Arial, sans-serif;
+    }
+
+    .downloads-page {
+        max-width: 1000px;
+        margin: auto;
+        padding: 20px 15px 70px;
+    }
+
+    .downloads-header {
+        background: #1e293b;
+        padding: 22px;
+        border-radius: 16px;
+        margin-bottom: 20px;
+    }
+
+    .downloads-header h1 {
+        margin: 0 0 8px;
+    }
+
+    .downloads-header p {
+        margin: 0;
+        color: #cbd5e1;
+    }
+
+    .brand-tagline {
+        color: #60a5fa;
+        font-size: 14px;
+        font-weight: 600;
+        margin-top: 5px;
+    }
+
+    .back-btn {
+        padding: 10px 18px;
+        margin-bottom: 20px;
+        border: none;
+        border-radius: 8px;
+        background: #334155;
+        color: white;
+        cursor: pointer;
+        font-size: 15px;
+    }
+
+    .back-btn:hover {
+        background: #475569;
+    }
+
+    .resource-list {
+        display: grid;
+        gap: 14px;
+    }
+
+    .resource-card {
+        background: #1e293b;
+        border: 1px solid #334155;
+        border-radius: 14px;
+        padding: 18px;
+    }
+
+    .resource-card h3 {
+        margin: 0 0 8px;
+    }
+
+    .resource-source {
+        display: inline-block;
+        margin-bottom: 10px;
+        padding: 5px 9px;
+        border-radius: 999px;
+        background: #334155;
+        color: #cbd5e1;
+        font-size: 12px;
+    }
+
+    .resource-card p {
+        margin: 0 0 12px;
+        color: #cbd5e1;
+        font-size: 14px;
+    }
+
+    .resource-btn {
+        display: inline-block;
+        padding: 10px 16px;
+        border: none;
+        border-radius: 8px;
+        background: #2563eb;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .resource-btn:hover {
+        background: #1d4ed8;
+    }
+
+    .download-btn {
+        margin-left: 8px;
+    }
+
+    .local-note {
+        display: inline-block;
+        margin-left: 8px;
+        padding: 10px 12px;
+        border-radius: 8px;
+        background: #334155;
+        color: #cbd5e1;
+        font-size: 13px;
+    }
+
+    .empty-box {
+        background: #1e293b;
+        border: 1px solid #334155;
+        padding: 30px 20px;
+        border-radius: 14px;
+        text-align: center;
+        color: #cbd5e1;
+    }
+
+    .loading {
+        text-align: center;
+        color: #cbd5e1;
+        padding: 20px;
+    }
+
+    .site-footer {
+        text-align: center;
+        padding: 22px 10px;
+        color: #94a3b8;
+        font-size: 13px;
+        background: #0f172a;
+    }
+
+    .site-footer strong {
+        display: block;
+        color: #60a5fa;
+        font-size: 15px;
+        margin-bottom: 4px;
+    }
+
+    .site-footer span {
+        display: block;
+        font-size: 11px;
+        margin-bottom: 5px;
+    }
+
+    @media(max-width:600px){
+
+        .downloads-page{
+            padding:15px 12px 60px;
+        }
+
+        .downloads-header{
+            padding:18px;
+        }
+
+        .download-btn{
+            margin-left:0;
+            margin-top:8px;
+        }
+
+        .local-note{
+            margin-left:0;
+            margin-top:8px;
+        }
+
+    }
+
+</style>
+
+</head><body><div class="downloads-page"><!-- HEADER -->
+
+<div class="downloads-header">
+
+    <h1>
+        📥 RM Vidya Peeth Downloads
+    </h1>
+
+    <div class="brand-tagline">
+        By Ranjan Mishra Sir
+    </div>
+
+    <p>
+        अपने Notes, PDFs और अन्य study resources यहाँ देखें।
+    </p>
+
+</div>
+
+
+<!-- BACK -->
+
+<button
+    class="back-btn"
+    onclick="goDashboard()"
+>
+    ← Student Dashboard
+</button>
+
+
+<!-- RESOURCES -->
+
+<div id="resourceContainer">
+
+    <div class="loading">
+        📥 Resources loading...
+    </div>
+
+</div>
+
+</div><script>
+
+
+    // =================================================
+    // LOGIN CHECK
+    // =================================================
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            const loggedIn =
+                localStorage.getItem(
+                    "studentLoggedIn"
+                );
+
+            const student =
+                localStorage.getItem(
+                    "studentUser"
+                );
+
+
+            if (
+                loggedIn !== "true" ||
+                !student
+            ) {
+
+                window.location.href =
+                    "login.html";
+
+                return;
+
+            }
+
+
+            loadResources();
+
+        }
+    );
+
+
+    // =================================================
+    // LOAD RESOURCES
+    // =================================================
+
+    async function loadResources() {
+
+        const container =
+            document.getElementById(
+                "resourceContainer"
+            );
+
+        let localResources = [];
+
+
+        try {
+
+            localResources =
+                JSON.parse(
+                    localStorage.getItem(
+                        "pdfs"
+                    ) || "[]"
+                ) || [];
+
+        }
+        catch (error) {
+
+            console.log(
+                "Local PDF error:",
+                error
+            );
+
+        }
+
+
+        // Only PDFs are shown here.
+        // Videos never get a download button.
+
+        localResources =
+            localResources.filter(
+                function(resource) {
+
+                    return resource &&
+                        (
+                            String(
+                                resource.type || ""
+                            )
+                            .toLowerCase() === "pdf"
+
+                            ||
+
+                            String(
+                                resource.url || ""
+                            )
+                            .toLowerCase()
+                            .includes(".pdf")
+
+                            ||
+
+                            resource.source === "local"
+
+                            ||
+
+                            resource.source === "firestore"
+                        );
+
+                }
+            );
+
+
+        let firestoreResources = [];
+
+
+        try {
+
+            const firebase =
+                await import(
+                    "./firebase-config.js"
+                );
+
+
+            const firestore =
+                await import(
+                    "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js"
+                );
+
+
+            const snapshot =
+                await firestore.getDocs(
+                    firestore.collection(
+                        firebase.db,
+                        "pdfs"
+                    )
+                );
+
+
+            snapshot.forEach(
+                function(docSnap) {
+
+                    firestoreResources.push({
+
+                        id:
+                            "fs_" +
+                            docSnap.id,
+
+                        firestoreId:
+                            docSnap.id,
+
+                        source:
+                            "firestore",
+
+                        ...(docSnap.data() || {})
+
+                    });
+
+                }
+            );
+
+        }
+        catch (error) {
+
+            // Local PDFs should continue
+            // if Firestore is unavailable.
+
+            console.log(
+                "Firestore PDF load skipped:",
+                error
+            );
+
+        }
+
+
+        // Merge Firestore + local records
+        // without duplicate Firestore PDFs.
+
+        const firestoreIds =
+            new Set(
+                firestoreResources.map(
+                    r =>
+                        String(
+                            r.firestoreId || ""
+                        )
+                )
+            );
+
+
+        const resources = [
+
+            ...firestoreResources,
+
+            ...localResources.filter(
+                function(r) {
+
+                    return (
+                        !r.firestoreId
+                        ||
+                        !firestoreIds.has(
+                            String(
+                                r.firestoreId
+                            )
+                        )
+                    );
+
+                }
+            )
+
+        ];
+
+
+        if(resources.length === 0){
+
+            container.innerHTML = `
+
+                <div class="empty-box">
+
+                    📥 अभी कोई PDF या Study Resource available नहीं है।
+
+                    <br><br>
+
+                    Admin द्वारा PDF add होने के बाद यहाँ दिखाई देंगे।
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        container.innerHTML = `
+
+            <div class="resource-list">
+
+                ${resources.map(
+                    function(resource) {
+
+                        const title =
+                            resource.title
+                            ||
+                            resource.name
+                            ||
+                            "Study PDF";
+
+
+                        const description =
+                            resource.description
+                            ||
+                            "PDF Study Material";
+
+
+                        const url =
+                            resource.url
+                            ||
+                            resource.link
+                            ||
+                            resource.file
+                            ||
+                            "#";
+
+
+                        const source =
+                            resource.source === "firestore"
+
+                            ?
+
+                            "☁️ Firebase Storage + Firestore"
+
+                            :
+
+                            "💾 Local";
+
+
+                        return `
+
+                            <div class="resource-card">
+
+                                <h3>
+                                    📄 ${escapeHTML(title)}
+                                </h3>
+
+                                <span class="resource-source">
+                                    ${source}
+                                </span>
+
+                                <p>
+                                    ${escapeHTML(description)}
+                                </p>
+
+
+                                ${
+                                    url !== "#"
+
+                                    ?
+
+                                    `
+
+                                        <a
+                                            class="resource-btn"
+                                            href="${escapeAttr(url)}"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            📄 Open PDF
+                                        </a>
+
+
+                                        ${
+                                            resource.source === "firestore"
+
+                                            ?
+
+                                            `
+
+                                                <a
+                                                    class="resource-btn download-btn"
+                                                    href="${escapeAttr(url)}"
+                                                    download
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                >
+                                                    ⬇️ Download PDF
+                                                </a>
+
+                                            `
+
+                                            :
+
+                                            `
+
+                                                <span class="local-note">
+                                                    🔒 Local PDF — download disabled
+                                                </span>
+
+                                            `
+                                        }
+
+                                    `
+
+                                    :
+
+                                    `
+
+                                        <button
+                                            class="resource-btn"
+                                            onclick="alert('यह PDF अभी available नहीं है।')"
+                                        >
+                                            📄 PDF unavailable
+                                        </button>
+
+                                    `
+                                }
+
+                            </div>
+
+                        `;
+
+                    }
+                ).join("")}
+
+            </div>
+
+        `;
+
+    }
+
+
+    // =================================================
+    // ESCAPE HTML
+    // =================================================
+
+    function escapeHTML(value) {
+
+        return String(
+            value ?? ""
+        )
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+    }
+
+
+    function escapeAttr(value) {
+
+        return escapeHTML(
+            value
+        ).replace(
+            /`/g,
+            "&#096;"
+        );
+
+    }
+
+
+    // =================================================
+    // DASHBOARD
+    // =================================================
+
+    function goDashboard() {
+
+        window.location.href =
+            "dashboard.html";
+
+    }
+
+
+</script><!-- =====================================================
+     FOOTER
+===================================================== --><footer
+    class="site-footer"
+    aria-label="Copyright"
+><strong>
+    RM Vidya Peeth
+</strong>
+
+<span>
+    By Ranjan Mishra Sir
+</span>
+
+© 2026 RM Vidya Peeth. All Rights Reserved.
+
+</footer></body></html>

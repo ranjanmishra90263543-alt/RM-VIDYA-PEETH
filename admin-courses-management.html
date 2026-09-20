@@ -1,0 +1,3196 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>RM Vidya Peeth - Admin Course Management</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial,sans-serif;
+}
+
+.wrap{
+    max-width:1100px;
+    margin:auto;
+    padding:18px;
+}
+
+.head,
+.card{
+    background:#1e293b;
+    border:1px solid #334155;
+    border-radius:15px;
+    padding:18px;
+    margin-bottom:16px;
+}
+
+.head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+}
+
+.brand-title{
+    margin:0;
+    font-size:28px;
+}
+
+.tagline{
+    color:#38bdf8;
+    font-weight:bold;
+    margin-top:6px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+}
+
+.field{
+    margin:10px 0;
+}
+
+label{
+    display:block;
+    color:#cbd5e1;
+    margin-bottom:6px;
+    font-weight:bold;
+}
+
+input,
+select{
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #475569;
+    background:#0f172a;
+    color:#fff;
+    font-size:15px;
+}
+
+button{
+    border:0;
+    border-radius:8px;
+    padding:11px 14px;
+    color:#fff;
+    background:#2563eb;
+    font-weight:bold;
+    cursor:pointer;
+    margin:4px;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+button.danger{
+    background:#dc2626;
+}
+
+button.secondary{
+    background:#475569;
+}
+
+button.success{
+    background:#16a34a;
+}
+
+button.warning{
+    background:#d97706;
+}
+
+.row{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    align-items:center;
+}
+
+.list{
+    margin-top:15px;
+}
+
+.item{
+    background:#0f172a;
+    border:1px solid #334155;
+    border-radius:10px;
+    padding:14px;
+    margin:8px 0;
+}
+
+.muted{
+    color:#94a3b8;
+}
+
+.small{
+    font-size:13px;
+}
+
+.hidden{
+    display:none;
+}
+
+.tabs{
+    margin-bottom:16px;
+}
+
+.tabs button.active{
+    background:#0891b2;
+}
+
+.price-box{
+    background:#172554;
+    border:1px solid #1d4ed8;
+    border-radius:10px;
+    padding:14px;
+    margin-top:10px;
+}
+
+.validity-box{
+    background:#172554;
+    border:1px solid #7c3aed;
+    border-radius:10px;
+    padding:14px;
+    margin-top:16px;
+}
+
+.validity-title{
+    color:#c4b5fd;
+    font-weight:bold;
+    font-size:17px;
+    margin-bottom:8px;
+}
+
+.status{
+    background:#334155;
+    padding:12px;
+    border-radius:9px;
+    margin-top:12px;
+    white-space:pre-wrap;
+}
+
+.badge{
+    display:inline-block;
+    padding:4px 8px;
+    border-radius:6px;
+    font-size:12px;
+    font-weight:bold;
+    margin:2px;
+}
+
+.badge-free{
+    background:#14532d;
+    color:#86efac;
+}
+
+.badge-paid{
+    background:#78350f;
+    color:#fde68a;
+}
+
+.badge-test{
+    background:#164e63;
+    color:#67e8f9;
+}
+
+.badge-normal{
+    background:#312e81;
+    color:#c4b5fd;
+}
+
+.badge-active{
+    background:#14532d;
+    color:#86efac;
+}
+
+.badge-expired{
+    background:#7f1d1d;
+    color:#fecaca;
+}
+
+.badge-unlimited{
+    background:#164e63;
+    color:#67e8f9;
+}
+
+.badge-validity{
+    background:#4c1d95;
+    color:#ddd6fe;
+}
+
+.info{
+    background:#0c4a6e;
+    border:1px solid #0369a1;
+    color:#bae6fd;
+    padding:12px;
+    border-radius:9px;
+    margin-top:10px;
+    line-height:1.6;
+}
+
+.empty{
+    text-align:center;
+    padding:20px;
+    color:#94a3b8;
+}
+
+.no-question-box{
+    background:#3f1d1d;
+    border:1px solid #7f1d1d;
+    color:#fecaca;
+    padding:12px;
+    border-radius:9px;
+    margin-top:12px;
+    line-height:1.6;
+}
+
+.validity-info{
+    color:#cbd5e1;
+    font-size:13px;
+    line-height:1.6;
+    margin-top:8px;
+}
+
+@media(max-width:750px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .head{
+        display:block;
+    }
+
+    .brand-title{
+        font-size:23px;
+    }
+
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="wrap">
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<div class="head">
+
+    <div>
+
+        <h1 class="brand-title">
+            📚 RM Vidya Peeth
+        </h1>
+
+        <div class="tagline">
+            By Ranjan Mishra Sir
+        </div>
+
+        <div class="muted" style="margin-top:6px;">
+            Course, Subject और Chapter को manage करें।
+        </div>
+
+    </div>
+
+    <button
+        class="secondary"
+        onclick="location.href='admin.html'"
+    >
+        ← Admin Dashboard
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     IMPORTANT
+===================================================== -->
+
+<div class="no-question-box">
+
+    <b>🔒 Course Management का नियम</b>
+
+    <br><br>
+
+    इस page पर केवल:
+
+    <b>Course → Subject → Chapter</b>
+
+    manage किया जाएगा।
+
+    <br>
+
+    ❌ Question Select नहीं किया जाएगा।
+
+    <br>
+
+    ❌ Question Bank से Test नहीं बनाया जाएगा।
+
+    <br>
+
+    ❌ यहाँ Test बनाने का कोई option नहीं है।
+
+</div>
+
+
+<!-- =====================================================
+     TABS
+===================================================== -->
+
+<div class="tabs row">
+
+    <button
+        class="active"
+        onclick="showTab('courses',this)"
+    >
+        📚 Courses
+    </button>
+
+    <button
+        onclick="showTab('subjects',this)"
+    >
+        📘 Subjects
+    </button>
+
+    <button
+        onclick="showTab('chapters',this)"
+    >
+        📖 Chapters
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     COURSES
+===================================================== -->
+
+<section
+    id="courses"
+    class="card"
+>
+
+<h2>📚 Add / Edit Course</h2>
+
+<input
+    type="hidden"
+    id="courseId"
+>
+
+<div class="grid">
+
+    <div class="field">
+
+        <label>
+            Course / Test Series Name
+        </label>
+
+        <input
+            id="courseName"
+            placeholder="SSC Foundation / SSC Test Series"
+        >
+
+    </div>
+
+
+    <div class="field">
+
+        <label>
+            Exam
+        </label>
+
+        <input
+            id="courseExam"
+            placeholder="SSC"
+        >
+
+    </div>
+
+
+    <div class="field">
+
+        <label>
+            Access
+        </label>
+
+        <select id="coursePriceType">
+
+            <option value="free">
+                🆓 Free
+            </option>
+
+            <option value="paid">
+                💳 Paid
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div
+        class="field"
+        id="coursePriceWrap"
+        style="display:none"
+    >
+
+        <label>
+            Course / Test Series Price ₹
+        </label>
+
+        <input
+            id="coursePrice"
+            type="number"
+            min="0"
+            placeholder="499"
+        >
+
+    </div>
+
+
+    <div class="field">
+
+        <label>
+            Course Type
+        </label>
+
+        <select id="courseType">
+
+            <option value="course">
+                📚 Normal Course
+            </option>
+
+            <option value="test-pass">
+                🎟️ Test Series
+            </option>
+
+        </select>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     COURSE VALIDITY
+===================================================== -->
+
+<div class="validity-box">
+
+    <div class="validity-title">
+        ⏳ Course Validity
+    </div>
+
+    <div class="grid">
+
+        <div class="field">
+
+            <label>
+                Validity Type
+            </label>
+
+            <select id="courseValidityType">
+
+                <option value="unlimited">
+                    ♾️ Unlimited
+                </option>
+
+                <option value="days">
+                    📅 Validity Days
+                </option>
+
+                <option value="date-range">
+                    🗓️ Start Date → Expiry Date
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div
+            class="field"
+            id="validityDaysWrap"
+            style="display:none"
+        >
+
+            <label>
+                Validity (Days)
+            </label>
+
+            <input
+                id="courseValidityDays"
+                type="number"
+                min="1"
+                placeholder="365"
+            >
+
+        </div>
+
+
+        <div
+            class="field"
+            id="validityStartWrap"
+            style="display:none"
+        >
+
+            <label>
+                Start Date
+            </label>
+
+            <input
+                id="courseStartDate"
+                type="date"
+            >
+
+        </div>
+
+
+        <div
+            class="field"
+            id="validityExpiryWrap"
+            style="display:none"
+        >
+
+            <label>
+                Expiry Date
+            </label>
+
+            <input
+                id="courseExpiryDate"
+                type="date"
+            >
+
+        </div>
+
+    </div>
+
+
+    <div class="validity-info">
+
+        ♾️ <b>Unlimited:</b>
+        Course की कोई expiry नहीं होगी।
+
+        <br>
+
+        📅 <b>Validity Days:</b>
+        Course purchase/start होने की तारीख से दिए गए दिनों तक valid रहेगा।
+
+        <br>
+
+        🗓️ <b>Date Range:</b>
+        Admin द्वारा निर्धारित Start Date से Expiry Date तक valid रहेगा।
+
+    </div>
+
+</div>
+
+
+<div class="info">
+
+    <b>💡 Pricing System</b>
+
+    <br><br>
+
+    📚 <b>Normal Course:</b>
+    पूरे course का individual price होगा।
+
+    <br>
+
+    🎟️ <b>Test Series:</b>
+    पूरी test series का एक price होगा।
+
+    <br>
+
+    📝 Individual test का अलग price यहाँ manage नहीं होगा।
+
+    <br>
+
+    🔓 Test Series purchase होने पर included tests access होंगे।
+
+    <br>
+
+    🆓 Free चुनने पर price ₹0 रहेगा।
+
+</div>
+
+
+<div class="price-box">
+
+    <b>Example:</b>
+
+    <br><br>
+
+    📚 SSC Foundation → ₹499
+
+    <br>
+
+    📚 Maths Course → ₹299
+
+    <br>
+
+    🎟️ SSC Test Series → ₹199
+
+</div>
+
+
+<div class="row">
+
+    <button
+        class="success"
+        onclick="saveCourse()"
+    >
+        💾 Save Course
+    </button>
+
+    <button
+        class="secondary"
+        onclick="clearCourse()"
+    >
+        Cancel
+    </button>
+
+    <button
+        class="warning"
+        onclick="syncLocalCourses()"
+    >
+        ☁️ Local → Firebase Sync
+    </button>
+
+</div>
+
+
+<div
+    id="courseStatus"
+    class="status"
+>
+    Firebase courses loading...
+</div>
+
+
+<div
+    id="courseList"
+    class="list"
+></div>
+
+</section>
+
+
+<!-- =====================================================
+     SUBJECTS
+===================================================== -->
+
+<section
+    id="subjects"
+    class="card hidden"
+>
+
+<h2>📘 Add / Edit Subject</h2>
+
+<input
+    type="hidden"
+    id="subjectIndex"
+>
+
+<div class="field">
+
+    <label>
+        Course
+    </label>
+
+    <select id="subjectCourse"></select>
+
+</div>
+
+
+<div class="field">
+
+    <label>
+        Subject Name
+    </label>
+
+    <input
+        id="subjectName"
+        placeholder="Mathematics"
+    >
+
+</div>
+
+
+<div class="row">
+
+    <button
+        class="success"
+        onclick="saveSubject()"
+    >
+        💾 Save Subject
+    </button>
+
+    <button
+        class="secondary"
+        onclick="clearSubject()"
+    >
+        Cancel
+    </button>
+
+</div>
+
+
+<div
+    id="subjectList"
+    class="list"
+></div>
+
+</section>
+
+
+<!-- =====================================================
+     CHAPTERS
+===================================================== -->
+
+<section
+    id="chapters"
+    class="card hidden"
+>
+
+<h2>📖 Add / Edit Chapter</h2>
+
+<input
+    type="hidden"
+    id="chapterIndex"
+>
+
+<div class="grid">
+
+    <div class="field">
+
+        <label>
+            Course
+        </label>
+
+        <select id="chapterCourse"></select>
+
+    </div>
+
+
+    <div class="field">
+
+        <label>
+            Subject
+        </label>
+
+        <select id="chapterSubject"></select>
+
+    </div>
+
+</div>
+
+
+<div class="field">
+
+    <label>
+        Chapter Name
+    </label>
+
+    <input
+        id="chapterName"
+        placeholder="Percentage"
+    >
+
+</div>
+
+
+<div class="row">
+
+    <button
+        class="success"
+        onclick="saveChapter()"
+    >
+        💾 Save Chapter
+    </button>
+
+    <button
+        class="secondary"
+        onclick="clearChapter()"
+    >
+        Cancel
+    </button>
+
+</div>
+
+
+<div
+    id="chapterList"
+    class="list"
+></div>
+
+</section>
+
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script type="module">
+
+/* =====================================================
+   FIREBASE
+===================================================== */
+
+import { db } from "./firebase-config.js";
+
+import {
+    collection,
+    getDocs,
+    doc,
+    setDoc,
+    deleteDoc,
+    writeBatch
+}
+from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+/* =====================================================
+   ADMIN CHECK
+===================================================== */
+
+(function(){
+
+    const oldSystem =
+        localStorage.getItem("adminLoggedIn") === "true" &&
+        ["master","normal"].includes(
+            localStorage.getItem("adminType")
+        );
+
+    const newSystem =
+        localStorage.getItem("ssc_logged_in") === "true" &&
+        ["master_admin","admin"].includes(
+            localStorage.getItem("ssc_login_type")
+        );
+
+    if(!oldSystem && !newSystem){
+
+        location.replace("admin-login.html");
+
+    }
+
+})();
+
+
+/* =====================================================
+   LOCAL STORAGE
+===================================================== */
+
+const LOCAL_KEY = "ssc_courses";
+
+let courses = [];
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const courseId =
+document.getElementById("courseId");
+
+const courseName =
+document.getElementById("courseName");
+
+const courseExam =
+document.getElementById("courseExam");
+
+const coursePriceType =
+document.getElementById("coursePriceType");
+
+const coursePrice =
+document.getElementById("coursePrice");
+
+const courseType =
+document.getElementById("courseType");
+
+const coursePriceWrap =
+document.getElementById("coursePriceWrap");
+
+const courseValidityType =
+document.getElementById("courseValidityType");
+
+const courseValidityDays =
+document.getElementById("courseValidityDays");
+
+const courseStartDate =
+document.getElementById("courseStartDate");
+
+const courseExpiryDate =
+document.getElementById("courseExpiryDate");
+
+const validityDaysWrap =
+document.getElementById("validityDaysWrap");
+
+const validityStartWrap =
+document.getElementById("validityStartWrap");
+
+const validityExpiryWrap =
+document.getElementById("validityExpiryWrap");
+
+const courseStatus =
+document.getElementById("courseStatus");
+
+const courseList =
+document.getElementById("courseList");
+
+const subjectCourse =
+document.getElementById("subjectCourse");
+
+const subjectName =
+document.getElementById("subjectName");
+
+const subjectIndex =
+document.getElementById("subjectIndex");
+
+const subjectList =
+document.getElementById("subjectList");
+
+const chapterCourse =
+document.getElementById("chapterCourse");
+
+const chapterSubject =
+document.getElementById("chapterSubject");
+
+const chapterName =
+document.getElementById("chapterName");
+
+const chapterIndex =
+document.getElementById("chapterIndex");
+
+const chapterList =
+document.getElementById("chapterList");
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function esc(value){
+
+    return String(value ?? "")
+        .replace(/[&<>"']/g,m=>({
+
+            "&":"&amp;",
+            "<":"&lt;",
+            ">":"&gt;",
+            '"':"&quot;",
+            "'":"&#039;"
+
+        }[m]));
+
+}
+
+
+/* =====================================================
+   COURSE ID
+===================================================== */
+
+function makeCourseId(){
+
+    return "course_" +
+        Date.now() +
+        "_" +
+        Math.random()
+        .toString(36)
+        .substring(2,8);
+
+}
+
+
+/* =====================================================
+   LOCAL SAVE
+===================================================== */
+
+function saveLocal(){
+
+    localStorage.setItem(
+        LOCAL_KEY,
+        JSON.stringify(courses)
+    );
+
+}
+
+
+/* =====================================================
+   NORMALIZE COURSE
+===================================================== */
+
+function normalizeCourse(id,data){
+
+    const accessType =
+        data.accessType ||
+        (
+            data.isPaid === true
+            ? "paid"
+            : "free"
+        );
+
+    const type =
+        data.type ||
+        data.courseType ||
+        "course";
+
+    return {
+
+        ...data,
+
+        id:String(id),
+
+        name:
+            data.name ||
+            data.courseName ||
+            "Course",
+
+        exam:
+            data.exam ||
+            data.examName ||
+            "SSC",
+
+        accessType,
+
+        isPaid:
+            accessType === "paid",
+
+        paid:
+            accessType === "paid",
+
+        price:
+            Number(data.price || 0),
+
+        type,
+
+        courseType:type,
+
+        testPass:
+            type === "test-pass",
+
+        subjects:
+            Array.isArray(data.subjects)
+            ? data.subjects
+            : [],
+
+        validityType:
+            data.validityType ||
+            "unlimited",
+
+        validityDays:
+            Number(data.validityDays || 0),
+
+        startDate:
+            data.startDate ||
+            "",
+
+        expiryDate:
+            data.expiryDate ||
+            ""
+
+    };
+
+}
+
+
+/* =====================================================
+   VALIDITY STATUS
+===================================================== */
+
+function getValidityStatus(c){
+
+    const type =
+        c.validityType ||
+        "unlimited";
+
+
+    if(type === "unlimited"){
+
+        return {
+            status:"unlimited",
+            text:"♾️ UNLIMITED"
+        };
+
+    }
+
+
+    const today =
+        new Date();
+
+    today.setHours(
+        0,0,0,0
+    );
+
+
+    if(
+        type === "date-range"
+    ){
+
+        const start =
+            c.startDate
+            ? new Date(
+                c.startDate +
+                "T00:00:00"
+            )
+            : null;
+
+        const expiry =
+            c.expiryDate
+            ? new Date(
+                c.expiryDate +
+                "T23:59:59"
+            )
+            : null;
+
+
+        if(
+            expiry &&
+            today > expiry
+        ){
+
+            return {
+                status:"expired",
+                text:"❌ EXPIRED"
+            };
+
+        }
+
+
+        if(
+            start &&
+            today < start
+        ){
+
+            return {
+                status:"upcoming",
+                text:"⏳ NOT STARTED"
+            };
+
+        }
+
+
+        return {
+            status:"active",
+            text:"✅ ACTIVE"
+        };
+
+    }
+
+
+    if(type === "days"){
+
+        return {
+            status:"active",
+            text:
+                `✅ ${Number(c.validityDays || 0)} DAYS`
+        };
+
+    }
+
+
+    return {
+        status:"active",
+        text:"✅ ACTIVE"
+    };
+
+}
+
+
+/* =====================================================
+   VALIDITY UI
+===================================================== */
+
+function syncValidityUI(){
+
+    const type =
+        courseValidityType.value;
+
+
+    validityDaysWrap.style.display =
+        type === "days"
+        ? "block"
+        : "none";
+
+
+    validityStartWrap.style.display =
+        type === "date-range"
+        ? "block"
+        : "none";
+
+
+    validityExpiryWrap.style.display =
+        type === "date-range"
+        ? "block"
+        : "none";
+
+
+    if(type !== "days"){
+
+        courseValidityDays.value =
+            "";
+
+    }
+
+
+    if(type !== "date-range"){
+
+        courseStartDate.value =
+            "";
+
+        courseExpiryDate.value =
+            "";
+
+    }
+
+}
+
+
+courseValidityType.addEventListener(
+    "change",
+    syncValidityUI
+);
+
+
+/* =====================================================
+   LOAD FIREBASE
+===================================================== */
+
+async function loadFirebaseCourses(){
+
+    courseStatus.textContent =
+        "⏳ Firebase से courses loading...";
+
+    try{
+
+        const snap =
+            await getDocs(
+                collection(
+                    db,
+                    "courses"
+                )
+            );
+
+        courses = [];
+
+
+        snap.forEach(d=>{
+
+            courses.push(
+                normalizeCourse(
+                    d.id,
+                    d.data()
+                )
+            );
+
+        });
+
+
+        if(!courses.length){
+
+            try{
+
+                const old =
+                    JSON.parse(
+                        localStorage.getItem(
+                            LOCAL_KEY
+                        ) || "[]"
+                    );
+
+                if(
+                    Array.isArray(old) &&
+                    old.length
+                ){
+
+                    courses = old;
+
+                    courseStatus.textContent =
+                        "ℹ️ Firebase खाली है। Local backup दिखाया जा रहा है।";
+
+                }
+
+            }catch(error){
+
+                console.error(
+                    "Local fallback error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        saveLocal();
+
+        render();
+
+
+        courseStatus.textContent =
+            courses.length
+            ? `✅ ${courses.length} courses loaded.`
+            : "⚠️ कोई course नहीं मिला।";
+
+
+    }catch(error){
+
+        console.error(
+            "Firebase course load:",
+            error
+        );
+
+
+        try{
+
+            const local =
+                JSON.parse(
+                    localStorage.getItem(
+                        LOCAL_KEY
+                    ) || "[]"
+                );
+
+            courses =
+                Array.isArray(local)
+                ? local
+                : [];
+
+        }catch(e){
+
+            courses = [];
+
+        }
+
+
+        render();
+
+
+        courseStatus.textContent =
+            "❌ Firebase Load Error: " +
+            error.message;
+
+    }
+
+}
+
+
+/* =====================================================
+   GET VALIDITY DATA
+===================================================== */
+
+function getValidityData(){
+
+    const type =
+        courseValidityType.value;
+
+
+    if(type === "unlimited"){
+
+        return {
+
+            validityType:"unlimited",
+
+            validityDays:0,
+
+            startDate:"",
+
+            expiryDate:""
+
+        };
+
+    }
+
+
+    if(type === "days"){
+
+        const days =
+            Number(
+                courseValidityDays.value || 0
+            );
+
+
+        if(
+            !Number.isInteger(days) ||
+            days <= 0
+        ){
+
+            throw new Error(
+                "Validity Days 1 या उससे अधिक होना चाहिए।"
+            );
+
+        }
+
+
+        return {
+
+            validityType:"days",
+
+            validityDays:days,
+
+            startDate:"",
+
+            expiryDate:""
+
+        };
+
+    }
+
+
+    if(type === "date-range"){
+
+        const start =
+            courseStartDate.value;
+
+        const expiry =
+            courseExpiryDate.value;
+
+
+        if(!start){
+
+            throw new Error(
+                "Start Date चुनें।"
+            );
+
+        }
+
+
+        if(!expiry){
+
+            throw new Error(
+                "Expiry Date चुनें।"
+            );
+
+        }
+
+
+        if(
+            new Date(
+                expiry +
+                "T23:59:59"
+            ) <
+            new Date(
+                start +
+                "T00:00:00"
+            )
+        ){
+
+            throw new Error(
+                "Expiry Date, Start Date से पहले नहीं हो सकती।"
+            );
+
+        }
+
+
+        return {
+
+            validityType:"date-range",
+
+            validityDays:0,
+
+            startDate:start,
+
+            expiryDate:expiry
+
+        };
+
+    }
+
+
+    return {
+
+        validityType:"unlimited",
+
+        validityDays:0,
+
+        startDate:"",
+
+        expiryDate:""
+
+    };
+
+}
+
+
+/* =====================================================
+   SAVE COURSE
+===================================================== */
+
+window.saveCourse =
+async function(){
+
+    const name =
+        courseName.value.trim();
+
+    const exam =
+        courseExam.value.trim() ||
+        "SSC";
+
+    const accessType =
+        coursePriceType.value;
+
+    const price =
+        accessType === "paid"
+        ? Number(coursePrice.value || 0)
+        : 0;
+
+    const type =
+        courseType.value;
+
+
+    if(!name){
+
+        alert(
+            "❌ Course / Test Series Name डालो"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        accessType === "paid" &&
+        (!Number.isFinite(price) || price <= 0)
+    ){
+
+        alert(
+            "❌ Paid Course की सही price डालो"
+        );
+
+        return;
+
+    }
+
+
+    let validity;
+
+    try{
+
+        validity =
+            getValidityData();
+
+    }catch(error){
+
+        alert(
+            "❌ " +
+            error.message
+        );
+
+        return;
+
+    }
+
+
+    let id =
+        courseId.value.trim();
+
+
+    if(!id){
+
+        id = makeCourseId();
+
+    }
+
+
+    const old =
+        courses.find(
+            c=>String(c.id) === String(id)
+        );
+
+
+    const course = {
+
+        ...(old || {}),
+
+        id,
+
+        name,
+
+        exam,
+
+        accessType,
+
+        isPaid:
+            accessType === "paid",
+
+        paid:
+            accessType === "paid",
+
+        price,
+
+        type,
+
+        courseType:type,
+
+        testPass:
+            type === "test-pass",
+
+        subjects:
+            Array.isArray(old?.subjects)
+            ? old.subjects
+            : [],
+
+        ...validity,
+
+        updatedAt:
+            new Date().toISOString()
+
+    };
+
+
+    try{
+
+        courseStatus.textContent =
+            "⏳ Firebase में save हो रहा है...";
+
+
+        await setDoc(
+
+            doc(
+                db,
+                "courses",
+                id
+            ),
+
+            course,
+
+            {
+                merge:true
+            }
+
+        );
+
+
+        const index =
+            courses.findIndex(
+                c=>String(c.id) === String(id)
+            );
+
+
+        if(index >= 0){
+
+            courses[index] = course;
+
+        }else{
+
+            courses.push(course);
+
+        }
+
+
+        saveLocal();
+
+        clearCourse();
+
+        render();
+
+
+        courseStatus.textContent =
+            "✅ Course Firebase में successfully save हो गया।";
+
+
+        alert(
+            "✅ Course Firebase में save हो गया!"
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Course Save Error:",
+            error
+        );
+
+
+        courseStatus.textContent =
+            "❌ Firebase Save Error: " +
+            error.message;
+
+
+        alert(
+            "❌ Firebase में save नहीं हुआ:\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   EDIT COURSE
+===================================================== */
+
+window.editCourse =
+function(id){
+
+    const c =
+        courses.find(
+            x=>String(x.id) === String(id)
+        );
+
+
+    if(!c)return;
+
+
+    courseId.value =
+        c.id;
+
+    courseName.value =
+        c.name || "";
+
+    courseExam.value =
+        c.exam || "SSC";
+
+    coursePriceType.value =
+        (
+            c.isPaid === true ||
+            c.accessType === "paid"
+        )
+        ? "paid"
+        : "free";
+
+    coursePrice.value =
+        Number(c.price || 0);
+
+    courseType.value =
+        c.type ||
+        c.courseType ||
+        "course";
+
+
+    courseValidityType.value =
+        c.validityType ||
+        "unlimited";
+
+    courseValidityDays.value =
+        Number(
+            c.validityDays || 0
+        );
+
+    courseStartDate.value =
+        c.startDate || "";
+
+    courseExpiryDate.value =
+        c.expiryDate || "";
+
+
+    syncPricing();
+
+    syncValidityUI();
+
+
+    document
+        .getElementById("courses")
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+
+};
+
+
+/* =====================================================
+   DELETE COURSE
+===================================================== */
+
+window.delCourse =
+async function(id){
+
+    const c =
+        courses.find(
+            x=>String(x.id) === String(id)
+        );
+
+
+    if(!c)return;
+
+
+    if(
+        !confirm(
+            `क्या "${c.name}" को Firebase से delete करना है?`
+        )
+    ){
+
+        return;
+
+    }
+
+
+    try{
+
+        courseStatus.textContent =
+            "⏳ Course delete हो रहा है...";
+
+
+        await deleteDoc(
+
+            doc(
+                db,
+                "courses",
+                String(id)
+            )
+
+        );
+
+
+        courses =
+            courses.filter(
+                x=>String(x.id) !== String(id)
+            );
+
+
+        saveLocal();
+
+        render();
+
+
+        courseStatus.textContent =
+            "✅ Course deleted.";
+
+
+    }catch(error){
+
+        console.error(
+            "Course Delete Error:",
+            error
+        );
+
+
+        alert(
+            "❌ Delete failed:\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   CLEAR COURSE
+===================================================== */
+
+window.clearCourse =
+function(){
+
+    courseId.value = "";
+
+    courseName.value = "";
+
+    courseExam.value = "";
+
+    coursePriceType.value = "free";
+
+    coursePrice.value = "0";
+
+    courseType.value = "course";
+
+    courseValidityType.value =
+        "unlimited";
+
+    courseValidityDays.value =
+        "";
+
+    courseStartDate.value =
+        "";
+
+    courseExpiryDate.value =
+        "";
+
+    syncPricing();
+
+    syncValidityUI();
+
+};
+
+
+/* =====================================================
+   PRICE UI
+===================================================== */
+
+function syncPricing(){
+
+    if(
+        coursePriceType.value === "paid"
+    ){
+
+        coursePriceWrap.style.display =
+            "block";
+
+    }else{
+
+        coursePriceWrap.style.display =
+            "none";
+
+        coursePrice.value = "0";
+
+    }
+
+}
+
+
+coursePriceType.addEventListener(
+    "change",
+    syncPricing
+);
+
+
+/* =====================================================
+   SAVE SUBJECT
+===================================================== */
+
+window.saveSubject =
+async function(){
+
+    const cid =
+        subjectCourse.value;
+
+    const name =
+        subjectName.value.trim();
+
+    const idx =
+        subjectIndex.value;
+
+
+    const c =
+        courses.find(
+            x=>String(x.id) === String(cid)
+        );
+
+
+    if(!c){
+
+        alert(
+            "❌ Course चुनें"
+        );
+
+        return;
+
+    }
+
+
+    if(!name){
+
+        alert(
+            "❌ Subject Name डालो"
+        );
+
+        return;
+
+    }
+
+
+    if(!Array.isArray(c.subjects)){
+
+        c.subjects = [];
+
+    }
+
+
+    if(idx !== ""){
+
+        const index =
+            Number(idx);
+
+
+        if(c.subjects[index]){
+
+            c.subjects[index].name =
+                name;
+
+        }
+
+    }else{
+
+        c.subjects.push({
+
+            name,
+
+            chapters:[]
+
+        });
+
+    }
+
+
+    try{
+
+        await saveFullCourse(c);
+
+        clearSubject();
+
+        render();
+
+
+        alert(
+            "✅ Subject Firebase में save हो गया!"
+        );
+
+
+    }catch(error){
+
+        alert(
+            "❌ Subject save error:\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   SAVE FULL COURSE
+===================================================== */
+
+async function saveFullCourse(c){
+
+    c.updatedAt =
+        new Date().toISOString();
+
+
+    await setDoc(
+
+        doc(
+            db,
+            "courses",
+            String(c.id)
+        ),
+
+        c,
+
+        {
+            merge:true
+        }
+
+    );
+
+
+    saveLocal();
+
+}
+
+
+/* =====================================================
+   EDIT SUBJECT
+===================================================== */
+
+window.editSubject =
+function(ci,si){
+
+    const c =
+        courses.find(
+            x=>String(x.id) === String(ci)
+        );
+
+
+    if(
+        !c ||
+        !c.subjects?.[si]
+    )return;
+
+
+    subjectCourse.value =
+        ci;
+
+    subjectIndex.value =
+        si;
+
+    subjectName.value =
+        c.subjects[si].name;
+
+
+    showTab(
+        "subjects",
+        document.querySelector(
+            ".tabs button:nth-child(2)"
+        )
+    );
+
+};
+
+
+/* =====================================================
+   DELETE SUBJECT
+===================================================== */
+
+window.delSubject =
+async function(ci,si){
+
+    if(
+        !confirm(
+            "क्या Subject delete करना है?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    const c =
+        courses.find(
+            x=>String(x.id) === String(ci)
+        );
+
+
+    if(!c)return;
+
+
+    c.subjects.splice(
+        si,
+        1
+    );
+
+
+    try{
+
+        await saveFullCourse(c);
+
+        render();
+
+
+    }catch(error){
+
+        alert(
+            "❌ Subject delete failed:\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   CLEAR SUBJECT
+===================================================== */
+
+window.clearSubject =
+function(){
+
+    subjectIndex.value = "";
+
+    subjectName.value = "";
+
+};
+
+
+/* =====================================================
+   LOAD SUBJECTS
+===================================================== */
+
+function loadSubjects(){
+
+    const cid =
+        chapterCourse.value;
+
+
+    const c =
+        courses.find(
+            x=>String(x.id) === String(cid)
+        );
+
+
+    const old =
+        chapterSubject.value;
+
+
+    chapterSubject.innerHTML =
+        (c?.subjects || [])
+        .map(
+            (s,i)=>
+                `<option value="${i}">
+                    ${esc(s.name)}
+                </option>`
+        )
+        .join("");
+
+
+    if(
+        [...chapterSubject.options]
+        .some(
+            o=>o.value === old
+        )
+    ){
+
+        chapterSubject.value =
+            old;
+
+    }
+
+}
+
+
+/* =====================================================
+   SAVE CHAPTER
+===================================================== */
+
+window.saveChapter =
+async function(){
+
+    const cid =
+        chapterCourse.value;
+
+    const si =
+        Number(chapterSubject.value);
+
+    const name =
+        chapterName.value.trim();
+
+    const idx =
+        chapterIndex.value;
+
+
+    const c =
+        courses.find(
+            x=>String(x.id) === String(cid)
+        );
+
+
+    if(
+        !c ||
+        !c.subjects ||
+        !c.subjects[si]
+    ){
+
+        alert(
+            "❌ Course और Subject चुनें"
+        );
+
+        return;
+
+    }
+
+
+    if(!name){
+
+        alert(
+            "❌ Chapter Name डालो"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !Array.isArray(
+            c.subjects[si].chapters
+        )
+    ){
+
+        c.subjects[si].chapters = [];
+
+    }
+
+
+    const chapters =
+        c.subjects[si].chapters;
+
+
+    if(idx !== ""){
+
+        const index =
+            Number(idx);
+
+
+        if(chapters[index]){
+
+            chapters[index].name =
+                name;
+
+        }
+
+    }else{
+
+        chapters.push({
+
+            name,
+
+            contents:[]
+
+        });
+
+    }
+
+
+    try{
+
+        await saveFullCourse(c);
+
+        clearChapter();
+
+        render();
+
+
+        alert(
+            "✅ Chapter Firebase में save हो गया!"
+        );
+
+
+    }catch(error){
+
+        alert(
+            "❌ Chapter save error:\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   EDIT CHAPTER
+===================================================== */
+
+window.editChapter =
+function(ci,si,hi){
+
+    const c =
+        courses.find(
+            x=>String(x.id) === String(ci)
+        );
+
+
+    if(
+        !c ||
+        !c.subjects?.[si] ||
+        !c.subjects[si].chapters?.[hi]
+    ){
+
+        return;
+
+    }
+
+
+    chapterCourse.value =
+        ci;
+
+    loadSubjects();
+
+    chapterSubject.value =
+        String(si);
+
+    chapterIndex.value =
+        hi;
+
+    chapterName.value =
+        c.subjects[si]
+        .chapters[hi]
+        .name;
+
+
+    showTab(
+        "chapters",
+        document.querySelector(
+            ".tabs button:nth-child(3)"
+        )
+    );
+
+};
+
+
+/* =====================================================
+   DELETE CHAPTER
+===================================================== */
+
+window.delChapter =
+async function(ci,si,hi){
+
+    if(
+        !confirm(
+            "क्या Chapter delete करना है?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    const c =
+        courses.find(
+            x=>String(x.id) === String(ci)
+        );
+
+
+    if(!c)return;
+
+
+    if(
+        !c.subjects?.[si]?.chapters?.[hi]
+    ){
+
+        return;
+
+    }
+
+
+    c.subjects[si]
+     .chapters
+     .splice(
+         hi,
+         1
+     );
+
+
+    try{
+
+        await saveFullCourse(c);
+
+        render();
+
+    }catch(error){
+
+        alert(
+            "❌ Chapter delete failed:\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   CLEAR CHAPTER
+===================================================== */
+
+window.clearChapter =
+function(){
+
+    chapterIndex.value = "";
+
+    chapterName.value = "";
+
+};
+
+
+/* =====================================================
+   LOCAL → FIREBASE SYNC
+===================================================== */
+
+window.syncLocalCourses =
+async function(){
+
+    let local = [];
+
+
+    try{
+
+        local =
+            JSON.parse(
+                localStorage.getItem(
+                    LOCAL_KEY
+                ) || "[]"
+            );
+
+    }catch(error){
+
+        local = [];
+
+    }
+
+
+    if(
+        !Array.isArray(local) ||
+        !local.length
+    ){
+
+        alert(
+            "❌ LocalStorage में कोई course नहीं मिला।"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !confirm(
+            `${local.length} courses Firebase में sync करें?`
+        )
+    ){
+
+        return;
+
+    }
+
+
+    try{
+
+        courseStatus.textContent =
+            "⏳ Courses Firebase में sync हो रहे हैं...";
+
+
+        const batch =
+            writeBatch(db);
+
+
+        local.forEach(c=>{
+
+            const id =
+                String(
+                    c.id ||
+                    makeCourseId()
+                );
+
+
+            c.id = id;
+
+
+            const accessType =
+                c.accessType ||
+                (
+                    c.isPaid === true
+                    ? "paid"
+                    : "free"
+                );
+
+
+            c.accessType =
+                accessType;
+
+            c.isPaid =
+                accessType === "paid";
+
+            c.paid =
+                c.isPaid;
+
+            c.price =
+                c.isPaid
+                ? Number(c.price || 0)
+                : 0;
+
+
+            c.type =
+                c.type ||
+                c.courseType ||
+                "course";
+
+            c.courseType =
+                c.type;
+
+            c.testPass =
+                c.type === "test-pass";
+
+
+            c.subjects =
+                Array.isArray(c.subjects)
+                ? c.subjects
+                : [];
+
+
+            /*
+             * पुराने Local courses में
+             * validity नहीं है तो Unlimited रहेगा।
+             */
+
+            c.validityType =
+                c.validityType ||
+                "unlimited";
+
+            c.validityDays =
+                Number(
+                    c.validityDays || 0
+                );
+
+            c.startDate =
+                c.startDate || "";
+
+            c.expiryDate =
+                c.expiryDate || "";
+
+
+            c.updatedAt =
+                new Date().toISOString();
+
+
+            batch.set(
+
+                doc(
+                    db,
+                    "courses",
+                    id
+                ),
+
+                c,
+
+                {
+                    merge:true
+                }
+
+            );
+
+        });
+
+
+        await batch.commit();
+
+
+        courses = local;
+
+        saveLocal();
+
+        render();
+
+
+        courseStatus.textContent =
+            "✅ Local courses Firebase में sync हो गए।";
+
+
+        alert(
+            "✅ सभी local courses Firebase में sync हो गए!"
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Sync Error:",
+            error
+        );
+
+
+        courseStatus.textContent =
+            "❌ Sync Error: " +
+            error.message;
+
+
+        alert(
+            "❌ Sync failed:\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   RENDER
+===================================================== */
+
+function render(){
+
+    fillCourses();
+
+
+    /* =================================================
+       COURSE LIST
+    ================================================= */
+
+    courseList.innerHTML =
+
+        courses.map(c=>{
+
+            const paid =
+                c.isPaid === true ||
+                c.accessType === "paid";
+
+
+            const testSeries =
+                c.type === "test-pass" ||
+                c.courseType === "test-pass" ||
+                c.testPass === true;
+
+
+            const validity =
+                getValidityStatus(c);
+
+
+            let validityBadge = "";
+
+
+            if(
+                validity.status === "unlimited"
+            ){
+
+                validityBadge =
+                    `<span class="badge badge-unlimited">
+                        ♾️ ${esc(validity.text)}
+                    </span>`;
+
+            }
+            else if(
+                validity.status === "expired"
+            ){
+
+                validityBadge =
+                    `<span class="badge badge-expired">
+                        ${esc(validity.text)}
+                    </span>`;
+
+            }
+            else if(
+                validity.status === "upcoming"
+            ){
+
+                validityBadge =
+                    `<span class="badge badge-validity">
+                        ${esc(validity.text)}
+                    </span>`;
+
+            }
+            else{
+
+                validityBadge =
+                    `<span class="badge badge-active">
+                        ${esc(validity.text)}
+                    </span>`;
+
+            }
+
+
+            let validityDetails = "";
+
+
+            if(
+                c.validityType === "days"
+            ){
+
+                validityDetails =
+                    `Validity: ${Number(c.validityDays || 0)} Days`;
+
+            }
+            else if(
+                c.validityType === "date-range"
+            ){
+
+                validityDetails =
+                    `Start: ${esc(c.startDate || "-")}
+                     → Expiry: ${esc(c.expiryDate || "-")}`;
+
+            }
+            else{
+
+                validityDetails =
+                    "No Expiry";
+
+            }
+
+
+            return `
+
+            <div class="item">
+
+                <b>
+                    ${esc(c.name)}
+                </b>
+
+                <span class="muted">
+                    (${esc(c.exam || "SSC")})
+                </span>
+
+                <br><br>
+
+                ${
+                    paid
+
+                    ?
+
+                    `<span class="badge badge-paid">
+                        💳 PAID ₹${Number(c.price || 0)}
+                    </span>`
+
+                    :
+
+                    `<span class="badge badge-free">
+                        🆓 FREE
+                    </span>`
+                }
+
+
+                ${
+                    testSeries
+
+                    ?
+
+                    `<span class="badge badge-test">
+                        🎟️ TEST SERIES
+                    </span>`
+
+                    :
+
+                    `<span class="badge badge-normal">
+                        📚 COURSE
+                    </span>`
+                }
+
+
+                ${validityBadge}
+
+
+                <div
+                    class="small muted"
+                    style="margin-top:10px"
+                >
+
+                    ⏳ ${validityDetails}
+
+                </div>
+
+
+                <div
+                    class="small muted"
+                    style="margin-top:8px"
+                >
+
+                    ${(c.subjects || []).length}
+                    Subjects
+
+                </div>
+
+
+                <div class="row">
+
+                    <button
+                        onclick="editCourse('${esc(c.id)}')"
+                    >
+                        ✏️ Edit
+                    </button>
+
+
+                    <button
+                        class="danger"
+                        onclick="delCourse('${esc(c.id)}')"
+                    >
+                        🗑️ Delete
+                    </button>
+
+                </div>
+
+            </div>
+
+            `;
+
+        })
+        .join("")
+
+        ||
+
+        `<div class="item empty">
+            कोई course नहीं है।
+        </div>`;
+
+
+    /* =================================================
+       SUBJECT LIST
+    ================================================= */
+
+    subjectList.innerHTML =
+
+        courses.flatMap(
+
+            c=>
+
+            (c.subjects || [])
+            .map(
+
+                (s,i)=>
+
+                `
+
+                <div class="item">
+
+                    <b>
+                        ${esc(s.name)}
+                    </b>
+
+                    <div class="muted small">
+
+                        Course:
+                        ${esc(c.name)}
+
+                    </div>
+
+
+                    <button
+                        onclick="editSubject('${esc(c.id)}',${i})"
+                    >
+                        ✏️ Edit
+                    </button>
+
+
+                    <button
+                        class="danger"
+                        onclick="delSubject('${esc(c.id)}',${i})"
+                    >
+                        🗑️ Delete
+                    </button>
+
+                </div>
+
+                `
+
+            )
+
+        )
+        .join("")
+
+        ||
+
+        `<div class="item empty">
+            कोई Subject नहीं है।
+        </div>`;
+
+
+    /* =================================================
+       CHAPTER LIST
+    ================================================= */
+
+    chapterList.innerHTML =
+
+        courses.flatMap(
+
+            c=>
+
+            (c.subjects || [])
+            .flatMap(
+
+                (s,si)=>
+
+                (s.chapters || [])
+                .map(
+
+                    (h,hi)=>
+
+                    `
+
+                    <div class="item">
+
+                        <b>
+                            ${esc(h.name)}
+                        </b>
+
+
+                        <div class="muted small">
+
+                            ${esc(c.name)}
+                            →
+                            ${esc(s.name)}
+
+                        </div>
+
+
+                        <button
+                            onclick="editChapter('${esc(c.id)}',${si},${hi})"
+                        >
+                            ✏️ Edit
+                        </button>
+
+
+                        <button
+                            class="danger"
+                            onclick="delChapter('${esc(c.id)}',${si},${hi})"
+                        >
+                            🗑️ Delete
+                        </button>
+
+                    </div>
+
+                    `
+
+                )
+
+            )
+
+        )
+        .join("")
+
+        ||
+
+        `<div class="item empty">
+            कोई Chapter नहीं है।
+        </div>`;
+
+}
+
+
+/* =====================================================
+   FILL COURSE SELECTS
+===================================================== */
+
+function fillCourses(){
+
+    const oldSubject =
+        subjectCourse.value;
+
+    const oldChapter =
+        chapterCourse.value;
+
+
+    subjectCourse.innerHTML =
+
+        courses.map(
+
+            c=>
+            `<option value="${esc(c.id)}">
+                ${esc(c.name)}
+            </option>`
+
+        )
+        .join("");
+
+
+    chapterCourse.innerHTML =
+
+        courses.map(
+
+            c=>
+            `<option value="${esc(c.id)}">
+                ${esc(c.name)}
+            </option>`
+
+        )
+        .join("");
+
+
+    if(
+        courses.some(
+            c=>String(c.id) === String(oldSubject)
+        )
+    ){
+
+        subjectCourse.value =
+            oldSubject;
+
+    }
+
+
+    if(
+        courses.some(
+            c=>String(c.id) === String(oldChapter)
+        )
+    ){
+
+        chapterCourse.value =
+            oldChapter;
+
+    }
+
+
+    loadSubjects();
+
+}
+
+
+/* =====================================================
+   TAB
+===================================================== */
+
+window.showTab =
+function(id,btn){
+
+    document
+        .querySelectorAll("section")
+        .forEach(
+            x=>x.classList.add("hidden")
+        );
+
+
+    const target =
+        document.getElementById(id);
+
+
+    if(target){
+
+        target.classList.remove("hidden");
+
+    }
+
+
+    document
+        .querySelectorAll(".tabs button")
+        .forEach(
+            x=>x.classList.remove("active")
+        );
+
+
+    if(btn){
+
+        btn.classList.add("active");
+
+    }
+
+
+    render();
+
+};
+
+
+/* =====================================================
+   CHAPTER COURSE CHANGE
+===================================================== */
+
+chapterCourse.addEventListener(
+    "change",
+    function(){
+
+        loadSubjects();
+
+    }
+);
+
+
+/* =====================================================
+   INITIAL
+===================================================== */
+
+syncPricing();
+
+syncValidityUI();
+
+loadFirebaseCourses();
+
+</script>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer
+    style="
+        text-align:center;
+        padding:20px;
+        color:#94a3b8;
+        font-size:13px;
+    "
+>
+
+    <b>RM Vidya Peeth</b>
+
+    <br>
+
+    By Ranjan Mishra Sir
+
+    <br><br>
+
+    © 2026 RM Vidya Peeth. All Rights Reserved.
+
+</footer>
+
+</body>
+
+</html>

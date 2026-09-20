@@ -1,0 +1,3283 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>RM Vidya Peeth - Mock Management</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+header{
+    background:#111827;
+    padding:18px;
+    text-align:center;
+    border-bottom:1px solid #334155;
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+header h1{
+    margin:0;
+    font-size:24px;
+}
+
+header p{
+    margin:6px 0 0;
+    color:#94a3b8;
+}
+
+.container{
+    max-width:1250px;
+    margin:auto;
+    padding:20px;
+}
+
+.card{
+    background:#1e293b;
+    border:1px solid #334155;
+    border-radius:14px;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+.card h2{
+    margin-top:0;
+    color:#38bdf8;
+}
+
+.status{
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:15px;
+    background:#334155;
+}
+
+.status.ok{
+    background:#064e3b;
+    color:#a7f3d0;
+}
+
+.status.error{
+    background:#7f1d1d;
+    color:#fecaca;
+}
+
+.tabs{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.tab-btn,
+button{
+    border:none;
+    border-radius:8px;
+    padding:11px 16px;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.tab-btn{
+    background:#334155;
+    color:#fff;
+}
+
+.tab-btn.active{
+    background:#0284c7;
+}
+
+button.primary{
+    background:#0284c7;
+    color:#fff;
+}
+
+button.success{
+    background:#059669;
+    color:#fff;
+}
+
+button.warning{
+    background:#d97706;
+    color:#fff;
+}
+
+button.danger{
+    background:#dc2626;
+    color:#fff;
+}
+
+button.secondary{
+    background:#475569;
+    color:#fff;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+.panel{
+    display:none;
+}
+
+.panel.active{
+    display:block;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.full{
+    grid-column:1/-1;
+}
+
+label{
+    display:block;
+    margin-bottom:7px;
+    font-weight:bold;
+    color:#cbd5e1;
+}
+
+input,
+textarea,
+select{
+    width:100%;
+    background:#0f172a;
+    color:#fff;
+    border:1px solid #475569;
+    border-radius:8px;
+    padding:11px;
+    outline:none;
+    font-size:14px;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+    border-color:#38bdf8;
+}
+
+textarea{
+    min-height:90px;
+    resize:vertical;
+}
+
+.small{
+    color:#94a3b8;
+    font-size:12px;
+    margin-top:5px;
+}
+
+.lang-title{
+    background:#334155;
+    padding:10px;
+    border-radius:8px;
+    margin:18px 0 12px;
+    font-weight:bold;
+}
+
+.hi-title{
+    color:#fbbf24;
+}
+
+.en-title{
+    color:#60a5fa;
+}
+
+.option-row{
+    display:grid;
+    grid-template-columns:60px 1fr;
+    gap:10px;
+    align-items:start;
+    margin-bottom:12px;
+}
+
+.option-label{
+    background:#334155;
+    padding:11px;
+    text-align:center;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:18px;
+}
+
+.preview{
+    background:#0f172a;
+    border:1px solid #334155;
+    border-radius:10px;
+    padding:15px;
+    margin-top:15px;
+}
+
+.question-item{
+    background:#172033;
+    border:1px solid #334155;
+    border-radius:10px;
+    padding:15px;
+    margin-bottom:12px;
+}
+
+.question-item h4{
+    margin-top:0;
+    color:#38bdf8;
+}
+
+.answer{
+    color:#86efac;
+    font-weight:bold;
+}
+
+.bulk-box{
+    min-height:300px;
+    font-family:monospace;
+    line-height:1.6;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:12px;
+    background:#334155;
+    margin:3px;
+}
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,
+td{
+    border:1px solid #334155;
+    padding:10px;
+    text-align:left;
+}
+
+th{
+    background:#334155;
+}
+
+tr:hover{
+    background:#172033;
+}
+
+.hidden{
+    display:none !important;
+}
+
+.notice{
+    background:#172033;
+    border-left:4px solid #38bdf8;
+    padding:12px;
+    border-radius:5px;
+    margin:12px 0;
+    color:#cbd5e1;
+}
+
+.translator-box{
+    background:#172033;
+    border:1px solid #475569;
+    padding:15px;
+    border-radius:10px;
+    margin-top:15px;
+}
+
+@media(max-width:700px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .full{
+        grid-column:auto;
+    }
+
+    header h1{
+        font-size:20px;
+    }
+
+    .container{
+        padding:10px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>RM Vidya Peeth - Mock Management</h1>
+    <p>By Ranjan Mishra Sir</p>
+</header>
+
+<div class="container">
+
+<div id="firebaseStatus" class="status">
+    Firebase checking...
+</div>
+
+<!-- QUESTION BANK -->
+
+<div class="card">
+
+<h2>📚 Question Bank</h2>
+
+<div class="tabs">
+
+<button class="tab-btn active"
+        onclick="openTab('singlePanel',this)">
+    Single Question
+</button>
+
+<button class="tab-btn"
+        onclick="openTab('bulkPanel',this)">
+    Bulk Questions
+</button>
+
+</div>
+
+
+<!-- SINGLE -->
+
+<div id="singlePanel" class="panel active">
+
+<div class="grid">
+
+<div>
+<label>File Name</label>
+<input id="singleFileName"
+       placeholder="SSC CGL History PYQ 2024">
+</div>
+
+<div>
+<label>Language / माध्यम</label>
+
+<select id="singleLanguage">
+    <option value="both">Hindi + English / दोनों</option>
+    <option value="hi">Hindi Only / केवल हिंदी</option>
+    <option value="en">English Only / केवल English</option>
+</select>
+
+</div>
+
+</div>
+
+
+<div class="lang-title hi-title">
+🇮🇳 Hindi Question
+</div>
+
+<div>
+<label>Question - Hindi</label>
+
+<textarea id="singleQuestionHi"
+placeholder="भारत की राजधानी क्या है?"></textarea>
+</div>
+
+
+<div class="lang-title en-title">
+🇬🇧 English Question
+</div>
+
+<div>
+<label>Question - English</label>
+
+<textarea id="singleQuestionEn"
+placeholder="What is the capital of India?"></textarea>
+</div>
+
+
+<div class="lang-title hi-title">
+🇮🇳 Hindi Options
+</div>
+
+<div class="option-row">
+<div class="option-label">A</div>
+<textarea id="optionAHI"
+placeholder="मुंबई"></textarea>
+</div>
+
+<div class="option-row">
+<div class="option-label">B</div>
+<textarea id="optionBHI"
+placeholder="नई दिल्ली"></textarea>
+</div>
+
+<div class="option-row">
+<div class="option-label">C</div>
+<textarea id="optionCHI"
+placeholder="कोलकाता"></textarea>
+</div>
+
+<div class="option-row">
+<div class="option-label">D</div>
+<textarea id="optionDHI"
+placeholder="चेन्नई"></textarea>
+</div>
+
+
+<div class="lang-title en-title">
+🇬🇧 English Options
+</div>
+
+<div class="option-row">
+<div class="option-label">A</div>
+<textarea id="optionAEN"
+placeholder="Mumbai"></textarea>
+</div>
+
+<div class="option-row">
+<div class="option-label">B</div>
+<textarea id="optionBEN"
+placeholder="New Delhi"></textarea>
+</div>
+
+<div class="option-row">
+<div class="option-label">C</div>
+<textarea id="optionCEN"
+placeholder="Kolkata"></textarea>
+</div>
+
+<div class="option-row">
+<div class="option-label">D</div>
+<textarea id="optionDEN"
+placeholder="Chennai"></textarea>
+</div>
+
+
+<div class="grid">
+
+<div>
+<label>Correct Answer</label>
+
+<select id="correctAnswer">
+<option value="">Select</option>
+<option value="A">A</option>
+<option value="B">B</option>
+<option value="C">C</option>
+<option value="D">D</option>
+</select>
+</div>
+
+<div>
+<label>Question Marks</label>
+
+<input id="questionMarks"
+       type="number"
+       value="1"
+       min="0">
+</div>
+
+</div>
+
+
+<div class="lang-title hi-title">
+🇮🇳 Hindi Explanation
+</div>
+
+<textarea id="singleExplanationHi"
+placeholder="भारत की राजधानी नई दिल्ली है।"></textarea>
+
+
+<div class="lang-title en-title">
+🇬🇧 English Explanation
+</div>
+
+<textarea id="singleExplanationEn"
+placeholder="New Delhi is the capital of India."></textarea>
+
+
+<div class="translator-box">
+
+<b>🌐 Translator</b>
+
+<p class="small">
+यदि English खाली है तो configured Translator Function से Hindi → English किया जा सकता है।
+</p>
+
+<div class="actions">
+
+<button class="warning"
+        onclick="translateCurrentQuestion()">
+    🌐 Hindi → English Translate
+</button>
+
+</div>
+
+</div>
+
+
+<div class="actions">
+
+<button class="success"
+        onclick="saveSingleQuestion()">
+    💾 Save Question
+</button>
+
+<button class="secondary"
+        onclick="clearSingleQuestion()">
+    🧹 Clear
+</button>
+
+</div>
+
+</div>
+
+
+<!-- BULK -->
+
+<div id="bulkPanel" class="panel">
+
+<div class="notice">
+
+<b>Preferred bilingual format:</b>
+
+<pre>
+FileName: SSC CGL History PYQ 2024
+Question_HI: भारत की राजधानी क्या है?
+Question_EN: What is the capital of India?
+A_HI: मुंबई
+A_EN: Mumbai
+B_HI: नई दिल्ली
+B_EN: New Delhi
+C_HI: कोलकाता
+C_EN: Kolkata
+D_HI: चेन्नई
+D_EN: Chennai
+Answer: B
+Explanation_HI: भारत की राजधानी नई दिल्ली है।
+Explanation_EN: New Delhi is the capital of India.
+---
+</pre>
+
+<b>पुराना format भी चलेगा:</b>
+
+<pre>
+FileName: mathematics-chapter-1.txt
+Question: 2 + 2 = ?
+A: 2
+B: 3
+C: 4
+D: 5
+Answer: C
+Explanation: 2 और 2 का योग 4 होता है।
+---
+</pre>
+
+पुराने format के questions को Hindi माना जाएगा और English खाली रहेगी।
+
+</div>
+
+
+<label>Bulk Questions</label>
+
+<textarea id="bulkQuestions"
+class="bulk-box"
+placeholder="यहाँ 2000 या उससे अधिक questions paste कर सकते हैं..."></textarea>
+
+
+<div class="actions">
+
+<button class="primary"
+        onclick="parseBulkQuestions()">
+    🔍 Preview / Parse
+</button>
+
+<button class="success"
+        onclick="saveBulkQuestions()">
+    💾 Save All Questions
+</button>
+
+<button class="secondary"
+        onclick="clearBulk()">
+    🧹 Clear
+</button>
+
+</div>
+
+<div id="bulkPreview"
+     class="preview hidden">
+</div>
+
+</div>
+
+</div>
+
+
+<!-- QUESTION LIST -->
+
+<div class="card">
+
+<h2>📂 Saved Question Bank</h2>
+
+<div class="grid">
+
+<div>
+
+<label>Select File</label>
+
+<select id="questionFileSelect"
+        onchange="loadSelectedFile()">
+
+<option value="">
+Select Question File
+</option>
+
+</select>
+
+</div>
+
+<div>
+
+<label>Search</label>
+
+<input id="questionSearch"
+       oninput="renderQuestionList()"
+       placeholder="Search question...">
+
+</div>
+
+</div>
+
+<div id="questionList"
+     class="preview">
+
+No questions loaded.
+
+</div>
+
+</div>
+
+
+<!-- MOCK TEST -->
+
+<div class="card">
+
+<h2>📝 Create / Manage Mock Test</h2>
+
+<div class="grid">
+
+<div>
+<label>Mock Type</label>
+
+<select id="mockType">
+
+<option value="chapter">Chapter Test</option>
+<option value="sectional">Sectional Test</option>
+<option value="full-pyq">Full PYQ</option>
+<option value="full-mock">Full Mock</option>
+
+</select>
+</div>
+
+<div>
+<label>Course</label>
+
+<input id="course"
+       placeholder="SSC">
+</div>
+
+<div>
+<label>Exam Name</label>
+
+<input id="examName"
+       placeholder="SSC CGL">
+</div>
+
+<div>
+<label>Category</label>
+
+<input id="category"
+       placeholder="History">
+</div>
+
+<div>
+<label>Subject</label>
+
+<input id="subject"
+       placeholder="History">
+</div>
+
+<div>
+<label>Chapter</label>
+
+<input id="chapter"
+       placeholder="Ancient History">
+</div>
+
+<div>
+<label>Section</label>
+
+<input id="section"
+       placeholder="Section A">
+</div>
+
+<div>
+<label>Question File</label>
+
+<select id="questionFile">
+
+<option value="">
+Select File
+</option>
+
+</select>
+
+</div>
+
+<div>
+<label>Series Name</label>
+
+<input id="seriesName"
+       placeholder="Calculation Series">
+</div>
+
+<div>
+<label>Test Number</label>
+
+<input id="testNumber"
+       type="number"
+       value="1">
+</div>
+
+<div>
+<label>Test Name</label>
+
+<input id="testName"
+       placeholder="Calculation Test 1">
+</div>
+
+<div>
+<label>Duration (Minutes)</label>
+
+<input id="duration"
+       type="number"
+       value="30">
+</div>
+
+<div>
+<label>Marks Per Question</label>
+
+<input id="marksPerQuestion"
+       type="number"
+       value="1"
+       step="0.25">
+</div>
+
+<div>
+<label>Negative Marks</label>
+
+<input id="negativeMarks"
+       type="number"
+       value="0"
+       step="0.25">
+</div>
+
+<div>
+<label>Series Access</label>
+
+<select id="seriesAccess">
+
+<option value="free">
+Free
+</option>
+
+<option value="paid">
+Paid
+</option>
+
+</select>
+
+</div>
+
+<div>
+<label>Series Price</label>
+
+<input id="seriesPrice"
+       type="number"
+       value="0"
+       min="0">
+
+</div>
+
+</div>
+
+
+<div class="actions">
+
+<button class="success"
+        onclick="saveMockTest()">
+    💾 Save Mock Test
+</button>
+
+<button class="secondary"
+        onclick="clearMockForm()">
+    🧹 Clear
+</button>
+
+</div>
+
+</div>
+
+
+<!-- TEST LIST -->
+
+<div class="card">
+
+<h2>📋 Saved Mock Tests</h2>
+
+<div id="testList">
+Loading...
+</div>
+
+</div>
+
+</div>
+
+
+<script type="module">
+
+import {
+    initializeApp
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+    getFirestore,
+    collection,
+    getDocs,
+    doc,
+    setDoc,
+    deleteDoc
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+/* =========================================================
+   FIREBASE CONFIG
+========================================================= */
+
+const firebaseConfig = {
+
+    apiKey: "YOUR_API_KEY",
+
+    authDomain:
+        "YOUR_PROJECT.firebaseapp.com",
+
+    projectId:
+        "YOUR_PROJECT_ID",
+
+    storageBucket:
+        "YOUR_PROJECT.appspot.com",
+
+    messagingSenderId:
+        "YOUR_MESSAGING_SENDER_ID",
+
+    appId:
+        "YOUR_APP_ID"
+
+};
+
+
+/* =========================================================
+   TRANSLATOR FUNCTION
+========================================================= */
+
+/*
+   यहाँ अपना actual Translator Cloud Function URL डालना है।
+
+   Example:
+
+   const TRANSLATOR_FUNCTION_URL =
+       "https://xxxxx.cloudfunctions.net/translate";
+
+   Function को कम से कम यह response देना चाहिए:
+
+   {
+       "translatedText":"What is the capital of India?"
+   }
+
+*/
+
+const TRANSLATOR_FUNCTION_URL = "";
+
+
+let app = null;
+let db = null;
+
+try{
+
+    app = initializeApp(firebaseConfig);
+
+    db = getFirestore(app);
+
+    document.getElementById("firebaseStatus").className =
+        "status ok";
+
+    document.getElementById("firebaseStatus").innerHTML =
+        "✅ Firebase initialized";
+
+}catch(error){
+
+    console.error(error);
+
+    document.getElementById("firebaseStatus").className =
+        "status error";
+
+    document.getElementById("firebaseStatus").innerHTML =
+        "❌ Firebase configuration check करें";
+
+}
+
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+const QUESTION_STORAGE =
+    "thehub_mock_question_bank";
+
+const TEST_STORAGE =
+    "thehub_mock_tests";
+
+const SERIES_STORAGE =
+    "thehub_test_series";
+
+
+let currentQuestions = [];
+let parsedBulkQuestions = [];
+let editingTestId = null;
+
+
+/* =========================================================
+   BASIC HELPERS
+========================================================= */
+
+function uid(prefix="id"){
+
+    return prefix +
+        "_" +
+        Date.now() +
+        "_" +
+        Math.random()
+            .toString(36)
+            .substring(2,9);
+
+}
+
+
+function getJSON(key, fallback=[]){
+
+    try{
+
+        const data =
+            localStorage.getItem(key);
+
+        if(!data)
+            return fallback;
+
+        return JSON.parse(data);
+
+    }catch(error){
+
+        console.error(error);
+
+        return fallback;
+
+    }
+
+}
+
+
+function setJSON(key,value){
+
+    localStorage.setItem(
+        key,
+        JSON.stringify(value)
+    );
+
+}
+
+
+function clean(value){
+
+    return String(value ?? "").trim();
+
+}
+
+
+/* =========================================================
+   BILINGUAL NORMALIZATION
+========================================================= */
+
+function langValue(value){
+
+    if(
+        value &&
+        typeof value === "object" &&
+        !Array.isArray(value)
+    ){
+
+        return {
+
+            hi: clean(value.hi),
+
+            en: clean(value.en)
+
+        };
+
+    }
+
+    return {
+
+        hi: clean(value),
+
+        en: ""
+
+    };
+
+}
+
+
+function normalizeQuestion(q){
+
+    q = q || {};
+
+    const oldOptions =
+        q.options || {};
+
+    return {
+
+        id:
+            q.id || uid("q"),
+
+        fileName:
+            clean(q.fileName || "default"),
+
+        question:
+            langValue(q.question),
+
+        options:{
+
+            A:langValue(oldOptions.A),
+
+            B:langValue(oldOptions.B),
+
+            C:langValue(oldOptions.C),
+
+            D:langValue(oldOptions.D)
+
+        },
+
+        correctAnswer:
+            clean(
+                q.correctAnswer ||
+                q.Answer ||
+                q.answer
+            ).toUpperCase(),
+
+        explanation:
+            langValue(
+                q.explanation ||
+                q.Explanation
+            ),
+
+        marks:
+            Number(q.marks || 1),
+
+        createdAt:
+            q.createdAt ||
+            new Date().toISOString()
+
+    };
+
+}
+
+
+/* =========================================================
+   QUESTION TEXT HELPER
+========================================================= */
+
+function getText(value,lang="hi"){
+
+    if(!value)
+        return "";
+
+    if(typeof value === "string")
+        return value;
+
+    return clean(
+        value[lang] ||
+        value.hi ||
+        value.en ||
+        ""
+    );
+
+}
+
+
+/* =========================================================
+   TAB
+========================================================= */
+
+window.openTab = function(id,button){
+
+    document
+        .querySelectorAll(".panel")
+        .forEach(x =>
+            x.classList.remove("active")
+        );
+
+    document
+        .querySelectorAll(".tab-btn")
+        .forEach(x =>
+            x.classList.remove("active")
+        );
+
+    document
+        .getElementById(id)
+        .classList.add("active");
+
+    button.classList.add("active");
+
+};
+
+
+/* =========================================================
+   SAVE SINGLE QUESTION
+========================================================= */
+
+window.saveSingleQuestion = function(){
+
+    const fileName =
+        clean(
+            document.getElementById(
+                "singleFileName"
+            ).value
+        );
+
+    if(!fileName){
+
+        alert("File Name डालें");
+
+        return;
+
+    }
+
+
+    const qHI =
+        clean(
+            document.getElementById(
+                "singleQuestionHi"
+            ).value
+        );
+
+    const qEN =
+        clean(
+            document.getElementById(
+                "singleQuestionEn"
+            ).value
+        );
+
+
+    if(!qHI && !qEN){
+
+        alert("Question डालें");
+
+        return;
+
+    }
+
+
+    const question = normalizeQuestion({
+
+        id:uid("q"),
+
+        fileName,
+
+        question:{
+            hi:qHI,
+            en:qEN
+        },
+
+        options:{
+
+            A:{
+                hi:clean(
+                    document.getElementById(
+                        "optionAHI"
+                    ).value
+                ),
+                en:clean(
+                    document.getElementById(
+                        "optionAEN"
+                    ).value
+                )
+            },
+
+            B:{
+                hi:clean(
+                    document.getElementById(
+                        "optionBHI"
+                    ).value
+                ),
+                en:clean(
+                    document.getElementById(
+                        "optionBEN"
+                    ).value
+                )
+            },
+
+            C:{
+                hi:clean(
+                    document.getElementById(
+                        "optionCHI"
+                    ).value
+                ),
+                en:clean(
+                    document.getElementById(
+                        "optionCEN"
+                    ).value
+                )
+            },
+
+            D:{
+                hi:clean(
+                    document.getElementById(
+                        "optionDHI"
+                    ).value
+                ),
+                en:clean(
+                    document.getElementById(
+                        "optionDEN"
+                    ).value
+                )
+            }
+
+        },
+
+        correctAnswer:
+            document.getElementById(
+                "correctAnswer"
+            ).value,
+
+        explanation:{
+
+            hi:clean(
+                document.getElementById(
+                    "singleExplanationHi"
+                ).value
+            ),
+
+            en:clean(
+                document.getElementById(
+                    "singleExplanationEn"
+                ).value
+            )
+
+        },
+
+        marks:Number(
+            document.getElementById(
+                "questionMarks"
+            ).value || 1
+        )
+
+    });
+
+
+    const questions =
+        getJSON(
+            QUESTION_STORAGE,
+            []
+        );
+
+
+    questions.push(question);
+
+    setJSON(
+        QUESTION_STORAGE,
+        questions
+    );
+
+
+    refreshQuestionFiles();
+
+    document.getElementById(
+        "questionFileSelect"
+    ).value = fileName;
+
+    document.getElementById(
+        "questionFile"
+    ).value = fileName;
+
+
+    loadSelectedFile();
+
+    alert(
+        "✅ Bilingual question saved successfully"
+    );
+
+};
+
+
+/* =========================================================
+   CLEAR SINGLE
+========================================================= */
+
+window.clearSingleQuestion = function(){
+
+    const ids = [
+
+        "singleFileName",
+
+        "singleQuestionHi",
+        "singleQuestionEn",
+
+        "optionAHI",
+        "optionAEN",
+
+        "optionBHI",
+        "optionBEN",
+
+        "optionCHI",
+        "optionCEN",
+
+        "optionDHI",
+        "optionDEN",
+
+        "singleExplanationHi",
+        "singleExplanationEn"
+
+    ];
+
+    ids.forEach(id => {
+
+        const el =
+            document.getElementById(id);
+
+        if(el)
+            el.value = "";
+
+    });
+
+
+    document.getElementById(
+        "correctAnswer"
+    ).value = "";
+
+};
+
+
+/* =========================================================
+   BULK PARSER
+========================================================= */
+
+function parseQuestionBlock(block){
+
+    const lines =
+        block
+            .split(/\r?\n/)
+            .map(x => x.trim())
+            .filter(Boolean);
+
+
+    const q = {
+
+        id:uid("q"),
+
+        fileName:"default",
+
+        question:{
+            hi:"",
+            en:""
+        },
+
+        options:{
+
+            A:{hi:"",en:""},
+            B:{hi:"",en:""},
+            C:{hi:"",en:""},
+            D:{hi:"",en:""}
+
+        },
+
+        correctAnswer:"",
+
+        explanation:{
+            hi:"",
+            en:""
+        },
+
+        marks:1,
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+
+
+    lines.forEach(line => {
+
+        const pos =
+            line.indexOf(":");
+
+        if(pos === -1)
+            return;
+
+
+        const key =
+            line
+                .substring(0,pos)
+                .trim()
+                .toLowerCase();
+
+
+        const value =
+            line
+                .substring(pos+1)
+                .trim();
+
+
+        switch(key){
+
+            case "filename":
+                q.fileName = value;
+                break;
+
+
+            case "question":
+            case "question_hi":
+                q.question.hi = value;
+                break;
+
+
+            case "question_en":
+                q.question.en = value;
+                break;
+
+
+            case "a":
+            case "a_hi":
+                q.options.A.hi = value;
+                break;
+
+
+            case "a_en":
+                q.options.A.en = value;
+                break;
+
+
+            case "b":
+            case "b_hi":
+                q.options.B.hi = value;
+                break;
+
+
+            case "b_en":
+                q.options.B.en = value;
+                break;
+
+
+            case "c":
+            case "c_hi":
+                q.options.C.hi = value;
+                break;
+
+
+            case "c_en":
+                q.options.C.en = value;
+                break;
+
+
+            case "d":
+            case "d_hi":
+                q.options.D.hi = value;
+                break;
+
+
+            case "d_en":
+                q.options.D.en = value;
+                break;
+
+
+            case "answer":
+            case "correctanswer":
+                q.correctAnswer =
+                    value.toUpperCase();
+                break;
+
+
+            case "explanation":
+            case "explanation_hi":
+            case "solution":
+            case "solution_hi":
+                q.explanation.hi = value;
+                break;
+
+
+            case "explanation_en":
+            case "solution_en":
+                q.explanation.en = value;
+                break;
+
+        }
+
+    });
+
+
+    return normalizeQuestion(q);
+
+}
+
+
+/* =========================================================
+   BULK PARSE
+========================================================= */
+
+window.parseBulkQuestions = function(){
+
+    const text =
+        document.getElementById(
+            "bulkQuestions"
+        ).value.trim();
+
+
+    if(!text){
+
+        alert("Bulk questions paste करें");
+
+        return;
+
+    }
+
+
+    const blocks =
+        text
+            .split(/\n\s*---+\s*\n/)
+            .map(x => x.trim())
+            .filter(Boolean);
+
+
+    parsedBulkQuestions =
+        blocks.map(parseQuestionBlock);
+
+
+    const valid =
+        parsedBulkQuestions.filter(q =>
+            q.question.hi ||
+            q.question.en
+        );
+
+
+    parsedBulkQuestions = valid;
+
+
+    renderBulkPreview();
+
+
+    alert(
+        `${parsedBulkQuestions.length} questions parsed successfully`
+    );
+
+};
+
+
+/* =========================================================
+   BULK PREVIEW
+========================================================= */
+
+function renderBulkPreview(){
+
+    const box =
+        document.getElementById(
+            "bulkPreview"
+        );
+
+
+    if(!parsedBulkQuestions.length){
+
+        box.classList.remove("hidden");
+
+        box.innerHTML =
+            "No valid questions found.";
+
+        return;
+
+    }
+
+
+    box.classList.remove("hidden");
+
+
+    let html = `
+
+        <h3>
+            Preview: ${parsedBulkQuestions.length} Questions
+        </h3>
+    `;
+
+
+    parsedBulkQuestions
+        .slice(0,20)
+        .forEach((q,index) => {
+
+            html += `
+
+            <div class="question-item">
+
+                <h4>
+                    Question ${index+1}
+                </h4>
+
+                <div>
+                    <b>🇮🇳 Hindi:</b><br>
+                    ${escapeHTML(q.question.hi)}
+                </div>
+
+                <br>
+
+                <div>
+                    <b>🇬🇧 English:</b><br>
+                    ${escapeHTML(q.question.en)}
+                </div>
+
+                <br>
+
+                <div>
+                    A: ${escapeHTML(q.options.A.hi)}
+                    ${q.options.A.en ?
+                    " / " + escapeHTML(q.options.A.en) : ""}
+                </div>
+
+                <div>
+                    B: ${escapeHTML(q.options.B.hi)}
+                    ${q.options.B.en ?
+                    " / " + escapeHTML(q.options.B.en) : ""}
+                </div>
+
+                <div>
+                    C: ${escapeHTML(q.options.C.hi)}
+                    ${q.options.C.en ?
+                    " / " + escapeHTML(q.options.C.en) : ""}
+                </div>
+
+                <div>
+                    D: ${escapeHTML(q.options.D.hi)}
+                    ${q.options.D.en ?
+                    " / " + escapeHTML(q.options.D.en) : ""}
+                </div>
+
+                <br>
+
+                <div class="answer">
+                    Correct Answer:
+                    ${escapeHTML(q.correctAnswer)}
+                </div>
+
+            </div>
+
+            `;
+
+        });
+
+
+    if(parsedBulkQuestions.length > 20){
+
+        html += `
+
+            <div class="notice">
+                Preview में पहले 20 questions दिखाए गए हैं।
+                Save करने पर सभी
+                ${parsedBulkQuestions.length}
+                questions save होंगे।
+            </div>
+
+        `;
+
+    }
+
+
+    box.innerHTML = html;
+
+}
+
+
+/* =========================================================
+   SAVE BULK
+========================================================= */
+
+window.saveBulkQuestions = function(){
+
+    if(!parsedBulkQuestions.length){
+
+        parseBulkQuestions();
+
+        if(!parsedBulkQuestions.length)
+            return;
+
+    }
+
+
+    const oldQuestions =
+        getJSON(
+            QUESTION_STORAGE,
+            []
+        );
+
+
+    const normalized =
+        parsedBulkQuestions.map(normalizeQuestion);
+
+
+    const combined =
+        oldQuestions.concat(normalized);
+
+
+    setJSON(
+        QUESTION_STORAGE,
+        combined
+    );
+
+
+    refreshQuestionFiles();
+
+
+    alert(
+        `✅ ${normalized.length} questions saved successfully`
+    );
+
+
+    parsedBulkQuestions = [];
+
+    document.getElementById(
+        "bulkPreview"
+    ).innerHTML = "";
+
+    document.getElementById(
+        "bulkPreview"
+    ).classList.add("hidden");
+
+};
+
+
+/* =========================================================
+   CLEAR BULK
+========================================================= */
+
+window.clearBulk = function(){
+
+    document.getElementById(
+        "bulkQuestions"
+    ).value = "";
+
+    parsedBulkQuestions = [];
+
+    document.getElementById(
+        "bulkPreview"
+    ).innerHTML = "";
+
+    document.getElementById(
+        "bulkPreview"
+    ).classList.add("hidden");
+
+};
+
+
+/* =========================================================
+   QUESTION FILES
+========================================================= */
+
+function refreshQuestionFiles(){
+
+    const questions =
+        getJSON(
+            QUESTION_STORAGE,
+            []
+        )
+        .map(normalizeQuestion);
+
+
+    const files = [
+        ...new Set(
+            questions.map(q =>
+                q.fileName
+            )
+        )
+    ];
+
+
+    const selects = [
+
+        document.getElementById(
+            "questionFileSelect"
+        ),
+
+        document.getElementById(
+            "questionFile"
+        )
+
+    ];
+
+
+    selects.forEach(select => {
+
+        if(!select)
+            return;
+
+
+        const old =
+            select.value;
+
+
+        select.innerHTML = `
+
+            <option value="">
+                Select File
+            </option>
+
+        `;
+
+
+        files.forEach(file => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value = file;
+
+            option.textContent = file;
+
+            select.appendChild(option);
+
+        });
+
+
+        if(files.includes(old))
+            select.value = old;
+
+    });
+
+}
+
+
+/* =========================================================
+   LOAD FILE
+========================================================= */
+
+window.loadSelectedFile = function(){
+
+    const file =
+        document.getElementById(
+            "questionFileSelect"
+        ).value;
+
+
+    const all =
+        getJSON(
+            QUESTION_STORAGE,
+            []
+        )
+        .map(normalizeQuestion);
+
+
+    currentQuestions =
+        file
+        ?
+        all.filter(q =>
+            q.fileName === file
+        )
+        :
+        [];
+
+
+    document.getElementById(
+        "questionFile"
+    ).value = file;
+
+
+    renderQuestionList();
+
+};
+
+
+/* =========================================================
+   QUESTION LIST
+========================================================= */
+
+window.renderQuestionList = function(){
+
+    const box =
+        document.getElementById(
+            "questionList"
+        );
+
+
+    if(!currentQuestions.length){
+
+        box.innerHTML =
+            "No questions loaded.";
+
+        return;
+
+    }
+
+
+    const search =
+        clean(
+            document.getElementById(
+                "questionSearch"
+            ).value
+        ).toLowerCase();
+
+
+    const filtered =
+        currentQuestions.filter(q => {
+
+            const text =
+                [
+
+                    q.question.hi,
+                    q.question.en,
+
+                    q.options.A.hi,
+                    q.options.A.en,
+
+                    q.options.B.hi,
+                    q.options.B.en,
+
+                    q.options.C.hi,
+                    q.options.C.en,
+
+                    q.options.D.hi,
+                    q.options.D.en
+
+                ]
+                .join(" ")
+                .toLowerCase();
+
+
+            return text.includes(search);
+
+        });
+
+
+    let html = `
+
+        <div class="small">
+            Showing ${filtered.length}
+            / ${currentQuestions.length}
+            questions
+        </div>
+
+    `;
+
+
+    filtered.forEach((q,index) => {
+
+        html += `
+
+        <div class="question-item">
+
+            <h4>
+                Q${index+1}
+            </h4>
+
+            <div>
+                <b>🇮🇳 Hindi:</b>
+                ${escapeHTML(q.question.hi)}
+            </div>
+
+            <br>
+
+            <div>
+                <b>🇬🇧 English:</b>
+                ${escapeHTML(q.question.en)}
+            </div>
+
+            <hr>
+
+            <div>
+                A:
+                ${escapeHTML(q.options.A.hi)}
+
+                ${
+                    q.options.A.en
+                    ?
+                    ` / ${escapeHTML(q.options.A.en)}`
+                    :
+                    ""
+                }
+            </div>
+
+            <div>
+                B:
+                ${escapeHTML(q.options.B.hi)}
+
+                ${
+                    q.options.B.en
+                    ?
+                    ` / ${escapeHTML(q.options.B.en)}`
+                    :
+                    ""
+                }
+            </div>
+
+            <div>
+                C:
+                ${escapeHTML(q.options.C.hi)}
+
+                ${
+                    q.options.C.en
+                    ?
+                    ` / ${escapeHTML(q.options.C.en)}`
+                    :
+                    ""
+                }
+            </div>
+
+            <div>
+                D:
+                ${escapeHTML(q.options.D.hi)}
+
+                ${
+                    q.options.D.en
+                    ?
+                    ` / ${escapeHTML(q.options.D.en)}`
+                    :
+                    ""
+                }
+            </div>
+
+            <p class="answer">
+                Answer: ${escapeHTML(q.correctAnswer)}
+            </p>
+
+        </div>
+
+        `;
+
+    });
+
+
+    box.innerHTML = html;
+
+};
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================================
+   TRANSLATOR
+========================================================= */
+
+window.translateCurrentQuestion =
+async function(){
+
+    if(!TRANSLATOR_FUNCTION_URL){
+
+        alert(
+            "Translator Function URL अभी set नहीं है।\n\n" +
+            "Code में TRANSLATOR_FUNCTION_URL में " +
+            "अपना actual Cloud Function URL डालें।"
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        const hiQuestion =
+            clean(
+                document.getElementById(
+                    "singleQuestionHi"
+                ).value
+            );
+
+
+        if(!hiQuestion){
+
+            alert(
+                "पहले Hindi Question डालें।"
+            );
+
+            return;
+
+        }
+
+
+        const english =
+            await translateText(
+                hiQuestion
+            );
+
+
+        document.getElementById(
+            "singleQuestionEn"
+        ).value = english;
+
+
+        const optionIds = [
+
+            ["optionAHI","optionAEN"],
+            ["optionBHI","optionBEN"],
+            ["optionCHI","optionCEN"],
+            ["optionDHI","optionDEN"]
+
+        ];
+
+
+        for(
+            const [hiId,enId]
+            of optionIds
+        ){
+
+            const hi =
+                clean(
+                    document.getElementById(
+                        hiId
+                    ).value
+                );
+
+
+            if(!hi)
+                continue;
+
+
+            document.getElementById(
+                enId
+            ).value =
+                await translateText(hi);
+
+        }
+
+
+        const hiExplanation =
+            clean(
+                document.getElementById(
+                    "singleExplanationHi"
+                ).value
+            );
+
+
+        if(hiExplanation){
+
+            document.getElementById(
+                "singleExplanationEn"
+            ).value =
+                await translateText(
+                    hiExplanation
+                );
+
+        }
+
+
+        alert(
+            "✅ Hindi → English translation complete"
+        );
+
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(
+            "Translation failed.\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+
+async function translateText(text){
+
+    const response =
+        await fetch(
+            TRANSLATOR_FUNCTION_URL,
+            {
+
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:JSON.stringify({
+
+                    text:text,
+
+                    target:"en",
+
+                    source:"hi"
+
+                })
+
+            }
+        );
+
+
+    if(!response.ok){
+
+        throw new Error(
+            "Translator server error: " +
+            response.status
+        );
+
+    }
+
+
+    const data =
+        await response.json();
+
+
+    const translated =
+        data.translatedText ||
+        data.translation ||
+        data.text ||
+        data.result;
+
+
+    if(!translated){
+
+        throw new Error(
+            "Translator response में translatedText नहीं मिला।"
+        );
+
+    }
+
+
+    return translated;
+
+}
+
+
+/* =========================================================
+   SAVE MOCK TEST
+========================================================= */
+
+window.saveMockTest = async function(){
+
+    const file =
+        document.getElementById(
+            "questionFile"
+        ).value;
+
+
+    if(!file){
+
+        alert(
+            "Question File select करें"
+        );
+
+        return;
+
+    }
+
+
+    const all =
+        getJSON(
+            QUESTION_STORAGE,
+            []
+        )
+        .map(normalizeQuestion);
+
+
+    const questions =
+        all.filter(q =>
+            q.fileName === file
+        );
+
+
+    if(!questions.length){
+
+        alert(
+            "इस file में कोई question नहीं है।"
+        );
+
+        return;
+
+    }
+
+
+    const testId =
+        editingTestId ||
+        uid("test");
+
+
+    const access =
+        document.getElementById(
+            "seriesAccess"
+        ).value;
+
+
+    const seriesName =
+        clean(
+            document.getElementById(
+                "seriesName"
+            ).value
+        );
+
+
+    const seriesId =
+        makeSafeId(
+            seriesName ||
+            "series"
+        );
+
+
+    const marksPerQuestion =
+        Number(
+            document.getElementById(
+                "marksPerQuestion"
+            ).value || 1
+        );
+
+
+    const test = {
+
+        id:testId,
+
+        testId,
+
+        mockType:
+            document.getElementById(
+                "mockType"
+            ).value,
+
+        course:
+            clean(
+                document.getElementById(
+                    "course"
+                ).value
+            ),
+
+        examName:
+            clean(
+                document.getElementById(
+                    "examName"
+                ).value
+            ),
+
+        category:
+            clean(
+                document.getElementById(
+                    "category"
+                ).value
+            ),
+
+        subject:
+            clean(
+                document.getElementById(
+                    "subject"
+                ).value
+            ),
+
+        chapter:
+            clean(
+                document.getElementById(
+                    "chapter"
+                ).value
+            ),
+
+        section:
+            clean(
+                document.getElementById(
+                    "section"
+                ).value
+            ),
+
+        questionFile:file,
+
+        seriesId,
+
+        seriesName,
+
+        testNumber:Number(
+            document.getElementById(
+                "testNumber"
+            ).value || 1
+        ),
+
+        testName:
+            clean(
+                document.getElementById(
+                    "testName"
+                ).value
+            ),
+
+        duration:Number(
+            document.getElementById(
+                "duration"
+            ).value || 30
+        ),
+
+        marksPerQuestion,
+
+        negativeMarks:Number(
+            document.getElementById(
+                "negativeMarks"
+            ).value || 0
+        ),
+
+        seriesAccess:access,
+
+        access,
+
+        seriesPrice:Number(
+            document.getElementById(
+                "seriesPrice"
+            ).value || 0
+        ),
+
+        questions,
+
+        totalQuestions:
+            questions.length,
+
+        totalMarks:
+            questions.length *
+            marksPerQuestion,
+
+        createdAt:
+            new Date().toISOString(),
+
+        updatedAt:
+            new Date().toISOString()
+
+    };
+
+
+    /* LOCAL STORAGE */
+
+    const tests =
+        getJSON(
+            TEST_STORAGE,
+            []
+        );
+
+
+    const existingIndex =
+        tests.findIndex(
+            x => x.id === testId
+        );
+
+
+    if(existingIndex >= 0){
+
+        tests[existingIndex] = test;
+
+    }else{
+
+        tests.push(test);
+
+    }
+
+
+    setJSON(
+        TEST_STORAGE,
+        tests
+    );
+
+
+    /* SERIES */
+
+    saveSeriesLocal(test);
+
+
+    /* FIRESTORE */
+
+    if(db){
+
+        try{
+
+            await setDoc(
+
+                doc(
+                    db,
+                    "mockTests",
+                    test.id
+                ),
+
+                test
+
+            );
+
+
+            const series = {
+
+                id:seriesId,
+
+                seriesId,
+
+                seriesName,
+
+                course:test.course,
+
+                examName:test.examName,
+
+                category:test.category,
+
+                subject:test.subject,
+
+                access,
+
+                seriesAccess:access,
+
+                price:test.seriesPrice,
+
+                seriesPrice:test.seriesPrice,
+
+                updatedAt:
+                    new Date().toISOString()
+
+            };
+
+
+            await setDoc(
+
+                doc(
+                    db,
+                    "testSeries",
+                    seriesId
+                ),
+
+                series,
+
+                {merge:true}
+
+            );
+
+
+        }catch(error){
+
+            console.error(
+                "Firestore save error:",
+                error
+            );
+
+            alert(
+                "Local save हो गया लेकिन Firestore save में error आया।"
+            );
+
+            return;
+
+        }
+
+    }
+
+
+    alert(
+        "✅ Mock Test saved successfully"
+    );
+
+
+    editingTestId = null;
+
+    clearMockForm();
+
+    renderTestList();
+
+};
+
+
+/* =========================================================
+   SERIES LOCAL
+========================================================= */
+
+function saveSeriesLocal(test){
+
+    const seriesList =
+        getJSON(
+            SERIES_STORAGE,
+            []
+        );
+
+
+    const index =
+        seriesList.findIndex(
+            s =>
+                s.id === test.seriesId
+        );
+
+
+    const series = {
+
+        id:test.seriesId,
+
+        seriesId:test.seriesId,
+
+        seriesName:test.seriesName,
+
+        course:test.course,
+
+        examName:test.examName,
+
+        category:test.category,
+
+        subject:test.subject,
+
+        access:test.access,
+
+        seriesAccess:test.seriesAccess,
+
+        price:test.seriesPrice,
+
+        seriesPrice:test.seriesPrice,
+
+        totalTests:
+            seriesList[index]
+            ?
+            Number(
+                seriesList[index].totalTests || 0
+            ) + 1
+            :
+            1
+
+    };
+
+
+    if(index >= 0){
+
+        seriesList[index] = {
+            ...seriesList[index],
+            ...series
+        };
+
+    }else{
+
+        seriesList.push(series);
+
+    }
+
+
+    setJSON(
+        SERIES_STORAGE,
+        seriesList
+    );
+
+}
+
+
+/* =========================================================
+   SAFE SERIES ID
+========================================================= */
+
+function makeSafeId(name){
+
+    return String(name || "series")
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\u0900-\u097F]+/g,"-")
+        .replace(/^-+|-+$/g,"")
+        .substring(0,80)
+        || uid("series");
+
+}
+
+
+/* =========================================================
+   CLEAR MOCK FORM
+========================================================= */
+
+window.clearMockForm = function(){
+
+    editingTestId = null;
+
+    const ids = [
+
+        "course",
+        "examName",
+        "category",
+        "subject",
+        "chapter",
+        "section",
+        "seriesName",
+        "testName"
+
+    ];
+
+
+    ids.forEach(id => {
+
+        const el =
+            document.getElementById(id);
+
+        if(el)
+            el.value = "";
+
+    });
+
+
+    document.getElementById(
+        "testNumber"
+    ).value = 1;
+
+
+    document.getElementById(
+        "duration"
+    ).value = 30;
+
+
+    document.getElementById(
+        "marksPerQuestion"
+    ).value = 1;
+
+
+    document.getElementById(
+        "negativeMarks"
+    ).value = 0;
+
+
+    document.getElementById(
+        "seriesPrice"
+    ).value = 0;
+
+
+    document.getElementById(
+        "seriesAccess"
+    ).value = "free";
+
+
+    document.getElementById(
+        "questionFile"
+    ).value = "";
+
+};
+
+
+/* =========================================================
+   TEST LIST
+========================================================= */
+
+function renderTestList(){
+
+    const box =
+        document.getElementById(
+            "testList"
+        );
+
+
+    const tests =
+        getJSON(
+            TEST_STORAGE,
+            []
+        );
+
+
+    if(!tests.length){
+
+        box.innerHTML =
+            "No mock tests saved.";
+
+        return;
+
+    }
+
+
+    let html = `
+
+    <div class="table-wrap">
+
+    <table>
+
+    <thead>
+
+    <tr>
+
+        <th>Test</th>
+        <th>Series</th>
+        <th>Questions</th>
+        <th>Marks</th>
+        <th>Time</th>
+        <th>Access</th>
+        <th>Action</th>
+
+    </tr>
+
+    </thead>
+
+    <tbody>
+
+    `;
+
+
+    tests.forEach(test => {
+
+        html += `
+
+        <tr>
+
+            <td>
+                ${escapeHTML(
+                    test.testName || "Test"
+                )}
+            </td>
+
+            <td>
+                ${escapeHTML(
+                    test.seriesName || "-"
+                )}
+            </td>
+
+            <td>
+                ${test.totalQuestions || 0}
+            </td>
+
+            <td>
+                ${test.totalMarks || 0}
+            </td>
+
+            <td>
+                ${test.duration || 0} min
+            </td>
+
+            <td>
+
+                <span class="badge">
+                    ${escapeHTML(
+                        test.access ||
+                        test.seriesAccess ||
+                        "free"
+                    )}
+                </span>
+
+            </td>
+
+            <td>
+
+                <button
+                    class="warning"
+                    onclick="editTest('${escapeJS(test.id)}')">
+                    Edit
+                </button>
+
+                <button
+                    class="danger"
+                    onclick="deleteTest('${escapeJS(test.id)}')">
+                    Delete
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+
+    html += `
+
+    </tbody>
+
+    </table>
+
+    </div>
+
+    `;
+
+
+    box.innerHTML = html;
+
+}
+
+
+/* =========================================================
+   EDIT TEST
+========================================================= */
+
+window.editTest = function(id){
+
+    const tests =
+        getJSON(
+            TEST_STORAGE,
+            []
+        );
+
+
+    const test =
+        tests.find(
+            x => x.id === id
+        );
+
+
+    if(!test)
+        return;
+
+
+    editingTestId = id;
+
+
+    const map = {
+
+        mockType:test.mockType,
+
+        course:test.course,
+
+        examName:test.examName,
+
+        category:test.category,
+
+        subject:test.subject,
+
+        chapter:test.chapter,
+
+        section:test.section,
+
+        questionFile:test.questionFile,
+
+        seriesName:test.seriesName,
+
+        testNumber:test.testNumber,
+
+        testName:test.testName,
+
+        duration:test.duration,
+
+        marksPerQuestion:
+            test.marksPerQuestion,
+
+        negativeMarks:
+            test.negativeMarks,
+
+        seriesAccess:
+            test.seriesAccess ||
+            test.access,
+
+        seriesPrice:
+            test.seriesPrice || 0
+
+    };
+
+
+    Object.keys(map).forEach(id => {
+
+        const el =
+            document.getElementById(id);
+
+        if(el)
+            el.value =
+                map[id] ?? "";
+
+    });
+
+
+    window.scrollTo({
+        top:document.body.scrollHeight,
+        behavior:"smooth"
+    });
+
+};
+
+
+/* =========================================================
+   DELETE TEST
+========================================================= */
+
+window.deleteTest = async function(id){
+
+    if(
+        !confirm(
+            "क्या आप इस test को delete करना चाहते हैं?"
+        )
+    )
+        return;
+
+
+    let tests =
+        getJSON(
+            TEST_STORAGE,
+            []
+        );
+
+
+    const test =
+        tests.find(
+            x => x.id === id
+        );
+
+
+    tests =
+        tests.filter(
+            x => x.id !== id
+        );
+
+
+    setJSON(
+        TEST_STORAGE,
+        tests
+    );
+
+
+    if(db){
+
+        try{
+
+            await deleteDoc(
+                doc(
+                    db,
+                    "mockTests",
+                    id
+                )
+            );
+
+        }catch(error){
+
+            console.error(error);
+
+        }
+
+    }
+
+
+    /* Check whether series has remaining tests */
+
+    if(test){
+
+        const remaining =
+            tests.filter(
+                x =>
+                    x.seriesId ===
+                    test.seriesId
+            );
+
+
+        if(!remaining.length){
+
+            const seriesList =
+                getJSON(
+                    SERIES_STORAGE,
+                    []
+                )
+                .filter(
+                    x =>
+                        x.id !==
+                        test.seriesId
+                );
+
+
+            setJSON(
+                SERIES_STORAGE,
+                seriesList
+            );
+
+
+            if(db){
+
+                try{
+
+                    await deleteDoc(
+                        doc(
+                            db,
+                            "testSeries",
+                            test.seriesId
+                        )
+                    );
+
+                }catch(error){
+
+                    console.error(error);
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+    renderTestList();
+
+    alert(
+        "✅ Test deleted"
+    );
+
+};
+
+
+/* =========================================================
+   FIRESTORE SYNC
+========================================================= */
+
+async function syncFirestoreData(){
+
+    if(!db)
+        return;
+
+
+    try{
+
+        const testSnap =
+            await getDocs(
+                collection(
+                    db,
+                    "mockTests"
+                )
+            );
+
+
+        const tests =
+            testSnap.docs.map(
+                item => ({
+                    id:item.id,
+                    ...item.data()
+                })
+            );
+
+
+        if(tests.length){
+
+            setJSON(
+                TEST_STORAGE,
+                tests
+            );
+
+        }
+
+
+        const seriesSnap =
+            await getDocs(
+                collection(
+                    db,
+                    "testSeries"
+                )
+            );
+
+
+        const series =
+            seriesSnap.docs.map(
+                item => ({
+                    id:item.id,
+                    ...item.data()
+                })
+            );
+
+
+        if(series.length){
+
+            setJSON(
+                SERIES_STORAGE,
+                series
+            );
+
+        }
+
+
+        renderTestList();
+
+    }catch(error){
+
+        console.error(
+            "Firestore sync error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function(){
+
+        /* Normalize old questions */
+
+        const oldQuestions =
+            getJSON(
+                QUESTION_STORAGE,
+                []
+            );
+
+
+        if(oldQuestions.length){
+
+            const normalized =
+                oldQuestions.map(
+                    normalizeQuestion
+                );
+
+
+            setJSON(
+                QUESTION_STORAGE,
+                normalized
+            );
+
+        }
+
+
+        refreshQuestionFiles();
+
+        renderTestList();
+
+        await syncFirestoreData();
+
+        refreshQuestionFiles();
+
+        renderTestList();
+
+    }
+);
+
+</script>
+
+</body>
+</html>

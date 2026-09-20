@@ -1,0 +1,706 @@
+<!DOCTYPE html><html lang="hi"><head><meta charset="UTF-8"><meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+
+«»
+
+<title>RM Vidya Peeth - Study PDFs</title><style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+.page{
+    max-width:900px;
+    margin:auto;
+    padding:15px;
+    padding-bottom:70px;
+}
+
+.header{
+    background:#1e293b;
+    border-radius:15px;
+    padding:20px;
+    text-align:center;
+    margin-bottom:15px;
+}
+
+.header h1{
+    margin:0 0 8px;
+    font-size:24px;
+}
+
+.header .brand-by{
+    margin:0 0 7px;
+    color:#93c5fd;
+    font-weight:bold;
+    font-size:14px;
+}
+
+.header p{
+    margin:0;
+    color:#cbd5e1;
+    line-height:1.5;
+}
+
+.back-btn{
+    width:100%;
+    padding:12px;
+    border:0;
+    border-radius:9px;
+    background:#334155;
+    color:#fff;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-bottom:15px;
+}
+
+.info-box{
+    background:#1e293b;
+    border-radius:12px;
+    padding:15px;
+    margin-bottom:15px;
+}
+
+.info-row{
+    margin:6px 0;
+    color:#cbd5e1;
+}
+
+.info-row b{
+    color:#fff;
+}
+
+.pdf-list{
+    background:#1e293b;
+    border-radius:15px;
+    padding:15px;
+}
+
+.pdf-list h2{
+    margin-top:0;
+}
+
+.pdf-card{
+    background:#fff;
+    color:#111827;
+    border-radius:12px;
+    padding:15px;
+    margin-bottom:12px;
+}
+
+.pdf-card:last-child{
+    margin-bottom:0;
+}
+
+.pdf-title{
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:9px;
+}
+
+.pdf-description{
+    color:#475569;
+    line-height:1.6;
+    font-size:14px;
+    margin-bottom:10px;
+}
+
+.pdf-file{
+    color:#64748b;
+    font-size:13px;
+    margin-bottom:10px;
+    word-break:break-word;
+}
+
+.open-btn{
+    display:block;
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    background:#2563eb;
+    color:#fff;
+    text-align:center;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.open-btn:hover{
+    background:#1d4ed8;
+}
+
+.empty{
+    text-align:center;
+    padding:30px 15px;
+    color:#cbd5e1;
+}
+
+.loading{
+    text-align:center;
+    padding:30px 15px;
+    color:#cbd5e1;
+}
+
+.error{
+    background:#450a0a;
+    color:#fecaca;
+    padding:15px;
+    border-radius:9px;
+    line-height:1.5;
+}
+
+footer{
+    text-align:center;
+    color:#94a3b8;
+    font-size:13px;
+    padding:20px;
+    line-height:1.6;
+}
+
+</style></head><body><div class="page"><!-- HEADER --><div class="header"><h1>
+    📚 RM Vidya Peeth - Study PDFs
+</h1>
+
+<div class="brand-by">
+    By Ranjan Mishra Sir
+</div>
+
+<p>
+    आपके Chapter की उपलब्ध PDF सामग्री
+</p>
+
+</div><!-- BACK --><button
+class="back-btn"
+type="button"
+onclick="goBack()"
+
+«»
+
+← Back
+
+</button><!-- COURSE INFO --><div
+    id="infoBox"
+    class="info-box"
+><div class="info-row">
+
+    📚 Course:
+    <b id="courseName">
+        Loading...
+    </b>
+
+</div>
+
+
+<div class="info-row">
+
+    📘 Subject:
+    <b id="subjectName">
+        Loading...
+    </b>
+
+</div>
+
+
+<div class="info-row">
+
+    📖 Chapter:
+    <b id="chapterName">
+        Loading...
+    </b>
+
+</div>
+
+</div><!-- PDF LIST --><div class="pdf-list"><h2>
+    📄 Available PDFs
+</h2>
+
+
+<div id="pdfList">
+
+    <div class="loading">
+
+        ⏳ PDFs loading...
+
+    </div>
+
+</div>
+
+</div></div><footer><div style="font-weight:bold;">
+    RM Vidya Peeth
+</div>
+
+<div>
+    By Ranjan Mishra Sir
+</div>
+
+<div>
+    © 2026 RM Vidya Peeth. All Rights Reserved.
+</div>
+
+</footer><script type="module">
+
+
+/* =====================================================
+   FIREBASE
+===================================================== */
+
+import {
+    db
+}
+from "./firebase-config.js";
+
+
+import {
+    collection,
+    getDocs
+}
+from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+/* =====================================================
+   URL PARAMETERS
+===================================================== */
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+const courseId =
+    params.get(
+        "courseId"
+    );
+
+
+const subject =
+    params.get(
+        "subject"
+    );
+
+
+const chapter =
+    params.get(
+        "chapter"
+    );
+
+
+const courseName =
+    params.get(
+        "courseName"
+    );
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+/* =====================================================
+   NORMALIZE
+===================================================== */
+
+function normalize(value){
+
+    return String(
+        value ?? ""
+    )
+    .trim()
+    .toLowerCase();
+
+}
+
+
+/* =====================================================
+   SHOW INFO
+===================================================== */
+
+function showInfo(){
+
+    document.getElementById(
+        "courseName"
+    ).textContent =
+        courseName ||
+        courseId ||
+        "Course";
+
+
+    document.getElementById(
+        "subjectName"
+    ).textContent =
+        subject ||
+        "Subject";
+
+
+    document.getElementById(
+        "chapterName"
+    ).textContent =
+        chapter ||
+        "Chapter";
+
+}
+
+
+/* =====================================================
+   LOAD PDFS
+===================================================== */
+
+async function loadPDFs(){
+
+    const container =
+        document.getElementById(
+            "pdfList"
+        );
+
+
+    if(
+        !courseId ||
+        !subject ||
+        !chapter
+    ){
+
+        container.innerHTML = `
+
+            <div class="error">
+
+                ❌ Course, Subject या Chapter
+                की जानकारी नहीं मिली।
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML = `
+
+        <div class="loading">
+
+            ⏳ PDFs loading...
+
+        </div>
+
+    `;
+
+
+    try{
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "pdfs"
+                )
+            );
+
+
+        const pdfs = [];
+
+
+        snapshot.forEach(
+            function(docItem){
+
+                const data =
+                    docItem.data();
+
+
+                /*
+                 * Course ID + Subject +
+                 * Chapter match
+                 */
+
+                const courseMatch =
+                    normalize(
+                        data.courseId
+                    ) ===
+                    normalize(
+                        courseId
+                    );
+
+
+                const subjectMatch =
+                    normalize(
+                        data.subject
+                    ) ===
+                    normalize(
+                        subject
+                    );
+
+
+                const chapterMatch =
+                    normalize(
+                        data.chapter
+                    ) ===
+                    normalize(
+                        chapter
+                    );
+
+
+                if(
+                    courseMatch &&
+                    subjectMatch &&
+                    chapterMatch
+                ){
+
+                    pdfs.push({
+
+                        id:
+                            docItem.id,
+
+                        ...data
+
+                    });
+
+                }
+
+            }
+        );
+
+
+        if(
+            pdfs.length === 0
+        ){
+
+            container.innerHTML = `
+
+                <div class="empty">
+
+                    📄 इस Chapter के लिए
+                    अभी कोई PDF उपलब्ध नहीं है।
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        container.innerHTML =
+            pdfs
+            .map(
+                function(pdf){
+
+                    return `
+
+                        <div
+                            class="pdf-card"
+                        >
+
+                            <div
+                                class="pdf-title"
+                            >
+
+                                📄
+                                ${escapeHTML(
+                                    pdf.title ||
+                                    "Study PDF"
+                                )}
+
+                            </div>
+
+
+                            ${
+                                pdf.description
+                                ?
+                                `
+
+                                    <div
+                                        class="pdf-description"
+                                    >
+
+                                        ${escapeHTML(
+                                            pdf.description
+                                        )}
+
+                                    </div>
+
+                                `
+                                :
+                                ""
+                            }
+
+
+                            ${
+                                pdf.fileName
+                                ?
+                                `
+
+                                    <div
+                                        class="pdf-file"
+                                    >
+
+                                        📁
+                                        ${escapeHTML(
+                                            pdf.fileName
+                                        )}
+
+                                    </div>
+
+                                `
+                                :
+                                ""
+                            }
+
+
+                            ${
+                                pdf.url
+                                ?
+                                `
+
+                                    <a
+                                        class="open-btn"
+                                        href="${escapeHTML(
+                                            pdf.url
+                                        )}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+
+                                        📖 Open PDF
+
+                                    </a>
+
+                                `
+                                :
+                                `
+
+                                    <div class="error">
+
+                                        ❌ PDF उपलब्ध नहीं है।
+
+                                    </div>
+
+                                `
+                            }
+
+                        </div>
+
+                    `;
+
+                }
+            )
+            .join("");
+
+    }
+    catch(error){
+
+        console.error(
+            "Student PDF load error:",
+            error
+        );
+
+
+        container.innerHTML = `
+
+            <div class="error">
+
+                ❌ PDFs load नहीं हो पाए।
+
+                <br><br>
+
+                ${escapeHTML(
+                    error?.message ||
+                    error
+                )}
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   BACK
+===================================================== */
+
+function goBack(){
+
+    /*
+     * Previous page पर वापस जाएं
+     */
+
+    if(
+        document.referrer &&
+        document.referrer.includes(
+            window.location.hostname
+        )
+    ){
+
+        window.history.back();
+
+    }
+    else{
+
+        window.location.href =
+            "chapters.html";
+
+    }
+
+}
+
+
+window.goBack =
+    goBack;
+
+
+/* =====================================================
+   START
+===================================================== */
+
+function start(){
+
+    showInfo();
+
+    loadPDFs();
+
+}
+
+
+start();
+
+</script></body></html>

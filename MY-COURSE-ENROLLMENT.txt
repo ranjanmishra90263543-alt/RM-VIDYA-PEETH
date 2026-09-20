@@ -1,0 +1,10 @@
+v7 changes:
+1. RG Skills tile removed from student dashboard.
+2. Student has a dedicated My Course page.
+3. enrollCourse(course) stores the enrolled course in localStorage key 'enrolledCourses'
+   and redirects to my-courses.html.
+4. My Course lists enrolled courses and provides Continue Course.
+5. Existing paid/free course fields are preserved.
+
+For production-grade multi-device enrollment, mirror enrolledCourses into a Firestore
+collection such as users/{uid}/enrollments after Firebase Auth is wired to the course UI.

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>RM Vidya Peeth</title>
+
+    <meta
+        name="theme-color"
+        content="#0f172a"
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            min-height: 100%;
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: white;
+        }
+
+        .home-page {
+            max-width: 900px;
+            margin: auto;
+            padding: 35px 15px 80px;
+            text-align: center;
+        }
+
+        .app-logo-box {
+            margin: 20px auto 15px;
+        }
+
+        .app-logo {
+            width: 110px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 25px;
+            background: white;
+            padding: 5px;
+            box-shadow: 0 4px 15px #0005;
+        }
+
+        .app-name {
+            font-size: 30px;
+            font-weight: bold;
+            margin-top: 12px;
+        }
+
+        .app-tagline {
+            color: #cbd5e1;
+            margin-top: 8px;
+        }
+
+        .brand-teacher {
+            color: #94a3b8;
+            font-size: 15px;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        .home-buttons {
+            max-width: 450px;
+            margin: 30px auto;
+        }
+
+        .home-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            margin: 12px 0;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .student-login {
+            background: #1565c0;
+            color: white;
+        }
+
+        .student-signup {
+            background: #2e7d32;
+            color: white;
+        }
+
+        .admin-login {
+            background: #6a1b9a;
+            color: white;
+        }
+
+        .rm-vidya-copyright {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 14px;
+            padding: 20px;
+        }
+
+        .footer-brand {
+            font-weight: bold;
+            color: #cbd5e1;
+        }
+
+        .footer-teacher {
+            margin-top: 5px;
+            color: #94a3b8;
+        }
+
+        .footer-copy {
+            margin-top: 5px;
+        }
+
+        @media (max-width: 600px) {
+
+            .home-page {
+                padding: 20px 12px 50px;
+            }
+
+            .app-name {
+                font-size: 26px;
+            }
+
+            .app-logo {
+                width: 95px;
+                height: 95px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="home-page">
+
+        <div class="app-logo-box">
+
+            <img
+                id="appLogo"
+                class="app-logo"
+                src="logo.png"
+                alt="RM Vidya Peeth Logo"
+                onerror="this.style.display='none'"
+            >
+
+        </div>
+
+
+        <div class="app-name">
+            RM Vidya Peeth
+        </div>
+
+
+        <div class="app-tagline">
+            SSC • Railway • Banking • State Exams
+        </div>
+
+
+        <div class="brand-teacher">
+            By Ranjan Mishra Sir
+        </div>
+
+
+        <div class="home-buttons">
+
+            <a
+                href="login.html"
+                class="home-btn student-login"
+            >
+                👨‍🎓 Student Login
+            </a>
+
+
+            <a
+                href="login.html"
+                class="home-btn student-signup"
+            >
+                📝 Student Signup
+            </a>
+
+
+            <a
+                href="admin-login.html"
+                class="home-btn admin-login"
+            >
+                👨‍💼 Admin Login
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <footer class="rm-vidya-copyright">
+
+        <div class="footer-brand">
+            RM Vidya Peeth
+        </div>
+
+        <div class="footer-teacher">
+            By Ranjan Mishra Sir
+        </div>
+
+        <div class="footer-copy">
+            © 2026 RM Vidya Peeth. All Rights Reserved.
+        </div>
+
+    </footer>
+
+</body>
+
+</html>
