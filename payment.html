@@ -118,6 +118,11 @@ button{
     cursor:pointer;
 }
 
+button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
 .redeem-btn{
     background:#198754;
     color:white;
@@ -191,6 +196,16 @@ button{
 .instructions{
     margin-top:18px;
     background:#eef5ff;
+    padding:14px;
+    border-radius:10px;
+    font-size:14px;
+    line-height:1.6;
+}
+
+.free-note{
+    margin-top:18px;
+    background:#e9f8ee;
+    color:#166534;
     padding:14px;
     border-radius:10px;
     font-size:14px;
@@ -329,62 +344,88 @@ button{
 
         </div>
 
-        <div class="upi-title">
-            Pay using UPI
+        <!-- UPI SECTION (hidden automatically when payable amount is ₹0) -->
+
+        <div id="upiSection">
+
+            <div class="upi-title">
+                Pay using UPI
+            </div>
+
+            <div class="upi-grid">
+
+                <button
+                    class="upi-btn gpay"
+                    onclick="payWithApp('gpay')"
+                >
+                    Google Pay
+                </button>
+
+                <button
+                    class="upi-btn phonepe"
+                    onclick="payWithApp('phonepe')"
+                >
+                    PhonePe
+                </button>
+
+                <button
+                    class="upi-btn paytm"
+                    onclick="payWithApp('paytm')"
+                >
+                    Paytm
+                </button>
+
+                <button
+                    class="upi-btn any-upi"
+                    onclick="payWithApp('upi')"
+                >
+                    Any UPI
+                </button>
+
+            </div>
+
+            <button
+                class="qr-btn"
+                onclick="openQR()"
+            >
+                📱 Show QR Code
+            </button>
+
+            <div class="instructions">
+                <b>Payment Instructions</b><br>
+                1. UPI app se payment karein.<br>
+                2. Payment ke baad transaction/reference ID note karein.<br>
+                3. "Payment Request" button par click karke payment details submit karein.<br>
+                4. Admin verification ke baad course/test access milega.
+            </div>
+
         </div>
 
-        <div class="upi-grid">
+        <!-- FREE (₹0 after coupon) NOTE -->
 
-            <button
-                class="upi-btn gpay"
-                onclick="payWithApp('gpay')"
-            >
-                Google Pay
-            </button>
-
-            <button
-                class="upi-btn phonepe"
-                onclick="payWithApp('phonepe')"
-            >
-                PhonePe
-            </button>
-
-            <button
-                class="upi-btn paytm"
-                onclick="payWithApp('paytm')"
-            >
-                Paytm
-            </button>
-
-            <button
-                class="upi-btn any-upi"
-                onclick="payWithApp('upi')"
-            >
-                Any UPI
-            </button>
-
+        <div id="freeNote" class="free-note hidden">
+            🎉 Coupon lagne ke baad payable amount ₹0 hai.<br>
+            Payment karne ki zaroorat nahi. Neeche button dabakar request submit karein, admin approve karega to access mil jayega.
         </div>
+
+        <!-- PAID REQUEST BUTTON -->
 
         <button
-            class="qr-btn"
-            onclick="openQR()"
-        >
-            📱 Show QR Code
-        </button>
-
-        <div class="instructions">
-            <b>Payment Instructions</b><br>
-            1. UPI app se payment karein.<br>
-            2. Payment ke baad transaction/reference ID note karein.<br>
-            3. "Payment Request" button par click karke payment details submit karein.<br>
-            4. Admin verification ke baad course/test access milega.
-        </div>
-
-        <button
+            id="paidRequestBtn"
             class="request-btn"
             onclick="goPaymentRequest()"
         >
             ✅ Payment Request Submit
+        </button>
+
+        <!-- FREE REQUEST BUTTON -->
+
+        <button
+            id="freeRequestBtn"
+            class="request-btn hidden"
+            onclick="submitFreeRequest()"
+        >
+            🎟️ Free Access Request Submit
         </button>
 
         <button
@@ -436,14 +477,21 @@ button{
    ========================================================= */
 
 import {
-    db
+    db,
+    auth
 } from "./firebase-config.js";
+
+import {
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 
 import {
     collection,
     getDocs,
     doc,
-    getDoc
+    getDoc,
+    addDoc,
+    serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
 
@@ -1819,6 +1867,45 @@ function updatePriceUI(){
             "hidden"
         );
     }
+
+
+    /*
+       If a coupon brings the payable amount to ₹0,
+       hide UPI/QR (nothing to pay) and show the
+       "Free Access Request" button instead.
+    */
+
+    const isFree =
+        Boolean(appliedCoupon) &&
+        finalAmount === 0;
+
+    document.getElementById(
+        "upiSection"
+    ).classList.toggle(
+        "hidden",
+        isFree
+    );
+
+    document.getElementById(
+        "freeNote"
+    ).classList.toggle(
+        "hidden",
+        !isFree
+    );
+
+    document.getElementById(
+        "paidRequestBtn"
+    ).classList.toggle(
+        "hidden",
+        isFree
+    );
+
+    document.getElementById(
+        "freeRequestBtn"
+    ).classList.toggle(
+        "hidden",
+        !isFree
+    );
 }
 
 
@@ -1880,6 +1967,12 @@ function savePaymentData(){
     );
 
 
+    localStorage.setItem(
+        "paymentRequestData",
+        JSON.stringify(data)
+    );
+
+
     if(isTestPass){
 
         localStorage.setItem(
@@ -1894,6 +1987,29 @@ function savePaymentData(){
             JSON.stringify(data)
         );
     }
+}
+
+
+/* =========================================================
+   UPI VALUE ENCODING
+   UPI deep links require RFC 3986 percent-encoding
+   (spaces -> %20). URLSearchParams encodes spaces as
+   "+" (application/x-www-form-urlencoded), which many
+   UPI apps (PhonePe/Paytm especially) reject or
+   mis-parse as an invalid VPA / invalid link. So we
+   build the query string manually with
+   encodeURIComponent instead of URLSearchParams.
+   ========================================================= */
+
+function buildUpiQuery(paramsObject){
+
+    return Object.entries(paramsObject)
+        .filter(([, value]) => value !== undefined && value !== null && value !== "")
+        .map(
+            ([key, value]) =>
+                `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+        )
+        .join("&");
 }
 
 
@@ -1932,8 +2048,8 @@ function makeUPILink(scheme){
     }
 
 
-    const params =
-        new URLSearchParams({
+    const query =
+        buildUpiQuery({
 
             pa:
                 UPI_ID,
@@ -1949,6 +2065,7 @@ function makeUPILink(scheme){
 
             tn:
                 note
+
         });
 
 
@@ -1958,7 +2075,7 @@ function makeUPILink(scheme){
 
 
     return (
-        `${selectedScheme}://pay?${params.toString()}`
+        `${selectedScheme}://pay?${query}`
     );
 }
 
@@ -2231,7 +2348,7 @@ function showPayment(){
 
 
 /* =========================================================
-   PAYMENT REQUEST
+   PAYMENT REQUEST (PAID FLOW)
    ========================================================= */
 
 window.goPaymentRequest =
@@ -2334,6 +2451,226 @@ function(){
 
     window.location.href =
         "payment-request.html";
+};
+
+
+/* =========================================================
+   FREE REQUEST (COUPON MADE PAYABLE AMOUNT ₹0)
+   Creates a pending doc in paymentRequests directly.
+   Admin approves it like any other payment request.
+   ========================================================= */
+
+function waitForUser(){
+
+    return new Promise(resolve => {
+
+        const unsub =
+            onAuthStateChanged(
+                auth,
+                user => {
+
+                    unsub();
+
+                    resolve(user);
+                }
+            );
+    });
+}
+
+window.submitFreeRequest =
+async function(){
+
+    if(
+        !appliedCoupon ||
+        finalAmount !== 0 ||
+        !paymentItem
+    ){
+        return;
+    }
+
+
+    const user =
+        await waitForUser();
+
+    if(!user){
+
+        alert(
+            "Pehle student login karein."
+        );
+
+        return;
+    }
+
+
+    const btn =
+        document.getElementById(
+            "freeRequestBtn"
+        );
+
+    btn.disabled = true;
+    btn.textContent = "Submitting...";
+
+
+    const name =
+        paymentItem.name ||
+        paymentItem.title ||
+        "";
+
+
+    /*
+       Same key order as mock-test.js getStudentKey()
+    */
+
+    const studentKey =
+        localStorage.getItem("ssc_student_key") ||
+        localStorage.getItem("studentKey") ||
+        localStorage.getItem("ssc_student_username") ||
+        localStorage.getItem("studentUsername") ||
+        user.email ||
+        user.uid;
+
+
+    const data = {
+
+        studentUid:
+            user.uid,
+
+        studentKey:
+            studentKey,
+
+        studentName:
+            getStudentName(),
+
+        studentEmail:
+            user.email || "",
+
+        title:
+            name,
+
+        exam:
+            paymentItem.exam || "",
+
+        originalAmount:
+            originalAmount,
+
+        discountAmount:
+            discountAmount,
+
+        finalAmount:
+            0,
+
+        amount:
+            0,
+
+        price:
+            0,
+
+        couponCode:
+            appliedCoupon.code,
+
+        couponId:
+            appliedCoupon.id,
+
+        utr:
+            "COUPON-FREE",
+
+        status:
+            "pending",
+
+        submittedAt:
+            serverTimestamp()
+    };
+
+
+    if(isTestPass){
+
+        const sid =
+            paymentItem.seriesId ||
+            paymentItem.id ||
+            "";
+
+        Object.assign(
+            data,
+            {
+                type:
+                    "test-pass",
+
+                paymentType:
+                    "test-pass",
+
+                isTestPass:
+                    true,
+
+                seriesId:
+                    sid,
+
+                testSeriesId:
+                    sid,
+
+                seriesName:
+                    name,
+
+                testSeriesName:
+                    name
+            }
+        );
+
+    }else{
+
+        Object.assign(
+            data,
+            {
+                type:
+                    "course",
+
+                paymentType:
+                    "course",
+
+                courseId:
+                    paymentItem.courseId ||
+                    paymentItem.id ||
+                    "",
+
+                courseName:
+                    name
+            }
+        );
+    }
+
+
+    try{
+
+        await addDoc(
+            collection(
+                db,
+                "paymentRequests"
+            ),
+            data
+        );
+
+        alert(
+            "✅ Request submit ho gayi. Admin approval ke baad access mil jaayega."
+        );
+
+        goBack();
+
+    }catch(error){
+
+        console.error(
+            "FREE REQUEST ERROR:",
+            error
+        );
+
+        alert(
+            "Request submit nahi hui: " +
+            error.message
+        );
+
+        btn.disabled = false;
+
+        btn.textContent =
+            "🎟️ Free Access Request Submit";
+    }
 };
 
 
@@ -2463,27 +2800,3 @@ init();
 
 </body>
 </html>
-
-⚠️ सबसे जरूरी
-
-"firebase-config.js" में "db" export होना चाहिए:
-
-export { auth, db };
-
-अगर तुम्हारे "firebase-config.js" में पहले से ऐसा है, तो ठीक है।
-
-अब Firestore में coupon इस तरह होना चाहिए:
-
-coupons
-  └── document
-       code: SAVE20
-       discountType: percentage
-       discountValue: 20
-       applicableTo: both
-       active: true
-       usageLimit: 100
-       usedCount: 0
-
-फिर payment page पर SAVE20 → REDEEM करो।
-
-अगर अब कोई error आता है, उसका exact screenshot भेज देना dost—विशेषकर अगर "permission-denied" या "FirebaseError" लिखा हो।

@@ -134,6 +134,17 @@ h2{
     margin-top:10px;
 }
 
+.coupon-box{
+    background:#fff8e8;
+    border:1px solid #f0d99a;
+    color:#92400e;
+    padding:13px;
+    border-radius:10px;
+    margin-top:12px;
+    line-height:1.8;
+    font-size:14px;
+}
+
 .series-box{
     background:#f5f3ff;
     border:1px solid #ddd6fe;
@@ -371,6 +382,7 @@ import {
     doc,
     getDoc,
     writeBatch,
+    increment,
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
@@ -380,6 +392,133 @@ import {
 // =====================================================
 
 let paymentRequests = [];
+
+
+// =====================================================
+// PAYMENT AMOUNT + COUPON HELPERS
+// (0 amount after coupon is a valid amount)
+// =====================================================
+
+function getPaymentAmount(payment){
+
+    const list = [
+        payment.finalAmount,
+        payment.payableAmount,
+        payment.amountPaid,
+        payment.amount,
+        payment.price
+    ];
+
+    for(const v of list){
+
+        if(
+            v !== undefined &&
+            v !== null &&
+            v !== "" &&
+            !isNaN(Number(v))
+        ){
+
+            return Number(v);
+
+        }
+
+    }
+
+    return 0;
+
+}
+
+function hasCoupon(payment){
+
+    return Boolean(
+        payment.couponCode ||
+        payment.coupon ||
+        payment.couponApplied
+    );
+
+}
+
+function getCouponDiscount(payment){
+
+    return Number(
+        payment.discountAmount ??
+        payment.discount ??
+        0
+    ) || 0;
+
+}
+
+function isAmountInvalid(payment, amount){
+
+    return (
+        amount < 0 ||
+        (
+            amount === 0 &&
+            !hasCoupon(payment)
+        )
+    );
+
+}
+
+// Coupon usedCount +1 (only if coupon doc still exists,
+// so a deleted coupon never blocks the approval)
+
+async function addCouponUsage(batch, payment){
+
+    const couponId =
+        String(
+            payment.couponId ||
+            ""
+        ).trim();
+
+    if(!couponId){
+
+        return;
+
+    }
+
+    try{
+
+        const couponRef =
+            doc(
+                db,
+                "coupons",
+                couponId
+            );
+
+        const couponSnap =
+            await getDoc(
+                couponRef
+            );
+
+        if(couponSnap.exists()){
+
+            batch.update(
+                couponRef,
+                {
+
+                    usedCount:
+                        increment(1),
+
+                    updatedAt:
+                        serverTimestamp()
+
+                }
+            );
+
+        }
+
+    }
+    catch(error){
+
+        console.warn(
+            "Coupon usage update skipped:",
+            error
+        );
+
+    }
+
+}
 
 
 // =====================================================
@@ -1190,10 +1329,14 @@ function createPaymentCard(payment){
 
 
     const amount =
-        Number(
-            payment.amount ||
-            payment.price ||
-            0
+        getPaymentAmount(
+            payment
+        );
+
+
+    const couponUsed =
+        hasCoupon(
+            payment
         );
 
 
@@ -1340,6 +1483,45 @@ function createPaymentCard(payment){
                 ${escapeHTML(submitted)}
 
             </div>
+
+
+            ${
+                couponUsed
+                ?
+                `
+                <div class="coupon-box">
+
+                    🎟️ <b>Coupon Applied:</b>
+                    ${escapeHTML(
+                        payment.couponCode ||
+                        "-"
+                    )}
+
+                    <br>
+
+                    💵 <b>Original Amount:</b>
+                    ₹${Number(
+                        payment.originalAmount ??
+                        0
+                    )}
+
+                    <br>
+
+                    ➖ <b>Discount:</b>
+                    ₹${getCouponDiscount(
+                        payment
+                    )}
+
+                    <br>
+
+                    ✅ <b>Payable:</b>
+                    ₹${amount}
+
+                </div>
+                `
+                :
+                ""
+            }
 
 
             ${
@@ -1630,10 +1812,8 @@ async function approveCourse(payment){
 
 
     const amount =
-        Number(
-            payment.amount ||
-            payment.price ||
-            0
+        getPaymentAmount(
+            payment
         );
 
 
@@ -1659,7 +1839,12 @@ async function approveCourse(payment){
     }
 
 
-    if(!amount || amount <= 0){
+    if(
+        isAmountInvalid(
+            payment,
+            amount
+        )
+    ){
 
         showError(
             "❌ Course amount गलत है।"
@@ -1686,6 +1871,18 @@ async function approveCourse(payment){
 
             "\n\nAmount: ₹" +
             amount +
+
+            (
+                hasCoupon(payment)
+                ?
+                "\n\nCoupon: " +
+                (
+                    payment.couponCode ||
+                    "-"
+                )
+                :
+                ""
+            ) +
 
             "\n\nValidity: " +
             getValidityText(
@@ -1775,6 +1972,21 @@ async function approveCourse(payment){
 
             amount:
                 amount,
+
+            originalAmount:
+                Number(
+                    payment.originalAmount ??
+                    amount
+                ),
+
+            couponCode:
+                payment.couponCode ||
+                "",
+
+            discount:
+                getCouponDiscount(
+                    payment
+                ),
 
             paymentId:
                 paymentId,
@@ -1874,6 +2086,12 @@ async function approveCourse(payment){
         );
 
 
+        await addCouponUsage(
+            batch,
+            payment
+        );
+
+
         await batch.commit();
 
 
@@ -1942,10 +2160,8 @@ async function approveTestPass(payment){
 
 
     const amount =
-        Number(
-            payment.amount ||
-            payment.price ||
-            0
+        getPaymentAmount(
+            payment
         );
 
 
@@ -1971,7 +2187,12 @@ async function approveTestPass(payment){
     }
 
 
-    if(!amount || amount <= 0){
+    if(
+        isAmountInvalid(
+            payment,
+            amount
+        )
+    ){
 
         showError(
             "❌ Test Pass amount गलत है।"
@@ -2001,6 +2222,18 @@ async function approveTestPass(payment){
 
             "\n\nAmount: ₹" +
             amount +
+
+            (
+                hasCoupon(payment)
+                ?
+                "\n\nCoupon: " +
+                (
+                    payment.couponCode ||
+                    "-"
+                )
+                :
+                ""
+            ) +
 
             "\n\nValidity: " +
             getValidityText(
@@ -2100,6 +2333,21 @@ async function approveTestPass(payment){
 
             amount:
                 amount,
+
+            originalAmount:
+                Number(
+                    payment.originalAmount ??
+                    amount
+                ),
+
+            couponCode:
+                payment.couponCode ||
+                "",
+
+            discount:
+                getCouponDiscount(
+                    payment
+                ),
 
             paymentId:
                 paymentId,
@@ -2220,6 +2468,12 @@ async function approveTestPass(payment){
                     serverTimestamp()
 
             }
+        );
+
+
+        await addCouponUsage(
+            batch,
+            payment
         );
 
 

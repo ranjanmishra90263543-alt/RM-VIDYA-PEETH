@@ -918,31 +918,50 @@ function makeTestPassObject(
     series
 ) {
 
-    const access =
-        String(
-            series.access ||
-            (
-                series.isPaid === true
-                    ? "paid"
-                    : "free"
-            )
-        ).toLowerCase();
-
-
-    const isPaid =
-        access === "paid" ||
-        series.isPaid === true;
-
-
     /*
        IMPORTANT:
        Test Pass price comes ONLY from
-       mockSeries.price
+       mockSeries.price.
+
+       PREVIOUS BUG: this used to require an
+       explicit series.access === "paid" or
+       series.isPaid === true flag before it
+       would trust series.price. Most mockSeries
+       documents only ever set a "price" field
+       and never set "access"/"isPaid" at all, so
+       that check silently fell through to
+       "free" and zeroed the price out. That ₹0
+       then got saved into paymentRequests.amount,
+       which is exactly why the admin panel's
+       "Test Pass amount galat hai" validation
+       (amount <= 0) was firing on approve, even
+       though the student was correctly charged a
+       non-zero amount on the payment page.
+
+       Fixed logic: trust series.price whenever it
+       is a positive number. Only treat the series
+       as free if it is EXPLICITLY marked free
+       (access === "free" or isFree === true), or
+       if there truly is no price set.
     */
+
+    const rawPrice =
+        Number(series.price || 0);
+
+
+    const explicitlyFree =
+        String(series.access || "").toLowerCase() === "free" ||
+        series.isFree === true;
+
+
+    const isPaid =
+        !explicitlyFree &&
+        rawPrice > 0;
+
 
     const firebasePrice =
         isPaid
-            ? Number(series.price || 0)
+            ? rawPrice
             : 0;
 
 
@@ -1127,243 +1146,8 @@ async function loadCourseFromFirestore(
 
 
 /* =========================================================
-   LOAD PAYMENT DATA
-========================================================= */
-
-async function loadPaymentData() {
-
-    const stored =
-        getStoredPaymentData();
-
-
-    if (!stored) {
-
-        throw new Error(
-            "Payment data nahi mila. Please course/Test Pass se dobara payment page open karein."
-        );
-    }
-
-
-    paymentItem = {
-        ...stored
-    };
-
-
-    /*
-       Detect Test Pass
-    */
-
-    const typeText =
-        String(
-            stored.type ||
-            stored.itemType ||
-            stored.paymentType ||
-            ""
-        ).toLowerCase();
-
-
-    isTestPass =
-        typeText.includes("test") ||
-        typeText.includes("mock") ||
-        typeText.includes("pass") ||
-        Boolean(
-            stored.seriesId ||
-            stored.testSeriesId ||
-            stored.testPassId
-        );
-
-
-    isCourse =
-        !isTestPass &&
-        Boolean(
-            stored.courseId ||
-            stored.courseID ||
-            stored.course_id ||
-            typeText.includes("course")
-        );
-
-
-    /* =====================================================
-       TEST PASS
-       ALWAYS LOAD FRESH FROM mockSeries
-    ===================================================== */
-
-    if (isTestPass) {
-
-        const seriesId =
-            stored.seriesId ||
-            stored.testSeriesId ||
-            stored.testPassId ||
-            stored.id ||
-            stored.seriesID;
-
-
-        if (!seriesId) {
-
-            throw new Error(
-                "Test Pass ID / Series ID nahi mila."
-            );
-        }
-
-
-        paymentItem =
-            await loadTestPassFromFirestore(
-                seriesId
-            );
-
-
-        /*
-           VERY IMPORTANT
-           Fresh Firebase price
-        */
-
-        paymentOriginalAmount =
-            Number(
-                paymentItem.price || 0
-            );
-
-
-        paymentDiscountAmount = 0;
-
-        paymentFinalAmount =
-            paymentOriginalAmount;
-
-        return;
-    }
-
-
-    /* =====================================================
-       COURSE
-    ===================================================== */
-
-    if (isCourse) {
-
-        const courseId =
-            stored.courseId ||
-            stored.courseID ||
-            stored.course_id ||
-            stored.id;
-
-
-        if (courseId) {
-
-            try {
-
-                const freshCourse =
-                    await loadCourseFromFirestore(
-                        courseId
-                    );
-
-                paymentItem = {
-                    ...stored,
-                    ...freshCourse
-                };
-
-            } catch (error) {
-
-                console.warn(
-                    "Fresh course loading failed:",
-                    error
-                );
-            }
-        }
-
-
-        paymentOriginalAmount =
-            Number(
-                paymentItem.price ??
-                paymentItem.amount ??
-                paymentItem.originalPrice ??
-                0
-            );
-
-
-        paymentDiscountAmount = 0;
-
-        paymentFinalAmount =
-            paymentOriginalAmount;
-
-        return;
-    }
-
-
-    /*
-       Unknown item:
-       use supplied price
-    */
-
-    paymentOriginalAmount =
-        Number(
-            paymentItem.price ??
-            paymentItem.amount ??
-            paymentItem.originalPrice ??
-            0
-        );
-
-
-    paymentDiscountAmount = 0;
-
-    paymentFinalAmount =
-        paymentOriginalAmount;
-}
-
-
-/* =========================================================
-   UPDATE PRICE UI
-========================================================= */
-
-function updatePriceUI() {
-
-    originalAmountEl.textContent =
-        money(paymentOriginalAmount);
-
-
-    discountAmountEl.textContent =
-        "- " +
-        money(paymentDiscountAmount);
-
-
-    finalAmountEl.textContent =
-        money(paymentFinalAmount);
-
-
-    if (appliedCoupon) {
-
-        couponDisplayEl.textContent =
-            appliedCoupon.code;
-
-    } else {
-
-        couponDisplayEl.textContent =
-            "No Coupon";
-    }
-
-
-    /*
-       100% discount / ₹0
-    */
-
-    if (paymentFinalAmount <= 0) {
-
-        upiBox.classList.add("hidden");
-
-        utrBox.classList.add("hidden");
-
-        freeBox.classList.remove("hidden");
-
-    } else {
-
-        upiBox.classList.remove("hidden");
-
-        utrBox.classList.remove("hidden");
-
-        freeBox.classList.add("hidden");
-    }
-}
-
-
-/* =========================================================
-   CHECK COUPON APPLICABILITY
+   COUPON HELPERS
+   (shared by initial load re-apply + manual Apply button)
 ========================================================= */
 
 function couponAppliesToItem(
@@ -1377,10 +1161,6 @@ function couponAppliesToItem(
             "both"
         ).toLowerCase();
 
-
-    /*
-       Determine type
-    */
 
     if (
         isCourse &&
@@ -1413,10 +1193,6 @@ function couponAppliesToItem(
     return false;
 }
 
-
-/* =========================================================
-   SPECIFIC COURSE / TEST PASS CHECK
-========================================================= */
 
 function couponMatchesSpecificItem(
     coupon
@@ -1501,10 +1277,6 @@ function couponMatchesSpecificItem(
 }
 
 
-/* =========================================================
-   DATE CHECK
-========================================================= */
-
 function couponDateValid(
     coupon
 ) {
@@ -1572,10 +1344,14 @@ function couponDateValid(
 
 /* =========================================================
    FIND COUPON
+   silent = true: used for the automatic re-apply during
+   page load, where a missing/invalid coupon should just
+   fall back to no-discount instead of throwing/alerting.
 ========================================================= */
 
 async function findCoupon(
-    code
+    code,
+    silent = false
 ) {
 
     const normalized =
@@ -1583,6 +1359,8 @@ async function findCoupon(
 
 
     if (!normalized) {
+
+        if (silent) return null;
 
         throw new Error(
             "Coupon code enter karein."
@@ -1637,6 +1415,8 @@ async function findCoupon(
 
     if (!coupon) {
 
+        if (silent) return null;
+
         throw new Error(
             "Invalid coupon code."
         );
@@ -1651,6 +1431,8 @@ async function findCoupon(
         coupon.active === false ||
         coupon.isActive === false
     ) {
+
+        if (silent) return null;
 
         throw new Error(
             "Coupon inactive hai."
@@ -1669,6 +1451,8 @@ async function findCoupon(
 
 
     if (!dateCheck.valid) {
+
+        if (silent) return null;
 
         throw new Error(
             dateCheck.message
@@ -1701,6 +1485,8 @@ async function findCoupon(
         usedCount >= usageLimit
     ) {
 
+        if (silent) return null;
+
         throw new Error(
             "Coupon usage limit complete ho chuka hai."
         );
@@ -1717,6 +1503,8 @@ async function findCoupon(
         )
     ) {
 
+        if (silent) return null;
+
         throw new Error(
             "Ye coupon is item ke liye valid nahi hai."
         );
@@ -1732,6 +1520,8 @@ async function findCoupon(
             coupon
         )
     ) {
+
+        if (silent) return null;
 
         throw new Error(
             "Ye coupon selected course/Test Pass ke liye valid nahi hai."
@@ -1756,6 +1546,8 @@ async function findCoupon(
         paymentOriginalAmount <
         minAmount
     ) {
+
+        if (silent) return null;
 
         throw new Error(
             "Minimum purchase " +
@@ -1867,7 +1659,402 @@ function calculateCouponDiscount(
 
 
 /* =========================================================
-   APPLY COUPON
+   RE-APPLY A COUPON CARRIED OVER FROM THE PAYMENT PAGE
+   ---------------------------------------------------------
+   The payment page (payment.html) already validated a
+   coupon against the *displayed* price and stored it in
+   localStorage. Here we re-fetch both the item price and
+   the coupon fresh from Firestore (so nothing can be
+   tampered with client-side) and recompute the discount
+   against that fresh price. This is what was missing
+   before: the old code reset discount/coupon to 0 as soon
+   as it re-fetched the fresh price, which silently
+   dropped any coupon the student had applied and charged
+   them (or displayed) the full original amount.
+========================================================= */
+
+async function reapplyStoredCoupon(
+    storedCode
+) {
+
+    if (!storedCode) {
+
+        return;
+    }
+
+
+    try {
+
+        const coupon =
+            await findCoupon(
+                storedCode,
+                true // silent: fall back quietly if no longer valid
+            );
+
+
+        if (!coupon) {
+
+            /*
+               Coupon no longer valid (expired, disabled,
+               limit reached, wrong item, etc). Fall back
+               to full price rather than crashing, but let
+               the student know so they're not surprised by
+               the amount.
+            */
+
+            appliedCoupon = null;
+
+            paymentDiscountAmount = 0;
+
+            paymentFinalAmount =
+                paymentOriginalAmount;
+
+            setCouponMessage(
+                "Pehle laga hua coupon ab valid nahi hai, isliye original price apply ki gayi hai.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        const discount =
+            calculateCouponDiscount(
+                coupon
+            );
+
+
+        appliedCoupon = coupon;
+
+        paymentDiscountAmount =
+            discount;
+
+        paymentFinalAmount =
+            Math.max(
+                0,
+                paymentOriginalAmount -
+                paymentDiscountAmount
+            );
+
+
+        couponCodeEl.value =
+            coupon.code ||
+            coupon.couponCode ||
+            storedCode;
+
+
+        setCouponMessage(
+            "Coupon " +
+            (coupon.code || storedCode) +
+            " re-applied. Discount: " +
+            money(discount),
+            "success"
+        );
+
+    } catch (error) {
+
+        /*
+           Network / Firestore error while re-checking:
+           don't silently charge full price without
+           telling the student what happened.
+        */
+
+        console.error(
+            "Coupon re-apply error:",
+            error
+        );
+
+        appliedCoupon = null;
+
+        paymentDiscountAmount = 0;
+
+        paymentFinalAmount =
+            paymentOriginalAmount;
+
+        setCouponMessage(
+            "Coupon dobara verify nahi ho saka, original price dikhayi ja rahi hai.",
+            "error"
+        );
+    }
+}
+
+
+/* =========================================================
+   LOAD PAYMENT DATA
+========================================================= */
+
+async function loadPaymentData() {
+
+    const stored =
+        getStoredPaymentData();
+
+
+    if (!stored) {
+
+        throw new Error(
+            "Payment data nahi mila. Please course/Test Pass se dobara payment page open karein."
+        );
+    }
+
+
+    paymentItem = {
+        ...stored
+    };
+
+
+    /*
+       Coupon code carried over from the payment page,
+       if the student applied one there.
+    */
+
+    const storedCouponCode =
+        stored.couponCode ||
+        stored.appliedCoupon?.code ||
+        "";
+
+
+    /*
+       Detect Test Pass
+    */
+
+    const typeText =
+        String(
+            stored.type ||
+            stored.itemType ||
+            stored.paymentType ||
+            ""
+        ).toLowerCase();
+
+
+    isTestPass =
+        typeText.includes("test") ||
+        typeText.includes("mock") ||
+        typeText.includes("pass") ||
+        Boolean(
+            stored.seriesId ||
+            stored.testSeriesId ||
+            stored.testPassId
+        );
+
+
+    isCourse =
+        !isTestPass &&
+        Boolean(
+            stored.courseId ||
+            stored.courseID ||
+            stored.course_id ||
+            typeText.includes("course")
+        );
+
+
+    /* =====================================================
+       TEST PASS
+       ALWAYS LOAD FRESH FROM mockSeries
+    ===================================================== */
+
+    if (isTestPass) {
+
+        const seriesId =
+            stored.seriesId ||
+            stored.testSeriesId ||
+            stored.testPassId ||
+            stored.id ||
+            stored.seriesID;
+
+
+        if (!seriesId) {
+
+            throw new Error(
+                "Test Pass ID / Series ID nahi mila."
+            );
+        }
+
+
+        paymentItem =
+            await loadTestPassFromFirestore(
+                seriesId
+            );
+
+
+        /*
+           VERY IMPORTANT
+           Fresh Firebase price
+        */
+
+        paymentOriginalAmount =
+            Number(
+                paymentItem.price || 0
+            );
+
+
+        paymentDiscountAmount = 0;
+
+        paymentFinalAmount =
+            paymentOriginalAmount;
+
+
+        /*
+           Re-apply any coupon the student picked on the
+           payment page, now that we know the fresh price.
+        */
+
+        await reapplyStoredCoupon(
+            storedCouponCode
+        );
+
+        return;
+    }
+
+
+    /* =====================================================
+       COURSE
+    ===================================================== */
+
+    if (isCourse) {
+
+        const courseId =
+            stored.courseId ||
+            stored.courseID ||
+            stored.course_id ||
+            stored.id;
+
+
+        if (courseId) {
+
+            try {
+
+                const freshCourse =
+                    await loadCourseFromFirestore(
+                        courseId
+                    );
+
+                paymentItem = {
+                    ...stored,
+                    ...freshCourse
+                };
+
+            } catch (error) {
+
+                console.warn(
+                    "Fresh course loading failed:",
+                    error
+                );
+            }
+        }
+
+
+        paymentOriginalAmount =
+            Number(
+                paymentItem.price ??
+                paymentItem.amount ??
+                paymentItem.originalPrice ??
+                0
+            );
+
+
+        paymentDiscountAmount = 0;
+
+        paymentFinalAmount =
+            paymentOriginalAmount;
+
+
+        /*
+           Re-apply any coupon the student picked on the
+           payment page, now that we know the fresh price.
+        */
+
+        await reapplyStoredCoupon(
+            storedCouponCode
+        );
+
+        return;
+    }
+
+
+    /*
+       Unknown item:
+       use supplied price
+    */
+
+    paymentOriginalAmount =
+        Number(
+            paymentItem.price ??
+            paymentItem.amount ??
+            paymentItem.originalPrice ??
+            0
+        );
+
+
+    paymentDiscountAmount = 0;
+
+    paymentFinalAmount =
+        paymentOriginalAmount;
+
+
+    await reapplyStoredCoupon(
+        storedCouponCode
+    );
+}
+
+
+/* =========================================================
+   UPDATE PRICE UI
+========================================================= */
+
+function updatePriceUI() {
+
+    originalAmountEl.textContent =
+        money(paymentOriginalAmount);
+
+
+    discountAmountEl.textContent =
+        "- " +
+        money(paymentDiscountAmount);
+
+
+    finalAmountEl.textContent =
+        money(paymentFinalAmount);
+
+
+    if (appliedCoupon) {
+
+        couponDisplayEl.textContent =
+            appliedCoupon.code ||
+            appliedCoupon.couponCode ||
+            "Applied";
+
+    } else {
+
+        couponDisplayEl.textContent =
+            "No Coupon";
+    }
+
+
+    /*
+       100% discount / ₹0
+    */
+
+    if (paymentFinalAmount <= 0) {
+
+        upiBox.classList.add("hidden");
+
+        utrBox.classList.add("hidden");
+
+        freeBox.classList.remove("hidden");
+
+    } else {
+
+        upiBox.classList.remove("hidden");
+
+        utrBox.classList.remove("hidden");
+
+        freeBox.classList.add("hidden");
+    }
+}
+
+
+/* =========================================================
+   APPLY COUPON (manual button)
 ========================================================= */
 
 applyCouponBtn.addEventListener(
